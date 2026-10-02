@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>花花 JASMINE｜重生之我在人間打工中</title>
+<meta name="description" content="花花 JASMINE 的個人品牌與作品集：平面設計、品牌設計、電商設計、影片剪輯、AI／網頁作品。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f2ea; --bg2:#efe6d8; --ink:#1d1a17; --muted:#6f665c;
+  --gold:#b8894a; --coral:#ff6b4a; --leaf:#2f5d50; --pink:#f6c9c1;
+  --card:#fffaf2; --line:rgba(29,26,23,.12);
+  --serif:"Noto Serif TC",serif; --display:"Fraunces","Noto Serif TC",serif; --sans:"Noto Sans TC",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+
+/* nav */
+nav{position:fixed;inset:16px 16px auto;z-index:50;display:flex;justify-content:space-between;align-items:center;
+  padding:10px 12px 10px 20px;border-radius:999px;background:rgba(247,242,234,.72);backdrop-filter:blur(14px);border:1px solid var(--line);max-width:1160px;margin:0 auto}
+.logo{font-family:var(--display);font-weight:600;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo svg{width:26px;height:26px}
+.nav-links{display:flex;gap:4px}
+.nav-links a{padding:8px 14px;border-radius:999px;font-size:14px;color:var(--muted);transition:.25s}
+.nav-links a:hover{background:var(--ink);color:var(--bg)}
+.nav-cta{background:var(--ink);color:var(--bg)!important}
+@media(max-width:720px){.nav-links a:not(.nav-cta){display:none}}
+
+/* hero */
+.hero{min-height:100svh;display:grid;place-items:center;position:relative;overflow:hidden;padding:120px 0 80px}
+.hero::before{content:"";position:absolute;width:780px;height:780px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,107,74,.22),rgba(246,201,193,.18) 45%,transparent 70%);top:-160px;right:-200px;animation:float 14s ease-in-out infinite}
+.hero::after{content:"";position:absolute;width:560px;height:560px;border-radius:50%;
+  background:radial-gradient(circle,rgba(47,93,80,.16),transparent 70%);bottom:-200px;left:-160px;animation:float 18s ease-in-out infinite reverse}
+@keyframes float{50%{transform:translate(-40px,40px) scale(1.06)}}
+.hero-inner{position:relative;z-index:2;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--muted);background:var(--card)}
+.badge i{width:8px;height:8px;border-radius:50%;background:#3ccf7a;box-shadow:0 0 0 4px rgba(60,207,122,.2);animation:pulse 1.8s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(60,207,122,0)}}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(64px,13vw,168px);line-height:.95;letter-spacing:-.03em;margin:28px 0 8px}
+.hero h1 em{font-style:italic;color:var(--coral)}
+.hero h1 .zh{display:block;font-family:var(--serif);font-weight:900;font-size:.42em;letter-spacing:.08em;margin-bottom:.15em}
+.tagline{font-family:var(--serif);font-size:clamp(18px,2.6vw,26px);font-weight:500}
+.tagline span{background:linear-gradient(transparent 62%,var(--pink) 62%);padding:0 4px}
+.hero p.sub{color:var(--muted);margin:14px auto 36px;max-width:520px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:999px;font-weight:500;transition:.3s cubic-bezier(.2,.8,.2,1);border:1px solid var(--ink)}
+.btn-dark{background:var(--ink);color:var(--bg)}
+.btn-dark:hover{background:var(--coral);border-color:var(--coral);transform:translateY(-3px) rotate(-1.5deg)}
+.btn-ghost:hover{background:var(--card);transform:translateY(-3px) rotate(1.5deg)}
+.btn .arr{transition:.3s}.btn:hover .arr{transform:translateX(4px)}
+.petal{position:absolute;z-index:1;opacity:.9;animation:drift linear infinite}
+@keyframes drift{0%{transform:translateY(-10vh) rotate(0)}100%{transform:translateY(110vh) rotate(540deg)}}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;color:var(--muted);z-index:2}
+
+/* marquee */
+.marquee{background:var(--ink);color:var(--bg);overflow:hidden;padding:18px 0;transform:rotate(-1.5deg);margin:0 -20px}
+.track{display:flex;gap:48px;white-space:nowrap;animation:scroll 28s linear infinite;font-family:var(--display);font-size:28px;font-style:italic}
+.track span{display:flex;align-items:center;gap:48px}
+.track b{color:var(--coral);font-style:normal}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* sections */
+section.block{padding:130px 0}
+.eyebrow{font-size:13px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;font-weight:700}
+h2{font-family:var(--serif);font-weight:900;font-size:clamp(34px,5vw,58px);line-height:1.15;margin:12px 0 20px;letter-spacing:.02em}
+h2 em{font-family:var(--display);font-style:italic;font-weight:400;color:var(--coral)}
+
+/* about */
+.about{display:grid;grid-template-columns:1fr 1.15fr;gap:72px;align-items:center}
+.portrait{aspect-ratio:4/5;border-radius:220px 220px 28px 28px;background:linear-gradient(160deg,var(--pink),#ffd9a8 55%,var(--coral));position:relative;overflow:hidden;display:grid;place-items:center}
+.portrait svg{width:58%;opacity:.95;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sticker{position:absolute;background:var(--card);padding:10px 16px;border-radius:14px;font-size:14px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.08);animation:bob 4s ease-in-out infinite}
+.sticker.s1{top:10%;left:6%;transform:rotate(-6deg)}
+.sticker.s2{bottom:12%;right:6%;transform:rotate(5deg);animation-delay:-2s}
+@keyframes bob{50%{translate:0 -10px}}
+.about p{color:var(--muted);margin-bottom:16px;font-size:17px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px;border-top:1px solid var(--line);padding-top:28px}
+.stats strong{display:block;font-family:var(--display);font-size:44px;font-weight:400;line-height:1}
+.stats small{color:var(--muted);font-size:13px}
+@media(max-width:860px){.about{grid-template-columns:1fr;gap:48px}.portrait{max-width:380px;margin:0 auto;width:100%}}
+
+/* works */
+.works-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:44px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{font:inherit;font-size:14px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:transparent;cursor:pointer;color:var(--ink);transition:.2s}
+.filters button.on,.filters button:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+.work{grid-column:span 4;border-radius:24px;overflow:hidden;background:var(--card);border:1px solid var(--line);transition:.45s cubic-bezier(.2,.8,.2,1);cursor:pointer}
+.work.wide{grid-column:span 8}
+.work:hover{transform:translateY(-8px) rotate(-.6deg);box-shadow:0 30px 60px -20px rgba(29,26,23,.25)}
+.work .thumb{aspect-ratio:4/3;display:grid;place-items:center;font-family:var(--display);font-style:italic;font-size:42px;color:rgba(255,255,255,.95);position:relative;overflow:hidden}
+.work.wide .thumb{aspect-ratio:auto;height:100%;min-height:300px}
+.work.wide{display:grid;grid-template-rows:1fr auto}
+.work .thumb::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.35),transparent 50%)}
+.work .meta{padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
+.work h3{font-size:17px;font-weight:700}
+.work .tag{font-size:12px;color:var(--muted);border:1px solid var(--line);padding:3px 10px;border-radius:999px}
+.work.hide{display:none}
+.t1{background:linear-gradient(135deg,#2f5d50,#7fb39f)}
+.t2{background:linear-gradient(135deg,#ff6b4a,#ffb36b)}
+.t3{background:linear-gradient(135deg,#1d1a17,#5b4a3a)}
+.t4{background:linear-gradient(135deg,#b8894a,#f1d29c)}
+.t5{background:linear-gradient(135deg,#e88aa0,#f6c9c1)}
+.t6{background:linear-gradient(135deg,#3b4cca,#9aa8ff)}
+@media(max-width:860px){.work,.work.wide{grid-column:span 12}}
+
+/* services */
+.services{background:var(--ink);color:var(--bg);border-radius:48px;margin:0 12px}
+.services h2{color:var(--bg)}
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:rgba(247,242,234,.15);border-radius:24px;overflow:hidden;margin-top:48px}
+.svc div{background:var(--ink);padding:34px 28px;transition:.35s}
+.svc div:hover{background:#2a2622}
+.svc .ico{font-size:30px;display:inline-block;transition:.4s}
+.svc div:hover .ico{transform:rotate(-12deg) scale(1.2)}
+.svc h3{font-family:var(--serif);font-size:22px;margin:16px 0 8px}
+.svc p{color:rgba(247,242,234,.6);font-size:15px}
+.svc .n{font-family:var(--display);font-style:italic;color:var(--coral);font-size:14px}
+
+/* contact */
+.contact{text-align:center}
+.contact h2{font-size:clamp(40px,7vw,88px)}
+.links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.links a{display:flex;align-items:center;gap:10px;padding:16px 26px;border-radius:20px;background:var(--card);border:1px solid var(--line);font-weight:500;transition:.3s}
+.links a:hover{transform:translateY(-4px) rotate(-2deg);background:var(--coral);color:#fff;border-color:var(--coral)}
+footer{padding:40px 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+.reveal{opacity:0;transform:translateY(40px);transition:1s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="jasmine" viewBox="0 0 100 100">
+      <g fill="#fff" stroke="#e9d8bf" stroke-width="1.5">
+        <ellipse cx="50" cy="24" rx="13" ry="22"/>
+        <ellipse cx="50" cy="24" rx="13" ry="22" transform="rotate(72 50 50)"/>
+        <ellipse cx="50" cy="24" rx="13" ry="22" transform="rotate(144 50 50)"/>
+        <ellipse cx="50" cy="24" rx="13" ry="22" transform="rotate(216 50 50)"/>
+        <ellipse cx="50" cy="24" rx="13" ry="22" transform="rotate(288 50 50)"/>
+      </g>
+      <circle cx="50" cy="50" r="8" fill="#f2c14e"/>
+    </symbol>
+  </defs>
+</svg>
+
+<nav>
+  <a href="#top" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
+  <div class="nav-links">
+    <a href="#about">關於我</a><a href="#works">作品</a><a href="#services">服務</a><a href="#contact" class="nav-cta">找我合作</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-inner wrap">
+    <span class="badge"><i></i>目前打工中・接案開放</span>
+    <h1><span class="zh">花花</span>Jas<em>mine</em></h1>
+    <div class="tagline"><span>重生之我在人間打工中</span></div>
+    <p class="sub">一個做設計、拍影片、玩 AI 的人間打工仔。<br>把每個品牌，都當成自己的下一世來經營。</p>
+    <div class="btns">
+      <a href="#works" class="btn btn-dark">開始探索 <span class="arr">→</span></a>
+      <a href="#contact" class="btn btn-ghost">聊聊合作</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL ↓</div>
+</header>
+
+<div class="marquee"><div class="track">
+  <span>品牌設計 <b>✦</b> Graphic Design <b>✦</b> 電商視覺 <b>✦</b> Video Editing <b>✦</b> AI Creative <b>✦</b> 人間打工中 <b>✦</b></span>
+  <span>品牌設計 <b>✦</b> Graphic Design <b>✦</b> 電商視覺 <b>✦</b> Video Editing <b>✦</b> AI Creative <b>✦</b> 人間打工中 <b>✦</b></span>
+</div></div>
+
+<section class="block" id="about">
+  <div class="wrap about">
+    <div class="portrait reveal">
+      <svg viewBox="0 0 100 100"><use href="#jasmine"/></svg>
+      <div class="sticker s1">☕ 咖啡續命中</div>
+      <div class="sticker s2">✨ 今日也在發光</div>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">About · 關於我</div>
+      <h2>上輩子是朵茉莉，<br>這輩子來<em>打工</em>。</h2>
+      <p>嗨，我是花花 Jasmine。擅長把模糊的想法變成看得見的東西——從一個 LOGO、一組社群貼文，到一支讓人停下滑動的短影片。</p>
+      <p>我相信好的設計要有質感，也要有一點點調皮。高級，但不端著。</p>
+      <div class="stats">
+        <div><strong>5+</strong><small>年設計經驗</small></div>
+        <div><strong>120+</strong><small>完成專案</small></div>
+        <div><strong>∞</strong><small>杯咖啡</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="works" style="padding-top:40px">
+  <div class="wrap">
+    <div class="works-head reveal">
+      <div><div class="eyebrow">Selected Works · 作品</div><h2 style="margin-bottom:0">打工的<em>成果</em></h2></div>
+      <div class="filters">
+        <button class="on" data-f="all">全部</button>
+        <button data-f="brand">品牌</button>
+        <button data-f="ec">電商</button>
+        <button data-f="video">影片</button>
+        <button data-f="ai">AI／網頁</button>
+      </div>
+    </div>
+    <div class="grid">
+      <article class="work wide reveal" data-c="brand"><div class="thumb t1">Bloom Tea</div><div class="meta"><h3>茶飲品牌識別設計</h3><span class="tag">品牌設計</span></div></article>
+      <article class="work reveal" data-c="ec"><div class="thumb t2">Sale!</div><div class="meta"><h3>雙 11 電商主視覺</h3><span class="tag">電商</span></div></article>
+      <article class="work reveal" data-c="video"><div class="thumb t3">▶ Reel</div><div class="meta"><h3>品牌短影音系列</h3><span class="tag">影片剪輯</span></div></article>
+      <article class="work reveal" data-c="brand"><div class="thumb t4">Logo</div><div class="meta"><h3>咖啡廳 LOGO 設計</h3><span class="tag">品牌設計</span></div></article>
+      <article class="work reveal" data-c="ai"><div class="thumb t6">AI ✦</div><div class="meta"><h3>AI 生成視覺實驗</h3><span class="tag">AI</span></div></article>
+      <article class="work wide reveal" data-c="ec"><div class="thumb t5">Product Page</div><div class="meta"><h3>美妝商品詳情頁</h3><span class="tag">電商</span></div></article>
+      <article class="work reveal" data-c="ai"><div class="thumb t1">Web</div><div class="meta"><h3>就是這個網站 :)</h3><span class="tag">網頁</span></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="block services" id="services">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Services · 服務</div>
+      <h2>可以找我<em>打工</em>的項目</h2>
+    </div>
+    <div class="svc reveal">
+      <div><span class="n">01</span><br><span class="ico">✿</span><h3>LOGO／品牌識別</h3><p>從名字到視覺，幫品牌找到自己的臉。</p></div>
+      <div><span class="n">02</span><br><span class="ico">▦</span><h3>社群貼文</h3><p>IG、FB 貼文與限動，讓人忍不住按愛心。</p></div>
+      <div><span class="n">03</span><br><span class="ico">🛍</span><h3>電商圖片</h3><p>主圖、Banner、商品詳情頁，提升轉換。</p></div>
+      <div><span class="n">04</span><br><span class="ico">▶</span><h3>影片剪輯</h3><p>短影音、Reels、品牌形象影片。</p></div>
+      <div><span class="n">05</span><br><span class="ico">⌘</span><h3>網站設計</h3><p>像這樣有質感又好玩的個人／品牌網站。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block contact" id="contact">
+  <div class="wrap reveal">
+    <div class="eyebrow">Contact · 聯絡我</div>
+    <h2>一起讓品牌<br><em>重生</em>吧</h2>
+    <p style="color:var(--muted)">有案子、有想法，或只是想打聲招呼都歡迎。</p>
+    <div class="links">
+      <a href="https://instagram.com/" target="_blank" rel="noopener">📷 Instagram</a>
+      <a href="https://line.me/" target="_blank" rel="noopener">💬 LINE</a>
+      <a href="mailto:hello@example.com">✉️ Email</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div></footer>
+
+<script>
+document.getElementById('y').textContent=new Date().getFullYear();
+// falling jasmine petals
+const hero=document.querySelector('.hero');
+for(let i=0;i<10;i++){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  s.setAttribute('class','petal');s.setAttribute('viewBox','0 0 100 100');
+  const z=14+Math.random()*26;
+  s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:-40px;animation-duration:${12+Math.random()*14}s;animation-delay:${-Math.random()*20}s`;
+  s.innerHTML='<use href="#jasmine"/>';hero.appendChild(s);
+}
+// reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// filters
+document.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  const f=b.dataset.f;
+  document.querySelectorAll('.work').forEach(w=>w.classList.toggle('hide',f!=='all'&&w.dataset.c!==f));
+});
+</script>
+</body>
+</html>
