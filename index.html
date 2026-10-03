@@ -136,9 +136,16 @@ h2 em{font-family:var(--display);font-style:italic;font-weight:400;color:var(--c
 /* contact */
 .contact{text-align:center}
 .contact h2{font-size:clamp(40px,7vw,88px)}
-.links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:36px}
-.links a{display:flex;align-items:center;gap:10px;padding:16px 26px;border-radius:20px;background:var(--card);border:1px solid var(--line);font-weight:500;transition:.3s}
-.links a:hover{transform:translateY(-4px) rotate(-2deg);background:var(--coral);color:#fff;border-color:var(--coral)}
+.links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.links a,.links button{font:inherit;color:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 22px;border-radius:18px;background:var(--card);border:1px solid var(--line);transition:.3s;text-align:left}
+.links b{font-size:15px}.links span{font-size:13px;color:var(--muted)}
+.links button:hover span,.links a:hover span{color:inherit}
+.links a:hover,.links button:hover{transform:translateY(-4px) rotate(-2deg);background:var(--coral);color:#fff;border-color:var(--coral)}
+.cgroups{display:grid;gap:36px;margin-top:44px;max-width:900px;margin-left:auto;margin-right:auto}
+.cg h4{font-family:var(--serif);font-size:18px;margin-bottom:14px}
+.cg h4 small{font-family:var(--sans);font-weight:400;font-size:13px;color:var(--muted);margin-left:10px}
+.toast{position:fixed;left:50%;bottom:32px;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:.3s;z-index:99}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 footer{padding:40px 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
@@ -258,11 +265,38 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     <div class="eyebrow">Contact · 聯絡我</div>
     <h2>一起讓品牌<br><em>重生</em>吧</h2>
     <p style="color:var(--muted)">有案子、有想法，或只是想打聲招呼都歡迎。</p>
-    <div class="links">
-      <a href="https://instagram.com/" target="_blank" rel="noopener">📷 Instagram</a>
-      <a href="https://line.me/" target="_blank" rel="noopener">💬 LINE</a>
-      <a href="mailto:hello@example.com">✉️ Email</a>
+    <div class="cgroups">
+      <div class="cg">
+        <h4>💬 私訊聯絡<small>點一下複製 ID</small></h4>
+        <div class="links">
+          <a href="https://line.me/ti/p/~asd19971120" target="_blank" rel="noopener" class="cp" data-id="asd19971120"><b>LINE</b><span>asd19971120</span></a>
+          <button class="cp" data-id="jasmine_1120"><b>Discord</b><span>jasmine_1120</span></button>
+          <button class="cp" data-id="a1205342420"><b>微信</b><span>a1205342420</span></button>
+        </div>
+      </div>
+      <div class="cg">
+        <h4>📱 社群<small>追蹤我的日常</small></h4>
+        <div class="links">
+          <a href="https://www.instagram.com/godlike_1120/" target="_blank" rel="noopener"><b>Instagram</b><span>@godlike_1120</span></a>
+          <a href="https://www.tiktok.com/@kokojasmine20" target="_blank" rel="noopener"><b>TikTok</b><span>@kokojasmine20</span></a>
+          <button class="cp" data-id="king120534242"><b>抖音</b><span>king120534242</span></button>
+          <button class="cp" data-id="5272563523"><b>小紅書</b><span>5272563523</span></button>
+          <a href="https://weibo.com/u/6439300459" target="_blank" rel="noopener"><b>微博</b><span>花花</span></a>
+          <a href="https://www.facebook.com/hua.hua.ju.ji.de.dai.kai.dai.da.pei.wan.pei.liao/" target="_blank" rel="noopener"><b>Facebook</b><span>代打・陪玩專頁</span></a>
+          <a href="https://www.facebook.com/linke.482137/" target="_blank" rel="noopener"><b>Facebook</b><span>個人</span></a>
+        </div>
+      </div>
+      <div class="cg">
+        <h4>✨ 更多的我<small>作品與創作平台</small></h4>
+        <div class="links">
+          <a href="https://lit.link/en/lin1120" target="_blank" rel="noopener"><b>lit.link</b><span>所有連結</span></a>
+          <a href="https://ashbone.app/u/cfc0a64b-71d5-404f-a195-305e069071f0" target="_blank" rel="noopener"><b>Ashbone</b><span>個人頁</span></a>
+          <a href="https://quarterfull.io/author/8V4y1aKVBYeQGw5W" target="_blank" rel="noopener"><b>Quarterfull</b><span>作者頁</span></a>
+          <a href="https://frontia.ai/users/profile/6a7891fc8c317a2761c1ede3" target="_blank" rel="noopener"><b>Frontia</b><span>個人頁</span></a>
+        </div>
+      </div>
     </div>
+    <div class="toast" id="toast">已複製</div>
   </div>
 </section>
 
@@ -282,6 +316,13 @@ for(let i=0;i<10;i++){
 // reveal on scroll
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// copy IDs
+const toast=document.getElementById('toast');
+document.querySelectorAll('.cp').forEach(el=>el.addEventListener('click',e=>{
+  const id=el.dataset.id; const name=el.querySelector('b').textContent;
+  if(el.tagName==='BUTTON')e.preventDefault();
+  (navigator.clipboard?navigator.clipboard.writeText(id):Promise.reject()).then(()=>{toast.textContent='已複製 '+name+' ID：'+id},()=>{toast.textContent=name+' ID：'+id}).finally(()=>{toast.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>toast.classList.remove('show'),2200)});
+}));
 // filters
 document.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
