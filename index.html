@@ -170,6 +170,68 @@ h2 em{font-family:var(--display);font-style:italic;font-weight:400;color:var(--c
 .links a.qrcard:hover b{color:#fff}
 .toast{position:fixed;left:50%;bottom:32px;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:.3s;z-index:99}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* contact redesign */
+.contact .wrap{text-align:center}
+.cgroups{display:grid;gap:56px;margin:56px auto 0;max-width:1000px;text-align:left}
+.blk-h{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:22px}
+.blk-h .num{font-family:var(--display);font-style:italic;color:var(--coral);font-size:20px}
+.blk-h h4{font-family:var(--serif);font-size:26px;font-weight:900;margin:0}
+.blk-h small{color:var(--muted);font-size:14px}
+.dm{display:grid;grid-template-columns:1.1fr 1fr;gap:18px}
+.dm-line{display:flex;align-items:center;gap:26px;padding:26px;border-radius:28px;background:linear-gradient(135deg,#06c755,#04a446);color:#fff;transition:.35s;position:relative;overflow:hidden}
+.dm-line::after{content:"LINE";position:absolute;right:-10px;bottom:-34px;font-family:var(--display);font-size:120px;font-weight:600;opacity:.12}
+.dm-line:hover{transform:translateY(-4px) rotate(-.8deg);box-shadow:0 24px 50px -20px rgba(6,199,85,.7)}
+.qrwrap{background:#fff;padding:10px;border-radius:18px;flex:none;box-shadow:0 10px 24px -10px rgba(0,0,0,.4)}
+.qrwrap .qr{width:132px;height:132px;display:block}
+.dm-line b{display:block;font-family:var(--display);font-size:38px;line-height:1.1;margin:8px 0 6px}
+.dm-line p{font-size:14px;opacity:.9;margin:0}
+.pill{display:inline-block;font-size:12px;font-weight:700;background:rgba(255,255,255,.22);padding:4px 10px;border-radius:999px}
+.dm-side{display:grid;gap:12px;align-content:start}
+.dm-card{font:inherit;color:inherit;cursor:pointer;display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:20px;background:var(--card);border:1px solid var(--line);text-align:left;transition:.3s}
+.dm-card:hover{border-color:var(--c);transform:translateX(4px)}
+.dm-card .t{flex:1;display:flex;flex-direction:column}
+.dm-card b{font-size:16px}.dm-card .h{font-size:13px;color:var(--muted)}
+.dm-card .copy{font-size:12px;font-weight:700;color:var(--c);border:1px solid var(--c);padding:5px 12px;border-radius:999px;transition:.2s}
+.dm-card:hover .copy{background:var(--c);color:#fff}
+.dm-note{font-size:13px;color:var(--muted);margin:4px 4px 0}
+.ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--c);color:#fff;font-weight:900;font-size:15px;flex:none;font-family:var(--sans)}
+.soc{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.sc{font:inherit;color:inherit;cursor:pointer;position:relative;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:12px;align-items:center;padding:16px;border-radius:20px;background:var(--card);border:1px solid var(--line);text-align:left;transition:.3s;overflow:hidden}
+.sc .ic{grid-row:span 2}
+.sc b{font-size:15px;align-self:end}.sc .h{font-size:12.5px;color:var(--muted);align-self:start;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc .go{position:absolute;top:10px;right:12px;font-style:normal;font-size:13px;color:var(--muted);transition:.3s}
+.sc:hover{transform:translateY(-4px);border-color:var(--c);box-shadow:0 16px 30px -18px var(--c)}
+.sc:hover .go{color:var(--c);transform:translate(2px,-2px)}
+.sc.all{--c:var(--coral);background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.sc.all .h{color:rgba(247,242,234,.6)}
+.more{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.mc{position:relative;border-radius:28px;padding:30px;overflow:hidden;min-height:300px;display:flex;flex-direction:column}
+.mc .kicker{font-size:11px;letter-spacing:.22em;font-weight:700;opacity:.7}
+.mc h5{font-family:var(--serif);font-size:30px;font-weight:900;margin:8px 0 10px}
+.mc p{font-size:15px;opacity:.85;margin:0 0 20px;max-width:330px}
+.mc-links{display:flex;flex-wrap:wrap;gap:10px;position:relative;z-index:2}
+.mc-links a{padding:10px 16px;border-radius:999px;font-size:14px;font-weight:700;transition:.25s}
+.mc.ai{background:radial-gradient(circle at 85% 15%,#5b4bff55,transparent 45%),radial-gradient(circle at 10% 100%,#ff6b4a44,transparent 45%),#16131f;color:#f4f0ff}
+.mc.ai .kicker{color:#b9adff}
+.mc.ai .mc-links a{background:#fff;color:#16131f}
+.mc.ai .mc-links a:hover{background:#b9adff}
+.chat{margin-top:auto;padding-top:26px;display:flex;flex-direction:column;gap:8px;font-size:13px}
+.chat span{align-self:flex-start;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);padding:8px 14px;border-radius:16px 16px 16px 4px;animation:pop 3s ease-in-out infinite}
+.chat .me{align-self:flex-end;background:var(--coral);border-color:var(--coral);border-radius:16px 16px 4px 16px;animation-delay:.6s}
+@keyframes pop{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.mc.novel{background:repeating-linear-gradient(transparent 0 31px,rgba(184,137,74,.18) 31px 32px),#fbf3e4;border:1px solid #ead9bb}
+.mc.novel .kicker{color:var(--gold)}
+.mc.novel h5{font-style:normal}
+.mc.novel .mc-links a{background:var(--ink);color:var(--bg)}
+.mc.novel .mc-links a:hover{background:var(--gold)}
+.book{position:absolute;right:28px;bottom:26px;display:flex;align-items:flex-end;gap:6px}
+.book i{display:block;width:26px;border-radius:4px 4px 2px 2px;box-shadow:inset -3px 0 0 rgba(0,0,0,.12)}
+.book i:nth-child(1){height:96px;background:var(--coral);rotate:-4deg}
+.book i:nth-child(2){height:116px;background:var(--leaf)}
+.book i:nth-child(3){height:84px;background:var(--gold);rotate:8deg;transform-origin:bottom left}
+@media(max-width:860px){.dm,.more{grid-template-columns:1fr}.soc{grid-template-columns:repeat(2,1fr)}.dm-line{flex-direction:column;text-align:center;gap:14px}.blk-h small{width:100%}}
+@media(max-width:600px){.soc{grid-template-columns:1fr}.dm-line::after{display:none}.book{position:static;margin-top:22px;align-self:flex-end}.book i:nth-child(1){height:70px}.book i:nth-child(2){height:84px}.book i:nth-child(3){height:62px}}
 footer{padding:40px 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
@@ -306,33 +368,53 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     <h2>一起讓品牌<br><em>重生</em>吧</h2>
     <p style="color:var(--muted)">有案子、有想法，或只是想打聲招呼都歡迎。</p>
     <div class="cgroups">
-      <div class="cg">
-        <h4>💬 私訊聯絡<small>LINE 掃碼・其他點一下複製 ID</small></h4>
-        <div class="links" style="align-items:center">
-          <a href="https://line.me/ti/p/~asd19971120" target="_blank" rel="noopener" class="qrcard"><svg class="qr" viewBox="0 0 33 33" shape-rendering="crispEdges" role="img" aria-label="LINE 加好友 QR Code"><rect width="33" height="33" fill="#fff"/><path d="M2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM10 2h1v1h-1zM15 2h1v1h-1zM16 2h1v1h-1zM17 2h1v1h-1zM19 2h1v1h-1zM20 2h1v1h-1zM24 2h1v1h-1zM25 2h1v1h-1zM26 2h1v1h-1zM27 2h1v1h-1zM28 2h1v1h-1zM29 2h1v1h-1zM30 2h1v1h-1zM2 3h1v1h-1zM8 3h1v1h-1zM10 3h1v1h-1zM14 3h1v1h-1zM15 3h1v1h-1zM16 3h1v1h-1zM17 3h1v1h-1zM20 3h1v1h-1zM21 3h1v1h-1zM22 3h1v1h-1zM24 3h1v1h-1zM30 3h1v1h-1zM2 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h1v1h-1zM12 4h1v1h-1zM15 4h1v1h-1zM16 4h1v1h-1zM22 4h1v1h-1zM24 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM30 4h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM16 5h1v1h-1zM17 5h1v1h-1zM19 5h1v1h-1zM21 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM28 5h1v1h-1zM30 5h1v1h-1zM2 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM17 6h1v1h-1zM19 6h1v1h-1zM21 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM27 6h1v1h-1zM28 6h1v1h-1zM30 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM16 7h1v1h-1zM20 7h1v1h-1zM22 7h1v1h-1zM24 7h1v1h-1zM30 7h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM25 8h1v1h-1zM26 8h1v1h-1zM27 8h1v1h-1zM28 8h1v1h-1zM29 8h1v1h-1zM30 8h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM16 9h1v1h-1zM2 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM13 10h1v1h-1zM15 10h1v1h-1zM16 10h1v1h-1zM17 10h1v1h-1zM18 10h1v1h-1zM19 10h1v1h-1zM23 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM2 11h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM6 11h1v1h-1zM9 11h1v1h-1zM16 11h1v1h-1zM20 11h1v1h-1zM21 11h1v1h-1zM22 11h1v1h-1zM26 11h1v1h-1zM28 11h1v1h-1zM29 11h1v1h-1zM4 12h1v1h-1zM8 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM14 12h1v1h-1zM16 12h1v1h-1zM19 12h1v1h-1zM22 12h1v1h-1zM24 12h1v1h-1zM26 12h1v1h-1zM28 12h1v1h-1zM9 13h1v1h-1zM10 13h1v1h-1zM11 13h1v1h-1zM13 13h1v1h-1zM14 13h1v1h-1zM16 13h1v1h-1zM17 13h1v1h-1zM19 13h1v1h-1zM20 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM30 13h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM11 14h1v1h-1zM13 14h1v1h-1zM15 14h1v1h-1zM16 14h1v1h-1zM18 14h1v1h-1zM20 14h1v1h-1zM21 14h1v1h-1zM24 14h1v1h-1zM25 14h1v1h-1zM30 14h1v1h-1zM4 15h1v1h-1zM6 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM14 15h1v1h-1zM24 15h1v1h-1zM25 15h1v1h-1zM26 15h1v1h-1zM27 15h1v1h-1zM28 15h1v1h-1zM29 15h1v1h-1zM30 15h1v1h-1zM2 16h1v1h-1zM3 16h1v1h-1zM4 16h1v1h-1zM5 16h1v1h-1zM8 16h1v1h-1zM9 16h1v1h-1zM11 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1zM17 16h1v1h-1zM18 16h1v1h-1zM20 16h1v1h-1zM21 16h1v1h-1zM22 16h1v1h-1zM28 16h1v1h-1zM30 16h1v1h-1zM2 17h1v1h-1zM5 17h1v1h-1zM6 17h1v1h-1zM7 17h1v1h-1zM9 17h1v1h-1zM10 17h1v1h-1zM11 17h1v1h-1zM14 17h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM18 17h1v1h-1zM21 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM25 17h1v1h-1zM28 17h1v1h-1zM30 17h1v1h-1zM2 18h1v1h-1zM3 18h1v1h-1zM6 18h1v1h-1zM7 18h1v1h-1zM8 18h1v1h-1zM10 18h1v1h-1zM11 18h1v1h-1zM12 18h1v1h-1zM13 18h1v1h-1zM14 18h1v1h-1zM17 18h1v1h-1zM18 18h1v1h-1zM20 18h1v1h-1zM21 18h1v1h-1zM22 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM2 19h1v1h-1zM7 19h1v1h-1zM9 19h1v1h-1zM10 19h1v1h-1zM17 19h1v1h-1zM18 19h1v1h-1zM21 19h1v1h-1zM26 19h1v1h-1zM28 19h1v1h-1zM29 19h1v1h-1zM2 20h1v1h-1zM3 20h1v1h-1zM4 20h1v1h-1zM5 20h1v1h-1zM7 20h1v1h-1zM8 20h1v1h-1zM11 20h1v1h-1zM12 20h1v1h-1zM14 20h1v1h-1zM15 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM18 20h1v1h-1zM19 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM24 20h1v1h-1zM26 20h1v1h-1zM27 20h1v1h-1zM30 20h1v1h-1zM2 21h1v1h-1zM3 21h1v1h-1zM4 21h1v1h-1zM6 21h1v1h-1zM7 21h1v1h-1zM9 21h1v1h-1zM11 21h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM15 21h1v1h-1zM17 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM27 21h1v1h-1zM28 21h1v1h-1zM2 22h1v1h-1zM3 22h1v1h-1zM5 22h1v1h-1zM7 22h1v1h-1zM8 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM13 22h1v1h-1zM14 22h1v1h-1zM15 22h1v1h-1zM17 22h1v1h-1zM19 22h1v1h-1zM20 22h1v1h-1zM22 22h1v1h-1zM23 22h1v1h-1zM24 22h1v1h-1zM25 22h1v1h-1zM26 22h1v1h-1zM27 22h1v1h-1zM28 22h1v1h-1zM29 22h1v1h-1zM10 23h1v1h-1zM11 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM14 23h1v1h-1zM15 23h1v1h-1zM17 23h1v1h-1zM18 23h1v1h-1zM19 23h1v1h-1zM22 23h1v1h-1zM26 23h1v1h-1zM27 23h1v1h-1zM2 24h1v1h-1zM3 24h1v1h-1zM4 24h1v1h-1zM5 24h1v1h-1zM6 24h1v1h-1zM7 24h1v1h-1zM8 24h1v1h-1zM10 24h1v1h-1zM13 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM17 24h1v1h-1zM18 24h1v1h-1zM19 24h1v1h-1zM20 24h1v1h-1zM21 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1zM26 24h1v1h-1zM27 24h1v1h-1zM2 25h1v1h-1zM8 25h1v1h-1zM10 25h1v1h-1zM11 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM15 25h1v1h-1zM18 25h1v1h-1zM19 25h1v1h-1zM21 25h1v1h-1zM22 25h1v1h-1zM26 25h1v1h-1zM29 25h1v1h-1zM30 25h1v1h-1zM2 26h1v1h-1zM4 26h1v1h-1zM5 26h1v1h-1zM6 26h1v1h-1zM8 26h1v1h-1zM10 26h1v1h-1zM12 26h1v1h-1zM15 26h1v1h-1zM17 26h1v1h-1zM20 26h1v1h-1zM21 26h1v1h-1zM22 26h1v1h-1zM23 26h1v1h-1zM24 26h1v1h-1zM25 26h1v1h-1zM26 26h1v1h-1zM27 26h1v1h-1zM29 26h1v1h-1zM30 26h1v1h-1zM2 27h1v1h-1zM4 27h1v1h-1zM5 27h1v1h-1zM6 27h1v1h-1zM8 27h1v1h-1zM10 27h1v1h-1zM13 27h1v1h-1zM16 27h1v1h-1zM17 27h1v1h-1zM21 27h1v1h-1zM22 27h1v1h-1zM30 27h1v1h-1zM2 28h1v1h-1zM4 28h1v1h-1zM5 28h1v1h-1zM6 28h1v1h-1zM8 28h1v1h-1zM11 28h1v1h-1zM13 28h1v1h-1zM15 28h1v1h-1zM17 28h1v1h-1zM19 28h1v1h-1zM23 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM28 28h1v1h-1zM29 28h1v1h-1zM30 28h1v1h-1zM2 29h1v1h-1zM8 29h1v1h-1zM11 29h1v1h-1zM13 29h1v1h-1zM14 29h1v1h-1zM18 29h1v1h-1zM21 29h1v1h-1zM23 29h1v1h-1zM26 29h1v1h-1zM27 29h1v1h-1zM28 29h1v1h-1zM30 29h1v1h-1zM2 30h1v1h-1zM3 30h1v1h-1zM4 30h1v1h-1zM5 30h1v1h-1zM6 30h1v1h-1zM7 30h1v1h-1zM8 30h1v1h-1zM10 30h1v1h-1zM11 30h1v1h-1zM14 30h1v1h-1zM15 30h1v1h-1zM16 30h1v1h-1zM17 30h1v1h-1zM18 30h1v1h-1zM20 30h1v1h-1zM21 30h1v1h-1zM22 30h1v1h-1zM24 30h1v1h-1z" fill="#1d1a17"/></svg><b>LINE</b><span>掃碼或點我加好友</span></a>
-          <button class="cp" data-id="jasmine_1120"><b>Discord</b><span>jasmine_1120</span></button>
-          <button class="cp" data-id="a1205342420"><b>微信</b><span>a1205342420</span></button>
+      <div class="blk">
+        <div class="blk-h"><span class="num">01</span><h4>私訊聯絡</h4><small>案子、合作、陪玩預約都從這裡開始</small></div>
+        <div class="dm">
+          <a class="dm-line" href="https://line.me/ti/p/~asd19971120" target="_blank" rel="noopener">
+            <div class="qrwrap"><svg class="qr" viewBox="0 0 33 33" shape-rendering="crispEdges" role="img" aria-label="LINE 加好友 QR Code"><rect width="33" height="33" fill="#fff"/><path d="M2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM10 2h1v1h-1zM15 2h1v1h-1zM16 2h1v1h-1zM17 2h1v1h-1zM19 2h1v1h-1zM20 2h1v1h-1zM24 2h1v1h-1zM25 2h1v1h-1zM26 2h1v1h-1zM27 2h1v1h-1zM28 2h1v1h-1zM29 2h1v1h-1zM30 2h1v1h-1zM2 3h1v1h-1zM8 3h1v1h-1zM10 3h1v1h-1zM14 3h1v1h-1zM15 3h1v1h-1zM16 3h1v1h-1zM17 3h1v1h-1zM20 3h1v1h-1zM21 3h1v1h-1zM22 3h1v1h-1zM24 3h1v1h-1zM30 3h1v1h-1zM2 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h1v1h-1zM12 4h1v1h-1zM15 4h1v1h-1zM16 4h1v1h-1zM22 4h1v1h-1zM24 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM30 4h1v1h-1zM2 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM16 5h1v1h-1zM17 5h1v1h-1zM19 5h1v1h-1zM21 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM28 5h1v1h-1zM30 5h1v1h-1zM2 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM17 6h1v1h-1zM19 6h1v1h-1zM21 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM27 6h1v1h-1zM28 6h1v1h-1zM30 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM16 7h1v1h-1zM20 7h1v1h-1zM22 7h1v1h-1zM24 7h1v1h-1zM30 7h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM25 8h1v1h-1zM26 8h1v1h-1zM27 8h1v1h-1zM28 8h1v1h-1zM29 8h1v1h-1zM30 8h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM16 9h1v1h-1zM2 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM7 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM13 10h1v1h-1zM15 10h1v1h-1zM16 10h1v1h-1zM17 10h1v1h-1zM18 10h1v1h-1zM19 10h1v1h-1zM23 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM2 11h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM6 11h1v1h-1zM9 11h1v1h-1zM16 11h1v1h-1zM20 11h1v1h-1zM21 11h1v1h-1zM22 11h1v1h-1zM26 11h1v1h-1zM28 11h1v1h-1zM29 11h1v1h-1zM4 12h1v1h-1zM8 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM14 12h1v1h-1zM16 12h1v1h-1zM19 12h1v1h-1zM22 12h1v1h-1zM24 12h1v1h-1zM26 12h1v1h-1zM28 12h1v1h-1zM9 13h1v1h-1zM10 13h1v1h-1zM11 13h1v1h-1zM13 13h1v1h-1zM14 13h1v1h-1zM16 13h1v1h-1zM17 13h1v1h-1zM19 13h1v1h-1zM20 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM30 13h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM11 14h1v1h-1zM13 14h1v1h-1zM15 14h1v1h-1zM16 14h1v1h-1zM18 14h1v1h-1zM20 14h1v1h-1zM21 14h1v1h-1zM24 14h1v1h-1zM25 14h1v1h-1zM30 14h1v1h-1zM4 15h1v1h-1zM6 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM14 15h1v1h-1zM24 15h1v1h-1zM25 15h1v1h-1zM26 15h1v1h-1zM27 15h1v1h-1zM28 15h1v1h-1zM29 15h1v1h-1zM30 15h1v1h-1zM2 16h1v1h-1zM3 16h1v1h-1zM4 16h1v1h-1zM5 16h1v1h-1zM8 16h1v1h-1zM9 16h1v1h-1zM11 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1zM17 16h1v1h-1zM18 16h1v1h-1zM20 16h1v1h-1zM21 16h1v1h-1zM22 16h1v1h-1zM28 16h1v1h-1zM30 16h1v1h-1zM2 17h1v1h-1zM5 17h1v1h-1zM6 17h1v1h-1zM7 17h1v1h-1zM9 17h1v1h-1zM10 17h1v1h-1zM11 17h1v1h-1zM14 17h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM18 17h1v1h-1zM21 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM25 17h1v1h-1zM28 17h1v1h-1zM30 17h1v1h-1zM2 18h1v1h-1zM3 18h1v1h-1zM6 18h1v1h-1zM7 18h1v1h-1zM8 18h1v1h-1zM10 18h1v1h-1zM11 18h1v1h-1zM12 18h1v1h-1zM13 18h1v1h-1zM14 18h1v1h-1zM17 18h1v1h-1zM18 18h1v1h-1zM20 18h1v1h-1zM21 18h1v1h-1zM22 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM2 19h1v1h-1zM7 19h1v1h-1zM9 19h1v1h-1zM10 19h1v1h-1zM17 19h1v1h-1zM18 19h1v1h-1zM21 19h1v1h-1zM26 19h1v1h-1zM28 19h1v1h-1zM29 19h1v1h-1zM2 20h1v1h-1zM3 20h1v1h-1zM4 20h1v1h-1zM5 20h1v1h-1zM7 20h1v1h-1zM8 20h1v1h-1zM11 20h1v1h-1zM12 20h1v1h-1zM14 20h1v1h-1zM15 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM18 20h1v1h-1zM19 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM24 20h1v1h-1zM26 20h1v1h-1zM27 20h1v1h-1zM30 20h1v1h-1zM2 21h1v1h-1zM3 21h1v1h-1zM4 21h1v1h-1zM6 21h1v1h-1zM7 21h1v1h-1zM9 21h1v1h-1zM11 21h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM15 21h1v1h-1zM17 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM27 21h1v1h-1zM28 21h1v1h-1zM2 22h1v1h-1zM3 22h1v1h-1zM5 22h1v1h-1zM7 22h1v1h-1zM8 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM13 22h1v1h-1zM14 22h1v1h-1zM15 22h1v1h-1zM17 22h1v1h-1zM19 22h1v1h-1zM20 22h1v1h-1zM22 22h1v1h-1zM23 22h1v1h-1zM24 22h1v1h-1zM25 22h1v1h-1zM26 22h1v1h-1zM27 22h1v1h-1zM28 22h1v1h-1zM29 22h1v1h-1zM10 23h1v1h-1zM11 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM14 23h1v1h-1zM15 23h1v1h-1zM17 23h1v1h-1zM18 23h1v1h-1zM19 23h1v1h-1zM22 23h1v1h-1zM26 23h1v1h-1zM27 23h1v1h-1zM2 24h1v1h-1zM3 24h1v1h-1zM4 24h1v1h-1zM5 24h1v1h-1zM6 24h1v1h-1zM7 24h1v1h-1zM8 24h1v1h-1zM10 24h1v1h-1zM13 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM17 24h1v1h-1zM18 24h1v1h-1zM19 24h1v1h-1zM20 24h1v1h-1zM21 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1zM26 24h1v1h-1zM27 24h1v1h-1zM2 25h1v1h-1zM8 25h1v1h-1zM10 25h1v1h-1zM11 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM15 25h1v1h-1zM18 25h1v1h-1zM19 25h1v1h-1zM21 25h1v1h-1zM22 25h1v1h-1zM26 25h1v1h-1zM29 25h1v1h-1zM30 25h1v1h-1zM2 26h1v1h-1zM4 26h1v1h-1zM5 26h1v1h-1zM6 26h1v1h-1zM8 26h1v1h-1zM10 26h1v1h-1zM12 26h1v1h-1zM15 26h1v1h-1zM17 26h1v1h-1zM20 26h1v1h-1zM21 26h1v1h-1zM22 26h1v1h-1zM23 26h1v1h-1zM24 26h1v1h-1zM25 26h1v1h-1zM26 26h1v1h-1zM27 26h1v1h-1zM29 26h1v1h-1zM30 26h1v1h-1zM2 27h1v1h-1zM4 27h1v1h-1zM5 27h1v1h-1zM6 27h1v1h-1zM8 27h1v1h-1zM10 27h1v1h-1zM13 27h1v1h-1zM16 27h1v1h-1zM17 27h1v1h-1zM21 27h1v1h-1zM22 27h1v1h-1zM30 27h1v1h-1zM2 28h1v1h-1zM4 28h1v1h-1zM5 28h1v1h-1zM6 28h1v1h-1zM8 28h1v1h-1zM11 28h1v1h-1zM13 28h1v1h-1zM15 28h1v1h-1zM17 28h1v1h-1zM19 28h1v1h-1zM23 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM28 28h1v1h-1zM29 28h1v1h-1zM30 28h1v1h-1zM2 29h1v1h-1zM8 29h1v1h-1zM11 29h1v1h-1zM13 29h1v1h-1zM14 29h1v1h-1zM18 29h1v1h-1zM21 29h1v1h-1zM23 29h1v1h-1zM26 29h1v1h-1zM27 29h1v1h-1zM28 29h1v1h-1zM30 29h1v1h-1zM2 30h1v1h-1zM3 30h1v1h-1zM4 30h1v1h-1zM5 30h1v1h-1zM6 30h1v1h-1zM7 30h1v1h-1zM8 30h1v1h-1zM10 30h1v1h-1zM11 30h1v1h-1zM14 30h1v1h-1zM15 30h1v1h-1zM16 30h1v1h-1zM17 30h1v1h-1zM18 30h1v1h-1zM20 30h1v1h-1zM21 30h1v1h-1zM22 30h1v1h-1zM24 30h1v1h-1z" fill="#1d1a17"/></svg></div>
+            <div><span class="pill">最快回覆</span><b>LINE</b><p>用手機掃描 QR Code<br>或點這張卡直接加好友</p></div>
+          </a>
+          <div class="dm-side">
+            <button class="dm-card cp" data-id="jasmine_1120" style="--c:#5865f2"><span class="ic">DC</span><span class="t"><b>Discord</b><span class="h">jasmine_1120</span></span><span class="copy">複製</span></button>
+            <button class="dm-card cp" data-id="a1205342420" style="--c:#07c160"><span class="ic">微</span><span class="t"><b>微信</b><span class="h">a1205342420</span></span><span class="copy">複製</span></button>
+            <p class="dm-note">✿ 平日晚上與週末回覆最快，訊息請先說明需求喔</p>
+          </div>
         </div>
       </div>
-      <div class="cg">
-        <h4>📱 社群<small>追蹤我的日常</small></h4>
-        <div class="links">
-          <a href="https://www.instagram.com/godlike_1120/" target="_blank" rel="noopener"><b>Instagram</b><span>@godlike_1120</span></a>
-          <a href="https://www.tiktok.com/@kokojasmine20" target="_blank" rel="noopener"><b>TikTok</b><span>@kokojasmine20</span></a>
-          <button class="cp" data-id="king120534242"><b>抖音</b><span>king120534242</span></button>
-          <button class="cp" data-id="5272563523"><b>小紅書</b><span>5272563523</span></button>
-          <a href="https://weibo.com/u/6439300459" target="_blank" rel="noopener"><b>微博</b><span>花花</span></a>
-          <a href="https://www.facebook.com/hua.hua.ju.ji.de.dai.kai.dai.da.pei.wan.pei.liao/" target="_blank" rel="noopener"><b>Facebook</b><span>代打・陪玩專頁</span></a>
-          <a href="https://www.facebook.com/linke.482137/" target="_blank" rel="noopener"><b>Facebook</b><span>個人</span></a>
+      <div class="blk">
+        <div class="blk-h"><span class="num">02</span><h4>社群</h4><small>追蹤我的日常與作品更新</small></div>
+        <div class="soc">
+          <a class="sc" href="https://www.instagram.com/godlike_1120/" target="_blank" rel="noopener" style="--c:#e1306c"><span class="ic">IG</span><b>Instagram</b><span class="h">@godlike_1120</span><i class="go">↗</i></a>
+          <a class="sc" href="https://www.tiktok.com/@kokojasmine20" target="_blank" rel="noopener" style="--c:#111"><span class="ic">♪</span><b>TikTok</b><span class="h">@kokojasmine20</span><i class="go">↗</i></a>
+          <button class="sc cp" data-id="king120534242" style="--c:#fe2c55"><span class="ic">抖</span><b>抖音</b><span class="h">king120534242</span><i class="go">⧉</i></button>
+          <button class="sc cp" data-id="5272563523" style="--c:#ff2442"><span class="ic">紅</span><b>小紅書</b><span class="h">5272563523</span><i class="go">⧉</i></button>
+          <a class="sc" href="https://weibo.com/u/6439300459" target="_blank" rel="noopener" style="--c:#e6162d"><span class="ic">微</span><b>微博</b><span class="h">花花</span><i class="go">↗</i></a>
+          <a class="sc" href="https://www.facebook.com/hua.hua.ju.ji.de.dai.kai.dai.da.pei.wan.pei.liao/" target="_blank" rel="noopener" style="--c:#1877f2"><span class="ic">f</span><b>Facebook 專頁</b><span class="h">代打・陪玩</span><i class="go">↗</i></a>
+          <a class="sc" href="https://www.facebook.com/linke.482137/" target="_blank" rel="noopener" style="--c:#1877f2"><span class="ic">f</span><b>Facebook</b><span class="h">個人</span><i class="go">↗</i></a>
+          <a class="sc all" href="https://lit.link/en/lin1120" target="_blank" rel="noopener"><span class="ic">✦</span><b>lit.link</b><span class="h">所有連結一次看</span><i class="go">↗</i></a>
         </div>
       </div>
-      <div class="cg">
-        <h4>✨ 更多的我<small>AI 互動模板作者・小說作者</small></h4>
-        <div class="links">
-          <a href="https://ashbone.app/u/cfc0a64b-71d5-404f-a195-305e069071f0" target="_blank" rel="noopener"><b>Ashbone</b><span>AI 互動模板作者</span></a>
-          <a href="https://frontia.ai/users/profile/6a7891fc8c317a2761c1ede3" target="_blank" rel="noopener"><b>Frontia</b><span>AI 互動模板作者</span></a>
-          <a href="https://quarterfull.io/author/8V4y1aKVBYeQGw5W" target="_blank" rel="noopener"><b>Quarterfull</b><span>小說作者</span></a>
-          <a href="https://lit.link/en/lin1120" target="_blank" rel="noopener"><b>lit.link</b><span>所有連結</span></a>
+      <div class="blk">
+        <div class="blk-h"><span class="num">03</span><h4>更多的我</h4><small>寫故事的我，和做 AI 角色的我</small></div>
+        <div class="more">
+          <div class="mc ai">
+            <span class="kicker">AI INTERACTIVE TEMPLATES</span>
+            <h5>AI 互動模板作者</h5>
+            <p>設計可以聊天、可以陪伴、會回應你的 AI 角色與互動劇情模板。</p>
+            <div class="mc-links">
+              <a href="https://ashbone.app/u/cfc0a64b-71d5-404f-a195-305e069071f0" target="_blank" rel="noopener">Ashbone 作者頁 ↗</a>
+              <a href="https://frontia.ai/users/profile/6a7891fc8c317a2761c1ede3" target="_blank" rel="noopener">Frontia 作者頁 ↗</a>
+            </div>
+            <div class="chat"><span>你好呀，今天想聊什麼？</span><span class="me">想聽你說故事 ✿</span></div>
+          </div>
+          <div class="mc novel">
+            <span class="kicker">NOVELIST</span>
+            <h5>小說作者</h5>
+            <p>用文字打工的另一個身分。<br>翻開一頁，進到花花的世界。</p>
+            <div class="mc-links"><a href="https://quarterfull.io/author/8V4y1aKVBYeQGw5W" target="_blank" rel="noopener">Quarterfull 作者頁 ↗</a></div>
+            <div class="book"><i></i><i></i><i></i></div>
+          </div>
         </div>
       </div>
     </div>
