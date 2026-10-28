@@ -340,6 +340,27 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 @media(max-width:980px){.books{grid-template-columns:1fr}}
 @media(max-width:560px){.bk{grid-template-columns:1fr}.bk .cv{min-height:0;aspect-ratio:4/3}}
 </style>
+<style>
+/* Quarterfull book decor */
+.qf .prof{position:relative;overflow:hidden}
+.qf .prof>img,.qf .prof>div{position:relative;z-index:1}
+.qf .about-fr{position:relative;overflow:hidden}
+.qf .about-fr>div{position:relative;z-index:1}
+.bookart{position:absolute;right:3%;top:50%;transform:translateY(-50%);width:min(400px,40%);pointer-events:none;z-index:0}
+.bookart .fl{animation:bfloat 6s ease-in-out infinite}
+.bookart .pg{animation:flip 4.5s ease-in-out infinite;transform-origin:200px 190px}
+.bookart .tw{animation:twinkle 3s ease-in-out infinite}.bookart .tw2{animation:twinkle 3s ease-in-out infinite 1.5s}
+.bookart .moon{animation:bfloat 8s ease-in-out infinite reverse}
+@keyframes bfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes flip{0%,30%{transform:scaleX(1)}55%,100%{transform:scaleX(-1)}}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+.leaf{position:absolute;top:-30px;width:22px;height:28px;pointer-events:none;z-index:0;opacity:0;animation:fall 11s linear infinite}
+.leaf::before{content:"";position:absolute;inset:0;background:rgba(255,243,214,.85);border-radius:3px;box-shadow:inset -4px 0 0 rgba(242,193,78,.5)}
+@keyframes fall{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:.8}100%{transform:translateY(420px) translateX(-60px) rotate(240deg);opacity:0}}
+.shelf{position:absolute;left:0;width:48%;bottom:0;height:80px;pointer-events:none;z-index:0;opacity:.3}
+.quill{position:absolute;left:41%;top:26px;width:110px;pointer-events:none;z-index:0;opacity:.55;animation:bfloat 7s ease-in-out infinite}
+@media(max-width:760px){.bookart{position:relative;right:auto;top:auto;transform:none;width:72%;margin:-6px auto 0;display:block}.qf .prof{display:flex!important;flex-direction:column}.quill{left:auto;right:12px;top:14px;width:80px;opacity:.35}.shelf{width:100%}}
+</style>
 </head>
 <body>
 
@@ -367,6 +388,31 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <main class="wrap fr-hero qf">
   <a href="index.html" class="back">← 回首頁</a>
   <section class="prof reveal">
+    <svg class="bookart" viewBox="0 0 400 320" aria-hidden="true">
+      <defs>
+        <filter id="bglow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="pgc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff6df"/><stop offset="1" stop-color="#f3dfb0"/></linearGradient>
+        <radialGradient id="halo"><stop offset="0" stop-color="#ffd879" stop-opacity=".55"/><stop offset="1" stop-color="#ffd879" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g class="moon"><path d="M318 46 a30 30 0 1 0 26 44 a24 24 0 1 1 -26 -44z" fill="#ffe7a3" filter="url(#bglow)"/></g>
+      <g class="tw" fill="#fff2c4"><path d="M86 52 c4 -12 8 -12 12 0 c12 4 12 8 0 12 c-4 12 -8 12 -12 0 c-12 -4 -12 -8 0 -12z"/><circle cx="262" cy="34" r="3"/></g>
+      <g class="tw2" fill="#fff2c4"><circle cx="58" cy="128" r="3"/><circle cx="350" cy="150" r="2.5"/><path d="M240 92 c2 -7 5 -7 7 0 c7 2 7 5 0 7 c-2 7 -5 7 -7 0 c-7 -2 -7 -5 0 -7z"/></g>
+      <ellipse cx="200" cy="190" rx="170" ry="90" fill="url(#halo)"/>
+      <g class="fl">
+        <path d="M200 196 C160 176 100 172 52 184 L52 262 C100 250 160 254 200 274 Z" fill="#6b4226"/>
+        <path d="M200 196 C240 176 300 172 348 184 L348 262 C300 250 240 254 200 274 Z" fill="#6b4226"/>
+        <path d="M200 190 C162 168 108 164 62 176 L62 254 C108 242 162 246 200 266 Z" fill="url(#pgc)" filter="url(#bglow)"/>
+        <path d="M200 190 C238 168 292 164 338 176 L338 254 C292 242 238 246 200 266 Z" fill="url(#pgc)" filter="url(#bglow)"/>
+        <g stroke="#d8bd84" stroke-width="2.4" stroke-linecap="round" opacity=".8">
+          <path d="M84 192 C118 186 150 188 180 200"/><path d="M84 208 C118 202 150 204 180 216"/><path d="M84 224 C118 218 150 220 180 232"/>
+          <path d="M220 200 C250 188 282 186 316 192"/><path d="M220 216 C250 204 282 202 316 208"/><path d="M220 232 C250 220 282 218 316 224"/>
+        </g>
+        <path class="pg" d="M200 190 C238 160 286 152 326 160 L326 240 C286 232 238 240 200 266 Z" fill="#fffaf0" opacity=".9"/>
+        <path d="M200 190 L200 266" stroke="#c9a464" stroke-width="2"/>
+        <g fill="#ffe7a3" filter="url(#bglow)"><circle cx="150" cy="140" r="3"/><circle cx="176" cy="118" r="2"/><circle cx="214" cy="126" r="2.6"/><circle cx="240" cy="104" r="1.8"/></g>
+      </g>
+    </svg>
+    <span class="leaf" style="left:58%;animation-delay:0s"></span><span class="leaf" style="left:76%;animation-delay:4s;transform:scale(.8)"></span><span class="leaf" style="left:90%;animation-delay:7.5s"></span>
     <img class="av" src="https://edge.mofic.io/author-profile/1131308/avatar/d5b8828aca7e4bfb837e927c9cda6928.jpg" alt="月月 頭像">
     <div style="position:relative;z-index:1">
       <div class="ey">Quarterfull Writer · 小說作者</div>
@@ -386,6 +432,23 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   </section>
 
   <section class="about-fr reveal">
+    <svg class="shelf" viewBox="0 0 1100 92" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
+      <g fill="#f2c14e">
+        <rect x="640" y="30" width="22" height="62" rx="3"/><rect x="666" y="18" width="18" height="74" rx="3" fill="#e8a33a"/><rect x="688" y="38" width="26" height="54" rx="3" fill="#d9c08a"/>
+        <rect x="718" y="24" width="16" height="68" rx="3" fill="#c0662a"/><rect x="738" y="10" width="24" height="82" rx="3"/><rect x="766" y="34" width="20" height="58" rx="3" fill="#e8a33a"/>
+        <rect x="792" y="22" width="14" height="70" rx="3" fill="#d9c08a" transform="rotate(8 799 92)"/>
+        <rect x="830" y="40" width="28" height="52" rx="3" fill="#c0662a"/><rect x="862" y="16" width="20" height="76" rx="3"/><rect x="886" y="30" width="24" height="62" rx="3" fill="#e8a33a"/>
+        <rect x="914" y="44" width="18" height="48" rx="3" fill="#d9c08a"/><rect x="936" y="20" width="22" height="72" rx="3" fill="#c0662a"/><rect x="962" y="32" width="26" height="60" rx="3"/>
+        <rect x="992" y="12" width="18" height="80" rx="3" fill="#e8a33a"/><rect x="1014" y="36" width="24" height="56" rx="3" fill="#d9c08a"/><rect x="1042" y="26" width="20" height="66" rx="3" fill="#c0662a"/>
+        <rect x="620" y="88" width="480" height="4" fill="#f2c14e"/>
+      </g>
+    </svg>
+    <svg class="quill" viewBox="0 0 150 150" aria-hidden="true">
+      <path d="M128 10 C92 22 60 52 42 92 C36 106 32 118 30 130 C42 118 52 108 64 100 C96 80 120 50 128 10 Z" fill="#fff3d6"/>
+      <path d="M128 10 C100 40 70 72 30 130" stroke="#d9b56a" stroke-width="2.4" fill="none"/>
+      <path d="M30 130 L22 144" stroke="#f2c14e" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    
     <div>
       <div class="ey">WHAT IS QUARTERFULL</div>
       <h2>Quarterfull 是什麼？</h2>
