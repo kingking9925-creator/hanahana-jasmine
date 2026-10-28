@@ -263,6 +263,85 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .cta-band .btn{border-color:var(--bg);background:var(--bg);color:var(--ink)}
 .cta-band .btn:hover{background:var(--coral);border-color:var(--coral);color:#fff}
 </style>
+<style>
+.fr-hero{padding-top:130px;padding-bottom:40px}
+.fr-hero .back{display:inline-block;margin-bottom:28px;font-size:14px;color:var(--muted)}
+.prof{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;background:#1c1916;color:#f7f2ea;border-radius:32px;padding:40px;position:relative;overflow:hidden}
+.prof::after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,74,.35),transparent 70%);right:-120px;top:-160px}
+.prof .av{width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid rgba(255,255,255,.15)}
+.prof .ey{font-size:12px;letter-spacing:3px;color:#f2c14e;font-weight:700;text-transform:uppercase}
+.prof h1{font-family:var(--serif);font-size:44px;margin:4px 0 6px;line-height:1.2}
+.prof h1 small{font-family:var(--sans);font-size:15px;font-weight:500;color:#b9b0a5;margin-left:10px}
+.prof p{color:#ddd5ca;margin:0 0 18px;max-width:560px}
+.stats{display:flex;gap:28px;margin-bottom:22px}
+.stats b{display:block;font-family:var(--display);font-size:30px;line-height:1}
+.stats span{font-size:12px;color:#b9b0a5}
+.prof .acts{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.fbtn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-size:14px;font-weight:600;background:#4089ff;color:#fff;transition:.25s}
+.fbtn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(64,137,255,.35)}
+.fbtn.ghost{background:transparent;border:1px solid rgba(255,255,255,.3)}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:70px 0 26px;flex-wrap:wrap}
+.sec-h .eyebrow{margin:0}
+.sec-h h2{font-family:var(--serif);font-size:34px;margin:4px 0 0}
+.sec-h p{margin:0;color:var(--muted);font-size:14px}
+.stories{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+@media(max-width:1100px){.stories{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.stories{grid-template-columns:repeat(2,1fr);gap:12px}.st .bd{padding:14px}.st p{display:none}.st h3{font-size:15px}}
+.st{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:.35s}
+.st:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(28,25,22,.12)}
+.st .cv{position:relative;aspect-ratio:4/5;background:#1c1916;overflow:hidden}
+.st .cv img{width:100%;height:100%;object-fit:cover;display:block;transition:.6s}
+.st:hover .cv img{transform:scale(1.05)}
+.st .badge{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;background:var(--coral);color:#fff}
+.st .badge.b18{background:#1c1916}.st .badge.bl{background:#a05cc8}.st .badge.hot{background:#f2a33a}
+.st .plays{position:absolute;bottom:12px;right:12px;padding:4px 10px;border-radius:999px;font-size:12px;background:rgba(0,0,0,.6);color:#fff;backdrop-filter:blur(6px)}
+.st .bd{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.st h3{font-size:17px;margin:0;line-height:1.4}
+.st .tg{display:flex;gap:6px;flex-wrap:wrap}
+.st .tg span{font-size:11px;padding:2px 9px;border-radius:999px;background:var(--bg2);color:var(--muted)}
+.st p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.75;flex:1}
+.st .play{align-self:flex-start;margin-top:4px;display:inline-flex;gap:6px;align-items:center;padding:9px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:13px;font-weight:600;transition:.25s}
+.st .play:hover{background:#4089ff}
+.about-fr{margin:80px 0 100px;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;background:linear-gradient(135deg,#0f1a33,#1d2f5c);color:#eef3ff;border-radius:32px;padding:48px}
+.about-fr .ey{font-size:12px;letter-spacing:3px;color:#8fb7ff;font-weight:700}
+.about-fr h2{font-family:var(--serif);font-size:34px;margin:6px 0 14px;line-height:1.3}
+.about-fr p{color:#c8d4ee;margin:0 0 22px}
+.feat{display:grid;gap:14px}
+.feat div{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px 20px}
+.feat b{display:block;font-size:15px;margin-bottom:2px}
+.feat span{font-size:13px;color:#b8c6e6}
+@media(max-width:760px){.prof{grid-template-columns:1fr;text-align:center;padding:32px 22px}.prof .av{margin:0 auto}.prof p{margin:0 auto 18px}.stats,.prof .acts{justify-content:center}.prof h1{font-size:36px}.prof h1 small{display:block;margin:4px 0 0}.about-fr{grid-template-columns:1fr;padding:32px 22px}}
+</style>
+<style>
+/* FLAI green theme */
+:root{--bg:#eefaf1;--bg2:#d9f2e0;--ink:#0f2a1a;--muted:#4f6b58;--gold:#22a856;--coral:#22b35e;--card:#f7fdf8;--line:rgba(15,42,26,.12)}
+nav{background:rgba(238,250,241,.8)}
+.nav-links a.on:not(.nav-cta){color:#22a856}
+.nav-cta{background:#22b35e!important;color:#fff!important}
+.nav-links a:hover{background:#22b35e;color:#fff}
+.prof{background:linear-gradient(135deg,#0c2a18,#1c6b3c)}
+.prof::after{background:radial-gradient(circle,rgba(120,230,150,.42),transparent 70%)}
+.prof .ey{color:#9be8b0}.prof h1 small,.stats span{color:#a9d8b8}.prof p{color:#d4f0dc}
+.fbtn{background:#22b35e}.fbtn:hover{box-shadow:0 10px 24px rgba(34,179,94,.35)}
+.eyebrow{color:#22a856}
+.stories.fl{grid-template-columns:repeat(3,1fr)}
+@media(max-width:860px){.stories.fl{grid-template-columns:repeat(2,1fr)}}
+.st{border-color:rgba(34,179,94,.2)}
+.st:hover{box-shadow:0 24px 48px rgba(34,179,94,.2)}
+.st .cv{background:#0c2a18}
+.st .tg span{background:#e0f5e7;color:#2d6a42}
+.st .play{background:#0f2a1a}.st .play:hover{background:#22b35e}
+.st .badge{background:#22b35e}.st .badge.b18{background:#0f2a1a}
+.st .idrow{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.st .idrow code{font-family:ui-monospace,monospace;background:#e0f5e7;color:#1c6b3c;padding:2px 8px;border-radius:6px;font-weight:700}
+.st .idrow button{border:0;background:none;color:#22a856;cursor:pointer;font-size:12px;font-weight:600}
+.st .acts2{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.st .sub{font-size:12px;color:var(--muted)}
+.warn{display:inline-flex;gap:8px;align-items:center;font-size:13px;color:#8a4b12;background:#fff3e2;border:1px solid #f5d6ad;padding:8px 14px;border-radius:999px}
+.about-fr{background:linear-gradient(135deg,#0b2616,#1f8a4c)}
+.about-fr .ey{color:#9be8b0}.about-fr p{color:#d0eeda}.feat span{color:#bfe3cb}
+@media(max-width:760px){.st p{display:block;font-size:12.5px}}
+</style>
 </head>
 <body>
 
@@ -287,13 +366,54 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     <a href="about.html">關於我</a><a href="works.html">作品</a><a href="services.html">服務</a><a href="frontia.html">FRONTIA</a><a href="quarterfull.html">QUARTERFULL</a><a href="flai.html" class="on" aria-current="page">FLAI</a><a href="contact.html" class="nav-cta">找我合作</a>
   </div>
 </nav>
-<header class="page-hero wrap" style="min-height:70vh">
+<main class="wrap fr-hero">
   <a href="index.html" class="back">← 回首頁</a>
-  <div class="eyebrow">FLAI</div>
-  <h1>FLAI</h1>
-  <p>內容準備中，敬請期待 ✿</p>
-</header>
+  <section class="prof reveal">
+    <img class="av" src="https://img.imgcd.com/cdn-cgi/imagedelivery/AaqG8Mefo3pS9ERxqUm9Cg/1393440_1_zdnj_qctf_yrpo/public" alt="月月 頭像">
+    <div style="position:relative;z-index:1">
+      <div class="ey">FLAI Creator · AI 互動模板作者</div>
+      <h1>月月<small>＝ 花花 Jasmine</small></h1>
+      <p>FLAI 用戶 ID：1393440<br>有想重新上架的模板，可以戳我 DC 🫶🏻</p>
+      <div class="stats"><div><b>11.9萬+</b><span>讚賞</span></div><div><b>7</b><span>公開模板</span></div><div><b>2</b><span>共享音聲</span></div><div><b>Lv.5</b><span>等級</span></div></div>
+      <div class="acts"><a class="fbtn" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener">打開 FLAI ↗</a><a class="fbtn ghost" href="contact.html">找我合作</a></div>
+    </div>
+  </section>
+
+  <div class="sec-h reveal"><div><div class="eyebrow">Templates · 我的模板</div><h2>挑一個世界，開始聊</h2></div><p><span class="warn">⚠ 多為成人向（18+）內容</span></p></div>
+  <section class="stories fl">
+      <article class="st reveal"><a class="cv" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener"><img src="https://img.imgcd.com/cdn-cgi/imagedelivery/AaqG8Mefo3pS9ERxqUm9Cg/1393440_1_1788936699329_webp/public" alt="穿越熬太縣❗ 封面" loading="lazy"><span class="badge">人氣</span><span class="plays">♥ 21,155 · ★ 4.1</span></a>
+        <div class="bd"><h3>穿越熬太縣❗</h3><div class="idrow">模板 ID <code>@FVJVIG</code><button type="button" data-id="FVJVIG">複製</button></div><div class="tg"><span>生存遊戲</span><span>男性向</span><span>女性向</span></div><p>「哦～我愚蠢的玩家，歡迎進入極限生存遊戲。」選好探險世界、建立角色、挑難度和攜帶物資——從簡單到地獄模式，看你能不能撐到救援隊抵達。</p><span class="sub">另有簡體版 @HRJHMC</span><div class="acts2"><a class="play" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener">去 FLAI 玩 ↗</a></div></div></article>
+      <article class="st reveal"><a class="cv" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener"><img src="https://img.imgcd.com/cdn-cgi/imagedelivery/AaqG8Mefo3pS9ERxqUm9Cg/1393440_1_afun_oufr_ddjh/public" alt="BD❣約陪APP 封面" loading="lazy"><span class="badge b18">18+</span><span class="plays">♥ 43,445 · ★ 4.3</span></a>
+        <div class="bd"><h3>BD❣約陪APP</h3><div class="idrow">模板 ID <code>@TIDRBB</code><button type="button" data-id="TIDRBB">複製</button></div><div class="tg"><span>APP</span><span>字母圈</span><span>多人</span></div><p>一款滿足各種癖好的約陪 APP：註冊、選擇性別與傾向、填入你的喜好，系統幫你配對，不滿意就下一位。男女都能玩，字母圈向。</p><div class="acts2"><a class="play" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener">去 FLAI 玩 ↗</a></div></div></article>
+      <article class="st reveal"><a class="cv" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener"><img src="https://img.imgcd.com/cdn-cgi/imagedelivery/AaqG8Mefo3pS9ERxqUm9Cg/1393440_1_myow_wvbb_gvio/public" alt="欲❤界online💋 封面" loading="lazy"><span class="badge b18">18+</span><span class="plays">♥ 28,724 · ★ 4.2</span></a>
+        <div class="bd"><h3>欲❤界online💋</h3><div class="idrow">模板 ID <code>@QHREAB</code><button type="button" data-id="QHREAB">複製</button></div><div class="tg"><span>網遊</span><span>開放世界</span></div><p>擬真多種族開放世界網遊：捏臉建角，選擇人族、仙族、魔族、精靈、龍族等種族路線，隱藏職業、公會與陣營等你自己探索。</p><div class="acts2"><a class="play" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener">去 FLAI 玩 ↗</a></div></div></article>
+      <article class="st reveal"><a class="cv" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener"><img src="https://img.imgcd.com/cdn-cgi/imagedelivery/AaqG8Mefo3pS9ERxqUm9Cg/1393440_1_wdbe_vyrv_qywh/public" alt="歡迎❗正經足療店❤❤ 封面" loading="lazy"><span class="badge b18">18+</span><span class="plays">♥ 25,237 · ★ 4.0</span></a>
+        <div class="bd"><h3>歡迎❗正經足療店❤❤</h3><div class="idrow">模板 ID <code>@WIHGDE</code><button type="button" data-id="WIHGDE">複製</button></div><div class="tg"><span>經營</span><span>足控</span></div><p>經營一間「正經」的足療店，用手藝征服各式各樣的顧客，集滿五星好評解鎖精油按摩、豪華浴場等隱藏項目，還有專屬可愛寵物。</p><div class="acts2"><a class="play" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener">去 FLAI 玩 ↗</a></div></div></article>
+      <article class="st reveal"><a class="cv" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener"><img src="https://img.imgcd.com/cdn-cgi/imagedelivery/AaqG8Mefo3pS9ERxqUm9Cg/1393440_1_aazt_mtox_tlit/public" alt="什麼❓什麼都能合成❗❤ 封面" loading="lazy"><span class="badge b18">18+</span><span class="plays">♥ 255</span></a>
+        <div class="bd"><h3>什麼❓什麼都能合成❗❤</h3><div class="idrow">模板 ID <code>@IVQVZQ</code><button type="button" data-id="IVQVZQ">複製</button></div><div class="tg"><span>合成</span><span>冒險</span></div><p>每個世界的任何東西都能合成！可樂＋麵包＝可樂麵包，浴缸＋火車＝浴缸火車，帶著合成出來的道具加 BUFF 一路闖關。</p><div class="acts2"><a class="play" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener">去 FLAI 玩 ↗</a></div></div></article>
+      <article class="st reveal"><a class="cv" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener"><img src="https://img.imgcd.com/cdn-cgi/imagedelivery/AaqG8Mefo3pS9ERxqUm9Cg/1393440_1_zljv_apic_yrno/public" alt="极乐❗我的⭕⭕监狱❤ 封面" loading="lazy"><span class="badge b18">18+</span><span class="plays">♥ 217</span></a>
+        <div class="bd"><h3>极乐❗我的⭕⭕监狱❤</h3><div class="idrow">模板 ID <code>@QOJMEF</code><button type="button" data-id="QOJMEF">複製</button></div><div class="tg"><span>監獄</span><span>快餐</span></div><p>架空成人監獄世界：五座鐵牢、三種生存法則——討好、結盟，或成為主宰。日常點名、勞動，還有各種意想不到的特殊事件。</p><div class="acts2"><a class="play" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener">去 FLAI 玩 ↗</a></div></div></article>
+  </section>
+  <p class="reveal" style="margin-top:18px;font-size:13px;color:var(--muted)">小提示：在 FLAI 的「夢境 → 模板」搜尋作品名稱或模板 ID，就能找到並開始遊玩。</p>
+
+  <section class="about-fr reveal">
+    <div>
+      <div class="ey">WHAT IS FLAI</div>
+      <h2>FLAI 是什麼？</h2>
+      <p>FLAI 是一個 AI 角色互動聊天平台。創作者把世界觀、角色和玩法做成「模板」，玩家挑一個模板，就能直接和 AI 角色對話、展開屬於自己的劇情。</p>
+      <a class="fbtn" href="https://chat.flaiapp.com/home" target="_blank" rel="noopener">前往 FLAI ↗</a>
+    </div>
+    <div class="feat">
+      <div><b>🌙 夢境模板</b><span>各種題材的世界觀與角色，點進去就能開始聊。</span></div>
+      <div><b>🎙️ 共享音聲</b><span>角色可以搭配聲音，聊天更有沉浸感。</span></div>
+      <div><b>✍️ 自己做模板</b><span>設定好世界和規則，投稿公開讓大家來玩。</span></div>
+    </div>
+  </section>
+</main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div></footer>
-<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+<script>document.getElementById('y').textContent=new Date().getFullYear();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('.idrow button').forEach(b=>b.onclick=()=>{const t='@'+b.dataset.id;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent='已複製 ✓';setTimeout(()=>b.textContent='複製',1500)}).catch(()=>prompt('複製模板 ID',t))});</script>
 </body>
 </html>
