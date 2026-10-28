@@ -410,7 +410,7 @@ body.locked{overflow:hidden}
     <div class="bt"><button class="yes" id="ageYes" type="button">我已滿 18 歲，進入</button><a class="no" href="index.html">未滿 18 歲，返回首頁</a></div>
   </div>
 </div>
-<script>(function(){var ok=false;try{ok=sessionStorage.getItem('age18')==='1'}catch(e){}var g=document.getElementById('age');if(ok){g.classList.add('off')}else{document.body.classList.add('locked')}document.getElementById('ageYes').onclick=function(){g.classList.add('off');document.body.classList.remove('locked');try{sessionStorage.setItem('age18','1')}catch(e){}}})();</script>
+<script>(function(){var g=document.getElementById('age');document.body.classList.add('locked');document.getElementById('ageYes').onclick=function(){g.classList.add('off');document.body.classList.remove('locked')}})();</script>
 <nav>
   <a href="index.html" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
   <div class="nav-links">
