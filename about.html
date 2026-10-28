@@ -331,7 +331,7 @@ footer{border-color:rgba(74,32,51,.12)}
 .certs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .cert{display:flex;gap:12px;align-items:center;background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 12%,#fff);border-radius:16px;padding:14px 18px;font-size:14px;transition:.25s}
 .cert:hover{border-color:#f8a5c0;transform:translateY(-3px)}
-.cert i{font-style:normal;width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#ffd93b,#ffa31a);color:#fff;display:grid;place-items:center;font-size:14px;flex:none;font-weight:800}
+.cert i{font-style:normal;width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#ffb3cd,#f06292);color:#fff;display:grid;place-items:center;font-size:14px;flex:none;font-weight:800}
 .a-cta{margin:70px 0 90px;background:linear-gradient(135deg,#4a2033,#8a3a5c);color:#ffeaf1;border-radius:32px;padding:42px;display:flex;justify-content:space-between;align-items:center;gap:22px;flex-wrap:wrap}
 .a-cta h3{font-family:var(--serif);font-size:26px;margin:0;color:#fff}
 .a-cta p{margin:6px 0 0;font-size:14px;color:#e4bccd}
@@ -366,11 +366,15 @@ footer{border-color:rgba(74,32,51,.12)}
 @media(prefers-reduced-motion:reduce){.a-left,.a-char,.a-blob,.a-ring,.a-tag,.a-pt i{animation:none!important}.a-pt{display:none}}
 </style>
 <style>
-/* Center the personal introduction */
-.bio-section .c-h{justify-content:center;text-align:center}
-.bio-section .bio{max-width:76ch;margin-inline:auto;text-align:center}
-.bio-section .bio p{max-width:none}
-@media(max-width:600px){.bio-section .c-h small{flex-basis:100%}}
+/* Animated collaboration invitation */
+.a-cta{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(120deg,#4a2033,#8a3a5c,#642944,#a74b70);background-size:300% 300%;animation:aboutCtaFlow 16s ease-in-out infinite}
+.a-cta::before,.a-cta::after{content:"";position:absolute;z-index:-1;width:360px;height:360px;border-radius:50%;pointer-events:none;opacity:.42;filter:blur(18px)}
+.a-cta::before{top:-270px;left:-120px;background:radial-gradient(circle,#ffc6d6,transparent 70%);animation:aboutCtaGlow 12s ease-in-out infinite alternate}
+.a-cta::after{bottom:-280px;right:-140px;background:radial-gradient(circle,#ff8fb1,transparent 70%);animation:aboutCtaGlow 15s ease-in-out infinite alternate-reverse}
+.a-cta>div,.a-cta>a{position:relative;z-index:1}
+@keyframes aboutCtaFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes aboutCtaGlow{to{transform:translate(120px,70px) scale(1.2)}}
+@media(prefers-reduced-motion:reduce){.a-cta,.a-cta::before,.a-cta::after{animation:none!important}}
 </style>
 </head>
 <body>
@@ -398,8 +402,6 @@ footer{border-color:rgba(74,32,51,.12)}
 </nav>
 <header class="page-hero wrap a-hero">
   <div class="a-left">
-    <a href="index.html" class="back">← 回首頁</a>
-    <div class="eyebrow">About · 關於我</div>
     <h1 class="a-name a-en-main">Jasmine Liu</h1>
     <div class="a-edu"><span>景文科技大學</span><span>行動商務與多媒體應用系</span><span>商學學士</span><span>2020.06 畢業</span></div>
   </div>
@@ -415,7 +417,7 @@ footer{border-color:rgba(74,32,51,.12)}
 </header>
 
 <main class="wrap">
-  <section class="c-sec bio-section">
+  <section class="c-sec">
     <div class="c-h reveal"><span class="n">01</span><h2>個人簡介</h2><small>品牌行銷 · 視覺設計 · GEO</small></div>
     <div class="bio reveal">
       <p>具備多年品牌行銷、視覺設計、活動企劃及專案管理經驗，曾擔任網路多媒體設計部經理、總監秘書及行銷設計師，累積跨領域的實務經驗。熟悉從企劃發想、視覺設計、內容製作到實際執行的完整流程，能夠整合品牌需求、行銷策略與設計表現，將創意轉化為具體成果。</p>
@@ -434,8 +436,51 @@ footer{border-color:rgba(74,32,51,.12)}
     </div>
   </section>
 
+  
+
   <section class="c-sec">
-    <div class="c-h reveal"><span class="n">03</span><h2>資歷</h2><small>競賽、活動策劃與展出</small></div>
+    <div class="c-h reveal"><span class="n">03</span><h2>電商平台應用</h2><small>上架、商品管理與訂單處理</small></div>
+    <div class="chips wide reveal"><span>Shopee 蝦皮購物</span><span>momo 購物網</span><span>SHOPSTORE</span><span>Coupang 酷澎</span><span>CYBERBIZ</span></div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">04</span><h2>軟體應用</h2></div>
+    <div class="grp">
+        <div class="gcard reveal"><h3>平面設計與影像處理</h3><div class="chips"><span>Adobe Photoshop</span><span>Adobe Illustrator</span><span>Canva</span><span>photoGrid</span></div></div>
+        <div class="gcard reveal"><h3>影片剪輯與動畫製作</h3><div class="chips"><span>CapCut</span><span>剪映</span><span>小影</span><span>Adobe Animate</span></div></div>
+        <div class="gcard reveal"><h3>網站建置與管理</h3><div class="chips"><span>GitHub</span><span>WordPress</span></div></div>
+    </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">05</span><h2>社交平台</h2><small>內容經營與社群操作</small></div>
+    <div class="chips wide reveal"><span>Facebook</span><span>Instagram</span><span>Threads</span><span>抖音</span><span>TikTok</span><span>YouTube</span><span>LINE</span><span>小紅書</span><span>百度貼吧</span><span>Dcard</span><span>Discord</span><span>KOOK</span><span>巴哈姆特</span></div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">06</span><h2>AI 工具應用</h2><small>文字、圖像、影音與音樂生成</small></div>
+    <div class="chips wide reveal"><span>ChatGPT</span><span>Claude</span><span>Grok</span><span>FLAI</span><span>Frontia</span><span>豆包</span><span>即夢</span><span>Tavo</span><span>酒館</span><span>MJ</span><span>Suno</span><span>Deevid</span><span>Canvas</span><span>汽水音樂</span><span>Gemini</span><span>PixAI</span></div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">07</span><h2>專業證照</h2></div>
+    <div class="certs">
+        <div class="cert reveal"><i>✓</i><span>中華民國技術士證－印前製程（圖文組版）MAC 丙級</span></div>
+        <div class="cert reveal"><i>✓</i><span>電子商務標準級 E-Commerce (Core)</span></div>
+        <div class="cert reveal"><i>✓</i><span>Word 2010 專業級（Expert）</span></div>
+        <div class="cert reveal"><i>✓</i><span>Excel 2010 專業級（Expert）</span></div>
+        <div class="cert reveal"><i>✓</i><span>PowerPoint 2010 專業級（Expert）</span></div>
+        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS C 級飲品雕藝師</span></div>
+        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS B 級飲品雕藝師</span></div>
+        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS C 級凝膠美甲師</span></div>
+        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS B 級凝膠美甲師</span></div>
+        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS C 級美睫師</span></div>
+        <div class="cert reveal"><i>✓</i><span>校園英語檢定測驗通過</span></div>
+    </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">08</span><h2>資歷</h2><small>競賽、活動策劃與展出</small></div>
     <div class="cv">
       <div class="reveal"><b>2026.08</b><span>3D 列印產業展覽協助展出</span></div>
       <div class="reveal"><b>2024</b><span>美國 MNS 國際異國創意料理達人選拔大賽活動策劃</span></div>
@@ -450,47 +495,6 @@ footer{border-color:rgba(74,32,51,.12)}
       <div class="reveal"><b>2015</b><span>財政部北區國稅局中和稽徵所藝文走廊畫作展出</span></div>
       <div class="reveal win"><b>2014</b><span>中和燈會比賽 小型主題花燈類亞軍</span></div>
       <div class="reveal"><b>2014</b><span>財團法人新光人壽獎學金基金會 品學兼優獎助學金</span></div>
-    </div>
-  </section>
-
-  <section class="c-sec">
-    <div class="c-h reveal"><span class="n">04</span><h2>電商平台應用</h2><small>上架、商品管理與訂單處理</small></div>
-    <div class="chips wide reveal"><span>Shopee 蝦皮購物</span><span>momo 購物網</span><span>SHOPSTORE</span><span>Coupang 酷澎</span><span>CYBERBIZ</span></div>
-  </section>
-
-  <section class="c-sec">
-    <div class="c-h reveal"><span class="n">05</span><h2>軟體應用</h2></div>
-    <div class="grp">
-        <div class="gcard reveal"><h3>平面設計與影像處理</h3><div class="chips"><span>Adobe Photoshop</span><span>Adobe Illustrator</span><span>Canva</span><span>photoGrid</span></div></div>
-        <div class="gcard reveal"><h3>影片剪輯與動畫製作</h3><div class="chips"><span>CapCut</span><span>剪映</span><span>小影</span><span>Adobe Animate</span></div></div>
-        <div class="gcard reveal"><h3>網站建置與管理</h3><div class="chips"><span>GitHub</span><span>WordPress</span></div></div>
-    </div>
-  </section>
-
-  <section class="c-sec">
-    <div class="c-h reveal"><span class="n">06</span><h2>社交平台</h2><small>內容經營與社群操作</small></div>
-    <div class="chips wide reveal"><span>Facebook</span><span>Instagram</span><span>Threads</span><span>抖音</span><span>TikTok</span><span>YouTube</span><span>LINE</span><span>小紅書</span><span>百度貼吧</span><span>Dcard</span><span>Discord</span><span>KOOK</span><span>巴哈姆特</span></div>
-  </section>
-
-  <section class="c-sec">
-    <div class="c-h reveal"><span class="n">07</span><h2>AI 工具應用</h2><small>文字、圖像、影音與音樂生成</small></div>
-    <div class="chips wide reveal"><span>ChatGPT</span><span>Claude</span><span>Grok</span><span>FLAI</span><span>Frontia</span><span>豆包</span><span>即夢</span><span>Tavo</span><span>酒館</span><span>MJ</span><span>Suno</span><span>Deevid</span><span>Canvas</span><span>汽水音樂</span><span>Gemini</span><span>PixAI</span></div>
-  </section>
-
-  <section class="c-sec">
-    <div class="c-h reveal"><span class="n">08</span><h2>專業證照</h2></div>
-    <div class="certs">
-        <div class="cert reveal"><i>✓</i><span>中華民國技術士證－印前製程（圖文組版）MAC 丙級</span></div>
-        <div class="cert reveal"><i>✓</i><span>電子商務標準級 E-Commerce (Core)</span></div>
-        <div class="cert reveal"><i>✓</i><span>Word 2010 專業級（Expert）</span></div>
-        <div class="cert reveal"><i>✓</i><span>Excel 2010 專業級（Expert）</span></div>
-        <div class="cert reveal"><i>✓</i><span>PowerPoint 2010 專業級（Expert）</span></div>
-        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS C 級飲品雕藝師</span></div>
-        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS B 級飲品雕藝師</span></div>
-        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS C 級凝膠美甲師</span></div>
-        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS B 級凝膠美甲師</span></div>
-        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS C 級美睫師</span></div>
-        <div class="cert reveal"><i>✓</i><span>校園英語檢定測驗通過</span></div>
     </div>
   </section>
 
