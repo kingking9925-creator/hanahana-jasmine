@@ -110,7 +110,8 @@ h2 em{font-family:var(--display);font-style:italic;font-weight:400;color:var(--c
 .stats small{color:var(--muted);font-size:13px}
 .hero-copy .tagline{margin-bottom:34px}
 .hero-portrait .sticker.s1{left:13%;top:9%}
-.hero-portrait{width:100%;max-width:440px;margin-left:auto;box-shadow:0 40px 80px -30px rgba(74,32,51,.4)}
+@media(min-width:901px){.hero-grid{grid-template-columns:auto 380px;justify-content:center;gap:90px}.hero-portrait{width:380px;max-width:none}}
+.hero-portrait{width:100%;max-width:440px;margin-left:0;box-shadow:0 40px 80px -30px rgba(74,32,51,.4)}
 @media(max-width:900px){.hero-portrait{margin:0 auto;max-width:360px}}
 @media(max-width:860px){.about{grid-template-columns:1fr;gap:48px}.portrait{max-width:380px;margin:0 auto;width:100%}}
 
