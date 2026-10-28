@@ -372,8 +372,17 @@ body>header,body>section,body>footer{position:relative;z-index:1}
 .hero::before,.hero::after{pointer-events:none}
 @media(prefers-reduced-motion:reduce){.site-petals{display:none}}
 </style>
+<style>
+/* Soft patches of pink continue across the entire page */
+body{background:#fff5f8;position:relative;isolation:isolate}
+.site-color-clouds{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:radial-gradient(ellipse 430px 380px at 8% 7%,#ffd9e7 0%,transparent 76%),radial-gradient(ellipse 500px 440px at 92% 16%,#ffd2e2 0%,transparent 76%),radial-gradient(ellipse 440px 330px at 44% 35%,#ffe1ec 0%,transparent 78%),radial-gradient(ellipse 480px 420px at 2% 54%,#ffd6e5 0%,transparent 78%),radial-gradient(ellipse 420px 360px at 95% 62%,#ffdbe8 0%,transparent 78%),radial-gradient(ellipse 480px 380px at 47% 82%,#ffdaea 0%,transparent 80%),radial-gradient(ellipse 400px 320px at 4% 100%,#ffe0eb 0%,transparent 80%),radial-gradient(ellipse 380px 320px at 94% 100%,#ffd9e7 0%,transparent 80%)}
+.hero::before,.hero::after{display:none}
+footer{border-top:0;background:transparent}
+@media(max-width:600px){.site-color-clouds{background-size:160% 100%;background-position:center}}
+</style>
 </head>
 <body>
+<div class="site-color-clouds" aria-hidden="true"></div>
 <div class="site-petals" aria-hidden="true"></div>
 
 <svg width="0" height="0" style="position:absolute">
