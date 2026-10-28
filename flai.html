@@ -355,6 +355,27 @@ nav{background:rgba(238,250,241,.8)}
 .age .no{background:#eef4f0;color:#4f6b58}
 body.locked{overflow:hidden}
 </style>
+<style>
+/* FLAI whale header */
+.prof{background:linear-gradient(180deg,#36b85a 0%,#5fcf74 60%,#7ddc8c 100%)!important}
+.prof::after{display:none}
+.prof .ey{color:#eafff0!important}
+.prof h1,.prof .stats b{color:#fff;text-shadow:0 2px 14px rgba(0,60,20,.25)}
+.prof h1 small,.prof .stats span{color:#e6fbe9!important}
+.prof p{color:#f2fff4!important}
+.prof .av{border-color:rgba(255,255,255,.7)!important;box-shadow:0 10px 30px rgba(0,70,25,.25)}
+.prof .fbtn:not(.ghost){background:#fff;color:#1f9a4c}
+.prof .fbtn.ghost{border-color:rgba(255,255,255,.7);color:#fff}
+.whale{position:absolute;right:4%;top:50%;transform:translateY(-50%);width:min(380px,42%);pointer-events:none;z-index:0;opacity:.95}
+.whale .sw{animation:swim 6s ease-in-out infinite;transform-origin:center}
+.whale .tw{animation:twinkle 3.2s ease-in-out infinite}
+.whale .tw2{animation:twinkle 3.2s ease-in-out infinite 1.4s}
+@keyframes swim{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+.bub{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);pointer-events:none;animation:rise 9s linear infinite}
+@keyframes rise{from{transform:translateY(40px);opacity:0}20%{opacity:1}to{transform:translateY(-260px);opacity:0}}
+@media(max-width:760px){.whale{position:relative;right:auto;top:auto;transform:none;width:70%;margin:-10px auto 0;display:block;order:-1}.prof{display:flex!important;flex-direction:column}}
+</style>
 </head>
 <body>
 
@@ -391,7 +412,25 @@ body.locked{overflow:hidden}
 <main class="wrap fr-hero">
   <a href="index.html" class="back">← 回首頁</a>
   <section class="prof reveal">
-    <img class="av" src="https://img.imgcd.com/cdn-cgi/imagedelivery/AaqG8Mefo3pS9ERxqUm9Cg/1393440_1_zdnj_qctf_yrpo/public" alt="月月 頭像">
+    <svg class="whale" viewBox="0 0 400 300" aria-hidden="true">
+      <defs>
+        <filter id="glw" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e3fbe8"/></linearGradient>
+        <linearGradient id="rf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      </defs>
+      <g class="sw" filter="url(#glw)">
+        <path d="M70 150 C80 105 150 88 215 98 C255 104 280 120 300 112 C314 106 322 88 340 70 C346 92 338 112 352 124 C336 126 322 128 310 140 C290 166 250 188 190 190 C130 192 78 180 70 150 Z" fill="url(#wg)"/>
+        <path d="M110 168 C140 182 190 184 232 172 C214 190 160 198 122 184 Z" fill="#c9f2d3" opacity=".8"/>
+        <path d="M170 182 C176 204 168 222 150 232 C160 214 158 200 150 188 Z" fill="#fff" opacity=".9"/>
+        <circle cx="112" cy="138" r="5" fill="#2f8f4e"/>
+        <path d="M96 156 C110 164 126 164 138 158" stroke="#9fdcae" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+      <g class="tw" fill="#fff" filter="url(#glw)"><path d="M78 62 c6 -14 12 -14 18 0 c14 6 14 12 0 18 c-6 14 -12 14 -18 0 c-14 -6 -14 -12 0 -18z"/></g>
+      <g class="tw2" fill="#fff"><circle cx="108" cy="92" r="4"/><circle cx="356" cy="46" r="3"/><circle cx="60" cy="110" r="2.5"/></g>
+      <path d="M70 230 C90 260 170 266 230 258 C270 252 300 244 330 236 C300 280 160 292 90 262 Z" fill="url(#rf)"/>
+    </svg>
+    <span class="bub" style="width:10px;height:10px;left:62%;bottom:10px"></span><span class="bub" style="width:6px;height:6px;left:72%;bottom:0;animation-delay:3s"></span><span class="bub" style="width:8px;height:8px;left:84%;bottom:20px;animation-delay:6s"></span>
+    <img class="av" style="position:relative;z-index:1" src="https://img.imgcd.com/cdn-cgi/imagedelivery/AaqG8Mefo3pS9ERxqUm9Cg/1393440_1_zdnj_qctf_yrpo/public" alt="月月 頭像">
     <div style="position:relative;z-index:1">
       <div class="ey">FLAI Creator · AI 互動模板作者</div>
       <h1>月月<small>＝ 花花 Jasmine</small></h1>
