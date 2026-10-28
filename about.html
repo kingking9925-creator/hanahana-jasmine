@@ -339,6 +339,32 @@ footer{border-color:rgba(74,32,51,.12)}
 .a-cta a:hover{background:#ff8fb1;color:#fff;transform:translateY(-3px)}
 @media(max-width:900px){.grp,.certs{grid-template-columns:1fr}.cv div{grid-template-columns:1fr;gap:4px}}
 </style>
+<style>
+/* about hero figure */
+.a-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;text-align:left;padding-top:140px}
+.a-left{animation:aIn .9s cubic-bezier(.2,.8,.2,1) both}
+.a-hero .a-edu{justify-content:flex-start}
+@keyframes aIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.a-fig{position:relative;display:grid;place-items:center;min-height:460px}
+.a-blob{position:absolute;width:92%;aspect-ratio:1;border-radius:46% 54% 50% 50%/54% 46% 54% 46%;background:radial-gradient(circle at 42% 38%,#ffd0e0,#ffb3cd 48%,rgba(255,179,205,0) 76%);filter:blur(2px);animation:blob 12s ease-in-out infinite}
+@keyframes blob{0%,100%{border-radius:46% 54% 50% 50%/54% 46% 54% 46%;transform:scale(1) rotate(0)}50%{border-radius:54% 46% 44% 56%/46% 56% 44% 54%;transform:scale(1.05) rotate(6deg)}}
+.a-ring{position:absolute;width:76%;aspect-ratio:1;border-radius:50%;border:2px dashed rgba(240,98,146,.35);animation:spin 44s linear infinite}
+.a-char{position:relative;z-index:2;width:84%;max-width:380px;height:auto;filter:drop-shadow(0 26px 34px rgba(166,60,104,.26));animation:aIn 1s .12s cubic-bezier(.2,.8,.2,1) both,bob 6.5s 1.1s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.a-tag{position:absolute;z-index:3;background:rgba(255,255,255,.94);border:1.5px solid #ffd0e0;color:#8a3a5c;font-size:13px;font-weight:800;padding:8px 16px;border-radius:999px;box-shadow:0 12px 24px -14px rgba(166,60,104,.8);white-space:nowrap;animation:bob 5s ease-in-out infinite}
+.a-tag.t1{top:9%;left:-2%;animation-delay:-.6s}
+.a-tag.t2{top:44%;right:1%;animation-delay:-2.2s}
+.a-tag.t3{bottom:12%;left:2%;animation-delay:-3.6s}
+.a-pt i{position:absolute;top:-4%;width:13px;height:10px;background:linear-gradient(135deg,#ffd6e2,#ff9fbd);border-radius:12px 1px 12px 1px;z-index:3;opacity:0;animation:aPetal 10s linear infinite}
+.a-pt i:nth-child(1){left:12%}
+.a-pt i:nth-child(2){left:34%;animation-delay:2.4s;animation-duration:12s}
+.a-pt i:nth-child(3){left:58%;animation-delay:4.6s}
+.a-pt i:nth-child(4){left:78%;animation-delay:1.2s;animation-duration:11s}
+.a-pt i:nth-child(5){left:92%;animation-delay:6.8s}
+@keyframes aPetal{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:.9}100%{transform:translateY(520px) translateX(-54px) rotate(420deg);opacity:0}}
+@media(max-width:900px){.a-hero{grid-template-columns:1fr;text-align:center;gap:10px;padding-top:120px}.a-hero .a-edu{justify-content:center}.a-fig{order:-1;min-height:360px}.a-char{max-width:260px}.a-tag{font-size:12px;padding:6px 13px}.a-tag.t1{left:0}.a-tag.t2{right:0}}
+@media(prefers-reduced-motion:reduce){.a-left,.a-char,.a-blob,.a-ring,.a-tag,.a-pt i{animation:none!important}.a-pt{display:none}}
+</style>
 </head>
 <body>
 
@@ -363,11 +389,22 @@ footer{border-color:rgba(74,32,51,.12)}
     <a href="about.html" class="on" aria-current="page">關於我</a><a href="works.html">作品</a><a href="services.html">服務</a><a href="frontia.html">FRONTIA</a><a href="quarterfull.html">QUARTERFULL</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="contact.html" class="nav-cta">找我合作</a>
   </div>
 </nav>
-<header class="page-hero wrap">
-  <a href="index.html" class="back">← 回首頁</a>
-  <div class="eyebrow">About · 關於我</div>
-  <h1 class="a-name a-en-main">Jasmine Liu</h1>
-  <div class="a-edu"><span>景文科技大學</span><span>行動商務與多媒體應用系</span><span>商學學士</span><span>2020.06 畢業</span></div>
+<header class="page-hero wrap a-hero">
+  <div class="a-left">
+    <a href="index.html" class="back">← 回首頁</a>
+    <div class="eyebrow">About · 關於我</div>
+    <h1 class="a-name a-en-main">Jasmine Liu</h1>
+    <div class="a-edu"><span>景文科技大學</span><span>行動商務與多媒體應用系</span><span>商學學士</span><span>2020.06 畢業</span></div>
+  </div>
+  <div class="a-fig" aria-hidden="false">
+    <span class="a-blob"></span>
+    <span class="a-ring"></span>
+    <img class="a-char" src="jasmine-about.png" alt="Jasmine 的角色插圖：抱著繪圖平板的粉色短髮設計師" width="760" height="1013">
+    <span class="a-tag t1">✦ 品牌行銷</span>
+    <span class="a-tag t2">✿ 視覺設計</span>
+    <span class="a-tag t3">◆ GEO</span>
+    <span class="a-pt"><i></i><i></i><i></i><i></i><i></i></span>
+  </div>
 </header>
 
 <main class="wrap">
