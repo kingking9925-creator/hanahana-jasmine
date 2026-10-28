@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>關於我｜花花 Jasmine</title>
+<title>關於我｜Jasmine Liu</title>
 <meta name="description" content="花花 JASMINE 的個人品牌與作品集：平面設計、品牌設計、電商設計、影片剪輯、AI／網頁作品。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -290,6 +290,55 @@ nav{background:rgba(255,245,248,.78)}
 footer{border-color:rgba(74,32,51,.12)}
 ::selection{background:#ffc6d6}
 </style>
+<style>
+/* about page */
+.page-hero{min-height:auto!important;padding-bottom:4px}
+.a-en-main{font-family:var(--display)!important;font-style:italic;font-weight:600;letter-spacing:-.01em}
+.a-name{font-family:var(--serif);font-weight:900;font-size:clamp(40px,6vw,72px);line-height:1.1;margin:8px 0 4px}
+.a-en{font-family:var(--display);font-style:italic;font-size:clamp(20px,2.6vw,30px);color:#f06292;letter-spacing:.04em}
+.a-edu{display:inline-flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.a-edu span{font-size:13px;background:#fff;border:1.5px solid #f8c6d8;color:#8a4766;padding:7px 15px;border-radius:999px}
+.c-sec{margin:60px 0}
+.c-h{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:26px;flex-wrap:wrap}
+.c-h .n{font-family:var(--display);font-style:italic;color:#f06292;font-size:20px}
+.c-h h2{font-family:var(--serif);font-size:25px;margin:0}
+.c-h small{color:var(--muted);font-size:14px}
+.bio p{font-size:15.5px;line-height:2;color:#5c3f50;margin:0 0 16px;max-width:76ch}
+.bio p.hi{background:linear-gradient(transparent 68%,#ffd9e6 68%);display:inline-block}
+.tl{position:relative;padding-left:32px}
+.tl::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:linear-gradient(#f8a5c0,#ffe0ea)}
+.job{position:relative;margin-bottom:26px;background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 14%,#fff);border-radius:22px;padding:22px 26px}
+.job::before{content:"";position:absolute;left:-31px;top:28px;width:14px;height:14px;border-radius:50%;background:#f06292;box-shadow:0 0 0 4px #fff,0 0 0 6px #ffd9e6}
+.job .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:4px}
+.job h3{font-size:17.5px;margin:0}
+.job .ro{font-size:14px;color:#e0558a;font-weight:700;margin:2px 0 10px}
+.job .yr{font-size:13px;font-weight:700;color:#8a6475;background:#ffeaf1;padding:4px 12px;border-radius:999px;flex:none}
+.job p{font-size:14px;line-height:1.95;color:var(--muted);margin:0}
+.cv{display:grid;gap:9px}
+.cv div{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:baseline;padding:11px 18px;background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 12%,#fff);border-radius:14px;transition:.25s}
+.cv div:hover{border-color:#f8a5c0;transform:translateX(4px)}
+.cv b{font-family:var(--display);font-style:italic;color:#e0558a;font-size:15px}
+.cv span{font-size:14.2px;line-height:1.7}
+.cv div.win{background:linear-gradient(100deg,#fff5f8,#ffe3ee);border-color:#f8a5c0}
+.cv div.win span::after{content:"♕";margin-left:8px;color:#f0a830}
+.grp{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gcard{background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 14%,#fff);border-radius:20px;padding:20px 22px}
+.gcard h3{font-size:15px;margin:0 0 12px;color:#8a4766}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chips span{font-size:13px;background:#fff;border:1.5px solid #ffd9e6;color:#5c3f50;padding:5px 13px;border-radius:999px;transition:.22s}
+.chips span:hover{background:#f06292;border-color:#f06292;color:#fff;transform:translateY(-2px)}
+.chips.wide{gap:8px}
+.certs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.cert{display:flex;gap:12px;align-items:center;background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 12%,#fff);border-radius:16px;padding:14px 18px;font-size:14px;transition:.25s}
+.cert:hover{border-color:#f8a5c0;transform:translateY(-3px)}
+.cert i{font-style:normal;width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#ffd93b,#ffa31a);color:#fff;display:grid;place-items:center;font-size:14px;flex:none;font-weight:800}
+.a-cta{margin:70px 0 90px;background:linear-gradient(135deg,#4a2033,#8a3a5c);color:#ffeaf1;border-radius:32px;padding:42px;display:flex;justify-content:space-between;align-items:center;gap:22px;flex-wrap:wrap}
+.a-cta h3{font-family:var(--serif);font-size:26px;margin:0;color:#fff}
+.a-cta p{margin:6px 0 0;font-size:14px;color:#e4bccd}
+.a-cta a{background:#fff;color:#8a3a5c;font-weight:800;padding:14px 28px;border-radius:999px;font-size:15px;transition:.25s;flex:none}
+.a-cta a:hover{background:#ff8fb1;color:#fff;transform:translateY(-3px)}
+@media(max-width:900px){.grp,.certs{grid-template-columns:1fr}.cv div{grid-template-columns:1fr;gap:4px}}
+</style>
 </head>
 <body>
 
@@ -314,13 +363,101 @@ footer{border-color:rgba(74,32,51,.12)}
     <a href="about.html" class="on" aria-current="page">關於我</a><a href="works.html">作品</a><a href="services.html">服務</a><a href="frontia.html">FRONTIA</a><a href="quarterfull.html">QUARTERFULL</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="contact.html" class="nav-cta">找我合作</a>
   </div>
 </nav>
-<header class="page-hero wrap" style="min-height:70vh">
+<header class="page-hero wrap">
   <a href="index.html" class="back">← 回首頁</a>
   <div class="eyebrow">About · 關於我</div>
-  <h1>關於我</h1>
-  <p>內容準備中，敬請期待 ✿</p>
+  <h1 class="a-name a-en-main">Jasmine Liu</h1>
+  <div class="a-edu"><span>景文科技大學</span><span>行動商務與多媒體應用系</span><span>商學學士</span><span>2020.06 畢業</span></div>
 </header>
+
+<main class="wrap">
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">01</span><h2>個人簡介</h2><small>品牌行銷 · 視覺設計 · GEO</small></div>
+    <div class="bio reveal">
+      <p>具備多年品牌行銷、視覺設計、活動企劃及專案管理經驗，曾擔任網路多媒體設計部經理、總監秘書及行銷設計師，累積跨領域的實務經驗。熟悉從企劃發想、視覺設計、內容製作到實際執行的完整流程，能夠整合品牌需求、行銷策略與設計表現，將創意轉化為具體成果。</p>
+      <p class="hi">特別擅長 GEO（生成式引擎優化），熟悉 AI 搜尋環境下的品牌曝光策略、網站內容架構、搜尋意圖分析及 AI 友善內容規劃，能結合 SEO 搜尋引擎優化與品牌資訊整合，提升品牌在生成式 AI 搜尋結果中的可見度與被引用機會。</p>
+      <p>同時具備電商平台管理、網站內容維護、平面設計、多媒體製作及 AI 工具應用能力。過往曾參與國際競賽、大型活動與產業展覽，擁有跨部門溝通、對外協調及專案執行經驗。</p>
+      <p>期望持續朝品牌行銷企劃、數位行銷及專案整合方向發展，結合 GEO 專業、創意設計與數位行銷能力，協助企業提升品牌影響力與市場競爭力。</p>
+    </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">02</span><h2>工作經歷</h2><small>從門市營運到品牌行銷設計</small></div>
+    <div class="tl">
+      <article class="job reveal"><div class="top"><h3>達億新創有限公司</h3><span class="yr">2026.03–11</span></div><div class="ro">行銷設計師</div><p>負責公司品牌行銷視覺設計與數位內容製作，包含產品宣傳廣告、活動主視覺、社群圖文、電商商品頁及各式行銷素材，並參與品牌促銷活動與展覽宣傳規劃。同時協助官網內容維護、產品文案撰寫、SEO／GEO 搜尋內容規劃，以及電商平台商品管理、訂單處理與客戶服務。另負責產品影片封面及影音素材製作，並與業務、工程及倉儲部門協作，整合產品資訊與行銷需求。</p></article>
+      <article class="job reveal"><div class="top"><h3>蓁蔇國際行銷顧問有限公司</h3><span class="yr">2018–2026.01</span></div><div class="ro">網路多媒體設計部經理兼總監秘書</div><p>負責網路行銷企劃、品牌宣傳與多媒體視覺設計，包含活動海報、廣告素材及各類宣傳內容製作，並參與國際競賽及大型活動的策劃與執行。任職期間協助總監與理事長進行對外聯繫及專案協調，合作對象涵蓋廠商、學校、活動場地及政府行政單位，負責活動接洽、行政流程、資料整合與相關溝通事務，同時支援基礎帳務整理、理帳及查帳工作。</p></article>
+      <article class="job reveal"><div class="top"><h3>品登藝術指甲店</h3><span class="yr">2015–2017</span></div><div class="ro">店長</div><p>負責門市日常營運管理、客戶關係維護及服務品質管理，並依據公司發展方向規劃員工培訓、工作安排與業務推廣。任職期間參與學校產業合作規劃，推動專業人才培育及相關合作事務，協助提升團隊工作效率、門市業績與品牌知名度。</p></article>
+    </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">03</span><h2>資歷</h2><small>競賽、活動策劃與展出</small></div>
+    <div class="cv">
+      <div class="reveal"><b>2026.08</b><span>3D 列印產業展覽協助展出</span></div>
+      <div class="reveal"><b>2024</b><span>美國 MNS 國際異國創意料理達人選拔大賽活動策劃</span></div>
+      <div class="reveal"><b>2024</b><span>美國 MNS 馬來西亞菁英盃競賽執行策劃</span></div>
+      <div class="reveal"><b>2024</b><span>美國密西根 MNS 第 19 屆國際菁英盃競賽執行策劃</span></div>
+      <div class="reveal"><b>2024</b><span>1117 TICCPA 國際菁英盃競賽活動策劃</span></div>
+      <div class="reveal"><b>2023</b><span>醒吾科技大學 C 級飲品雕藝師研習講師助理</span></div>
+      <div class="reveal"><b>2023</b><span>TICCPA 國際菁英盃競賽執行策劃</span></div>
+      <div class="reveal"><b>2023</b><span>台灣國際文創推展協會第二屆理事</span></div>
+      <div class="reveal"><b>2019–2023</b><span>台灣國際文創推展協會第一屆理事</span></div>
+      <div class="reveal win"><b>2019</b><span>NAIL SPORTS 國際菁英盃競賽 創意 LINE 貼圖設計冠軍</span></div>
+      <div class="reveal"><b>2015</b><span>財政部北區國稅局中和稽徵所藝文走廊畫作展出</span></div>
+      <div class="reveal win"><b>2014</b><span>中和燈會比賽 小型主題花燈類亞軍</span></div>
+      <div class="reveal"><b>2014</b><span>財團法人新光人壽獎學金基金會 品學兼優獎助學金</span></div>
+    </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">04</span><h2>電商平台應用</h2><small>上架、商品管理與訂單處理</small></div>
+    <div class="chips wide reveal"><span>Shopee 蝦皮購物</span><span>momo 購物網</span><span>SHOPSTORE</span><span>Coupang 酷澎</span><span>CYBERBIZ</span></div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">05</span><h2>軟體應用</h2></div>
+    <div class="grp">
+        <div class="gcard reveal"><h3>平面設計與影像處理</h3><div class="chips"><span>Adobe Photoshop</span><span>Adobe Illustrator</span><span>Canva</span><span>photoGrid</span></div></div>
+        <div class="gcard reveal"><h3>影片剪輯與動畫製作</h3><div class="chips"><span>CapCut</span><span>剪映</span><span>小影</span><span>Adobe Animate</span></div></div>
+        <div class="gcard reveal"><h3>網站建置與管理</h3><div class="chips"><span>GitHub</span><span>WordPress</span></div></div>
+    </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">06</span><h2>社交平台</h2><small>內容經營與社群操作</small></div>
+    <div class="chips wide reveal"><span>Facebook</span><span>Instagram</span><span>Threads</span><span>抖音</span><span>TikTok</span><span>YouTube</span><span>LINE</span><span>小紅書</span><span>百度貼吧</span><span>Dcard</span><span>Discord</span><span>KOOK</span><span>巴哈姆特</span></div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">07</span><h2>AI 工具應用</h2><small>文字、圖像、影音與音樂生成</small></div>
+    <div class="chips wide reveal"><span>ChatGPT</span><span>Claude</span><span>Grok</span><span>FLAI</span><span>Frontia</span><span>豆包</span><span>即夢</span><span>Tavo</span><span>酒館</span><span>MJ</span><span>Suno</span><span>Deevid</span><span>Canvas</span><span>汽水音樂</span><span>Gemini</span><span>PixAI</span></div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">08</span><h2>專業證照</h2></div>
+    <div class="certs">
+        <div class="cert reveal"><i>✓</i><span>中華民國技術士證－印前製程（圖文組版）MAC 丙級</span></div>
+        <div class="cert reveal"><i>✓</i><span>電子商務標準級 E-Commerce (Core)</span></div>
+        <div class="cert reveal"><i>✓</i><span>Word 2010 專業級（Expert）</span></div>
+        <div class="cert reveal"><i>✓</i><span>Excel 2010 專業級（Expert）</span></div>
+        <div class="cert reveal"><i>✓</i><span>PowerPoint 2010 專業級（Expert）</span></div>
+        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS C 級飲品雕藝師</span></div>
+        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS B 級飲品雕藝師</span></div>
+        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS C 級凝膠美甲師</span></div>
+        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS B 級凝膠美甲師</span></div>
+        <div class="cert reveal"><i>✓</i><span>美國密西根 MNS C 級美睫師</span></div>
+        <div class="cert reveal"><i>✓</i><span>校園英語檢定測驗通過</span></div>
+    </div>
+  </section>
+
+  <section class="a-cta reveal">
+    <div><h3>想找我做點什麼嗎？</h3><p>品牌識別、社群圖文、電商素材、影片剪輯與網站設計都可以聊聊。</p></div>
+    <a href="contact.html">找我合作 →</a>
+  </section>
+</main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div></footer>
-<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+<script>document.getElementById('y').textContent=new Date().getFullYear();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.06});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));</script>
 </body>
 </html>
