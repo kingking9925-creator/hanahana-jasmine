@@ -376,6 +376,25 @@ footer{border-color:rgba(74,32,51,.12)}
 @keyframes aboutCtaGlow{to{transform:translate(120px,70px) scale(1.2)}}
 @media(prefers-reduced-motion:reduce){.a-cta,.a-cta::before,.a-cta::after{animation:none!important}}
 </style>
+<style>
+.a-cta::before{top:-210px;left:-90px;opacity:.65}
+.a-cta::after{bottom:-220px;right:-70px;opacity:.6}
+.a-cta .cta-flower{position:absolute;z-index:0;color:#ffd9e6;pointer-events:none;line-height:1;font-size:64px;opacity:.18;left:49%;top:18%;animation:ctaFlowerFloat 9s ease-in-out infinite}
+.a-cta .cta-flower.second{left:76%;top:56%;font-size:32px;animation-duration:12s;animation-delay:-4s}
+.a-cta .cta-flower.third{left:6%;top:65%;font-size:24px;opacity:.12;animation-duration:10s;animation-delay:-6s}
+@keyframes ctaFlowerFloat{0%,100%{transform:translate(0,0) rotate(-15deg)}50%{transform:translate(22px,-24px) rotate(35deg)}}
+@media(prefers-reduced-motion:reduce){.a-cta .cta-flower{animation:none!important}}
+</style>
+<style>
+/* Introduction cards match the resume sections */
+.bio{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.bio-card{background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 14%,#fff);border-radius:22px;padding:26px 28px}
+.bio-card h3{display:flex;align-items:center;gap:10px;font-size:17px;color:#8a4766;margin:0 0 14px;font-family:var(--serif)}
+.bio-card h3::before{content:"";width:7px;height:7px;border-radius:50%;background:#f06292;flex:none;box-shadow:0 0 0 4px #ffeaf1}
+.bio .bio-card p{font-size:14.5px;line-height:1.95;color:var(--muted);margin:0;max-width:none}
+.bio-card:nth-child(2){background:linear-gradient(135deg,#fffafc,#fff0f5);border-color:#f8c6d8}
+@media(max-width:760px){.bio{grid-template-columns:1fr;gap:14px}.bio-card{padding:22px 24px}}
+</style>
 </head>
 <body>
 
@@ -420,10 +439,10 @@ footer{border-color:rgba(74,32,51,.12)}
   <section class="c-sec">
     <div class="c-h reveal"><span class="n">01</span><h2>個人簡介</h2><small>品牌行銷 · 視覺設計 · GEO</small></div>
     <div class="bio reveal">
-      <p>具備多年品牌行銷、視覺設計、活動企劃及專案管理經驗，曾擔任網路多媒體設計部經理、總監秘書及行銷設計師，累積跨領域的實務經驗。熟悉從企劃發想、視覺設計、內容製作到實際執行的完整流程，能夠整合品牌需求、行銷策略與設計表現，將創意轉化為具體成果。</p>
-      <p>特別擅長 GEO（生成式引擎優化），熟悉 AI 搜尋環境下的品牌曝光策略、網站內容架構、搜尋意圖分析及 AI 友善內容規劃，能結合 SEO 搜尋引擎優化與品牌資訊整合，提升品牌在生成式 AI 搜尋結果中的可見度與被引用機會。</p>
-      <p>同時具備電商平台管理、網站內容維護、平面設計、多媒體製作及 AI 工具應用能力。過往曾參與國際競賽、大型活動與產業展覽，擁有跨部門溝通、對外協調及專案執行經驗。</p>
-      <p>期望持續朝品牌行銷企劃、數位行銷及專案整合方向發展，結合 GEO 專業、創意設計與數位行銷能力，協助企業提升品牌影響力與市場競爭力。</p>
+      <article class="bio-card"><h3>品牌行銷與專案整合</h3><p>具備多年品牌行銷、視覺設計、活動企劃及專案管理經驗，曾擔任網路多媒體設計部經理、總監秘書及行銷設計師，累積跨領域的實務經驗。熟悉從企劃發想、視覺設計、內容製作到實際執行的完整流程，能夠整合品牌需求、行銷策略與設計表現，將創意轉化為具體成果。</p></article>
+      <article class="bio-card"><h3>GEO 與 AI 搜尋優化</h3><p>特別擅長 GEO（生成式引擎優化），熟悉 AI 搜尋環境下的品牌曝光策略、網站內容架構、搜尋意圖分析及 AI 友善內容規劃，能結合 SEO 搜尋引擎優化與品牌資訊整合，提升品牌在生成式 AI 搜尋結果中的可見度與被引用機會。</p></article>
+      <article class="bio-card"><h3>跨領域實務經驗</h3><p>同時具備電商平台管理、網站內容維護、平面設計、多媒體製作及 AI 工具應用能力。過往曾參與國際競賽、大型活動與產業展覽，擁有跨部門溝通、對外協調及專案執行經驗。</p></article>
+      <article class="bio-card"><h3>職涯方向</h3><p>期望持續朝品牌行銷企劃、數位行銷及專案整合方向發展，結合 GEO 專業、創意設計與數位行銷能力，協助企業提升品牌影響力與市場競爭力。</p></article>
     </div>
   </section>
 
@@ -499,6 +518,7 @@ footer{border-color:rgba(74,32,51,.12)}
   </section>
 
   <section class="a-cta reveal">
+    <span class="cta-flower" aria-hidden="true">✿</span><span class="cta-flower second" aria-hidden="true">✿</span><span class="cta-flower third" aria-hidden="true">✿</span>
     <div><h3>想找我做點什麼嗎？</h3><p>品牌識別、社群圖文、電商素材、影片剪輯與網站設計都可以聊聊。</p></div>
     <a href="contact.html">找我合作 →</a>
   </section>
