@@ -394,8 +394,9 @@ footer{border-color:rgba(74,32,51,.12)}
 @media(max-width:600px){.bio{padding:24px}.bio p{font-size:14px;margin-bottom:18px}}
 </style>
 <style>
-.a-left .a-name::after{content:"";display:block;width:76px;height:7px;border-radius:999px;background:#f06292;margin-top:26px}
-@media(max-width:900px){.a-left .a-name::after{margin-inline:auto}}
+.a-left .a-name{width:fit-content;max-width:100%}
+.a-left .a-name::after{content:"";display:block;width:100px;height:7px;border-radius:999px;background:linear-gradient(90deg,transparent,#f06292 35%,#f06292 65%,transparent);margin:26px auto 0}
+@media(max-width:900px){.a-left .a-name{margin-inline:auto}}
 </style>
 </head>
 <body>
