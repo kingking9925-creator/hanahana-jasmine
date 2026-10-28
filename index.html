@@ -306,6 +306,28 @@ footer{border-color:rgba(74,32,51,.12)}
 .rb .r3 b{position:absolute;right:-1.1em;top:-.55em;font-size:.6em;color:#ff8fb1;animation:spin 8s linear infinite;display:inline-block}
 @media(max-width:900px){.hero h1.rb{align-items:center}.rb .r2{padding-left:0}.rb .r2::before{content:"";width:60px;height:2px;border-radius:2px;background:linear-gradient(270deg,#ff7aa2,rgba(255,122,162,0))}.rb .r2::after{width:60px}}
 </style>
+<style>
+/* hero art motion */
+.hero-portrait{perspective:900px;transform-style:preserve-3d;transition:transform .25s ease-out;will-change:transform}
+.fx-wrap{position:absolute;inset:0;border-radius:inherit;overflow:hidden;isolation:isolate}
+.fx-wrap .hero-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%;animation:kb 14s ease-in-out infinite alternate;transform-origin:50% 55%}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.06) translateY(-1%)}}
+.steam{position:absolute;left:43%;top:47%;width:16%;height:8%;z-index:2}
+.steam i{position:absolute;bottom:0;width:22%;height:100%;border-radius:50%;background:radial-gradient(ellipse at 50% 60%,rgba(255,255,255,.75),rgba(255,255,255,0) 65%);filter:blur(4px);opacity:0;animation:steam 3.6s ease-in infinite}
+.steam i:nth-child(1){left:10%}.steam i:nth-child(2){left:40%;animation-delay:1.2s}.steam i:nth-child(3){left:70%;animation-delay:2.4s}
+@keyframes steam{0%{transform:translateY(20%) scaleX(.8);opacity:0}25%{opacity:.55}100%{transform:translateY(-70%) translateX(10%) scaleX(1.4);opacity:0}}
+.hearts{position:absolute;left:64%;top:52%;z-index:2}
+.hearts b{position:absolute;color:#ff7aa2;font-size:18px;opacity:0;text-shadow:0 2px 6px rgba(240,98,146,.4);animation:heart 4.5s ease-out infinite}
+.hearts b:nth-child(2){left:22px;font-size:13px;animation-delay:1.5s}.hearts b:nth-child(3){left:-20px;font-size:15px;animation-delay:3s}
+@keyframes heart{0%{transform:translateY(0) scale(.4);opacity:0}15%{opacity:1;transform:translateY(-12px) scale(1)}100%{transform:translateY(-70px) translateX(30px) scale(.8);opacity:0}}
+.petals i{position:absolute;top:-8%;width:14px;height:11px;background:linear-gradient(135deg,#ffd6e2,#ff9fbd);border-radius:12px 1px 12px 1px;opacity:.9;z-index:3;animation:petal 9s linear infinite}
+.petals i:nth-child(1){left:8%;animation-delay:0s}.petals i:nth-child(2){left:28%;animation-delay:2.2s;animation-duration:11s}.petals i:nth-child(3){left:52%;animation-delay:4.1s}
+.petals i:nth-child(4){left:72%;animation-delay:1.1s;animation-duration:10s}.petals i:nth-child(5){left:88%;animation-delay:5.5s}.petals i:nth-child(6){left:40%;animation-delay:7s;animation-duration:12s}.petals i:nth-child(7){left:64%;animation-delay:8.3s}
+@keyframes petal{0%{transform:translateY(0) translateX(0) rotate(0);opacity:0}8%{opacity:.95}100%{transform:translateY(560px) translateX(-50px) rotate(400deg);opacity:0}}
+.shine{position:absolute;inset:0;z-index:4;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-120%);animation:shine 7s ease-in-out infinite;mix-blend-mode:soft-light}
+@keyframes shine{0%,70%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@media(prefers-reduced-motion:reduce){.fx-wrap *{animation:none!important}.steam,.hearts,.petals,.shine{display:none}}
+</style>
 </head>
 <body>
 
@@ -346,7 +368,13 @@ footer{border-color:rgba(74,32,51,.12)}
       </div>
     </div>
     <div class="portrait hero-portrait">
-      <img class="hero-art" src="hanahana.jpg" alt="韓漫風花花：捧著小熊拉花拿鐵的粉髮女孩" width="880" height="1099">
+      <div class="fx-wrap">
+        <img class="hero-art" src="hanahana.jpg?v=3" alt="韓漫風花花：雙手捧著立體奶泡小熊咖啡的粉色短髮女孩" width="880" height="1099">
+        <div class="steam" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="hearts" aria-hidden="true"><b>♥</b><b>♥</b><b>♥</b></div>
+        <div class="petals" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="shine" aria-hidden="true"></div>
+      </div>
       <svg class="hero-mini" viewBox="0 0 100 100" aria-hidden="true"><use href="#jasmine"/></svg>
       <div class="sticker s1">☕ 咖啡續命中</div>
       <div class="sticker s2">✨ 今日也在發光</div>
@@ -414,6 +442,11 @@ document.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{
   const f=b.dataset.f;
   document.querySelectorAll('.work').forEach(w=>w.classList.toggle('hide',f!=='all'&&w.dataset.c!==f));
 });
+</script>
+<script>
+(function(){var p=document.querySelector('.hero-portrait');if(!p||matchMedia('(hover:none)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+p.addEventListener('mousemove',function(e){var r=p.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;p.style.transform='rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg) translateZ(0)'});
+p.addEventListener('mouseleave',function(){p.style.transform=''});})();
 </script>
 </body>
 </html>
