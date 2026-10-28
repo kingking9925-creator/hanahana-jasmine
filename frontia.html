@@ -336,6 +336,26 @@ nav{background:rgba(238,244,255,.78)}
 .about-fr{background:linear-gradient(135deg,#0b1736,#1e4bb8)}
 footer{border-color:rgba(15,31,69,.12)}
 </style>
+<style>
+/* Frontia stage decor */
+.prof,.about-fr{position:relative;overflow:hidden}
+.prof>img,.prof>div,.about-fr>div{position:relative;z-index:1}
+.stage{position:absolute;right:2%;top:50%;transform:translateY(-50%);width:min(430px,42%);pointer-events:none;z-index:0;-webkit-mask-image:radial-gradient(ellipse 62% 66% at 50% 50%,#000 45%,transparent 100%);mask-image:radial-gradient(ellipse 62% 66% at 50% 50%,#000 45%,transparent 100%)}
+.stage .beam{animation:beam 5s ease-in-out infinite;transform-origin:200px 0}
+.stage .beam2{animation:beam 5s ease-in-out infinite reverse;transform-origin:200px 0}
+.stage .bub1{animation:pop 6s ease-in-out infinite}
+.stage .bub2{animation:pop 6s ease-in-out infinite 2s}
+.stage .bub3{animation:pop 6s ease-in-out infinite 4s}
+.stage .tw{animation:twk 3s ease-in-out infinite}.stage .tw2{animation:twk 3s ease-in-out infinite 1.5s}
+@keyframes beam{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes pop{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(-8px)}}
+@keyframes twk{0%,100%{opacity:.25}50%{opacity:1}}
+.paths{position:absolute;left:0;right:0;bottom:0;height:100%;pointer-events:none;z-index:0;opacity:.5}
+.paths .ln{stroke-dasharray:6 8;animation:dash 3s linear infinite}
+.paths .nd{animation:twk 2.6s ease-in-out infinite}
+@keyframes dash{to{stroke-dashoffset:-56}}
+@media(max-width:760px){.stage{position:relative;right:auto;top:auto;transform:none;width:80%;margin:-6px auto 0;display:block}.prof{display:flex!important;flex-direction:column}.paths{opacity:.3}}
+</style>
 </head>
 <body>
 
@@ -363,6 +383,30 @@ footer{border-color:rgba(15,31,69,.12)}
 <main class="wrap fr-hero">
   <a href="index.html" class="back">← 回首頁</a>
   <section class="prof reveal">
+    <svg class="stage" viewBox="0 0 420 320" aria-hidden="true">
+      <defs>
+        <filter id="sg" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="bm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe0ff" stop-opacity=".7"/><stop offset="1" stop-color="#bfe0ff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="flr"><stop offset="0" stop-color="#8fc1ff" stop-opacity=".6"/><stop offset="1" stop-color="#8fc1ff" stop-opacity="0"/></radialGradient>
+        <linearGradient id="ct" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b86ff" stop-opacity=".8"/><stop offset="1" stop-color="#3b86ff" stop-opacity="0"/></linearGradient>
+      </defs>
+      <path class="beam" d="M200 0 L140 270 L260 270 Z" fill="url(#bm)"/>
+      <path class="beam2" d="M200 0 L170 270 L290 270 Z" fill="url(#bm)" opacity=".5"/>
+      <ellipse cx="210" cy="272" rx="150" ry="26" fill="url(#flr)"/>
+      <path d="M40 10 C60 90 50 190 72 300 L20 300 L20 10 Z" fill="url(#ct)" opacity=".75"/>
+      <path d="M380 10 C360 90 370 190 348 300 L400 300 L400 10 Z" fill="url(#ct)" opacity=".75"/>
+      <path d="M40 10 C120 40 300 40 380 10" stroke="#6aa6ff" stroke-width="10" fill="none" stroke-linecap="round" opacity=".45"/>
+      <g filter="url(#sg)">
+        <circle cx="210" cy="210" r="22" fill="#eaf3ff"/>
+        <path d="M200 238 C196 256 194 266 192 272 L228 272 C226 266 224 256 220 238 Z" fill="#eaf3ff"/>
+        <path d="M202 206 L222 214 L202 222 Z" fill="#2f7bff"/>
+      </g>
+      <g class="bub1"><rect x="78" y="112" width="96" height="40" rx="16" fill="#fff" opacity=".95"/><path d="M150 150 l10 14 l4 -14z" fill="#fff"/><circle cx="106" cy="132" r="4" fill="#2f7bff"/><circle cx="126" cy="132" r="4" fill="#2f7bff"/><circle cx="146" cy="132" r="4" fill="#2f7bff"/></g>
+      <g class="bub2"><rect x="262" y="88" width="84" height="34" rx="14" fill="#2f7bff"/><text x="304" y="111" font-size="16" font-weight="800" fill="#fff" text-anchor="middle" font-family="sans-serif">A</text><path d="M276 120 l-8 12 l14 -8z" fill="#2f7bff"/></g>
+      <g class="bub3"><rect x="282" y="140" width="84" height="34" rx="14" fill="#fff"/><text x="324" y="163" font-size="16" font-weight="800" fill="#1b4fc4" text-anchor="middle" font-family="sans-serif">B</text></g>
+      <g class="tw" fill="#d6e8ff"><path d="M110 60 c4 -12 8 -12 12 0 c12 4 12 8 0 12 c-4 12 -8 12 -12 0 c-12 -4 -12 -8 0 -12z"/><circle cx="300" cy="60" r="3"/></g>
+      <g class="tw2" fill="#d6e8ff"><circle cx="90" cy="200" r="2.5"/><circle cx="350" cy="220" r="3"/><path d="M258 196 c2 -7 5 -7 7 0 c7 2 7 5 0 7 c-2 7 -5 7 -7 0 c-7 -2 -7 -5 0 -7z"/></g>
+    </svg>
     <img class="av" src="https://user-assets.frontia.ai/profile-images/6a7891fc8c317a2761c1ede3/47cdc44a-b6b7-41d3-b329-3e3c53042ea6.jpeg" alt="月月 頭像">
     <div style="position:relative;z-index:1">
       <div class="ey">Frontia Creator · AI 互動劇情作者</div>
@@ -387,6 +431,18 @@ footer{border-color:rgba(15,31,69,.12)}
   </section>
 
   <section class="about-fr reveal">
+    <svg class="paths" viewBox="0 0 1100 400" preserveAspectRatio="none" aria-hidden="true">
+      <g fill="none" stroke="#8fc1ff" stroke-width="2" class="ln">
+        <path class="ln" d="M0 330 C140 330 200 300 300 300"/>
+        <path class="ln" d="M300 300 C380 300 420 250 520 250"/>
+        <path class="ln" d="M300 300 C380 300 420 350 520 350"/>
+        <path class="ln" d="M520 250 C600 250 620 200 700 200"/>
+        <path class="ln" d="M520 250 C600 250 620 290 700 290"/>
+        <path class="ln" d="M520 350 C600 350 640 380 720 380"/>
+      </g>
+      <g fill="#cfe4ff" class="nd"><circle cx="300" cy="300" r="6"/><circle cx="520" cy="250" r="6"/><circle cx="520" cy="350" r="6"/><circle cx="700" cy="200" r="5"/><circle cx="700" cy="290" r="5"/><circle cx="720" cy="380" r="5"/></g>
+    </svg>
+    
     <div>
       <div class="ey">WHAT IS FRONTIA</div>
       <h2>Frontia 是什麼？</h2>
