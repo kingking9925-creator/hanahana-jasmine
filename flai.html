@@ -342,6 +342,19 @@ nav{background:rgba(238,250,241,.8)}
 .about-fr .ey{color:#9be8b0}.about-fr p{color:#d0eeda}.feat span{color:#bfe3cb}
 @media(max-width:760px){.st p{display:block;font-size:12.5px}}
 </style>
+<style>
+.age{position:fixed;inset:0;z-index:999;display:grid;place-items:center;padding:20px;background:rgba(8,26,15,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.age.off{display:none}
+.age .box{max-width:420px;width:100%;background:#fff;border-radius:28px;padding:36px 30px;text-align:center;box-shadow:0 40px 80px rgba(0,0,0,.35)}
+.age .ic{width:72px;height:72px;margin:0 auto 16px;border-radius:50%;background:#e8f7ed;color:#1c8a4a;display:grid;place-items:center;font:800 24px var(--sans)}
+.age h2{font-family:var(--serif);font-size:24px;margin:0 0 10px;color:#0f2a1a}
+.age p{font-size:14px;color:#4f6b58;margin:0 0 24px;line-height:1.8}
+.age .bt{display:flex;flex-direction:column;gap:10px}
+.age button,.age a{display:block;padding:13px;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer;border:0;font-family:inherit}
+.age .yes{background:#22b35e;color:#fff}.age .yes:hover{background:#1c9a50}
+.age .no{background:#eef4f0;color:#4f6b58}
+body.locked{overflow:hidden}
+</style>
 </head>
 <body>
 
@@ -360,6 +373,15 @@ nav{background:rgba(238,250,241,.8)}
   </defs>
 </svg>
 
+<div class="age" id="age" role="dialog" aria-modal="true" aria-labelledby="ageT">
+  <div class="box">
+    <div class="ic">18+</div>
+    <h2 id="ageT">成人內容警告</h2>
+    <p>此頁面包含 18 歲以上成人向內容（性暗示、成人題材）。<br>未滿 18 歲請勿進入。</p>
+    <div class="bt"><button class="yes" id="ageYes" type="button">我已滿 18 歲，進入</button><a class="no" href="index.html">未滿 18 歲，返回首頁</a></div>
+  </div>
+</div>
+<script>(function(){var ok=false;try{ok=sessionStorage.getItem('age18')==='1'}catch(e){}var g=document.getElementById('age');if(ok){g.classList.add('off')}else{document.body.classList.add('locked')}document.getElementById('ageYes').onclick=function(){g.classList.add('off');document.body.classList.remove('locked');try{sessionStorage.setItem('age18','1')}catch(e){}}})();</script>
 <nav>
   <a href="index.html" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
   <div class="nav-links">
