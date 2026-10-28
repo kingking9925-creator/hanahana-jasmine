@@ -340,7 +340,9 @@ footer{border-color:rgba(74,32,51,.12)}
 .sc b,.dm-card b{font-size:16px}
 .sc .go{color:var(--c)}
 .sc[style*="#111"] .ic{background:#111}
-.sc[style*="#e6162d"] .ic{background:#fff;border:1.5px solid #ffd1d6}
+.sc[style*="#e6162d"]{--c:#ff9f1a!important}
+.sc[style*="#e6162d"] .ic{background:linear-gradient(145deg,#ffd93b,#ffa31a);border:0}
+.sc[style*="#e6162d"] .ic path{fill:#e6162d}
 .ic .xhs{font-size:11.5px;font-weight:900;letter-spacing:-.02em;color:#fff;line-height:1}
 .dm-card .copy{border-radius:999px;padding:6px 14px;font-weight:800}
 .line-t{display:flex;align-items:center;gap:10px}
