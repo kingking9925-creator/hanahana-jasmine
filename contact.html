@@ -290,6 +290,55 @@ nav{background:rgba(255,245,248,.78)}
 footer{border-color:rgba(74,32,51,.12)}
 ::selection{background:#ffc6d6}
 </style>
+<style>
+/* contact page */
+.page-hero{min-height:auto!important;padding-bottom:10px}
+.c-sec{margin:64px 0}
+.c-h{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:28px;flex-wrap:wrap}
+.c-h .n{font-family:var(--display);font-style:italic;color:#f06292;font-size:20px}
+.c-h h2{font-family:var(--serif);font-size:26px;margin:0}
+.c-h small{color:var(--muted);font-size:14px}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.svc-c{background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 16%,#fff);border-radius:22px;padding:24px;transition:.3s}
+.svc-c:hover{transform:translateY(-5px);border-color:#f8a5c0;box-shadow:0 18px 34px -20px rgba(240,98,146,.6)}
+.svc-c .em{font-size:24px}
+.svc-c h3{font-size:17px;margin:10px 0 6px}
+.svc-c p{font-size:13.5px;color:var(--muted);margin:0 0 14px;line-height:1.75}
+.svc-c .pr{font-size:13px;font-weight:700;color:#e0558a;background:#ffeaf1;padding:5px 12px;border-radius:999px;display:inline-block}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:st}
+.step{position:relative;background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 14%,#fff);border-radius:20px;padding:22px 18px}
+.step::before{counter-increment:st;content:counter(st);position:absolute;top:-13px;left:18px;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#ff8fb1,#f06292);color:#fff;font-weight:800;font-size:14px;display:grid;place-items:center;box-shadow:0 6px 14px -6px rgba(240,98,146,.9)}
+.step b{display:block;font-size:15px;margin:10px 0 6px}
+.step p{font-size:13px;color:var(--muted);margin:0;line-height:1.7}
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.rule{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 14%,#fff);border-radius:18px;padding:18px 20px}
+.rule .k{font-size:20px;flex:none}
+.rule b{display:block;font-size:14.5px;margin-bottom:3px}
+.rule span{font-size:13.5px;color:var(--muted);line-height:1.7}
+.nope{background:linear-gradient(135deg,#4a2033,#7a3352);color:#ffeaf1;border-radius:28px;padding:32px 34px}
+.nope h3{font-family:var(--serif);font-size:21px;margin:0 0 6px;color:#fff}
+.nope .sub{font-size:13.5px;color:#e4bccd;margin:0 0 18px}
+.nope ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px}
+.nope li{font-size:14px;display:flex;gap:10px;align-items:flex-start;line-height:1.7}
+.nope li::before{content:"✕";color:#ff9fbd;font-weight:800;flex:none}
+.start{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.go-card{display:flex;align-items:center;gap:16px;padding:22px 24px;border-radius:24px;color:#fff;font-weight:700;transition:.3s;box-shadow:0 18px 34px -22px rgba(0,0,0,.6)}
+.go-card:hover{transform:translateY(-4px)}
+.go-card .lg{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.18);display:grid;place-items:center;flex:none}
+.go-card .lg svg{width:60%;height:60%;fill:#fff}
+.go-card b{display:block;font-size:18px}
+.go-card span{display:block;font-size:13px;font-weight:500;opacity:.92;margin-top:2px}
+.go-line{background:linear-gradient(135deg,#06c755,#04a446)}
+.go-dc{background:linear-gradient(135deg,#7984f5,#5865f2)}
+.wish{grid-column:1/-1;background:var(--card);border:1.5px dashed #f8a5c0;border-radius:24px;padding:26px 28px}
+.wish h3{font-size:17px;margin:0 0 4px}
+.wish .sub{font-size:13.5px;color:var(--muted);margin:0 0 16px}
+.wish ol{margin:0;padding-left:20px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px 24px}
+.wish li{font-size:14px;line-height:1.75}
+.wish li b{color:#e0558a}
+@media(max-width:900px){.svc-grid{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr);gap:22px 14px}.rules,.nope ul,.start,.wish ol{grid-template-columns:1fr}}
+@media(max-width:560px){.svc-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr;gap:26px}.nope{padding:26px 22px}}
+</style>
 </head>
 <body>
 
@@ -314,13 +363,92 @@ footer{border-color:rgba(74,32,51,.12)}
     <a href="about.html">關於我</a><a href="works.html">作品</a><a href="services.html">服務</a><a href="frontia.html">FRONTIA</a><a href="quarterfull.html">QUARTERFULL</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="contact.html" class="nav-cta on" aria-current="page">找我合作</a>
   </div>
 </nav>
-<header class="page-hero wrap" style="min-height:70vh">
+<header class="page-hero wrap">
   <a href="index.html" class="back">← 回首頁</a>
   <div class="eyebrow">Contact · 找我合作</div>
-  <h1>找我合作</h1>
-  <p>內容準備中，敬請期待 ✿</p>
+  <h1>找我<em>合作</em></h1>
+  <p>有案子、有想法，或只是想打聲招呼都歡迎。<br>下面把我接什麼、怎麼進行、要準備什麼都寫清楚了。</p>
 </header>
+
+<main class="wrap">
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">01</span><h2>我可以接的項目</h2><small>不在清單上的也可以問，說不定我做得來</small></div>
+    <div class="svc-grid">
+      <article class="svc-c reveal"><div class="em">✿</div><h3>LOGO／品牌識別</h3><p>從名字、個性到使用情境，做出一組你用得久的識別。含主要 LOGO、簡化版與色彩規範。</p><span class="pr">報價依需求評估</span></article>
+      <article class="svc-c reveal"><div class="em">▦</div><h3>社群貼文／圖文排版</h3><p>IG、FB 貼文與限動版型，把一段話排成讓人願意停下來看完的圖。</p><span class="pr">可單張或整組</span></article>
+      <article class="svc-c reveal"><div class="em">▤</div><h3>電商圖片</h3><p>商品主圖、Banner、價目表、活動圖，做成一看就懂、一看就想點的樣子。</p><span class="pr">可配套優惠</span></article>
+      <article class="svc-c reveal"><div class="em">▶</div><h3>影片剪輯</h3><p>短影片、Reels、直播精華剪輯，含字幕、配樂與節奏調整。</p><span class="pr">依片長計價</span></article>
+      <article class="svc-c reveal"><div class="em">⌘</div><h3>網站設計</h3><p>像這個網站一樣的個人品牌站、作品集或活動頁，含手機版。</p><span class="pr">含上線設定</span></article>
+      <article class="svc-c reveal"><div class="em">✦</div><h3>AI 角色／互動模板</h3><p>角色設定、世界觀、開場白與互動流程設計，可上架到 FLAI、Frontia、Ashbone。</p><span class="pr">含一次調校</span></article>
+      </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">02</span><h2>合作怎麼進行</h2><small>從私訊到交件，大概是這五步</small></div>
+    <div class="steps">
+      <div class="step reveal"><b>說需求</b><p>私訊我，附上用途、風格參考、交期和預算。下面的許願清單照著填最快。</p></div>
+      <div class="step reveal"><b>報價確認</b><p>我回覆能不能接、怎麼做、多少錢、多久交件。雙方確認後成立。</p></div>
+      <div class="step reveal"><b>收訂金</b><p>訂金 50%，收到後排進製作。訂金用於保留檔期，恕不退還。</p></div>
+      <div class="step reveal"><b>出草稿</b><p>先給草稿或方向提案，確認大方向後再細修。</p></div>
+      <div class="step reveal"><b>修改交件</b><p>含 2 次修改，確認無誤後付尾款，交付原始檔。</p></div>
+      </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">03</span><h2>委託前請先看</h2><small>先說清楚，大家都省事</small></div>
+    <div class="rules">
+      <div class="rule reveal"><span class="k">⏱</span><div><b>一般交期</b><span>LOGO 約 5–7 天，社群貼文 2–3 天，影片與網站另議。確切時間報價時會說。</span></div></div>
+      <div class="rule reveal"><span class="k">✎</span><div><b>修改次數</b><span>每個案子含 2 次修改。超過的部分依修改幅度另計。</span></div></div>
+      <div class="rule reveal"><span class="k">◷</span><div><b>急件</b><span>需要比一般交期更快完成的，加收 30% 急件費，也要先確認我的檔期。</span></div></div>
+      <div class="rule reveal"><span class="k">₪</span><div><b>付款方式</b><span>台灣可用銀行轉帳；海外可用 PayPal。訂金 50%、尾款 50%。</span></div></div>
+      <div class="rule reveal"><span class="k">⎙</span><div><b>交付格式</b><span>圖片交付 PNG／JPG，向量檔 AI／SVG，影片 MP4。需要其他格式請先說。</span></div></div>
+      <div class="rule reveal"><span class="k">©</span><div><b>版權歸屬</b><span>尾款付清後，成品的使用權歸你。我保留放進作品集展示的權利，不希望公開的請事先告知。</span></div></div>
+      </div>
+  </section>
+
+  <section class="c-sec reveal">
+    <div class="nope">
+      <h3>這些我不接</h3>
+      <p class="sub">不是耍脾氣，是這幾種做下去雙方都不會開心。</p>
+      <ul>
+        <li>抄襲、臨摹或仿冒他人既有的設計與角色</li>
+        <li>涉及違法、侵權或會傷害到特定人的內容</li>
+        <li>無償、抽成、「先做看看再談錢」的合作</li>
+        <li>需求完全未定，希望我邊猜邊做的案子</li>
+        <li>要求掛他人名字發表，或代為冒充他人身分</li>
+        </ul>
+    </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">04</span><h2>準備好了就來找我</h2><small>平日晚上與週末回覆最快</small></div>
+    <div class="start">
+      <a class="go-card go-line reveal" href="https://line.me/ti/p/~asd19971120" target="_blank" rel="noopener">
+        <span class="lg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg></span>
+        <span><b>LINE</b><span>最快回覆，點這裡直接加好友</span></span>
+      </a>
+      <a class="go-card go-dc reveal" href="index.html#contact">
+        <span class="lg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg></span>
+        <span><b>Discord・微信</b><span>到首頁複製我的 ID</span></span>
+      </a>
+      <div class="wish reveal">
+        <h3>✿ 許願清單</h3>
+        <p class="sub">私訊時照著這六點說，我通常當天就能給你報價。</p>
+        <ol>
+        <li><b>用途</b>：這個東西要放在哪裡、給誰看</li>
+        <li><b>規格</b>：尺寸、張數、片長或頁數</li>
+        <li><b>風格</b>：兩三個你喜歡的參考連結或圖</li>
+        <li><b>交期</b>：希望什麼時候拿到</li>
+        <li><b>預算</b>：一個區間就好，我才知道怎麼配</li>
+        <li><b>其他</b>：有沒有要避開的顏色、字體或元素</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div></footer>
-<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+<script>document.getElementById('y').textContent=new Date().getFullYear();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));</script>
 </body>
 </html>
