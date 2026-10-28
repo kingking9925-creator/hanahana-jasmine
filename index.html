@@ -363,8 +363,18 @@ footer{border-color:rgba(74,32,51,.12)}
 .hero-portrait .steam{display:none}
 @media(prefers-reduced-motion:reduce){.fx-wrap .hero-art{transition:none}}
 </style>
+<style>
+/* Continuous pastel backdrop and falling jasmine throughout the homepage */
+body{background:radial-gradient(ellipse at 12% 15%,rgba(255,198,214,.32),transparent 52%),radial-gradient(ellipse at 92% 75%,rgba(255,179,205,.24),transparent 54%),linear-gradient(150deg,#fff5f8 0%,#ffeaf2 52%,#fff5f8 100%);background-attachment:fixed}
+.site-petals{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.site-petals .petal{opacity:.5;pointer-events:none}
+body>header,body>section,body>footer{position:relative;z-index:1}
+.hero::before,.hero::after{pointer-events:none}
+@media(prefers-reduced-motion:reduce){.site-petals{display:none}}
+</style>
 </head>
 <body>
+<div class="site-petals" aria-hidden="true"></div>
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
@@ -454,7 +464,7 @@ footer{border-color:rgba(74,32,51,.12)}
 <script>
 document.getElementById('y').textContent=new Date().getFullYear();
 // falling jasmine petals
-const hero=document.querySelector('.hero');
+const hero=document.querySelector('.site-petals');
 for(let i=0;i<10;i++){
   const s=document.createElementNS('http://www.w3.org/2000/svg','svg');
   s.setAttribute('class','petal');s.setAttribute('viewBox','0 0 100 100');
