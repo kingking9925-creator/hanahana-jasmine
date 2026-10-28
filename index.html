@@ -109,6 +109,11 @@ h2 em{font-family:var(--display);font-style:italic;font-weight:400;color:var(--c
 .stats strong{display:block;font-family:var(--display);font-size:44px;font-weight:400;line-height:1}
 .stats small{color:var(--muted);font-size:13px}
 .hero-copy .tagline{margin-bottom:34px}
+.hero-portrait .hero-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.hero-portrait .hero-mini{position:absolute;left:-14px;bottom:-14px;width:84px!important;opacity:1;z-index:2;filter:drop-shadow(0 8px 16px rgba(74,32,51,.3))}
+.hero-portrait{overflow:visible!important}
+.hero-portrait .hero-art{border-radius:inherit}
+.hero-portrait .sticker{z-index:3}
 .hero-portrait .sticker.s1{left:13%;top:9%}
 @media(min-width:901px){.hero-grid{grid-template-columns:auto 380px;justify-content:center;gap:90px}.hero-portrait{width:380px;max-width:none}}
 .hero-portrait{width:100%;max-width:440px;margin-left:0;box-shadow:0 40px 80px -30px rgba(74,32,51,.4)}
@@ -341,7 +346,8 @@ footer{border-color:rgba(74,32,51,.12)}
       </div>
     </div>
     <div class="portrait hero-portrait">
-      <svg viewBox="0 0 100 100"><use href="#jasmine"/></svg>
+      <img class="hero-art" src="hanahana.jpg" alt="韓漫風花花：捧著小熊拉花拿鐵的粉髮女孩" width="880" height="1099">
+      <svg class="hero-mini" viewBox="0 0 100 100" aria-hidden="true"><use href="#jasmine"/></svg>
       <div class="sticker s1">☕ 咖啡續命中</div>
       <div class="sticker s2">✨ 今日也在發光</div>
     </div>
