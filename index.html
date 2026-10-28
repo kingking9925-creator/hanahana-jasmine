@@ -30,7 +30,9 @@ nav{position:fixed;inset:16px 16px auto;z-index:50;display:flex;justify-content:
 .nav-links a{padding:8px 14px;border-radius:999px;font-size:14px;color:var(--muted);transition:.25s}
 .nav-links a:hover{background:var(--ink);color:var(--bg)}
 .nav-cta{background:var(--ink);color:var(--bg)!important}
-@media(max-width:720px){.nav-links a:not(.nav-cta){display:none}}
+.nav-links a.on:not(.nav-cta){color:var(--ink);font-weight:700}
+@media(max-width:1020px){.nav-links{gap:0}.nav-links a{padding:8px 10px;font-size:13px}}
+@media(max-width:860px){nav{flex-wrap:wrap;border-radius:24px;row-gap:6px}.nav-links{width:100%;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.nav-links::-webkit-scrollbar{display:none}.nav-links a{white-space:nowrap;flex:none}}
 
 /* hero */
 .hero{min-height:100svh;display:grid;place-items:center;position:relative;overflow:hidden;padding:120px 0 80px}
@@ -274,7 +276,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <nav>
   <a href="#top" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
   <div class="nav-links">
-    <a href="#about">關於我</a><a href="works.html">作品</a><a href="#services">服務</a><a href="#contact" class="nav-cta">找我合作</a>
+    <a href="about.html">關於我</a><a href="works.html">作品</a><a href="services.html">服務</a><a href="frontia.html">FRONTIA</a><a href="quarterfull.html">QUARTERFULL</a><a href="flai.html">FLAI</a><a href="contact.html" class="nav-cta">找我合作</a>
   </div>
 </nav>
 
