@@ -289,6 +289,18 @@ nav{background:rgba(255,245,248,.78)}
 footer{border-color:rgba(74,32,51,.12)}
 ::selection{background:#ffc6d6}
 </style>
+<style>
+/* hero title: 重生 / 之 / 我在人間打工中 */
+.hero h1.rb{font-family:var(--serif);font-size:inherit;letter-spacing:0;line-height:1;margin:26px 0 38px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.rb .r1{font-size:clamp(96px,12vw,176px);font-weight:900;letter-spacing:.06em;line-height:.92;background:linear-gradient(135deg,#4a2033 35%,#e0558a 75%,#ff8fb1);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 10px 24px rgba(240,98,146,.18))}
+.rb .r2{display:flex;align-items:center;gap:16px;padding-left:.35em}
+.rb .r2 i{font-style:normal;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:30px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ff8fb1,#f06292);box-shadow:0 12px 26px -8px rgba(240,98,146,.65);animation:bob 4s ease-in-out infinite}
+.rb .r2::after{content:"";width:140px;height:2px;border-radius:2px;background:linear-gradient(90deg,#ff7aa2,rgba(255,122,162,0))}
+.rb .r3{position:relative;font-size:clamp(28px,3.4vw,44px);font-weight:700;letter-spacing:.1em;color:#4a2033}
+.rb .r3 em{font-style:normal;color:#f06292;background:linear-gradient(transparent 62%,#ffc6d6 62%);padding:0 .08em}
+.rb .r3 b{position:absolute;right:-1.1em;top:-.55em;font-size:.6em;color:#ff8fb1;animation:spin 8s linear infinite;display:inline-block}
+@media(max-width:900px){.hero h1.rb{align-items:center}.rb .r2{padding-left:0}.rb .r2::before{content:"";width:60px;height:2px;border-radius:2px;background:linear-gradient(270deg,#ff7aa2,rgba(255,122,162,0))}.rb .r2::after{width:60px}}
+</style>
 </head>
 <body>
 
@@ -318,8 +330,11 @@ footer{border-color:rgba(74,32,51,.12)}
   <div class="hero-grid wrap">
     <div class="hero-copy">
       <span class="badge"><i></i>目前打工中・接案開放</span>
-      <h1><span class="zh">花花</span>Jas<em>mine</em></h1>
-      <div class="tagline"><span>重生之我在人間打工中</span></div>
+      <h1 class="rb" aria-label="重生之我在人間打工中">
+        <span class="r1">重生</span>
+        <span class="r2"><i>之</i></span>
+        <span class="r3">我在<em>人間</em>打工中<b>✿</b></span>
+      </h1>
       <div class="btns">
         <a href="works.html" class="btn btn-dark">看作品集 <span class="arr">→</span></a>
         <a href="#contact" class="btn btn-ghost">聊聊合作</a>
