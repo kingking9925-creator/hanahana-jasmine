@@ -319,21 +319,6 @@ body{min-height:100svh;display:flex;flex-direction:column}
 @media(max-width:700px){.cta-band{padding:150px 20px 48px}.cta-band>div{padding:48px 28px;min-height:360px;justify-content:center;text-align:center}.cta-band h3{font-size:26px}.invitation-flower{right:8%;top:8%}}
 @media(prefers-reduced-motion:reduce){.cta-band>div,.cta-band>div::before,.cta-band>div::after,.invitation-flower{animation:none}}
 </style>
-<style>
-/* TikTok works */
-.tt-works{width:100%;max-width:1160px;margin:0 auto;padding:150px 24px 0;text-align:center;scroll-margin-top:0}
-.tt-works .eyebrow{color:#e0558a}
-.tt-works h2{margin:10px 0 8px;font-size:clamp(30px,4.4vw,48px)}
-.tt-works h2 em{color:#f06292}
-.tt-works .tt-sub{color:var(--muted);margin:0 0 36px}
-.tt-grid{display:flex;justify-content:center;gap:28px;flex-wrap:wrap}
-.tt-card{width:min(340px,100%);border-radius:24px;overflow:hidden;background:#000;border:1px solid rgba(240,98,146,.25);box-shadow:0 24px 56px -30px #8a3a5c99}
-.tt-card iframe{display:block;width:100%;aspect-ratio:9/16;border:0}
-.tt-more{display:inline-flex;align-items:center;gap:8px;margin-top:32px;padding:12px 24px;border-radius:999px;background:linear-gradient(90deg,#ff8fb1,#f06292);color:#fff;font-weight:700;transition:.25s}
-.tt-more:hover{transform:translateY(-2px);box-shadow:0 12px 28px -12px #f06292}
-.tt-works + .cta-band{padding-top:80px}
-@media(max-width:700px){.tt-works{padding-top:170px}.tt-grid{gap:20px}}
-</style>
 </head>
 <body>
 
@@ -355,10 +340,9 @@ body{min-height:100svh;display:flex;flex-direction:column}
 <nav>
   <a href="index.html" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
   <div class="nav-links">
-    <a href="about.html">關於我</a><div class="nav-dd"><a class="nav-dd-btn on" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">作品</a><div class="nav-dd-menu"><a href="works.html#web">網頁設計</a><a href="works.html#geo">GEO</a><a href="yt.html">YT</a><a href="works.html#tiktok">TIKTOK</a></div></div><a href="services.html">服務</a><div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">AI互動模板</a><div class="nav-dd-menu"><a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a></div></div><a href="quarterfull.html">QUARTERFULL</a><a href="contact.html" class="nav-cta">找我合作</a>
+    <a href="about.html">關於我</a><div class="nav-dd"><a class="nav-dd-btn on" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">作品</a><div class="nav-dd-menu"><a href="works.html#web">網頁設計</a><a href="works.html#geo">GEO</a><a href="yt.html">YT</a><a href="tiktok.html">TIKTOK</a></div></div><a href="services.html">服務</a><div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">AI互動模板</a><div class="nav-dd-menu"><a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a></div></div><a href="quarterfull.html">QUARTERFULL</a><a href="contact.html" class="nav-cta">找我合作</a>
   </div>
 </nav>
-<section class="tt-works" id="tiktok"><p class="eyebrow">TikTok</p><h2>最新<em>短影音</em></h2><p class="tt-sub">@kokojasmine20 的最新兩支作品</p><div class="tt-grid"><div class="tt-card"><iframe src="https://www.tiktok.com/player/v1/7682488538058837269?music_info=1&description=1&rel=0" title="TikTok 影片 1" loading="lazy" allow="fullscreen; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div><div class="tt-card"><iframe src="https://www.tiktok.com/player/v1/7682357280993725717?music_info=1&description=1&rel=0" title="TikTok 影片 2" loading="lazy" allow="fullscreen; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div></div><a class="tt-more" href="https://www.tiktok.com/@kokojasmine20" target="_blank" rel="noopener">看更多 TikTok 作品 →</a></section>
 <main class="cta-band"><div><svg class="invitation-flower" aria-hidden="true"><use href="#jasmine"/></svg><svg class="invitation-flower small" aria-hidden="true"><use href="#jasmine"/></svg><h3>喜歡這些作品嗎？一起做點什麼吧 ✿</h3><a href="contact.html" class="btn">聯絡花花 <span class="arr">→</span></a></div></main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div><p class="footer-email" style="width:100%;text-align:center;margin:20px 0 0;font-size:14px"><a href="mailto:kingking82532@gmail.com" style="color:inherit;text-decoration:underline;text-underline-offset:4px">聯絡信箱：kingking82532@gmail.com</a></p></footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
