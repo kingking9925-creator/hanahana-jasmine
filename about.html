@@ -417,6 +417,17 @@ footer{border-color:rgba(74,32,51,.12)}
 .chips span{display:inline-flex;align-items:center;gap:8px;padding:7px 13px}
 .brand-icon{width:20px;height:20px;object-fit:contain;flex:none;border-radius:4px}
 </style>
+<style>
+/* floating LINE */
+.line-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;display:flex;align-items:center;gap:8px;padding:10px 18px 10px 10px;border-radius:999px;background:#06c755;color:#fff!important;font-weight:700;font-size:14px;box-shadow:0 12px 28px -10px rgba(6,199,85,.75);animation:linefloat 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
+.line-fab svg{width:34px;height:34px;flex:none}
+.line-fab:hover{animation-play-state:paused;transform:translateY(-3px) scale(1.04);box-shadow:0 16px 32px -10px rgba(6,199,85,.85)}
+.line-fab::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(6,199,85,.5);animation:linepulse 2.4s ease-out infinite}
+@keyframes linefloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes linepulse{0%{box-shadow:0 0 0 0 rgba(6,199,85,.45)}100%{box-shadow:0 0 0 14px rgba(6,199,85,0)}}
+@media(max-width:600px){.line-fab{right:14px;padding:8px;font-size:0;gap:0}.line-fab span{display:none}.line-fab svg{width:38px;height:38px}}
+@media(prefers-reduced-motion:reduce){.line-fab,.line-fab::after{animation:none}}
+</style>
 </head>
 <body>
 
@@ -556,5 +567,6 @@ b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.prev
 document.addEventListener('click',function(e){if(!d.contains(e.target))set(false)});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});});})();
 </script>
+<a class="line-fab" href="https://line.me/R/ti/p/@446prsjv" target="_blank" rel="noopener" aria-label="加入 LINE 官方帳號詢問"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 3C6.48 3 2 6.62 2 11.08c0 4 3.55 7.35 8.35 7.98.33.07.77.22.88.5.1.25.07.65.03.9l-.14.86c-.04.25-.2.99.87.54 1.07-.45 5.77-3.4 7.87-5.82C21.31 14.44 22 12.84 22 11.08 22 6.62 17.52 3 12 3z"/><path fill="#06c755" d="M8.9 9.35h-.7a.2.2 0 0 0-.2.2v4.35c0 .11.09.2.2.2h.7a.2.2 0 0 0 .2-.2V9.55a.2.2 0 0 0-.2-.2zm4.82 0h-.7a.2.2 0 0 0-.2.2v2.58l-1.99-2.69-.02-.02h-.84a.2.2 0 0 0-.2.2v4.35c0 .11.09.2.2.2h.7a.2.2 0 0 0 .2-.2v-2.58l2 2.7.05.05h.8a.2.2 0 0 0 .2-.2V9.55a.2.2 0 0 0-.2-.2zm-6.5 3.65H5.32V9.55a.2.2 0 0 0-.2-.2h-.7a.2.2 0 0 0-.2.2v4.35c0 .05.02.1.06.14.04.04.09.06.14.06h2.8a.2.2 0 0 0 .2-.2v-.7a.2.2 0 0 0-.2-.2zm10.37-2.56c.11 0 .2-.09.2-.2v-.7a.2.2 0 0 0-.2-.2h-2.8c-.05 0-.1.02-.14.06a.2.2 0 0 0-.06.14v4.35c0 .05.02.1.06.14.04.04.09.06.14.06h2.8a.2.2 0 0 0 .2-.2v-.7a.2.2 0 0 0-.2-.2h-1.9v-.73h1.9a.2.2 0 0 0 .2-.2v-.7a.2.2 0 0 0-.2-.2h-1.9v-.73h1.9z"/></svg><span>LINE 詢問</span></a>
 </body>
 </html>

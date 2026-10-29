@@ -399,6 +399,17 @@ body{min-height:100svh;display:flex;flex-direction:column}
 @media(max-width:760px){.faq-geo summary{font-size:15px;padding:16px 46px 16px 18px}.faq-geo .fq-a{padding:0 18px 16px}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "GEO 是什麼？", "acceptedAnswer": {"@type": "Answer", "text": "GEO（Generative Engine Optimization，生成式引擎優化）是讓品牌內容更容易被 Google AI 摘要、ChatGPT 等 AI 搜尋理解並引用的優化方式。做好 GEO，使用者問 AI 問題時，AI 就有機會直接推薦你的品牌。"}}, {"@type": "Question", "name": "GEO 和 SEO 有什麼不同？", "acceptedAnswer": {"@type": "Answer", "text": "SEO 的目標是讓網站在搜尋結果排名靠前；GEO 的目標是讓 AI 在回答問題時引用、推薦你的品牌。兩者可以一起做：先讓網站被搜尋引擎讀懂，再把內容整理成 AI 容易擷取的問答與事實句。"}}, {"@type": "Question", "name": "怎麼讓 AI 推薦我的品牌？", "acceptedAnswer": {"@type": "Answer", "text": "常見做法是用使用者真正會問的問句當標題、把內容拆成清楚的問答（FAQ）、在網站上寫出完整一致的品牌資訊（地址、電話、服務項目），並加上結構化資料。年輕有為工程行就是用「台北泥作找誰？」當主標，被 Google AI 摘要列為推薦的在地工程行。"}}, {"@type": "Question", "name": "有實際做出成效的案例嗎？", "acceptedAnswer": {"@type": "Answer", "text": "有。美國密西根 MNS 的「MNS國際檢定」「美國密西根MNS」拿下 Google 第 1 名；達億 3D 列印的「3D列印代印」排第 2 名並被 AI 摘要列為推薦廠商；年輕有為工程行的「台北泥作找誰」排第 3 名並被 AI 摘要推薦。"}}, {"@type": "Question", "name": "GEO 服務費用多少？", "acceptedAnswer": {"@type": "Answer", "text": "GEO 網站健檢與分析 NT$10,000 起、GEO 搜尋優化文章 NT$4,000／篇起、FAQ 搜尋問答系統規劃 NT$10,000 起、SEO＋GEO 基礎優化專案 NT$30,000 起、GEO 企業完整優化專案 NT$60,000 起、長期優化顧問 NT$20,000／月起。"}}, {"@type": "Question", "name": "做 GEO 保證排名第一嗎？", "acceptedAnswer": {"@type": "Answer", "text": "不保證。搜尋排名與 AI 摘要會因時間、地區、裝置變動，也取決於搜尋引擎與 AI 平台的演算法，GEO／SEO 都無法保證特定排名或 AI 引用結果。"}}, {"@type": "Question", "name": "沒有網站也可以做 GEO 嗎？", "acceptedAnswer": {"@type": "Answer", "text": "建議先有一個能被搜尋引擎讀取的官方網站。可以選擇「網站＋GEO」整合方案，從建站開始就把問答結構與品牌資訊規劃進去。"}}]}</script>
+<style>
+/* floating LINE */
+.line-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;display:flex;align-items:center;gap:8px;padding:10px 18px 10px 10px;border-radius:999px;background:#06c755;color:#fff!important;font-weight:700;font-size:14px;box-shadow:0 12px 28px -10px rgba(6,199,85,.75);animation:linefloat 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
+.line-fab svg{width:34px;height:34px;flex:none}
+.line-fab:hover{animation-play-state:paused;transform:translateY(-3px) scale(1.04);box-shadow:0 16px 32px -10px rgba(6,199,85,.85)}
+.line-fab::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(6,199,85,.5);animation:linepulse 2.4s ease-out infinite}
+@keyframes linefloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes linepulse{0%{box-shadow:0 0 0 0 rgba(6,199,85,.45)}100%{box-shadow:0 0 0 14px rgba(6,199,85,0)}}
+@media(max-width:600px){.line-fab{right:14px;padding:8px;font-size:0;gap:0}.line-fab span{display:none}.line-fab svg{width:38px;height:38px}}
+@media(prefers-reduced-motion:reduce){.line-fab,.line-fab::after{animation:none}}
+</style>
 </head>
 <body>
 
@@ -467,5 +478,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)})
 (function(){var els=document.querySelectorAll('.reveal');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.05});els.forEach(function(e){io.observe(e)})})();
 </script>
+<a class="line-fab" href="https://line.me/R/ti/p/@446prsjv" target="_blank" rel="noopener" aria-label="加入 LINE 官方帳號詢問"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 3C6.48 3 2 6.62 2 11.08c0 4 3.55 7.35 8.35 7.98.33.07.77.22.88.5.1.25.07.65.03.9l-.14.86c-.04.25-.2.99.87.54 1.07-.45 5.77-3.4 7.87-5.82C21.31 14.44 22 12.84 22 11.08 22 6.62 17.52 3 12 3z"/><path fill="#06c755" d="M8.9 9.35h-.7a.2.2 0 0 0-.2.2v4.35c0 .11.09.2.2.2h.7a.2.2 0 0 0 .2-.2V9.55a.2.2 0 0 0-.2-.2zm4.82 0h-.7a.2.2 0 0 0-.2.2v2.58l-1.99-2.69-.02-.02h-.84a.2.2 0 0 0-.2.2v4.35c0 .11.09.2.2.2h.7a.2.2 0 0 0 .2-.2v-2.58l2 2.7.05.05h.8a.2.2 0 0 0 .2-.2V9.55a.2.2 0 0 0-.2-.2zm-6.5 3.65H5.32V9.55a.2.2 0 0 0-.2-.2h-.7a.2.2 0 0 0-.2.2v4.35c0 .05.02.1.06.14.04.04.09.06.14.06h2.8a.2.2 0 0 0 .2-.2v-.7a.2.2 0 0 0-.2-.2zm10.37-2.56c.11 0 .2-.09.2-.2v-.7a.2.2 0 0 0-.2-.2h-2.8c-.05 0-.1.02-.14.06a.2.2 0 0 0-.06.14v4.35c0 .05.02.1.06.14.04.04.09.06.14.06h2.8a.2.2 0 0 0 .2-.2v-.7a.2.2 0 0 0-.2-.2h-1.9v-.73h1.9a.2.2 0 0 0 .2-.2v-.7a.2.2 0 0 0-.2-.2h-1.9v-.73h1.9z"/></svg><span>LINE 詢問</span></a>
 </body>
 </html>
