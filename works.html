@@ -322,6 +322,34 @@ body{min-height:100svh;display:flex;flex-direction:column}
 @media(max-width:700px){.cta-band{padding:150px 20px 48px}.cta-band>div{padding:48px 28px;min-height:360px;justify-content:center;text-align:center}.cta-band h3{font-size:26px}.invitation-flower{right:8%;top:8%}}
 @media(prefers-reduced-motion:reduce){.cta-band>div,.cta-band>div::before,.cta-band>div::after,.invitation-flower{animation:none}}
 </style>
+<style>
+/* Works showcase */
+.wk{width:100%;max-width:1160px;margin:0 auto;padding:150px 24px 0}
+.wk-sec{scroll-margin-top:110px;margin-bottom:70px}
+.wk-h{margin-bottom:26px}
+.wk-h .eyebrow{color:#e0558a}
+.wk-h h2{font-family:var(--serif);font-weight:900;font-size:clamp(30px,4.4vw,46px);margin:8px 0 6px}
+.wk-h p{color:var(--muted);margin:0}
+.wk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.wk-card{display:flex;flex-direction:column;background:#fff;border:1px solid rgba(240,98,146,.18);border-radius:24px;overflow:hidden;transition:.35s}
+.wk-card:hover{transform:translateY(-6px);box-shadow:0 24px 48px -20px rgba(138,58,92,.35)}
+.wk-shot{position:relative;background:#f3e6ec;padding:30px 12px 0;border-bottom:1px solid rgba(240,98,146,.15)}
+.wk-shot::before{content:"";position:absolute;left:14px;top:12px;width:8px;height:8px;border-radius:50%;background:#ff8fa3;box-shadow:14px 0 0 #ffd27a,28px 0 0 #8fd9a8}
+.wk-shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px 10px 0 0;box-shadow:0 -2px 12px rgba(74,32,51,.12)}
+.wk-shot.fb{background:#e9eefb}
+.wk-bd{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.wk-bd h3{font-family:var(--serif);font-size:19px;margin:0;line-height:1.4}
+.wk-tags{display:flex;gap:6px;flex-wrap:wrap}
+.wk-tags span{font-size:11px;padding:2px 9px;border-radius:999px;background:#ffe9f0;color:#a33a63}
+.wk-bd p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.8;flex:1}
+.wk-go{align-self:flex-start;margin-top:4px;padding:9px 18px;border-radius:999px;background:#4a2033;color:#fff;font-size:13px;font-weight:600;transition:.25s}
+.wk-go:hover{background:#f06292}
+.wk-geo{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:30px 32px;border-radius:24px;background:#fff;border:1px dashed rgba(240,98,146,.45)}
+.wk-geo p{margin:0;color:var(--muted)}
+.wk + .cta-band{padding-top:10px}
+@media(max-width:980px){.wk-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.wk{padding-top:170px}.wk-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
@@ -346,6 +374,14 @@ body{min-height:100svh;display:flex;flex-direction:column}
     <a href="about.html">關於我</a><div class="nav-dd"><a class="nav-dd-btn on" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">作品</a><div class="nav-dd-menu"><a href="works.html#web">網頁設計</a><a href="works.html#geo">GEO</a><a href="yt.html">YOUTUBE</a><a href="tiktok.html">TIKTOK</a></div></div><a href="services.html">價格表</a><div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">AI互動模板</a><div class="nav-dd-menu"><a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="quarterfull.html">QUARTERFULL</a></div></div><a href="contact.html" class="nav-cta">找我合作</a>
   </div>
 </nav>
+<div class="wk">
+  <section class="wk-sec" id="web"><div class="wk-h"><div class="eyebrow">Web Design · 網頁設計</div><h2>網頁設計作品</h2><p>從購物網站到品牌形象官網，點圖片可以直接前往網站。</p></div>
+    <div class="wk-grid"><article class="wk-card"><a class="wk-shot" href="https://mastech3d.shopstore.tw/" target="_blank" rel="noopener"><img src="work-web-mastech.jpg" alt="達億 3D 列印 Mastech 購物網站 畫面" loading="lazy"></a><div class="wk-bd"><h3>達億 3D 列印 Mastech 購物網站</h3><div class="wk-tags"><span>電商網站</span><span>品牌視覺</span><span>活動 Banner</span></div><p>3D 印表機、耗材與代印服務的官方購物網站，包含商品分類、3D 學習知識庫、訂單常見問題與代印線上估價。</p><a class="wk-go" href="https://mastech3d.shopstore.tw/" target="_blank" rel="noopener">前往網站 ↗</a></div></article><article class="wk-card"><a class="wk-shot" href="https://nianqingyouwei-nizuo.com/" target="_blank" rel="noopener"><img src="work-web-nizuo.jpg" alt="年輕有為工程行 畫面" loading="lazy"></a><div class="wk-bd"><h3>年輕有為工程行</h3><div class="wk-tags"><span>形象網站</span><span>中／英／越三語</span><span>在地服務</span></div><p>台北泥作工程行形象網站，整理服務項目、施工實績、價格參考、常見問題與泥作知識，並串接 LINE 諮詢與一鍵來電。</p><a class="wk-go" href="https://nianqingyouwei-nizuo.com/" target="_blank" rel="noopener">前往網站 ↗</a></div></article><article class="wk-card"><a class="wk-shot" href="https://mnsus.com/" target="_blank" rel="noopener"><img src="work-web-mns.jpg" alt="MNS 美國密西根美業技藝 畫面" loading="lazy"></a><div class="wk-bd"><h3>MNS 美國密西根美業技藝</h3><div class="wk-tags"><span>品牌官網</span><span>國際賽事</span><span>多語系</span></div><p>自 2008 年創立於美國密西根的美業技藝組織官網，介紹國際榮譽、異業結盟、活動資訊與各類國際檢定。</p><a class="wk-go" href="https://mnsus.com/" target="_blank" rel="noopener">前往網站 ↗</a></div></article></div></section>
+  <section class="wk-sec" id="social"><div class="wk-h"><div class="eyebrow">Social Media · 社群經營</div><h2>社群粉專經營</h2><p>Facebook 粉絲專頁的視覺設計與內容經營。</p></div>
+    <div class="wk-grid"><article class="wk-card"><a class="wk-shot fb" href="https://www.facebook.com/Mastech3D" target="_blank" rel="noopener"><img src="work-fb-mastech.jpg" alt="達億 3D 列印 Mastech 3D Printer 畫面" loading="lazy"></a><div class="wk-bd"><h3>達億 3D 列印 Mastech 3D Printer</h3><div class="wk-tags"><span>Facebook 粉專</span><span>社群美編</span><span>活動宣傳</span></div><p>3D 列印設備與服務品牌粉專，負責新品上市、預購活動與促銷檔期的社群視覺。</p><a class="wk-go" href="https://www.facebook.com/Mastech3D" target="_blank" rel="noopener">看粉絲專頁 ↗</a></div></article><article class="wk-card"><a class="wk-shot fb" href="https://www.facebook.com/pindengnail" target="_blank" rel="noopener"><img src="work-fb-pindeng.jpg" alt="品登藝術美學 畫面" loading="lazy"></a><div class="wk-bd"><h3>品登藝術美學</h3><div class="wk-tags"><span>Facebook 粉專</span><span>美業品牌</span><span>封面設計</span></div><p>美甲與頭皮草本護理品牌粉專，打造自然療癒風格的封面與品牌形象。</p><a class="wk-go" href="https://www.facebook.com/pindengnail" target="_blank" rel="noopener">看粉絲專頁 ↗</a></div></article><article class="wk-card"><a class="wk-shot fb" href="https://www.facebook.com/nail.sports" target="_blank" rel="noopener"><img src="work-fb-mns.jpg" alt="MNS 國際技能認證訓練營 畫面" loading="lazy"></a><div class="wk-bd"><h3>MNS 國際技能認證訓練營</h3><div class="wk-tags"><span>Facebook 粉專</span><span>國際賽事</span><span>社群經營</span></div><p>MNS 國際技藝菁英盃台灣聯絡處粉專，分享國際賽事、檢定與活動紀錄。</p><a class="wk-go" href="https://www.facebook.com/nail.sports" target="_blank" rel="noopener">看粉絲專頁 ↗</a></div></article></div></section>
+  <section class="wk-sec" id="geo"><div class="wk-h"><div class="eyebrow">GEO · 搜尋優化</div><h2>GEO／SEO 搜尋優化</h2></div>
+    <div class="wk-geo"><p>讓品牌更容易被 Google 與 AI 搜尋找到。案例整理中，歡迎直接洽詢。</p><a class="wk-go" href="services.html#p-geo">看 GEO 價格 →</a></div></section>
+</div>
 <main class="cta-band"><div><svg class="invitation-flower" aria-hidden="true"><use href="#jasmine"/></svg><svg class="invitation-flower small" aria-hidden="true"><use href="#jasmine"/></svg><h3>喜歡這些作品嗎？一起做點什麼吧 ✿</h3><a href="contact.html" class="btn">聯絡花花 <span class="arr">→</span></a></div></main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div><p class="footer-email" style="width:100%;text-align:center;margin:20px 0 0;font-size:14px"><a href="mailto:kingking82532@gmail.com" style="color:inherit;text-decoration:underline;text-underline-offset:4px">聯絡信箱：kingking82532@gmail.com</a></p></footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
