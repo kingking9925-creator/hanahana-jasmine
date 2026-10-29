@@ -7,7 +7,7 @@
 <link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>找我合作｜花花 Jasmine</title>
-<meta name="description" content="花花 JASMINE 的個人品牌與作品集：平面設計、品牌設計、電商設計、影片剪輯、AI／網頁作品。">
+<meta name="description" content="找花花 Jasmine 合作：AI 互動模板、影片剪輯、名片、菜單、電商圖、冠名卡、網頁設計、GEO、LINE 官方帳號、行政申請協助、遊戲代打的價格、委託流程與常見問題。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -306,8 +306,44 @@ footer{border-color:rgba(74,32,51,.12)}
 ::selection{background:#ffc6d6}
 </style>
 <style>
-/* contact page */
-.page-hero{min-height:auto!important;padding-bottom:10px}
+/* Pricing page */
+.pricing{padding-top:130px;padding-bottom:80px}
+.pr-hero{margin:18px 0 26px}
+.pr-hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(40px,6vw,68px);line-height:1.15;margin:8px 0 12px}
+.pr-hero p{color:var(--muted);max-width:640px;margin:0}
+.pchips{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0 12px;margin-bottom:12px}
+.pchips::-webkit-scrollbar{display:none}
+.pchips a{flex:none;padding:8px 16px;border-radius:999px;font-size:14px;background:#fff;border:1px solid rgba(240,98,146,.22);color:var(--ink);transition:.2s}
+.pchips a:hover{background:#f06292;color:#fff;border-color:#f06292}
+.pcat{scroll-margin-top:160px;margin:22px 0;padding:28px 30px;background:#fff;border:1px solid rgba(240,98,146,.16);border-radius:28px;box-shadow:0 18px 40px -28px rgba(138,58,92,.35)}
+.pcat-h{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.pcat-h h2{font-family:var(--serif);font-size:26px;margin:0}
+.pcat-h p{margin:0;color:var(--muted);font-size:14px}
+.pcat-ex{margin-left:auto;font-size:13px;font-weight:600;color:#e0558a;border-bottom:1px solid rgba(224,85,138,.4)}
+.plist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;column-gap:36px}
+.plist li{display:grid;grid-template-columns:1fr auto;grid-template-areas:"n p" "t p";align-items:center;column-gap:16px;padding:12px 0;border-bottom:1px dashed rgba(29,26,23,.12)}
+.pi-n{grid-area:n;font-size:15px}
+.pi-t{grid-area:t;font-size:12px;color:var(--muted)}
+.pi-p{grid-area:p;font-family:var(--display);font-size:17px;color:#e0558a;white-space:nowrap;text-align:right}
+.pnote{margin:16px 0 0;padding:14px 18px 14px 34px;background:#fff5f8;border-radius:16px;color:var(--muted);font-size:13px;line-height:1.8}
+.pterms{margin:40px 0 0;padding:34px;border-radius:28px;background:linear-gradient(135deg,#4a2033,#8a3a5c);color:#fff3f7}
+.pterms h2{font-family:var(--serif);font-size:26px;margin:0 0 12px}
+.pterms ul{margin:0 0 22px;padding-left:20px;line-height:1.9;color:#ffe3ec}
+.pterms .btn{background:#fff;color:#8a3a5c;border-color:#fff}
+.pterms .btn:hover{background:#f06292;color:#fff;border-color:#f06292}
+@media(max-width:860px){.pricing{padding-top:150px}.pchips{position:relative;z-index:1;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;background:linear-gradient(#fff5f8 70%,transparent)}.plist{grid-template-columns:1fr}.pcat{padding:22px 18px;border-radius:22px}.pcat-h h2{font-size:22px}.pi-p{font-size:15px}}
+</style>
+<style>
+/* Pricing tabs */
+.pricing{padding-top:120px}
+.pchips a.on{background:#f06292;color:#fff;border-color:#f06292}
+.pcat{display:none}
+.pcat.show{display:block;opacity:1!important;transform:none!important}
+.ppanel-info{display:none}
+.ppanel-info.show{display:block}
+.ppanel-info .c-sec:first-child{margin-top:28px}
+.ppanel-info .reveal{opacity:1!important;transform:none!important}
+.info-cta{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 10px}
 .c-sec{margin:64px 0}
 .c-h{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:28px;flex-wrap:wrap}
 .c-h .n{font-family:var(--display);font-style:italic;color:#f06292;font-size:20px}
@@ -336,24 +372,25 @@ footer{border-color:rgba(74,32,51,.12)}
 .nope ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px}
 .nope li{font-size:14px;display:flex;gap:10px;align-items:flex-start;line-height:1.7}
 .nope li::before{content:"✕";color:#ff9fbd;font-weight:800;flex:none}
-.start{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
-.go-card{display:flex;align-items:center;gap:16px;padding:22px 24px;border-radius:24px;color:#fff;font-weight:700;transition:.3s;box-shadow:0 18px 34px -22px rgba(0,0,0,.6)}
-.go-card:hover{transform:translateY(-4px)}
-.go-card .lg{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.18);display:grid;place-items:center;flex:none}
-.go-card .lg svg{width:60%;height:60%;fill:#fff}
-.go-card b{display:block;font-size:18px}
-.go-card span{display:block;font-size:13px;font-weight:500;opacity:.92;margin-top:2px}
-.go-line{background:linear-gradient(135deg,#06c755,#04a446)}
-.go-other{background:linear-gradient(135deg,#f49ab8,#e0558a)}
-.wish{grid-column:1/-1;background:var(--card);border:1.5px dashed #f8a5c0;border-radius:24px;padding:26px 28px}
-.wish h3{font-size:17px;margin:0 0 4px}
-.wish .sub{font-size:13.5px;color:var(--muted);margin:0 0 16px}
-.wish ol{margin:0;padding-left:20px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px 24px}
-.wish li{font-size:14px;line-height:1.75}
-.wish li b{color:#e0558a}
 @media(max-width:900px){.svc-grid{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr);gap:22px 14px}.rules,.nope ul,.start,.wish ol{grid-template-columns:1fr}}
 @media(max-width:560px){.svc-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr;gap:26px}.nope{padding:26px 22px}}
+@media(max-width:860px){.pricing{padding-top:150px}}
 </style>
+<style>
+/* GEO FAQ */
+.faq-geo{margin:56px 0 30px}
+.faq-geo .fq-ey{font-size:12px;letter-spacing:.25em;font-weight:700;text-transform:uppercase;color:var(--coral,#f06292)}
+.faq-geo h2{font-family:var(--serif);font-size:clamp(26px,3.6vw,36px);margin:6px 0 18px}
+.faq-geo details{background:#fff;border:1px solid var(--line,rgba(0,0,0,.12));border-radius:18px;margin:10px 0;overflow:hidden}
+.faq-geo summary{list-style:none;cursor:pointer;padding:18px 54px 18px 22px;font-weight:700;font-size:16px;position:relative;color:var(--ink,#1d1a17)}
+.faq-geo summary::-webkit-details-marker{display:none}
+.faq-geo summary::after{content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:400;color:var(--coral,#f06292);transition:.25s}
+.faq-geo details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq-geo .fq-a{padding:0 22px 18px;color:var(--muted,#6f665c);font-size:14.5px;line-height:1.9}
+.faq-geo .fq-a a{color:var(--coral,#f06292);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:760px){.faq-geo summary{font-size:15px;padding:16px 46px 16px 18px}.faq-geo .fq-a{padding:0 18px 16px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "花花 Jasmine 接哪些設計案？", "acceptedAnswer": {"@type": "Answer", "text": "可以接 AI 互動模板（FLAI、Frontia、ASHBONE）、影片剪輯、名片、菜單／價格表、電商圖、冠名卡、網頁設計、GEO／SEO 搜尋優化、LINE 官方帳號建置、行政申請協助，以及輕量型遊戲代打／掛機。點上方分類按鈕可以看各項目的價格。"}}, {"@type": "Question", "name": "價格表上的價格就是最終報價嗎？", "acceptedAnswer": {"@type": "Answer", "text": "價格表是新台幣參考起價，實際報價會依需求內容、數量與難度確認後提供。"}}, {"@type": "Question", "name": "怎麼委託？", "acceptedAnswer": {"@type": "Answer", "text": "先私訊或加 LINE 官方帳號，說明用途、風格參考、交期和預算。花花回覆能不能接、怎麼做、多少錢、多久交件，雙方確認後就成立。"}}, {"@type": "Question", "name": "製作時間從什麼時候開始算？", "acceptedAnswer": {"@type": "Answer", "text": "製作時間自需求確認、素材交齊及付款後開始計算。各項目的參考天數寫在分類價格表裡。"}}, {"@type": "Question", "name": "可以修改幾次？", "acceptedAnswer": {"@type": "Answer", "text": "大多數項目包含 2 次免費修改，須在收到成品後兩週內提出；超過次數或逾期，依各項目收費。"}}, {"@type": "Question", "name": "有急件服務嗎？", "acceptedAnswer": {"@type": "Answer", "text": "有，需要先確認檔期。急件依項目加收 30%～50%，詳見各分類說明。"}}, {"@type": "Question", "name": "費用有包含印刷、平台或主機費用嗎？", "acceptedAnswer": {"@type": "Answer", "text": "沒有。印刷、平台訂閱、網域主機、政府規費等第三方費用都另計。"}}, {"@type": "Question", "name": "付款方式是什麼？", "acceptedAnswer": {"@type": "Answer", "text": "可用銀行轉帳或 LINE Pay，所有項目都是確認需求後一次付清全額，收到款項後才排進製作。"}}, {"@type": "Question", "name": "有不接的案子嗎？", "acceptedAnswer": {"@type": "Answer", "text": "有。不接抄襲或仿冒他人設計與角色、違法或侵權內容、無償或「先做看看再談錢」的合作、需求完全未定的案子，以及冒充他人身分的委託。"}}]}</script>
 </head>
 <body>
 
@@ -375,33 +412,16 @@ footer{border-color:rgba(74,32,51,.12)}
 <nav>
   <a href="index.html" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
   <div class="nav-links">
-    <a href="about.html">關於我</a><div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">作品</a><div class="nav-dd-menu"><a href="works.html#web">網頁設計</a><a href="geo.html">GEO</a><a href="yt.html">YOUTUBE</a><a href="tiktok.html">TIKTOK</a></div></div><a href="services.html">價格表</a><div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">AI互動模板</a><div class="nav-dd-menu"><a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="quarterfull.html">QUARTERFULL</a></div></div><a href="contact.html" class="nav-cta on" aria-current="page">找我合作</a>
+    <a href="about.html">關於我</a><div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">作品</a><div class="nav-dd-menu"><a href="works.html#web">網頁設計</a><a href="geo.html">GEO</a><a href="yt.html">YOUTUBE</a><a href="tiktok.html">TIKTOK</a></div></div><div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">AI互動模板</a><div class="nav-dd-menu"><a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="quarterfull.html">QUARTERFULL</a></div></div><a href="contact.html" class="nav-cta on" aria-current="page">找我合作</a>
   </div>
 </nav>
-<header class="page-hero wrap">
-  <a href="index.html" class="back">← 回首頁</a>
-  <div class="eyebrow">Contact · 找我合作</div>
-  <h1>找我<em>合作</em></h1>
-  <p>有案子、有想法，或只是想打聲招呼都歡迎。<br>下面把我接什麼、怎麼進行、要準備什麼都寫清楚了。</p>
-</header>
-
-<main class="wrap">
+<main class="pricing wrap">
+  <div class="pchips" role="tablist" aria-label="服務分類"><a href="#p-info" class="on">接案須知</a><a href="#p-ai">AI 互動模板</a><a href="#p-video">影片剪輯</a><a href="#p-card">名片設計</a><a href="#p-menu">菜單／價格表</a><a href="#p-ecom">電商圖設計</a><a href="#p-namecard">冠名卡設計</a><a href="#p-web">網頁設計</a><a href="#p-geo">GEO／SEO 搜尋優化</a><a href="#p-line">LINE 官方帳號建置</a><a href="#p-admin">行政申請協助</a><a href="#p-game">遊戲代打／掛機</a></div>
+  <div class="ppanel-info" id="p-info">
   <section class="c-sec">
-    <div class="c-h reveal"><span class="n">01</span><h2>我可以接的項目</h2><small>不在清單上的也可以問，說不定我做得來</small></div>
-    <div class="svc-grid">
-      <article class="svc-c reveal"><div class="em">✿</div><h3>LOGO／品牌識別</h3><p>從名字、個性到使用情境，做出一組你用得久的識別。含主要 LOGO、簡化版與色彩規範。</p><span class="pr">報價依需求評估</span></article>
-      <article class="svc-c reveal"><div class="em">▦</div><h3>社群貼文／圖文排版</h3><p>IG、FB 貼文與限動版型，把一段話排成讓人願意停下來看完的圖。</p><span class="pr">可單張或整組</span></article>
-      <article class="svc-c reveal"><div class="em">▤</div><h3>電商圖片</h3><p>商品主圖、Banner、價目表、活動圖，做成一看就懂、一看就想點的樣子。</p><span class="pr">可配套優惠</span></article>
-      <article class="svc-c reveal"><div class="em">▶</div><h3>影片剪輯</h3><p>短影片、Reels、直播精華剪輯，含字幕、配樂與節奏調整。</p><span class="pr">依片長計價</span></article>
-      <article class="svc-c reveal"><div class="em">⌘</div><h3>網站設計</h3><p>像這個網站一樣的個人品牌站、作品集或活動頁，含手機版。</p><span class="pr">含上線設定</span></article>
-      <article class="svc-c reveal"><div class="em">✦</div><h3>AI 角色／互動模板</h3><p>角色設定、世界觀、開場白與互動流程設計，可上架到 FLAI、Frontia、Ashbone。</p><span class="pr">含一次調校</span></article>
-      </div>
-  </section>
-
-  <section class="c-sec">
-    <div class="c-h reveal"><span class="n">02</span><h2>合作怎麼進行</h2><small>從私訊到交件，大概是這五步</small></div>
+    <div class="c-h reveal"><span class="n">01</span><h2>合作怎麼進行</h2><small>從私訊到交件，大概是這五步</small></div>
     <div class="steps">
-      <div class="step reveal"><b>說需求</b><p>私訊我，附上用途、風格參考、交期和預算。下面的許願清單照著填最快。</p></div>
+      <div class="step reveal"><b>說需求</b><p>私訊我，附上用途、風格參考、交期和預算。也可以直接加 LINE 官方帳號詢問。</p></div>
       <div class="step reveal"><b>報價確認</b><p>我回覆能不能接、怎麼做、多少錢、多久交件。雙方確認後成立。</p></div>
       <div class="step reveal"><b>付款</b><p>確認後一次付清全額，收到款項才排進製作。開工後恕不退款。</p></div>
       <div class="step reveal"><b>出草稿</b><p>先給草稿或方向提案，確認大方向後再細修。</p></div>
@@ -410,7 +430,7 @@ footer{border-color:rgba(74,32,51,.12)}
   </section>
 
   <section class="c-sec">
-    <div class="c-h reveal"><span class="n">03</span><h2>委託前請先看</h2><small>先說清楚，大家都省事</small></div>
+    <div class="c-h reveal"><span class="n">02</span><h2>委託前請先看</h2><small>先說清楚，大家都省事</small></div>
     <div class="rules">
       <div class="rule reveal"><span class="k">⏱</span><div><b>一般交期</b><span>LOGO 約 5–7 天，社群貼文 2–3 天，影片與網站另議。確切時間報價時會說。</span></div></div>
       <div class="rule reveal"><span class="k">✎</span><div><b>修改次數</b><span>每個案子含 2 次修改。超過的部分依修改幅度另計。</span></div></div>
@@ -435,36 +455,69 @@ footer{border-color:rgba(74,32,51,.12)}
     </div>
   </section>
 
-  <section class="c-sec">
-    <div class="c-h reveal"><span class="n">04</span><h2>準備好了就來找我</h2><small>平日晚上與週末回覆最快</small></div>
-    <div class="start">
-      <a class="go-card go-line reveal" href="https://line.me/R/ti/p/@446prsjv" target="_blank" rel="noopener">
-        <span class="lg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg></span>
-        <span><b>LINE</b><span>最快回覆，點這裡直接加好友</span></span>
-      </a>
-      <a class="go-card go-other reveal" href="index.html#contact">
-        <span class="lg"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></span>
-        <span><b>其他</b><span>到我首頁查看</span></span>
-      </a>
-      <div class="wish reveal">
-        <h3>✿ 許願清單</h3>
-        <p class="sub">私訊時照著這六點說，我通常當天就能給你報價。</p>
-        <ol>
-        <li><b>用途</b>：這個東西要放在哪裡、給誰看</li>
-        <li><b>規格</b>：尺寸、張數、片長或頁數</li>
-        <li><b>風格</b>：兩三個你喜歡的參考連結或圖</li>
-        <li><b>交期</b>：希望什麼時候拿到</li>
-        <li><b>預算</b>：一個區間就好，我才知道怎麼配</li>
-        <li><b>其他</b>：有沒有要避開的顏色、字體或元素</li>
-        </ol>
-      </div>
-    </div>
+    <div class="info-cta"><a href="https://line.me/R/ti/p/@446prsjv" target="_blank" rel="noopener" class="btn btn-dark">加 LINE 詢問報價 <span class="arr">→</span></a><a href="mailto:kingking82532@gmail.com" class="btn btn-ghost">寄信給我</a></div>
+  </div>
+  <section class="pcat reveal" id="p-ai">
+    <div class="pcat-h"><h2>AI 互動模板</h2><p>Flai・Frontia・ASHBONE 模板客製化，皆含圖片製作。</p></div>
+    <ul class="plist"><li><span class="pi-n">Flai 單倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$50</b></li><li><span class="pi-n">Flai 雙倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$100</b></li><li><span class="pi-n">Flai 四倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$400</b></li><li><span class="pi-n">Flai 八倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$1,000</b></li><li><span class="pi-n">Frontia 單一模板</span><span class="pi-t">一個月內</span><b class="pi-p">NT$1,500</b></li><li><span class="pi-n">ASHBONE 單一模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$50</b></li></ul>
+    <ul class="pnote"><li>Flai：含圖片，可協助上架或打包傳送文件。</li><li>Frontia：含多張圖片，可協助帳號代操、模板上架及公開連結設定。</li><li>未指定的部分由花花自行設計安排。</li><li>收到成品後兩週內可免費修改 2 次；超過次數或逾期，每次 NT$50。</li></ul>
   </section>
+  <section class="pcat reveal" id="p-video">
+    <div class="pcat-h"><h2>影片剪輯</h2><p>短影音、YouTube、遊戲精華與商品影片。</p></div>
+    <ul class="plist"><li><span class="pi-n">短影音 15～30 秒基礎剪輯</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$300</b></li><li><span class="pi-n">短影音 30～60 秒基礎剪輯</span><span class="pi-t">1～3 天</span><b class="pi-p">NT$500</b></li><li><span class="pi-n">短影音 30～60 秒字幕＋配樂</span><span class="pi-t">2～3 天</span><b class="pi-p">NT$800</b></li><li><span class="pi-n">短影音 30～60 秒精緻剪輯（字幕、轉場、音效、字卡）</span><span class="pi-t">3～5 天</span><b class="pi-p">NT$1,200</b></li><li><span class="pi-n">短影音 60～90 秒精緻剪輯</span><span class="pi-t">3～5 天</span><b class="pi-p">NT$1,500</b></li><li><span class="pi-n">短影音 90 秒～3 分鐘</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$2,000</b></li><li><span class="pi-n">YouTube 5 分鐘內基礎剪輯</span><span class="pi-t">2～3 天</span><b class="pi-p">NT$1,000</b></li><li><span class="pi-n">YouTube 5～10 分鐘基礎剪輯</span><span class="pi-t">3～5 天</span><b class="pi-p">NT$1,500</b></li><li><span class="pi-n">YouTube 10～20 分鐘基礎剪輯</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$2,500</b></li><li><span class="pi-n">YouTube 20～30 分鐘基礎剪輯</span><span class="pi-t">7～10 天</span><b class="pi-p">NT$3,500</b></li><li><span class="pi-n">YouTube 5～10 分鐘精緻剪輯</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$3,000</b></li><li><span class="pi-n">YouTube 10～20 分鐘精緻剪輯</span><span class="pi-t">7～10 天</span><b class="pi-p">NT$4,500</b></li><li><span class="pi-n">YouTube 20～30 分鐘精緻剪輯</span><span class="pi-t">10～14 天</span><b class="pi-p">NT$6,000</b></li><li><span class="pi-n">遊戲精華 30～60 秒</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$400</b></li><li><span class="pi-n">遊戲精華 1～3 分鐘</span><span class="pi-t">2～3 天</span><b class="pi-p">NT$700</b></li><li><span class="pi-n">遊戲精華 3～5 分鐘</span><span class="pi-t">3～5 天</span><b class="pi-p">NT$1,000</b></li><li><span class="pi-n">遊戲精華 5～10 分鐘</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$1,500</b></li><li><span class="pi-n">遊戲精華 10～20 分鐘</span><span class="pi-t">7～10 天</span><b class="pi-p">NT$2,500</b></li><li><span class="pi-n">直播切片（客戶提供時間軸，60 秒內）</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$300</b></li><li><span class="pi-n">直播切片（自行挑選片段，60 秒內）</span><span class="pi-t">2～4 天</span><b class="pi-p">NT$600</b></li><li><span class="pi-n">直播精華整理（10 分鐘內）</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$2,000</b></li><li><span class="pi-n">直播精華整理（20 分鐘內）</span><span class="pi-t">7～14 天</span><b class="pi-p">NT$3,500</b></li><li><span class="pi-n">商品展示影片（30 秒內）</span><span class="pi-t">2～3 天</span><b class="pi-p">NT$800</b></li><li><span class="pi-n">商品介紹影片（60 秒內）</span><span class="pi-t">3～5 天</span><b class="pi-p">NT$1,200</b></li><li><span class="pi-n">商品介紹影片（1～3 分鐘）</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$1,500</b></li><li><span class="pi-n">產品教學影片（3～5 分鐘）</span><span class="pi-t">5～10 天</span><b class="pi-p">NT$2,500</b></li><li><span class="pi-n">品牌形象宣傳影片</span><span class="pi-t">7～14 天</span><b class="pi-p">NT$3,000 起</b></li><li><span class="pi-n">活動宣傳影片</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$1,500 起</b></li></ul>
+    <ul class="pnote"><li>加購：逐字字幕 NT$200 起、雙語字幕 NT$400 起、特殊動態字幕 NT$300 起、影片封面 NT$200／張、簡易調色 NT$200 起、進階調色 NT$500 起、特殊動態特效 NT$300 起／項、額外尺寸版本 NT$200／版。</li><li>急件（48 小時內）加收 30%；特急件（24 小時內）加收 50%，需視檔期而定。</li><li>含 2 次免費小幅修改（收到成品後兩週內）；超過或逾期最低 NT$200／次。</li><li>拍攝、配音、商用素材授權及複雜動畫另計。</li></ul>
+  </section>
+  <section class="pcat reveal" id="p-card">
+    <div class="pcat-h"><h2>名片設計</h2><p>不含印刷，提供數位設計檔。</p></div>
+    <ul class="plist"><li><span class="pi-n">基礎單面名片</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$300</b></li><li><span class="pi-n">基礎雙面名片</span><span class="pi-t">2～3 天</span><b class="pi-p">NT$500</b></li><li><span class="pi-n">客製化單面名片</span><span class="pi-t">2～4 天</span><b class="pi-p">NT$600</b></li><li><span class="pi-n">客製化雙面名片</span><span class="pi-t">3～5 天</span><b class="pi-p">NT$800</b></li><li><span class="pi-n">高級商務名片設計</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$1,200</b></li><li><span class="pi-n">現有名片修改、排版</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$200 起</b></li><li><span class="pi-n">增加不同人員資料</span><span class="pi-t">1 天</span><b class="pi-p">NT$100／人</b></li></ul>
+    <ul class="pnote"><li>需求請一次提出（文字、風格、配色、尺寸、參考圖）。</li><li>免費修改 2 次（收到初稿後 14 天內）；超過或逾期每次 NT$50。</li><li>交付 JPG、PNG、PDF；AI／PSD 原始檔另加 NT$200。</li></ul>
+  </section>
+  <section class="pcat reveal" id="p-menu">
+    <div class="pcat-h"><h2>菜單／價格表</h2><p>店家菜單、價目表、社群價格圖。</p></div>
+    <ul class="plist"><li><span class="pi-n">簡易價格表（純文字排版）</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$300 起</b></li><li><span class="pi-n">圖文價格表（含圖片）</span><span class="pi-t">2～3 天</span><b class="pi-p">NT$500 起</b></li><li><span class="pi-n">單頁菜單（A4／A5）</span><span class="pi-t">2～4 天</span><b class="pi-p">NT$600 起</b></li><li><span class="pi-n">雙面菜單</span><span class="pi-t">3～5 天</span><b class="pi-p">NT$1,000 起</b></li><li><span class="pi-n">雙折菜單（4 面）</span><span class="pi-t">4～7 天</span><b class="pi-p">NT$1,500 起</b></li><li><span class="pi-n">三折菜單（6 面）</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$2,000 起</b></li><li><span class="pi-n">多頁菜單</span><span class="pi-t">依頁數</span><b class="pi-p">NT$500／頁起</b></li><li><span class="pi-n">電子菜單／社群價格表</span><span class="pi-t">2～3 天</span><b class="pi-p">NT$500 起</b></li></ul>
+    <ul class="pnote"><li>不含印刷；需求請一次提出（品項、價格、文字、圖片、尺寸、風格）。</li><li>免費修改 2 次（兩週內）；超過或逾期每次 NT$100。</li><li>新增品項或大幅改版另計；原始檔另行報價。</li></ul>
+  </section>
+  <section class="pcat reveal" id="p-ecom">
+    <div class="pcat-h"><h2>電商圖設計</h2><p>不含商品攝影。</p></div>
+    <ul class="plist"><li><span class="pi-n">商品主圖</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$300／張</b></li><li><span class="pi-n">商品介紹圖</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$350／張</b></li><li><span class="pi-n">商品規格／功能圖</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$400／張</b></li><li><span class="pi-n">商品比較圖</span><span class="pi-t">1～3 天</span><b class="pi-p">NT$450／張</b></li><li><span class="pi-n">商品情境合成圖</span><span class="pi-t">2～3 天</span><b class="pi-p">NT$500 起／張</b></li><li><span class="pi-n">電商活動促銷圖</span><span class="pi-t">1～3 天</span><b class="pi-p">NT$500／張</b></li><li><span class="pi-n">電商首頁 Banner</span><span class="pi-t">2～3 天</span><b class="pi-p">NT$600／張</b></li><li><span class="pi-n">電商長條形廣告圖</span><span class="pi-t">1～3 天</span><b class="pi-p">NT$500／張</b></li><li><span class="pi-n">商品詳情長圖</span><span class="pi-t">3～5 天</span><b class="pi-p">NT$1,200 起／組</b></li><li><span class="pi-n">電商優惠券圖</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$250／張</b></li><li><span class="pi-n">電商分類入口圖</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$250／張</b></li><li><span class="pi-n">電商店鋪整體視覺</span><span class="pi-t">7～14 天</span><b class="pi-p">NT$3,000 起／套</b></li><li><span class="pi-n">套組：主圖 1＋介紹圖 3</span><b class="pi-p">NT$1,200</b></li><li><span class="pi-n">套組：主圖 1＋介紹圖 5</span><b class="pi-p">NT$1,800</b></li><li><span class="pi-n">套組：主圖 1＋介紹圖 9</span><b class="pi-p">NT$3,000</b></li><li><span class="pi-n">套組：活動 Banner 1＋促銷圖 3</span><b class="pi-p">NT$1,800</b></li><li><span class="pi-n">套組：完整上架圖 10 張</span><b class="pi-p">NT$3,200</b></li></ul>
+    <ul class="pnote"><li>免費修改 2 次（兩週內）；超過每次 NT$100。</li><li>交付 JPG、PNG；PSD／AI 原始檔另計。</li><li>急件依排程加收 30%～50%。</li><li>確認需求後一次付清全額。</li></ul>
+  </section>
+  <section class="pcat reveal" id="p-namecard">
+    <div class="pcat-h"><h2>冠名卡設計</h2><p>直播間、語音廳、陪玩、公會、粉絲應援。</p></div>
+    <ul class="plist"><li><span class="pi-n">簡約冠名卡</span><span class="pi-t">1～2 天</span><b class="pi-p">NT$100／張</b></li><li><span class="pi-n">精緻冠名卡</span><span class="pi-t">2～3 天</span><b class="pi-p">NT$200／張</b></li><li><span class="pi-n">豪華冠名卡</span><span class="pi-t">3～5 天</span><b class="pi-p">NT$350／張</b></li><li><span class="pi-n">動態冠名卡（GIF）</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$500 起／張</b></li><li><span class="pi-n">系列冠名卡（5 張）</span><span class="pi-t">5～7 天</span><b class="pi-p">NT$800 起／組</b></li></ul>
+    <ul class="pnote"><li>免費修改 2 次（兩週內）；超過或逾期每次 NT$50。</li><li>急件加收 50%。</li><li>交付 PNG／JPG，動態款 GIF；原始檔與商業授權另議。</li></ul>
+  </section>
+  <section class="pcat reveal" id="p-web">
+    <div class="pcat-h"><h2>網頁設計</h2><p>品牌網站建置與數位形象規劃。</p><a class="pcat-ex" href="works.html#web">看網頁設計作品 →</a></div>
+    <ul class="plist"><li><span class="pi-n">單頁式品牌形象網站</span><b class="pi-p">NT$15,000 起</b></li><li><span class="pi-n">個人品牌／作品集網站</span><b class="pi-p">NT$20,000 起</b></li><li><span class="pi-n">企業形象網站（3～5 頁）</span><b class="pi-p">NT$35,000 起</b></li><li><span class="pi-n">企業形象網站（6～10 頁）</span><b class="pi-p">NT$60,000 起</b></li><li><span class="pi-n">WordPress 企業網站建置</span><b class="pi-p">NT$50,000 起</b></li><li><span class="pi-n">電商購物網站建置</span><b class="pi-p">NT$80,000 起</b></li><li><span class="pi-n">企業網站全面改版</span><b class="pi-p">NT$40,000 起</b></li><li><span class="pi-n">網站新增頁面</span><b class="pi-p">NT$5,000／頁起</b></li><li><span class="pi-n">網站維護管理</span><b class="pi-p">NT$8,000／月起</b></li></ul>
+    <ul class="pnote"><li>網域、主機、付費外掛及第三方服務費用另計。</li><li>免費修改 2 次（14 天內，限原專案範圍）；超過或逾期每次 NT$1,000 起。</li><li>確認需求後一次付清全額。</li></ul>
+  </section>
+  <section class="pcat reveal" id="p-geo">
+    <div class="pcat-h"><h2>GEO／SEO 搜尋優化</h2><p>讓品牌更容易被 Google 與 AI 搜尋找到。</p><a class="pcat-ex" href="geo.html">看 GEO 成效案例 →</a></div>
+    <ul class="plist"><li><span class="pi-n">GEO 網站健檢與分析</span><b class="pi-p">NT$10,000 起</b></li><li><span class="pi-n">GEO 完整診斷與策略規劃</span><b class="pi-p">NT$20,000 起</b></li><li><span class="pi-n">GEO 搜尋優化文章</span><b class="pi-p">NT$4,000／篇起</b></li><li><span class="pi-n">既有網站內容 GEO 優化</span><b class="pi-p">NT$3,000／篇起</b></li><li><span class="pi-n">FAQ 搜尋問答系統規劃</span><b class="pi-p">NT$10,000 起</b></li><li><span class="pi-n">Schema 結構化資料建置</span><b class="pi-p">NT$10,000 起</b></li><li><span class="pi-n">Google 搜尋收錄與監測設定</span><b class="pi-p">NT$6,000 起</b></li><li><span class="pi-n">SEO＋GEO 基礎優化專案</span><b class="pi-p">NT$30,000 起</b></li><li><span class="pi-n">GEO 企業完整優化專案</span><b class="pi-p">NT$60,000 起</b></li><li><span class="pi-n">GEO 長期優化顧問服務</span><b class="pi-p">NT$20,000／月起</b></li><li><span class="pi-n">組合：個人品牌網站＋GEO</span><b class="pi-p">NT$35,000 起</b></li><li><span class="pi-n">組合：單頁企業網站＋GEO</span><b class="pi-p">NT$45,000 起</b></li><li><span class="pi-n">組合：企業形象網站＋GEO</span><b class="pi-p">NT$80,000 起</b></li><li><span class="pi-n">組合：WordPress 企業網站＋完整 GEO</span><b class="pi-p">NT$120,000 起</b></li><li><span class="pi-n">組合：企業品牌網站＋SEO＋GEO 全方位整合</span><b class="pi-p">NT$180,000 起</b></li></ul>
+    <ul class="pnote"><li>GEO／SEO 不保證特定搜尋排名或 AI 平台引用結果。</li><li>確認需求後一次付清全額。</li></ul>
+  </section>
+  <section class="pcat reveal" id="p-line">
+    <div class="pcat-h"><h2>LINE 官方帳號建置</h2><p>專案制，含帳號設定與圖文選單規劃。</p></div>
+    <ul class="plist"><li><span class="pi-n">基礎建置專案</span><span class="pi-t">7 個工作天</span><b class="pi-p">NT$3,000</b></li><li><span class="pi-n">商業建置專案</span><span class="pi-t">10～14 個工作天</span><b class="pi-p">NT$6,000</b></li><li><span class="pi-n">進階商業專案</span><span class="pi-t">14～21 個工作天</span><b class="pi-p">NT$10,000</b></li><li><span class="pi-n">客製化整合專案</span><span class="pi-t">依需求</span><b class="pi-p">NT$15,000 起</b></li><li><span class="pi-n">每月代營運專案</span><span class="pi-t">按月計費</span><b class="pi-p">NT$6,000 起／月</b></li></ul>
+    <ul class="pnote"><li>免費修改 2 次（14 天內）；超過每次 NT$300 起。</li><li>不含 LINE 官方帳號平台費用及第三方服務費用。</li></ul>
+  </section>
+  <section class="pcat reveal" id="p-admin">
+    <div class="pcat-h"><h2>行政申請協助</h2><p>營業登記、協會立案、智慧財產權文件整理與申請協助。</p></div>
+    <ul class="plist"><li><span class="pi-n">營業登記申請協助</span><b class="pi-p">NT$5,000 起</b></li><li><span class="pi-n">協會設立及立案協助</span><b class="pi-p">NT$15,000 起</b></li><li><span class="pi-n">商標註冊申請協助</span><b class="pi-p">NT$5,000 起</b></li><li><span class="pi-n">著作權存證資料整理</span><b class="pi-p">NT$3,500 起</b></li><li><span class="pi-n">專利申請前置資料整理</span><b class="pi-p">NT$6,000 起</b></li></ul>
+    <ul class="pnote"><li>以上為服務費，不含政府規費及第三方費用。</li><li>申請時間與審核結果依主管機關規定，不保證核准。</li><li>限行政文件整理、流程指導及申請協助，不包含依法須由會計師、律師、專利師等專業資格人員辦理的代理業務。</li></ul>
+  </section>
+  <section class="pcat reveal" id="p-game">
+    <div class="pcat-h"><h2>遊戲代打／掛機</h2><p>輕量型遊戲日常代勞，不接高難度競技代打。</p></div>
+    <ul class="plist"><li><span class="pi-n">每日簽到、領取獎勵</span><span class="pi-t">5～10 分鐘</span><b class="pi-p">NT$10～30／次</b></li><li><span class="pi-n">簡單每日任務</span><span class="pi-t">10～30 分鐘</span><b class="pi-p">NT$30～60／次</b></li><li><span class="pi-n">每週任務</span><span class="pi-t">1～3 小時</span><b class="pi-p">NT$100～250／次</b></li><li><span class="pi-n">簡單副本、刷關</span><span class="pi-t">依需求</span><b class="pi-p">NT$50～100／小時</b></li><li><span class="pi-n">掛機代練</span><span class="pi-t">依需求</span><b class="pi-p">NT$20～40／小時</b></li><li><span class="pi-n">重複刷素材、資源</span><span class="pi-t">依需求</span><b class="pi-p">NT$50～100／小時</b></li><li><span class="pi-n">活動任務代解</span><span class="pi-t">1～4 小時</span><b class="pi-p">NT$100～300／次</b></li><li><span class="pi-n">長期每日託管</span><span class="pi-t">每日約 30 分鐘</span><b class="pi-p">NT$500～1,200／週</b></li></ul>
+    <ul class="pnote"><li>最低接單金額 NT$50。</li><li>不保證隨機掉落、抽卡結果及特殊獎勵。</li><li>不使用外掛或作弊程式；帳號代打可能涉及遊戲官方條款，請委託人自行確認。</li></ul>
+  </section>
+  <section class="faq-geo" aria-labelledby="faq-pricing"><div class="fq-ey">FAQ · 常見問題</div><h2 id="faq-pricing">合作常見問題</h2><details><summary>花花 Jasmine 接哪些設計案？</summary><div class="fq-a">可以接 AI 互動模板（FLAI、Frontia、ASHBONE）、影片剪輯、名片、菜單／價格表、電商圖、冠名卡、網頁設計、GEO／SEO 搜尋優化、LINE 官方帳號建置、行政申請協助，以及輕量型遊戲代打／掛機。點上方分類按鈕可以看各項目的價格。</div></details><details><summary>價格表上的價格就是最終報價嗎？</summary><div class="fq-a">價格表是新台幣參考起價，實際報價會依需求內容、數量與難度確認後提供。</div></details><details><summary>怎麼委託？</summary><div class="fq-a">先私訊或加 LINE 官方帳號，說明用途、風格參考、交期和預算。花花回覆能不能接、怎麼做、多少錢、多久交件，雙方確認後就成立。</div></details><details><summary>製作時間從什麼時候開始算？</summary><div class="fq-a">製作時間自需求確認、素材交齊及付款後開始計算。各項目的參考天數寫在分類價格表裡。</div></details><details><summary>可以修改幾次？</summary><div class="fq-a">大多數項目包含 2 次免費修改，須在收到成品後兩週內提出；超過次數或逾期，依各項目收費。</div></details><details><summary>有急件服務嗎？</summary><div class="fq-a">有，需要先確認檔期。急件依項目加收 30%～50%，詳見各分類說明。</div></details><details><summary>費用有包含印刷、平台或主機費用嗎？</summary><div class="fq-a">沒有。印刷、平台訂閱、網域主機、政府規費等第三方費用都另計。</div></details><details><summary>付款方式是什麼？</summary><div class="fq-a">可用銀行轉帳或 LINE Pay，所有項目都是確認需求後一次付清全額，收到款項後才排進製作。</div></details><details><summary>有不接的案子嗎？</summary><div class="fq-a">有。不接抄襲或仿冒他人設計與角色、違法或侵權內容、無償或「先做看看再談錢」的合作、需求完全未定的案子，以及冒充他人身分的委託。</div></details></section>
 </main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div><p class="footer-email" style="width:100%;text-align:center;margin:20px 0 0;font-size:14px"><a href="mailto:kingking82532@gmail.com" style="color:inherit;text-decoration:underline;text-underline-offset:4px">聯絡信箱：kingking82532@gmail.com</a></p></footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));</script>
+(function(){var els=document.querySelectorAll('.reveal');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.05});els.forEach(function(e){io.observe(e)})})();</script>
 <script>
 (function(){var ds=document.querySelectorAll('.nav-dd');ds.forEach(function(d){var b=d.querySelector('.nav-dd-btn');
 function set(o){d.classList.toggle('open',o);b.setAttribute('aria-expanded',o)}
@@ -472,6 +525,13 @@ b.addEventListener('click',function(e){e.preventDefault();var o=!d.classList.con
 b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();b.click()}});
 document.addEventListener('click',function(e){if(!d.contains(e.target))set(false)});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});});})();
+</script>
+<script>
+(function(){var chips=[].slice.call(document.querySelectorAll('.pchips a'));var panels=[].slice.call(document.querySelectorAll('.pcat,.ppanel-info'));
+function show(id,scroll){if(!document.getElementById(id))id='p-info';panels.forEach(function(p){p.classList.toggle('show',p.id===id)});chips.forEach(function(c){var on=c.getAttribute('href')==='#'+id;c.classList.toggle('on',on);c.setAttribute('aria-selected',on)});if(scroll){var t=document.querySelector('.pchips');var nb=document.querySelector('nav');var off=(nb?nb.getBoundingClientRect().bottom:90)+12;window.scrollTo({top:Math.max(0,t.getBoundingClientRect().top+window.scrollY-off),behavior:'smooth'})}}
+chips.forEach(function(c){c.setAttribute('role','tab');c.addEventListener('click',function(e){e.preventDefault();var id=c.getAttribute('href').slice(1);history.replaceState(null,'','#'+id);show(id,true)})});
+window.addEventListener('hashchange',function(){show(location.hash.slice(1),true)});
+show(location.hash.slice(1)||'p-info',false);if(location.hash)setTimeout(function(){window.scrollTo(0,0)},0);})();
 </script>
 </body>
 </html>
