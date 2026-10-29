@@ -385,6 +385,25 @@ nav{background:rgba(246,242,255,.8)}
 .about-fr>.orbs{position:absolute;inset:0;pointer-events:none;z-index:0}
 .orbs span{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.5),rgba(217,70,239,0) 70%);animation:fl 7s ease-in-out infinite}
 @media(max-width:760px){.cards3d{position:relative;right:auto;top:auto;transform:none;width:78%;margin:-6px auto 0;display:block}.prof{display:flex!important;flex-direction:column}}
+/* Ashbone logo hero */
+.prof>.ab-logo{position:absolute;z-index:0}
+.ab-logo{right:4%;top:50%;transform:translateY(-50%);width:min(400px,40%);aspect-ratio:4/3;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.ab-logo .al-glow{position:absolute;inset:4% 10%;border-radius:50%;background:radial-gradient(circle,rgba(240,171,252,.55),rgba(168,85,247,.2) 45%,transparent 70%);animation:alglow 5s ease-in-out infinite}
+.ab-logo .al-ring{position:absolute;width:72%;aspect-ratio:1;top:50%;left:50%;margin:-36% 0 0 -36%;border-radius:50%;border:1.5px dashed rgba(240,220,255,.45);animation:alspin 26s linear infinite}
+.ab-logo .al-icon{position:relative;width:40%;aspect-ratio:1;border-radius:24%;overflow:hidden;box-shadow:0 22px 50px -16px rgba(20,6,50,.75),0 0 0 6px rgba(255,255,255,.14);animation:alfloat 6s ease-in-out infinite}
+.ab-logo .al-icon img{display:block;width:100%;height:100%;object-fit:cover}
+.ab-logo .al-icon::after{content:"";position:absolute;top:0;bottom:0;left:-70%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);animation:alshine 4.5s ease-in-out infinite}
+.ab-logo .al-name{position:relative;font-family:var(--sans);font-weight:800;font-size:clamp(22px,2.4vw,32px);letter-spacing:.04em;color:#fff;text-shadow:0 4px 18px rgba(60,10,110,.45);animation:alfloat 6s ease-in-out infinite .3s}
+.ab-logo .al-orb{position:absolute;top:50%;left:50%;width:34px;height:34px;margin:-17px 0 0 -17px;display:grid;place-items:center;border-radius:50%;background:#fff;color:#ec4899;font-size:16px;box-shadow:0 8px 20px rgba(40,10,80,.4);animation:alorbit 14s linear infinite}
+.ab-logo .al-tw{position:absolute;inset:0;width:100%;height:100%}
+.ab-logo .tw{animation:twk 3s ease-in-out infinite}.ab-logo .tw2{animation:twk 3s ease-in-out infinite 1.5s}
+@keyframes alfloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+@keyframes alglow{0%,100%{opacity:.65;transform:scale(.94)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes alspin{to{transform:rotate(360deg)}}
+@keyframes alshine{0%,55%{left:-70%}100%{left:130%}}
+@keyframes alorbit{from{transform:rotate(0) translateX(clamp(110px,13vw,150px)) rotate(0)}to{transform:rotate(360deg) translateX(clamp(110px,13vw,150px)) rotate(-360deg)}}
+@media(max-width:760px){.prof>.ab-logo{position:relative}.ab-logo{right:auto;top:auto;transform:none;width:86%;margin:-6px auto 4px}@keyframes alorbit{from{transform:rotate(0) translateX(34vw) rotate(0)}to{transform:rotate(360deg) translateX(34vw) rotate(-360deg)}}}
+@media(prefers-reduced-motion:reduce){.ab-logo *{animation:none!important}}
 </style>
 </head>
 <body>
@@ -422,26 +441,14 @@ nav{background:rgba(246,242,255,.8)}
 <main class="wrap fr-hero">
   <a href="index.html" class="back">← 回首頁</a>
   <section class="prof reveal">
-    <svg class="cards3d" viewBox="0 0 400 300" aria-hidden="true">
-      <defs><filter id="ag" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-      <linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#eadcff"/></linearGradient>
-      <linearGradient id="cg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c4a2ff"/><stop offset="1" stop-color="#e879f9"/></linearGradient></defs>
-      <g class="c3"><rect x="70" y="70" width="120" height="170" rx="18" fill="#a78bfa" opacity=".45" transform="rotate(-14 130 155)"/></g>
-      <g class="c2"><rect x="230" y="70" width="120" height="170" rx="18" fill="#f0abfc" opacity=".45" transform="rotate(14 290 155)"/></g>
-      <g class="c1" filter="url(#ag)">
-        <rect x="140" y="50" width="130" height="190" rx="20" fill="url(#cg)"/>
-        <rect x="152" y="62" width="106" height="110" rx="14" fill="url(#cg2)"/>
-        <circle cx="205" cy="104" r="22" fill="#fff" opacity=".9"/>
-        <path d="M170 172 C176 140 234 140 240 172 Z" fill="#fff" opacity=".9"/>
-        <rect x="156" y="186" width="80" height="9" rx="4.5" fill="#c4b5fd"/>
-        <rect x="156" y="202" width="56" height="8" rx="4" fill="#ddd6fe"/>
-        <rect x="156" y="218" width="98" height="12" rx="6" fill="#a855f7"/>
-      </g>
-      <g class="c2"><rect x="38" y="160" width="86" height="40" rx="18" fill="#fff"/><path d="M60 198 l-6 14 l16 -12z" fill="#fff"/><circle cx="64" cy="180" r="4" fill="#a855f7"/><circle cx="81" cy="180" r="4" fill="#a855f7"/><circle cx="98" cy="180" r="4" fill="#a855f7"/></g>
-      <g class="ht" filter="url(#ag)"><path d="M332 88 C312 74 304 62 312 52 C318 44 328 46 332 54 C336 46 346 44 352 52 C360 62 352 74 332 88 Z" fill="#f472b6"/></g>
-      <g class="tw" fill="#fff"><path d="M96 40 c4 -12 8 -12 12 0 c12 4 12 8 0 12 c-4 12 -8 12 -12 0 c-12 -4 -12 -8 0 -12z"/><circle cx="360" cy="140" r="3"/></g>
-      <g class="tw2" fill="#fff"><circle cx="300" cy="30" r="2.5"/><circle cx="60" cy="110" r="3"/><path d="M372 220 c2 -7 5 -7 7 0 c7 2 7 5 0 7 c-2 7 -5 7 -7 0 c-7 -2 -7 -5 0 -7z"/></g>
-    </svg>
+    <div class="ab-logo" aria-hidden="true">
+      <span class="al-glow"></span>
+      <span class="al-ring"></span>
+      <div class="al-icon"><img src="https://ashbone.app/icons/icon-512.png" alt=""></div>
+      <div class="al-name">Ashbone</div>
+      <span class="al-orb">♥</span>
+      <svg class="al-tw" viewBox="0 0 400 300"><g class="tw" fill="#fff"><path d="M70 50 c4 -12 8 -12 12 0 c12 4 12 8 0 12 c-4 12 -8 12 -12 0 c-12 -4 -12 -8 0 -12z"/><circle cx="340" cy="60" r="3"/></g><g class="tw2" fill="#fff"><circle cx="60" cy="230" r="3"/><circle cx="330" cy="40" r="2.5"/><path d="M346 210 c2 -7 5 -7 7 0 c7 2 7 5 0 7 c-2 7 -5 7 -7 0 c-7 -2 -7 -5 0 -7z"/></g></svg>
+    </div>
     <img class="av" src="https://hzxmcvsgegqelpobteei.supabase.co/storage/v1/object/public/character-avatars/cfc0a64b-71d5-404f-a195-305e069071f0/profile-1775985711833-1zubuytq0mk.jpg" alt="月月 頭像">
     <div style="position:relative;z-index:1">
       <div class="ey">Ashbone Creator · AI 角色創作者</div>
