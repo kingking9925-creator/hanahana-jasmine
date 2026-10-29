@@ -33,6 +33,18 @@ nav{position:fixed;inset:16px 16px auto;z-index:50;display:flex;justify-content:
 .nav-links a.on:not(.nav-cta){color:var(--ink);font-weight:700}
 @media(max-width:1020px){.nav-links{gap:0}.nav-links a{padding:8px 10px;font-size:13px}}
 @media(max-width:860px){nav{flex-wrap:wrap;border-radius:24px;row-gap:6px}.nav-links{width:100%;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.nav-links::-webkit-scrollbar{display:none}.nav-links a{white-space:nowrap;flex:none}}
+/* nav dropdown: AI互動模板 */
+.nav-dd{position:relative;display:flex}
+.nav-dd-btn{cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.nav-dd-btn::after{content:"";width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .25s}
+.nav-dd.open .nav-dd-btn::after{transform:translateY(1px) rotate(-135deg)}
+.nav-dd-menu{display:none;position:absolute;top:calc(100% + 8px);right:0;z-index:60;flex-direction:column;gap:2px;min-width:170px;padding:6px;border-radius:18px;background:rgba(255,255,255,.96);border:1px solid var(--line);box-shadow:0 12px 32px rgba(0,0,0,.12)}
+.nav-dd-menu::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}
+.nav-dd-menu a{white-space:nowrap;padding:9px 14px!important}
+.nav-dd.open .nav-dd-menu{display:flex}
+.nav-links .nav-dd a.nav-dd-btn:hover{color:#fff}
+@media(hover:hover) and (min-width:861px){.nav-dd:hover .nav-dd-menu{display:flex}}
+@media(max-width:860px){.nav-dd{position:static;flex:none}.nav-dd-menu{right:12px;top:calc(100% + 6px)}}
 
 /* hero */
 .hero{min-height:100svh;display:grid;place-items:center;position:relative;overflow:hidden;padding:120px 0 80px}
@@ -404,7 +416,7 @@ nav{background:rgba(246,242,255,.8)}
 <nav>
   <a href="index.html" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
   <div class="nav-links">
-    <a href="about.html">關於我</a><a href="works.html">作品</a><a href="services.html">服務</a><a href="frontia.html">FRONTIA</a><a href="quarterfull.html">QUARTERFULL</a><a href="flai.html">FLAI</a><a href="ashbone.html" class="on" aria-current="page">ASHBONE</a><a href="contact.html" class="nav-cta">找我合作</a>
+    <a href="about.html">關於我</a><a href="works.html">作品</a><a href="services.html">服務</a><div class="nav-dd"><a class="nav-dd-btn on" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">AI互動模板</a><div class="nav-dd-menu"><a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html" class="on" aria-current="page">ASHBONE</a></div></div><a href="quarterfull.html">QUARTERFULL</a><a href="contact.html" class="nav-cta">找我合作</a>
   </div>
 </nav>
 <main class="wrap fr-hero">
@@ -474,5 +486,13 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 document.querySelectorAll('.reveal-btn').forEach(b=>b.onclick=()=>b.parentElement.classList.add('show'));
 document.querySelectorAll('.idrow button').forEach(b=>b.onclick=()=>{const t='@'+b.dataset.id;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent='已複製 ✓';setTimeout(()=>b.textContent='複製',1500)}).catch(()=>prompt('複製模板 ID',t))});</script>
+<script>
+(function(){var d=document.querySelector('.nav-dd');if(!d)return;var b=d.querySelector('.nav-dd-btn');
+function set(o){d.classList.toggle('open',o);b.setAttribute('aria-expanded',o)}
+b.addEventListener('click',function(e){e.preventDefault();set(!d.classList.contains('open'))});
+b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();set(!d.classList.contains('open'))}});
+document.addEventListener('click',function(e){if(!d.contains(e.target))set(false)});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});})();
+</script>
 </body>
 </html>
