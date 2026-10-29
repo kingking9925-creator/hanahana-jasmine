@@ -384,6 +384,21 @@ body{min-height:100svh;display:flex;flex-direction:column}
 .geo-cta{margin:36px 0 0;display:flex;gap:12px;flex-wrap:wrap}
 @media(max-width:860px){.geo{padding-top:170px}.geo-kpi{grid-template-columns:repeat(2,1fr)}.gshots{grid-template-columns:1fr}.gcase{padding:22px 16px;border-radius:22px}.gtable{font-size:13px}.gtable td,.gtable th{padding:9px 6px}.gtable td:first-child{white-space:normal}}
 </style>
+<style>
+/* GEO FAQ */
+.faq-geo{margin:56px 0 30px}
+.faq-geo .fq-ey{font-size:12px;letter-spacing:.25em;font-weight:700;text-transform:uppercase;color:var(--coral,#f06292)}
+.faq-geo h2{font-family:var(--serif);font-size:clamp(26px,3.6vw,36px);margin:6px 0 18px}
+.faq-geo details{background:#fff;border:1px solid var(--line,rgba(0,0,0,.12));border-radius:18px;margin:10px 0;overflow:hidden}
+.faq-geo summary{list-style:none;cursor:pointer;padding:18px 54px 18px 22px;font-weight:700;font-size:16px;position:relative;color:var(--ink,#1d1a17)}
+.faq-geo summary::-webkit-details-marker{display:none}
+.faq-geo summary::after{content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:400;color:var(--coral,#f06292);transition:.25s}
+.faq-geo details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq-geo .fq-a{padding:0 22px 18px;color:var(--muted,#6f665c);font-size:14.5px;line-height:1.9}
+.faq-geo .fq-a a{color:var(--coral,#f06292);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:760px){.faq-geo summary{font-size:15px;padding:16px 46px 16px 18px}.faq-geo .fq-a{padding:0 18px 16px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "GEO 是什麼？", "acceptedAnswer": {"@type": "Answer", "text": "GEO（Generative Engine Optimization，生成式引擎優化）是讓品牌內容更容易被 Google AI 摘要、ChatGPT 等 AI 搜尋理解並引用的優化方式。做好 GEO，使用者問 AI 問題時，AI 就有機會直接推薦你的品牌。"}}, {"@type": "Question", "name": "GEO 和 SEO 有什麼不同？", "acceptedAnswer": {"@type": "Answer", "text": "SEO 的目標是讓網站在搜尋結果排名靠前；GEO 的目標是讓 AI 在回答問題時引用、推薦你的品牌。兩者可以一起做：先讓網站被搜尋引擎讀懂，再把內容整理成 AI 容易擷取的問答與事實句。"}}, {"@type": "Question", "name": "怎麼讓 AI 推薦我的品牌？", "acceptedAnswer": {"@type": "Answer", "text": "常見做法是用使用者真正會問的問句當標題、把內容拆成清楚的問答（FAQ）、在網站上寫出完整一致的品牌資訊（地址、電話、服務項目），並加上結構化資料。年輕有為工程行就是用「台北泥作找誰？」當主標，被 Google AI 摘要列為推薦的在地工程行。"}}, {"@type": "Question", "name": "有實際做出成效的案例嗎？", "acceptedAnswer": {"@type": "Answer", "text": "有。美國密西根 MNS 的「MNS國際檢定」「美國密西根MNS」拿下 Google 第 1 名；達億 3D 列印的「3D列印代印」排第 2 名並被 AI 摘要列為推薦廠商；年輕有為工程行的「台北泥作找誰」排第 3 名並被 AI 摘要推薦。"}}, {"@type": "Question", "name": "GEO 服務費用多少？", "acceptedAnswer": {"@type": "Answer", "text": "GEO 網站健檢與分析 NT$10,000 起、GEO 搜尋優化文章 NT$4,000／篇起、FAQ 搜尋問答系統規劃 NT$10,000 起、SEO＋GEO 基礎優化專案 NT$30,000 起、GEO 企業完整優化專案 NT$60,000 起、長期優化顧問 NT$20,000／月起。"}}, {"@type": "Question", "name": "做 GEO 保證排名第一嗎？", "acceptedAnswer": {"@type": "Answer", "text": "不保證。搜尋排名與 AI 摘要會因時間、地區、裝置變動，也取決於搜尋引擎與 AI 平台的演算法，GEO／SEO 都無法保證特定排名或 AI 引用結果。"}}, {"@type": "Question", "name": "沒有網站也可以做 GEO 嗎？", "acceptedAnswer": {"@type": "Answer", "text": "建議先有一個能被搜尋引擎讀取的官方網站。可以選擇「網站＋GEO」整合方案，從建站開始就把問答結構與品牌資訊規劃進去。"}}]}</script>
 </head>
 <body>
 
@@ -436,6 +451,7 @@ body{min-height:100svh;display:flex;flex-direction:column}
   </section>
   <div class="gmethod"><b>查詢方式：</b>2026 年 10 月 29 日於 Google 台灣（繁體中文、關閉個人化結果）實際搜尋。排名為第一頁「網站自然搜尋結果」的順序，不含廣告、地圖與影片區塊。搜尋排名與 AI 摘要會因時間、地區、裝置而變動。截圖中的黃色底色與粉色外框是另外加上的標示。</div>
   <div class="geo-cta"><a class="btn btn-dark" href="services.html#p-geo">看 GEO 方案價格 <span class="arr">→</span></a><a class="btn btn-ghost" href="contact.html">找我做 GEO</a></div>
+  <section class="faq-geo" aria-labelledby="faq-geo"><div class="fq-ey">FAQ · 常見問題</div><h2 id="faq-geo">GEO 常見問題</h2><details><summary>GEO 是什麼？</summary><div class="fq-a">GEO（Generative Engine Optimization，生成式引擎優化）是讓品牌內容更容易被 Google AI 摘要、ChatGPT 等 AI 搜尋理解並引用的優化方式。做好 GEO，使用者問 AI 問題時，AI 就有機會直接推薦你的品牌。</div></details><details><summary>GEO 和 SEO 有什麼不同？</summary><div class="fq-a">SEO 的目標是讓網站在搜尋結果排名靠前；GEO 的目標是讓 AI 在回答問題時引用、推薦你的品牌。兩者可以一起做：先讓網站被搜尋引擎讀懂，再把內容整理成 AI 容易擷取的問答與事實句。</div></details><details><summary>怎麼讓 AI 推薦我的品牌？</summary><div class="fq-a">常見做法是用使用者真正會問的問句當標題、把內容拆成清楚的問答（FAQ）、在網站上寫出完整一致的品牌資訊（地址、電話、服務項目），並加上結構化資料。年輕有為工程行就是用「台北泥作找誰？」當主標，被 Google AI 摘要列為推薦的在地工程行。</div></details><details><summary>有實際做出成效的案例嗎？</summary><div class="fq-a">有。美國密西根 MNS 的「MNS國際檢定」「美國密西根MNS」拿下 Google 第 1 名；達億 3D 列印的「3D列印代印」排第 2 名並被 AI 摘要列為推薦廠商；年輕有為工程行的「台北泥作找誰」排第 3 名並被 AI 摘要推薦。</div></details><details><summary>GEO 服務費用多少？</summary><div class="fq-a">GEO 網站健檢與分析 NT$10,000 起、GEO 搜尋優化文章 NT$4,000／篇起、FAQ 搜尋問答系統規劃 NT$10,000 起、SEO＋GEO 基礎優化專案 NT$30,000 起、GEO 企業完整優化專案 NT$60,000 起、長期優化顧問 NT$20,000／月起。</div></details><details><summary>做 GEO 保證排名第一嗎？</summary><div class="fq-a">不保證。搜尋排名與 AI 摘要會因時間、地區、裝置變動，也取決於搜尋引擎與 AI 平台的演算法，GEO／SEO 都無法保證特定排名或 AI 引用結果。</div></details><details><summary>沒有網站也可以做 GEO 嗎？</summary><div class="fq-a">建議先有一個能被搜尋引擎讀取的官方網站。可以選擇「網站＋GEO」整合方案，從建站開始就把問答結構與品牌資訊規劃進去。</div></details></section>
 </main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div><p class="footer-email" style="width:100%;text-align:center;margin:20px 0 0;font-size:14px"><a href="mailto:kingking82532@gmail.com" style="color:inherit;text-decoration:underline;text-underline-offset:4px">聯絡信箱：kingking82532@gmail.com</a></p></footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
