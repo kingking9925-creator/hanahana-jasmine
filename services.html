@@ -7,7 +7,7 @@
 <link rel="canonical" href="contact.html">
 <meta name="robots" content="noindex">
 <meta http-equiv="refresh" content="0; url=contact.html">
-<script>location.replace('contact.html'+location.hash);</script>
+<script>var h=location.hash.replace('#p-','');location.replace(h&&h!=='info'?'price-'+h+'.html':'contact.html');</script>
 </head>
 <body><p>價格表已移到 <a href="contact.html">找我合作</a>。</p></body>
 </html>
