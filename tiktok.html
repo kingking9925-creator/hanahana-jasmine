@@ -379,13 +379,14 @@ nav{background:rgba(243,251,252,.8)}
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "想聽御姐音配音，要去哪裡看？", "acceptedAnswer": {"@type": "Answer", "text": "可以看花花的 TikTok「李大壯」（@kokojasmine20）。帳號以配音短影音為主，幫動畫、卡通角色換上御姐音重新演繹。"}}, {"@type": "Question", "name": "有哪些配音作品？", "acceptedAnswer": {"@type": "Answer", "text": "例如《大壞狐狸的故事》片段配音「媽媽～能陪我玩過家家嗎？」，以及《海底小縱隊》片段配音「張開嘴'◡'」。"}}, {"@type": "Question", "name": "TikTok 和 YouTube 的內容一樣嗎？", "acceptedAnswer": {"@type": "Answer", "text": "兩個都是花花的頻道（@kokojasmine20）。TikTok 以角色配音短片為主；YouTube Shorts 則多了 FLAI 的 AI 模板推薦與配音翻唱。"}}, {"@type": "Question", "name": "可以找花花剪輯短影音或合作配音嗎？", "acceptedAnswer": {"@type": "Answer", "text": "可以。短影音剪輯 15～30 秒基礎剪輯 NT$300 起，詳細方案請看「找我合作」頁；配音或其他合作，歡迎加 LINE 官方帳號詢問。"}}]}</script>
 <style>
 /* floating LINE */
-.line-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;display:flex;align-items:center;gap:8px;padding:10px 18px 10px 10px;border-radius:999px;background:#06c755;color:#fff!important;font-weight:700;font-size:14px;box-shadow:0 12px 28px -10px rgba(6,199,85,.75);animation:linefloat 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
-.line-fab svg{width:34px;height:34px;flex:none}
+.line-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;display:grid;place-items:center;width:60px;height:60px;padding:0;border-radius:50%;background:#06c755;color:#fff!important;font-weight:700;font-size:14px;box-shadow:0 12px 28px -10px rgba(6,199,85,.75);animation:linefloat 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
+.line-fab svg{width:40px;height:40px;flex:none}
+.line-fab span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .line-fab:hover{animation-play-state:paused;transform:translateY(-3px) scale(1.04);box-shadow:0 16px 32px -10px rgba(6,199,85,.85)}
 .line-fab::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(6,199,85,.5);animation:linepulse 2.4s ease-out infinite}
 @keyframes linefloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes linepulse{0%{box-shadow:0 0 0 0 rgba(6,199,85,.45)}100%{box-shadow:0 0 0 14px rgba(6,199,85,0)}}
-@media(max-width:600px){.line-fab{right:14px;padding:8px;font-size:0;gap:0}.line-fab span{display:none}.line-fab svg{width:38px;height:38px}}
+@media(max-width:600px){.line-fab{right:14px;width:56px;height:56px}.line-fab svg{width:38px;height:38px}}
 @media(prefers-reduced-motion:reduce){.line-fab,.line-fab::after{animation:none}}
 </style>
 </head>

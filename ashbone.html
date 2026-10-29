@@ -425,13 +425,14 @@ nav{background:rgba(246,242,255,.8)}
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "想找 AI 角色聊天，要去哪裡玩？", "acceptedAnswer": {"@type": "Answer", "text": "可以到 Ashbone 玩。Ashbone 是 AI 角色聊天平台，挑一個喜歡的角色就能直接和他對話、展開專屬於你的故事。花花（Ashbone 帳號：月月）在 Ashbone 發佈了多個角色，從本頁點「去 Ashbone 聊」就能開始。"}}, {"@type": "Question", "name": "Ashbone 的角色卡和世界書是什麼？", "acceptedAnswer": {"@type": "Answer", "text": "角色卡是每個 AI 角色的個性、背景和開場白；世界書是完整的世界觀設定。兩者搭配起來，AI 角色會照著設定和你互動，故事更有沉浸感。"}}, {"@type": "Question", "name": "想找 AI 男友、女性向的 AI 角色，推薦哪一個？", "acceptedAnswer": {"@type": "Answer", "text": "推薦女性向角色《穿越❗兽人世界❤️俊美后宫收集‼️》：穿越到獸人石器時代，俊美又強大的獸人一個個靠過來；或《S集团的拳击手🥊》：S 集團最得寵的公子、最著名的拳擊手。兩個都是 18+ 角色。"}}, {"@type": "Question", "name": "有全年齡、不限制級的 AI 角色嗎？", "acceptedAnswer": {"@type": "Answer", "text": "有。《震惊‼️满门忠烈的我被欺负⁉️》是全年齡角色：表面上是江城一中最不起眼的貧困生，床頭舊鐵盒裡卻鎖著四本烈士證，屬於現代架空、校園、隱藏身份題材。"}}, {"@type": "Question", "name": "月月最多人聊的 Ashbone 角色是哪一個？", "acceptedAnswer": {"@type": "Answer", "text": "是《透明小主播》，累積超過 350 萬次對話。故事從抖音語音廳裡零粉絲、零流水的透明小主播開始，靠一次次直播慢慢留下屬於自己的粉絲。"}}, {"@type": "Question", "name": "可以請人幫我做 Ashbone 角色嗎？多少錢？", "acceptedAnswer": {"@type": "Answer", "text": "可以委託花花製作。ASHBONE 單一模板 NT$50，兩週內完成並包含圖片；收到成品後兩週內可免費修改 2 次。"}}, {"@type": "Question", "name": "Ashbone 上的角色適合未成年嗎？", "acceptedAnswer": {"@type": "Answer", "text": "月月的 Ashbone 角色部分為 18 歲以上的成人向內容，頁面上都有標示 18+ 或全年齡，未滿 18 歲請選擇全年齡角色。"}}]}</script>
 <style>
 /* floating LINE */
-.line-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;display:flex;align-items:center;gap:8px;padding:10px 18px 10px 10px;border-radius:999px;background:#06c755;color:#fff!important;font-weight:700;font-size:14px;box-shadow:0 12px 28px -10px rgba(6,199,85,.75);animation:linefloat 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
-.line-fab svg{width:34px;height:34px;flex:none}
+.line-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;display:grid;place-items:center;width:60px;height:60px;padding:0;border-radius:50%;background:#06c755;color:#fff!important;font-weight:700;font-size:14px;box-shadow:0 12px 28px -10px rgba(6,199,85,.75);animation:linefloat 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
+.line-fab svg{width:40px;height:40px;flex:none}
+.line-fab span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .line-fab:hover{animation-play-state:paused;transform:translateY(-3px) scale(1.04);box-shadow:0 16px 32px -10px rgba(6,199,85,.85)}
 .line-fab::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(6,199,85,.5);animation:linepulse 2.4s ease-out infinite}
 @keyframes linefloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes linepulse{0%{box-shadow:0 0 0 0 rgba(6,199,85,.45)}100%{box-shadow:0 0 0 14px rgba(6,199,85,0)}}
-@media(max-width:600px){.line-fab{right:14px;padding:8px;font-size:0;gap:0}.line-fab span{display:none}.line-fab svg{width:38px;height:38px}}
+@media(max-width:600px){.line-fab{right:14px;width:56px;height:56px}.line-fab svg{width:38px;height:38px}}
 @media(prefers-reduced-motion:reduce){.line-fab,.line-fab::after{animation:none}}
 </style>
 </head>

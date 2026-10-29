@@ -368,13 +368,14 @@ body{min-height:100svh;display:flex;flex-direction:column}
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "想做品牌官網或形象網站，可以找誰？", "acceptedAnswer": {"@type": "Answer", "text": "可以找花花 Jasmine。花花曾參與達億 3D 列印購物網站、年輕有為工程行形象網站、美國密西根 MNS 品牌官網的設計，從購物網站、在地服務形象網站到多語系品牌官網都有實際案例。"}}, {"@type": "Question", "name": "網頁設計費用大概多少？", "acceptedAnswer": {"@type": "Answer", "text": "單頁式品牌形象網站 NT$15,000 起、個人品牌／作品集網站 NT$20,000 起、企業形象網站（3～5 頁）NT$35,000 起、企業形象網站（6～10 頁）NT$60,000 起、WordPress 企業網站 NT$50,000 起、電商購物網站 NT$80,000 起。實際報價依頁數與功能確認後提供。"}}, {"@type": "Question", "name": "可以做多語系網站嗎？", "acceptedAnswer": {"@type": "Answer", "text": "可以。年輕有為工程行（中文、English、Tiếng Việt）和美國密西根 MNS（中、英、越）都是多語系網站的實際案例。"}}, {"@type": "Question", "name": "做網站可以順便做 GEO，讓 Google 和 AI 找得到嗎？", "acceptedAnswer": {"@type": "Answer", "text": "可以，有「網站＋GEO」整合方案，例如個人品牌網站＋GEO NT$35,000 起、企業形象網站＋GEO NT$80,000 起。曾參與的網站中，年輕有為工程行的「台北泥作找誰」已被 Google AI 摘要推薦。"}}, {"@type": "Question", "name": "已經有網站了，可以只改版或新增頁面嗎？", "acceptedAnswer": {"@type": "Answer", "text": "可以。企業網站全面改版 NT$40,000 起、網站新增頁面 NT$5,000／頁起，也提供網站維護管理 NT$8,000／月起。"}}, {"@type": "Question", "name": "網域、主機費用有包含嗎？", "acceptedAnswer": {"@type": "Answer", "text": "網域、主機、付費外掛及第三方服務費用另計。確認需求後一次付清全額，收到成品 14 天內可在原專案範圍內免費修改 2 次。"}}, {"@type": "Question", "name": "也有在做社群粉專的設計嗎？", "acceptedAnswer": {"@type": "Answer", "text": "有。花花曾參與達億 3D 列印、品登藝術美學、MNS 國際技能認證訓練營等 Facebook 粉絲專頁的視覺設計與內容經營。"}}]}</script>
 <style>
 /* floating LINE */
-.line-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;display:flex;align-items:center;gap:8px;padding:10px 18px 10px 10px;border-radius:999px;background:#06c755;color:#fff!important;font-weight:700;font-size:14px;box-shadow:0 12px 28px -10px rgba(6,199,85,.75);animation:linefloat 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
-.line-fab svg{width:34px;height:34px;flex:none}
+.line-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;display:grid;place-items:center;width:60px;height:60px;padding:0;border-radius:50%;background:#06c755;color:#fff!important;font-weight:700;font-size:14px;box-shadow:0 12px 28px -10px rgba(6,199,85,.75);animation:linefloat 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
+.line-fab svg{width:40px;height:40px;flex:none}
+.line-fab span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .line-fab:hover{animation-play-state:paused;transform:translateY(-3px) scale(1.04);box-shadow:0 16px 32px -10px rgba(6,199,85,.85)}
 .line-fab::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(6,199,85,.5);animation:linepulse 2.4s ease-out infinite}
 @keyframes linefloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes linepulse{0%{box-shadow:0 0 0 0 rgba(6,199,85,.45)}100%{box-shadow:0 0 0 14px rgba(6,199,85,0)}}
-@media(max-width:600px){.line-fab{right:14px;padding:8px;font-size:0;gap:0}.line-fab span{display:none}.line-fab svg{width:38px;height:38px}}
+@media(max-width:600px){.line-fab{right:14px;width:56px;height:56px}.line-fab svg{width:38px;height:38px}}
 @media(prefers-reduced-motion:reduce){.line-fab,.line-fab::after{animation:none}}
 </style>
 </head>

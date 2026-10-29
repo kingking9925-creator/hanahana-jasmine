@@ -410,13 +410,14 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "想看線上小說，Quarterfull 是什麼？", "acceptedAnswer": {"@type": "Answer", "text": "Quarterfull 是線上小說平台，主打「以你為中心展開的故事」。作者在上面連載作品，讀者可以追更、收藏、留言，也能直接贊助喜歡的作者。"}}, {"@type": "Question", "name": "Quarterfull 的小說要怎麼看？", "acceptedAnswer": {"@type": "Answer", "text": "點進作品就能從第 1 話開始看，閱讀進度會自動儲存。從本頁點封面或「開始閱讀」就會直接開啟作品。"}}, {"@type": "Question", "name": "花花（月月）寫了哪些小說？", "acceptedAnswer": {"@type": "Answer", "text": "目前有兩部：奇幻小說《用異能會付出壽命，但倘若我擁有無限壽命呢？》（連載中）和 BL 小說《網游之大佬愛上我》（已完結，32 話）。"}}, {"@type": "Question", "name": "推薦校園異能、無 CP 的小說？", "acceptedAnswer": {"@type": "Answer", "text": "推薦《用異能會付出壽命，但倘若我擁有無限壽命呢？》：無 CP、校園異能、扮豬吃虎、長生、群像。在「越早暴露天賦死得越快」的世界，擁有無限壽命的主角陸晏一直隱藏實力，直到暗殺組織血洗新生考核區。"}}, {"@type": "Question", "name": "推薦網遊題材的 BL 小說？", "acceptedAnswer": {"@type": "Answer", "text": "推薦已完結的《網游之大佬愛上我》：社恐小奶媽 × 全服榜一刺客，在仙俠網游《九霄仙途》裡被大佬盯上的甜寵故事，一次就能追完。"}}, {"@type": "Question", "name": "看完可以跟作者互動嗎？", "acceptedAnswer": {"@type": "Answer", "text": "可以。Quarterfull 每部作品都能留言、評價，告訴作者你的心得，也可以收藏作品追更新。"}}]}</script>
 <style>
 /* floating LINE */
-.line-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;display:flex;align-items:center;gap:8px;padding:10px 18px 10px 10px;border-radius:999px;background:#06c755;color:#fff!important;font-weight:700;font-size:14px;box-shadow:0 12px 28px -10px rgba(6,199,85,.75);animation:linefloat 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
-.line-fab svg{width:34px;height:34px;flex:none}
+.line-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:90;display:grid;place-items:center;width:60px;height:60px;padding:0;border-radius:50%;background:#06c755;color:#fff!important;font-weight:700;font-size:14px;box-shadow:0 12px 28px -10px rgba(6,199,85,.75);animation:linefloat 3s ease-in-out infinite;transition:transform .2s,box-shadow .2s}
+.line-fab svg{width:40px;height:40px;flex:none}
+.line-fab span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .line-fab:hover{animation-play-state:paused;transform:translateY(-3px) scale(1.04);box-shadow:0 16px 32px -10px rgba(6,199,85,.85)}
 .line-fab::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(6,199,85,.5);animation:linepulse 2.4s ease-out infinite}
 @keyframes linefloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes linepulse{0%{box-shadow:0 0 0 0 rgba(6,199,85,.45)}100%{box-shadow:0 0 0 14px rgba(6,199,85,0)}}
-@media(max-width:600px){.line-fab{right:14px;padding:8px;font-size:0;gap:0}.line-fab span{display:none}.line-fab svg{width:38px;height:38px}}
+@media(max-width:600px){.line-fab{right:14px;width:56px;height:56px}.line-fab svg{width:38px;height:38px}}
 @media(prefers-reduced-motion:reduce){.line-fab,.line-fab::after{animation:none}}
 </style>
 </head>
