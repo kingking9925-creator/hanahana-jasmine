@@ -331,8 +331,66 @@ footer{border-color:rgba(74,32,51,.12)}
 .pterms ul{margin:0 0 22px;padding-left:20px;line-height:1.9;color:#ffe3ec}
 .pterms .btn{background:#fff;color:#8a3a5c;border-color:#fff}
 .pterms .btn:hover{background:#f06292;color:#fff;border-color:#f06292}
-@media(max-width:860px){.pricing{padding-top:150px}.pchips{position:sticky;top:150px;z-index:20;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;background:linear-gradient(#fff5f8 70%,transparent)}.plist{grid-template-columns:1fr}.pcat{padding:22px 18px;border-radius:22px}.pcat-h h2{font-size:22px}.pi-p{font-size:15px}}
+@media(max-width:860px){.pricing{padding-top:150px}.pchips{position:relative;z-index:1;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;background:linear-gradient(#fff5f8 70%,transparent)}.plist{grid-template-columns:1fr}.pcat{padding:22px 18px;border-radius:22px}.pcat-h h2{font-size:22px}.pi-p{font-size:15px}}
 </style>
+<style>
+/* Pricing tabs */
+.pricing{padding-top:120px}
+.pchips a.on{background:#f06292;color:#fff;border-color:#f06292}
+.pcat{display:none}
+.pcat.show{display:block;opacity:1!important;transform:none!important}
+.ppanel-info{display:none}
+.ppanel-info.show{display:block}
+.ppanel-info .c-sec:first-child{margin-top:28px}
+.ppanel-info .reveal{opacity:1!important;transform:none!important}
+.info-cta{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 10px}
+.c-sec{margin:64px 0}
+.c-h{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:28px;flex-wrap:wrap}
+.c-h .n{font-family:var(--display);font-style:italic;color:#f06292;font-size:20px}
+.c-h h2{font-family:var(--serif);font-size:26px;margin:0}
+.c-h small{color:var(--muted);font-size:14px}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.svc-c{background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 16%,#fff);border-radius:22px;padding:24px;transition:.3s}
+.svc-c:hover{transform:translateY(-5px);border-color:#f8a5c0;box-shadow:0 18px 34px -20px rgba(240,98,146,.6)}
+.svc-c .em{font-size:24px}
+.svc-c h3{font-size:17px;margin:10px 0 6px}
+.svc-c p{font-size:13.5px;color:var(--muted);margin:0 0 14px;line-height:1.75}
+.svc-c .pr{font-size:13px;font-weight:700;color:#e0558a;background:#ffeaf1;padding:5px 12px;border-radius:999px;display:inline-block}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:st}
+.step{position:relative;background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 14%,#fff);border-radius:20px;padding:22px 18px}
+.step::before{counter-increment:st;content:counter(st);position:absolute;top:-13px;left:18px;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#ff8fb1,#f06292);color:#fff;font-weight:800;font-size:14px;display:grid;place-items:center;box-shadow:0 6px 14px -6px rgba(240,98,146,.9)}
+.step b{display:block;font-size:15px;margin:10px 0 6px}
+.step p{font-size:13px;color:var(--muted);margin:0;line-height:1.7}
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.rule{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 14%,#fff);border-radius:18px;padding:18px 20px}
+.rule .k{font-size:20px;flex:none}
+.rule b{display:block;font-size:14.5px;margin-bottom:3px}
+.rule span{font-size:13.5px;color:var(--muted);line-height:1.7}
+.nope{background:linear-gradient(135deg,#4a2033,#7a3352);color:#ffeaf1;border-radius:28px;padding:32px 34px}
+.nope h3{font-family:var(--serif);font-size:21px;margin:0 0 6px;color:#fff}
+.nope .sub{font-size:13.5px;color:#e4bccd;margin:0 0 18px}
+.nope ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px}
+.nope li{font-size:14px;display:flex;gap:10px;align-items:flex-start;line-height:1.7}
+.nope li::before{content:"✕";color:#ff9fbd;font-weight:800;flex:none}
+@media(max-width:900px){.svc-grid{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr);gap:22px 14px}.rules,.nope ul,.start,.wish ol{grid-template-columns:1fr}}
+@media(max-width:560px){.svc-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr;gap:26px}.nope{padding:26px 22px}}
+@media(max-width:860px){.pricing{padding-top:150px}}
+</style>
+<style>
+/* GEO FAQ */
+.faq-geo{margin:56px 0 30px}
+.faq-geo .fq-ey{font-size:12px;letter-spacing:.25em;font-weight:700;text-transform:uppercase;color:var(--coral,#f06292)}
+.faq-geo h2{font-family:var(--serif);font-size:clamp(26px,3.6vw,36px);margin:6px 0 18px}
+.faq-geo details{background:#fff;border:1px solid var(--line,rgba(0,0,0,.12));border-radius:18px;margin:10px 0;overflow:hidden}
+.faq-geo summary{list-style:none;cursor:pointer;padding:18px 54px 18px 22px;font-weight:700;font-size:16px;position:relative;color:var(--ink,#1d1a17)}
+.faq-geo summary::-webkit-details-marker{display:none}
+.faq-geo summary::after{content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:400;color:var(--coral,#f06292);transition:.25s}
+.faq-geo details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq-geo .fq-a{padding:0 22px 18px;color:var(--muted,#6f665c);font-size:14.5px;line-height:1.9}
+.faq-geo .fq-a a{color:var(--coral,#f06292);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:760px){.faq-geo summary{font-size:15px;padding:16px 46px 16px 18px}.faq-geo .fq-a{padding:0 18px 16px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "花花 Jasmine 接哪些設計案？", "acceptedAnswer": {"@type": "Answer", "text": "可以接 AI 互動模板（FLAI、Frontia、ASHBONE）、影片剪輯、名片、菜單／價格表、電商圖、冠名卡、網頁設計、GEO／SEO 搜尋優化、LINE 官方帳號建置、行政申請協助，以及輕量型遊戲代打／掛機。點上方分類按鈕可以看各項目的價格。"}}, {"@type": "Question", "name": "價格表上的價格就是最終報價嗎？", "acceptedAnswer": {"@type": "Answer", "text": "價格表是新台幣參考起價，實際報價會依需求內容、數量與難度確認後提供。"}}, {"@type": "Question", "name": "怎麼委託？", "acceptedAnswer": {"@type": "Answer", "text": "先私訊或加 LINE 官方帳號，說明用途、風格參考、交期和預算。花花回覆能不能接、怎麼做、多少錢、多久交件，雙方確認後就成立。"}}, {"@type": "Question", "name": "製作時間從什麼時候開始算？", "acceptedAnswer": {"@type": "Answer", "text": "製作時間自需求確認、素材交齊及付款後開始計算。各項目的參考天數寫在分類價格表裡。"}}, {"@type": "Question", "name": "可以修改幾次？", "acceptedAnswer": {"@type": "Answer", "text": "大多數項目包含 2 次免費修改，須在收到成品後兩週內提出；超過次數或逾期，依各項目收費。"}}, {"@type": "Question", "name": "有急件服務嗎？", "acceptedAnswer": {"@type": "Answer", "text": "有，需要先確認檔期。急件依項目加收 30%～50%，詳見各分類說明。"}}, {"@type": "Question", "name": "費用有包含印刷、平台或主機費用嗎？", "acceptedAnswer": {"@type": "Answer", "text": "沒有。印刷、平台訂閱、網域主機、政府規費等第三方費用都另計。"}}, {"@type": "Question", "name": "付款方式是什麼？", "acceptedAnswer": {"@type": "Answer", "text": "可用銀行轉帳或 LINE Pay。一般案件確認需求後一次付清；網頁設計、GEO 等專案型服務可先付 50% 訂金，驗收後付尾款。"}}, {"@type": "Question", "name": "有不接的案子嗎？", "acceptedAnswer": {"@type": "Answer", "text": "有。不接抄襲或仿冒他人設計與角色、違法或侵權內容、無償或「先做看看再談錢」的合作、需求完全未定的案子，以及冒充他人身分的委託。"}}]}</script>
 </head>
 <body>
 
@@ -358,13 +416,59 @@ footer{border-color:rgba(74,32,51,.12)}
   </div>
 </nav>
 <main class="pricing wrap">
-  <a href="index.html" class="back">← 回首頁</a>
-  <header class="pr-hero">
-    <div class="eyebrow">Pricing · 價格表</div>
-    <h1>價格表</h1>
-    <p>以下皆為新台幣參考起價，實際報價依需求內容、數量與難度確認後提供。製作時間自需求確認、素材交齊及付款後開始計算。</p>
-  </header>
-  <div class="pchips" role="navigation" aria-label="服務分類"><a href="#p-ai">AI 互動模板</a><a href="#p-video">影片剪輯</a><a href="#p-card">名片設計</a><a href="#p-menu">菜單／價格表</a><a href="#p-ecom">電商圖設計</a><a href="#p-namecard">冠名卡設計</a><a href="#p-web">網頁設計</a><a href="#p-geo">GEO／SEO 搜尋優化</a><a href="#p-line">LINE 官方帳號建置</a><a href="#p-admin">行政申請協助</a><a href="#p-game">遊戲代打／掛機</a></div>
+  <div class="pchips" role="tablist" aria-label="服務分類"><a href="#p-info" class="on">接案須知</a><a href="#p-ai">AI 互動模板</a><a href="#p-video">影片剪輯</a><a href="#p-card">名片設計</a><a href="#p-menu">菜單／價格表</a><a href="#p-ecom">電商圖設計</a><a href="#p-namecard">冠名卡設計</a><a href="#p-web">網頁設計</a><a href="#p-geo">GEO／SEO 搜尋優化</a><a href="#p-line">LINE 官方帳號建置</a><a href="#p-admin">行政申請協助</a><a href="#p-game">遊戲代打／掛機</a></div>
+  <div class="ppanel-info" id="p-info">
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">01</span><h2>我可以接的項目</h2><small>不在清單上的也可以問，說不定我做得來</small></div>
+    <div class="svc-grid">
+      <article class="svc-c reveal"><div class="em">✿</div><h3>LOGO／品牌識別</h3><p>從名字、個性到使用情境，做出一組你用得久的識別。含主要 LOGO、簡化版與色彩規範。</p><span class="pr">報價依需求評估</span></article>
+      <article class="svc-c reveal"><div class="em">▦</div><h3>社群貼文／圖文排版</h3><p>IG、FB 貼文與限動版型，把一段話排成讓人願意停下來看完的圖。</p><span class="pr">可單張或整組</span></article>
+      <article class="svc-c reveal"><div class="em">▤</div><h3>電商圖片</h3><p>商品主圖、Banner、價目表、活動圖，做成一看就懂、一看就想點的樣子。</p><span class="pr">可配套優惠</span></article>
+      <article class="svc-c reveal"><div class="em">▶</div><h3>影片剪輯</h3><p>短影片、Reels、直播精華剪輯，含字幕、配樂與節奏調整。</p><span class="pr">依片長計價</span></article>
+      <article class="svc-c reveal"><div class="em">⌘</div><h3>網站設計</h3><p>像這個網站一樣的個人品牌站、作品集或活動頁，含手機版。</p><span class="pr">含上線設定</span></article>
+      <article class="svc-c reveal"><div class="em">✦</div><h3>AI 角色／互動模板</h3><p>角色設定、世界觀、開場白與互動流程設計，可上架到 FLAI、Frontia、Ashbone。</p><span class="pr">含一次調校</span></article>
+      </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">02</span><h2>合作怎麼進行</h2><small>從私訊到交件，大概是這五步</small></div>
+    <div class="steps">
+      <div class="step reveal"><b>說需求</b><p>私訊我，附上用途、風格參考、交期和預算。也可以直接加 LINE 官方帳號詢問。</p></div>
+      <div class="step reveal"><b>報價確認</b><p>我回覆能不能接、怎麼做、多少錢、多久交件。雙方確認後成立。</p></div>
+      <div class="step reveal"><b>付款</b><p>確認後一次付清全額，收到款項才排進製作。開工後恕不退款。</p></div>
+      <div class="step reveal"><b>出草稿</b><p>先給草稿或方向提案，確認大方向後再細修。</p></div>
+      <div class="step reveal"><b>修改交件</b><p>含 2 次修改，確認無誤後交付原始檔。</p></div>
+      </div>
+  </section>
+
+  <section class="c-sec">
+    <div class="c-h reveal"><span class="n">03</span><h2>委託前請先看</h2><small>先說清楚，大家都省事</small></div>
+    <div class="rules">
+      <div class="rule reveal"><span class="k">⏱</span><div><b>一般交期</b><span>LOGO 約 5–7 天，社群貼文 2–3 天，影片與網站另議。確切時間報價時會說。</span></div></div>
+      <div class="rule reveal"><span class="k">✎</span><div><b>修改次數</b><span>每個案子含 2 次修改。超過的部分依修改幅度另計。</span></div></div>
+      <div class="rule reveal"><span class="k">◷</span><div><b>急件</b><span>需要比一般交期更快完成的，加收 30% 急件費，也要先確認我的檔期。</span></div></div>
+      <div class="rule reveal"><span class="k">₪</span><div><b>付款方式</b><span>銀行轉帳或 LINE Pay，確認需求後一次付清全額。</span></div></div>
+      <div class="rule reveal"><span class="k">⎙</span><div><b>交付格式</b><span>圖片交付 PNG／JPG，向量檔 AI／SVG，影片 MP4。需要其他格式請先說。</span></div></div>
+      <div class="rule reveal"><span class="k">©</span><div><b>版權歸屬</b><span>尾款付清後，成品的使用權歸你。我保留放進作品集展示的權利，不希望公開的請事先告知。</span></div></div>
+      </div>
+  </section>
+
+  <section class="c-sec reveal">
+    <div class="nope">
+      <h3>這些我不接</h3>
+      <p class="sub">不是耍脾氣，是這幾種做下去雙方都不會開心。</p>
+      <ul>
+        <li>抄襲、臨摹或仿冒他人既有的設計與角色</li>
+        <li>涉及違法、侵權或會傷害到特定人的內容</li>
+        <li>無償、抽成、「先做看看再談錢」的合作</li>
+        <li>需求完全未定，希望我邊猜邊做的案子</li>
+        <li>要求掛他人名字發表，或代為冒充他人身分</li>
+        </ul>
+    </div>
+  </section>
+
+    <div class="info-cta"><a href="https://line.me/R/ti/p/@446prsjv" target="_blank" rel="noopener" class="btn btn-dark">加 LINE 詢問報價 <span class="arr">→</span></a><a href="contact.html" class="btn btn-ghost">更多聯絡方式</a></div>
+  </div>
   <section class="pcat reveal" id="p-ai">
     <div class="pcat-h"><h2>AI 互動模板</h2><p>Flai・Frontia・ASHBONE 模板客製化，皆含圖片製作。</p></div>
     <ul class="plist"><li><span class="pi-n">Flai 單倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$50</b></li><li><span class="pi-n">Flai 雙倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$100</b></li><li><span class="pi-n">Flai 四倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$400</b></li><li><span class="pi-n">Flai 八倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$1,000</b></li><li><span class="pi-n">Frontia 單一模板</span><span class="pi-t">一個月內</span><b class="pi-p">NT$1,500</b></li><li><span class="pi-n">ASHBONE 單一模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$50</b></li></ul>
@@ -420,17 +524,7 @@ footer{border-color:rgba(74,32,51,.12)}
     <ul class="plist"><li><span class="pi-n">每日簽到、領取獎勵</span><span class="pi-t">5～10 分鐘</span><b class="pi-p">NT$10～30／次</b></li><li><span class="pi-n">簡單每日任務</span><span class="pi-t">10～30 分鐘</span><b class="pi-p">NT$30～60／次</b></li><li><span class="pi-n">每週任務</span><span class="pi-t">1～3 小時</span><b class="pi-p">NT$100～250／次</b></li><li><span class="pi-n">簡單副本、刷關</span><span class="pi-t">依需求</span><b class="pi-p">NT$50～100／小時</b></li><li><span class="pi-n">掛機代練</span><span class="pi-t">依需求</span><b class="pi-p">NT$20～40／小時</b></li><li><span class="pi-n">重複刷素材、資源</span><span class="pi-t">依需求</span><b class="pi-p">NT$50～100／小時</b></li><li><span class="pi-n">活動任務代解</span><span class="pi-t">1～4 小時</span><b class="pi-p">NT$100～300／次</b></li><li><span class="pi-n">長期每日託管</span><span class="pi-t">每日約 30 分鐘</span><b class="pi-p">NT$500～1,200／週</b></li></ul>
     <ul class="pnote"><li>最低接單金額 NT$50。</li><li>不保證隨機掉落、抽卡結果及特殊獎勵。</li><li>不使用外掛或作弊程式；帳號代打可能涉及遊戲官方條款，請委託人自行確認。</li></ul>
   </section>
-  <section class="pterms reveal">
-    <h2>共同委託須知</h2>
-    <ul>
-      <li>委託前請<b>一次提出完整需求</b>（內容、風格、尺寸、參考與素材），未指定的部分由花花自行安排。</li>
-      <li>多數服務含 <b>2 次免費修改</b>，須於收到成品後兩週內提出；超過次數或逾期依各項目收費。</li>
-      <li>製作開始後若大幅更改方向、新增項目或重新製作，需另行報價。</li>
-      <li>印刷、平台訂閱、網域主機、政府規費等第三方費用皆不包含在內。</li>
-      <li>大量委託、長期合作或特殊需求，歡迎洽談專案報價。</li>
-    </ul>
-    <a href="contact.html" class="btn btn-dark">找我報價 <span class="arr">→</span></a>
-  </section>
+  <section class="faq-geo" aria-labelledby="faq-pricing"><div class="fq-ey">FAQ · 常見問題</div><h2 id="faq-pricing">委託常見問題</h2><details><summary>花花 Jasmine 接哪些設計案？</summary><div class="fq-a">可以接 AI 互動模板（FLAI、Frontia、ASHBONE）、影片剪輯、名片、菜單／價格表、電商圖、冠名卡、網頁設計、GEO／SEO 搜尋優化、LINE 官方帳號建置、行政申請協助，以及輕量型遊戲代打／掛機。點上方分類按鈕可以看各項目的價格。</div></details><details><summary>價格表上的價格就是最終報價嗎？</summary><div class="fq-a">價格表是新台幣參考起價，實際報價會依需求內容、數量與難度確認後提供。</div></details><details><summary>怎麼委託？</summary><div class="fq-a">先私訊或加 LINE 官方帳號，說明用途、風格參考、交期和預算。花花回覆能不能接、怎麼做、多少錢、多久交件，雙方確認後就成立。</div></details><details><summary>製作時間從什麼時候開始算？</summary><div class="fq-a">製作時間自需求確認、素材交齊及付款後開始計算。各項目的參考天數寫在分類價格表裡。</div></details><details><summary>可以修改幾次？</summary><div class="fq-a">大多數項目包含 2 次免費修改，須在收到成品後兩週內提出；超過次數或逾期，依各項目收費。</div></details><details><summary>有急件服務嗎？</summary><div class="fq-a">有，需要先確認檔期。急件依項目加收 30%～50%，詳見各分類說明。</div></details><details><summary>費用有包含印刷、平台或主機費用嗎？</summary><div class="fq-a">沒有。印刷、平台訂閱、網域主機、政府規費等第三方費用都另計。</div></details><details><summary>付款方式是什麼？</summary><div class="fq-a">可用銀行轉帳或 LINE Pay。一般案件確認需求後一次付清；網頁設計、GEO 等專案型服務可先付 50% 訂金，驗收後付尾款。</div></details><details><summary>有不接的案子嗎？</summary><div class="fq-a">有。不接抄襲或仿冒他人設計與角色、違法或侵權內容、無償或「先做看看再談錢」的合作、需求完全未定的案子，以及冒充他人身分的委託。</div></details></section>
 </main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div><p class="footer-email" style="width:100%;text-align:center;margin:20px 0 0;font-size:14px"><a href="mailto:kingking82532@gmail.com" style="color:inherit;text-decoration:underline;text-underline-offset:4px">聯絡信箱：kingking82532@gmail.com</a></p></footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();
@@ -443,6 +537,13 @@ b.addEventListener('click',function(e){e.preventDefault();var o=!d.classList.con
 b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();b.click()}});
 document.addEventListener('click',function(e){if(!d.contains(e.target))set(false)});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});});})();
+</script>
+<script>
+(function(){var chips=[].slice.call(document.querySelectorAll('.pchips a'));var panels=[].slice.call(document.querySelectorAll('.pcat,.ppanel-info'));
+function show(id,scroll){if(!document.getElementById(id))id='p-info';panels.forEach(function(p){p.classList.toggle('show',p.id===id)});chips.forEach(function(c){var on=c.getAttribute('href')==='#'+id;c.classList.toggle('on',on);c.setAttribute('aria-selected',on)});if(scroll){var t=document.querySelector('.pchips');var nb=document.querySelector('nav');var off=(nb?nb.getBoundingClientRect().bottom:90)+12;window.scrollTo({top:Math.max(0,t.getBoundingClientRect().top+window.scrollY-off),behavior:'smooth'})}}
+chips.forEach(function(c){c.setAttribute('role','tab');c.addEventListener('click',function(e){e.preventDefault();var id=c.getAttribute('href').slice(1);history.replaceState(null,'','#'+id);show(id,true)})});
+window.addEventListener('hashchange',function(){show(location.hash.slice(1),true)});
+show(location.hash.slice(1)||'p-info',false);if(location.hash)setTimeout(function(){window.scrollTo(0,0)},0);})();
 </script>
 </body>
 </html>
