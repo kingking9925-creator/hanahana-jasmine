@@ -362,6 +362,21 @@ nav{background:rgba(243,251,252,.8)}
 .about-fr .ey{color:#25f4ee}.about-fr p{color:#d8e0e8}.feat span{color:#b9c4cf}
 @media(max-width:760px){.yt-mark{position:relative;right:auto;top:auto;transform:none;width:46%;margin:0 auto 6px;display:block;order:-1;animation:none}.prof{display:flex!important;flex-direction:column}.st p{display:block}}
 </style>
+<style>
+/* GEO FAQ */
+.faq-geo{margin:56px 0 30px}
+.faq-geo .fq-ey{font-size:12px;letter-spacing:.25em;font-weight:700;text-transform:uppercase;color:var(--coral,#f06292)}
+.faq-geo h2{font-family:var(--serif);font-size:clamp(26px,3.6vw,36px);margin:6px 0 18px}
+.faq-geo details{background:#fff;border:1px solid var(--line,rgba(0,0,0,.12));border-radius:18px;margin:10px 0;overflow:hidden}
+.faq-geo summary{list-style:none;cursor:pointer;padding:18px 54px 18px 22px;font-weight:700;font-size:16px;position:relative;color:var(--ink,#1d1a17)}
+.faq-geo summary::-webkit-details-marker{display:none}
+.faq-geo summary::after{content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:400;color:var(--coral,#f06292);transition:.25s}
+.faq-geo details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq-geo .fq-a{padding:0 22px 18px;color:var(--muted,#6f665c);font-size:14.5px;line-height:1.9}
+.faq-geo .fq-a a{color:var(--coral,#f06292);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:760px){.faq-geo summary{font-size:15px;padding:16px 46px 16px 18px}.faq-geo .fq-a{padding:0 18px 16px}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "想聽御姐音配音，要去哪裡看？", "acceptedAnswer": {"@type": "Answer", "text": "可以看花花的 TikTok「李大壯」（@kokojasmine20）。帳號以配音短影音為主，幫動畫、卡通角色換上御姐音重新演繹。"}}, {"@type": "Question", "name": "有哪些配音作品？", "acceptedAnswer": {"@type": "Answer", "text": "例如《大壞狐狸的故事》片段配音「媽媽～能陪我玩過家家嗎？」，以及《海底小縱隊》片段配音「張開嘴'◡'」。"}}, {"@type": "Question", "name": "TikTok 和 YouTube 的內容一樣嗎？", "acceptedAnswer": {"@type": "Answer", "text": "兩個都是花花的頻道（@kokojasmine20）。TikTok 以角色配音短片為主；YouTube Shorts 則多了 FLAI 的 AI 模板推薦與配音翻唱。"}}, {"@type": "Question", "name": "可以找花花剪輯短影音或合作配音嗎？", "acceptedAnswer": {"@type": "Answer", "text": "可以。短影音剪輯 15～30 秒基礎剪輯 NT$300 起，詳細方案請看價格表；配音或其他合作，歡迎加 LINE 官方帳號詢問。"}}]}</script>
 </head>
 <body>
 
@@ -420,6 +435,7 @@ nav{background:rgba(243,251,252,.8)}
       <div><b>🎮 遊戲趣味</b><span>遊戲與互動劇情的爆笑、名場面剪輯。</span></div>
     </div>
   </section>
+  <section class="faq-geo" aria-labelledby="faq-tiktok"><div class="fq-ey">FAQ · 常見問題</div><h2 id="faq-tiktok">TikTok 常見問題</h2><details><summary>想聽御姐音配音，要去哪裡看？</summary><div class="fq-a">可以看花花的 TikTok「李大壯」（@kokojasmine20）。帳號以配音短影音為主，幫動畫、卡通角色換上御姐音重新演繹。</div></details><details><summary>有哪些配音作品？</summary><div class="fq-a">例如《大壞狐狸的故事》片段配音「媽媽～能陪我玩過家家嗎？」，以及《海底小縱隊》片段配音「張開嘴&#x27;◡&#x27;」。</div></details><details><summary>TikTok 和 YouTube 的內容一樣嗎？</summary><div class="fq-a">兩個都是花花的頻道（@kokojasmine20）。TikTok 以角色配音短片為主；YouTube Shorts 則多了 FLAI 的 AI 模板推薦與配音翻唱。</div></details><details><summary>可以找花花剪輯短影音或合作配音嗎？</summary><div class="fq-a">可以。短影音剪輯 15～30 秒基礎剪輯 NT$300 起，詳細方案請看價格表；配音或其他合作，歡迎加 <a href="https://line.me/R/ti/p/@446prsjv" target="_blank" rel="noopener">LINE 官方帳號</a>詢問。</div></details></section>
 </main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div><p class="footer-email" style="width:100%;text-align:center;margin:20px 0 0;font-size:14px"><a href="mailto:kingking82532@gmail.com" style="color:inherit;text-decoration:underline;text-underline-offset:4px">聯絡信箱：kingking82532@gmail.com</a></p></footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();
