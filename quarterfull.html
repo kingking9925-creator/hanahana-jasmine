@@ -375,6 +375,23 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .shelf{position:absolute;left:0;width:48%;bottom:0;height:80px;pointer-events:none;z-index:0;opacity:.3}
 .quill{position:absolute;left:41%;top:26px;width:110px;pointer-events:none;z-index:0;opacity:.55;animation:bfloat 7s ease-in-out infinite}
 @media(max-width:760px){.bookart{position:relative;right:auto;top:auto;transform:none;width:72%;margin:-6px auto 0;display:block}.qf .prof{display:flex!important;flex-direction:column}.quill{left:auto;right:12px;top:14px;width:80px;opacity:.35}.shelf{width:100%}}
+/* Quarterfull logo hero */
+.qf .prof>.qf-logo{position:absolute;z-index:0}
+.qf-logo{right:3%;top:50%;transform:translateY(-50%);width:min(420px,40%);aspect-ratio:420/320;pointer-events:none;display:grid;place-items:center}
+.qf-logo .ql-glow{position:absolute;inset:8% 6%;border-radius:50%;background:radial-gradient(circle,rgba(255,216,121,.5),rgba(242,193,78,.16) 45%,transparent 70%);animation:qlglow 5s ease-in-out infinite}
+.qf-logo .ql-ring{position:absolute;width:76%;aspect-ratio:1;border-radius:50%;border:1.5px dashed rgba(255,231,163,.4);animation:qlspin 28s linear infinite}
+.qf-logo .ql-card{position:relative;width:82%;aspect-ratio:3.2/1;border-radius:24px;background:#0a0a0c url("https://quarterfull.io/og-image.png") center/189% auto no-repeat;box-shadow:0 22px 50px -16px rgba(0,0,0,.7),0 0 0 1px rgba(255,231,163,.35),0 0 0 7px rgba(242,193,78,.12);overflow:hidden;animation:qlfloat 6s ease-in-out infinite}
+.qf-logo .ql-card::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,236,190,.35),transparent);transform:skewX(-18deg);animation:qlshine 4.5s ease-in-out infinite}
+.qf-logo .ql-orb{position:absolute;top:50%;left:50%;width:36px;height:36px;margin:-18px 0 0 -18px;display:grid;place-items:center;border-radius:50%;background:#f2c14e;font-size:17px;box-shadow:0 8px 20px rgba(0,0,0,.4);animation:qlorbit 14s linear infinite}
+.qf-logo .ql-tw{position:absolute;inset:0;width:100%;height:100%}
+.qf-logo .tw{animation:twinkle 3s ease-in-out infinite}.qf-logo .tw2{animation:twinkle 3s ease-in-out infinite 1.5s}
+@keyframes qlfloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(1.5deg)}}
+@keyframes qlglow{0%,100%{opacity:.65;transform:scale(.94)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes qlspin{to{transform:rotate(360deg)}}
+@keyframes qlshine{0%,55%{left:-60%}100%{left:130%}}
+@keyframes qlorbit{from{transform:rotate(0) translateX(clamp(120px,15vw,165px)) rotate(0)}to{transform:rotate(360deg) translateX(clamp(120px,15vw,165px)) rotate(-360deg)}}
+@media(max-width:760px){.qf .prof>.qf-logo{position:relative}.qf-logo{right:auto;top:auto;transform:none;width:86%;margin:-6px auto 4px}@keyframes qlorbit{from{transform:rotate(0) translateX(37vw) rotate(0)}to{transform:rotate(360deg) translateX(37vw) rotate(-360deg)}}}
+@media(prefers-reduced-motion:reduce){.qf-logo *{animation:none!important}}
 </style>
 </head>
 <body>
@@ -403,30 +420,13 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <main class="wrap fr-hero qf">
   <a href="index.html" class="back">← 回首頁</a>
   <section class="prof reveal">
-    <svg class="bookart" viewBox="0 0 400 320" aria-hidden="true">
-      <defs>
-        <filter id="bglow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <linearGradient id="pgc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff6df"/><stop offset="1" stop-color="#f3dfb0"/></linearGradient>
-        <radialGradient id="halo"><stop offset="0" stop-color="#ffd879" stop-opacity=".55"/><stop offset="1" stop-color="#ffd879" stop-opacity="0"/></radialGradient>
-      </defs>
-      <g class="moon"><path d="M318 46 a30 30 0 1 0 26 44 a24 24 0 1 1 -26 -44z" fill="#ffe7a3" filter="url(#bglow)"/></g>
-      <g class="tw" fill="#fff2c4"><path d="M86 52 c4 -12 8 -12 12 0 c12 4 12 8 0 12 c-4 12 -8 12 -12 0 c-12 -4 -12 -8 0 -12z"/><circle cx="262" cy="34" r="3"/></g>
-      <g class="tw2" fill="#fff2c4"><circle cx="58" cy="128" r="3"/><circle cx="350" cy="150" r="2.5"/><path d="M240 92 c2 -7 5 -7 7 0 c7 2 7 5 0 7 c-2 7 -5 7 -7 0 c-7 -2 -7 -5 0 -7z"/></g>
-      <ellipse cx="200" cy="190" rx="170" ry="90" fill="url(#halo)"/>
-      <g class="fl">
-        <path d="M200 196 C160 176 100 172 52 184 L52 262 C100 250 160 254 200 274 Z" fill="#6b4226"/>
-        <path d="M200 196 C240 176 300 172 348 184 L348 262 C300 250 240 254 200 274 Z" fill="#6b4226"/>
-        <path d="M200 190 C162 168 108 164 62 176 L62 254 C108 242 162 246 200 266 Z" fill="url(#pgc)" filter="url(#bglow)"/>
-        <path d="M200 190 C238 168 292 164 338 176 L338 254 C292 242 238 246 200 266 Z" fill="url(#pgc)" filter="url(#bglow)"/>
-        <g stroke="#d8bd84" stroke-width="2.4" stroke-linecap="round" opacity=".8">
-          <path d="M84 192 C118 186 150 188 180 200"/><path d="M84 208 C118 202 150 204 180 216"/><path d="M84 224 C118 218 150 220 180 232"/>
-          <path d="M220 200 C250 188 282 186 316 192"/><path d="M220 216 C250 204 282 202 316 208"/><path d="M220 232 C250 220 282 218 316 224"/>
-        </g>
-        <path class="pg" d="M200 190 C238 160 286 152 326 160 L326 240 C286 232 238 240 200 266 Z" fill="#fffaf0" opacity=".9"/>
-        <path d="M200 190 L200 266" stroke="#c9a464" stroke-width="2"/>
-        <g fill="#ffe7a3" filter="url(#bglow)"><circle cx="150" cy="140" r="3"/><circle cx="176" cy="118" r="2"/><circle cx="214" cy="126" r="2.6"/><circle cx="240" cy="104" r="1.8"/></g>
-      </g>
-    </svg>
+    <div class="qf-logo" aria-hidden="true">
+      <span class="ql-glow"></span>
+      <span class="ql-ring"></span>
+      <div class="ql-card"></div>
+      <span class="ql-orb">📖</span>
+      <svg class="ql-tw" viewBox="0 0 400 320"><g class="tw" fill="#fff2c4"><path d="M70 60 c4 -12 8 -12 12 0 c12 4 12 8 0 12 c-4 12 -8 12 -12 0 c-12 -4 -12 -8 0 -12z"/><circle cx="330" cy="50" r="3"/><circle cx="60" cy="250" r="2.5"/></g><g class="tw2" fill="#fff2c4"><circle cx="110" cy="276" r="3"/><circle cx="356" cy="250" r="2.5"/><path d="M344 140 c2 -7 5 -7 7 0 c7 2 7 5 0 7 c-2 7 -5 7 -7 0 c-7 -2 -7 -5 0 -7z"/></g></svg>
+    </div>
     <span class="leaf" style="left:58%;animation-delay:0s"></span><span class="leaf" style="left:76%;animation-delay:4s;transform:scale(.8)"></span><span class="leaf" style="left:90%;animation-delay:7.5s"></span>
     <img class="av" src="https://edge.mofic.io/author-profile/1131308/avatar/d5b8828aca7e4bfb837e927c9cda6928.jpg" alt="月月 頭像">
     <div style="position:relative;z-index:1">
