@@ -1,5 +1,8 @@
-/* 花花遊戲區：導覽列左上角入口按鈕（全站共用） */
-.nav-left{display:flex;align-items:center;gap:12px;min-width:0}
+/* 花花遊戲區：導覽列左側、框外的入口按鈕（全站共用） */
+.gz-top{position:fixed;inset:16px 16px auto;z-index:50;display:flex;align-items:flex-start;gap:12px;max-width:1310px;margin:0 auto;pointer-events:none}
+.gz-top>*{pointer-events:auto}
+.gz-top>nav{position:relative;inset:auto;margin:0;flex:1 1 auto;min-width:0;max-width:none}
+.gz-top>.game-btn{flex:none;margin-top:13px}
 .game-btn{position:relative;isolation:isolate;display:inline-flex;align-items:center;gap:7px;padding:8px 15px 8px 11px;border-radius:999px;
   font-family:var(--sans,system-ui);font-size:13.5px;font-weight:700;letter-spacing:.04em;color:#fff;white-space:nowrap;text-decoration:none;
   background:linear-gradient(110deg,#ff7aa2,#c27cff,#7aa8ff,#ff7aa2);background-size:300% 100%;
@@ -8,6 +11,7 @@
 .game-btn::before{content:"";position:absolute;inset:-4px;border-radius:inherit;z-index:-1;border:2px solid rgba(194,124,255,.55);opacity:0;animation:gzRing 2.6s ease-out infinite}
 .game-btn::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
   background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);background-size:250% 100%;background-position:150% 0;animation:gzShine 4s ease-in-out infinite}
+.game-btn .gz-br{display:none}
 .game-btn svg{width:19px;height:19px;flex:none;animation:gzWiggle 3.2s ease-in-out infinite;transform-origin:50% 60%}
 .game-btn .gz-spark{position:absolute;color:#fff6a8;font-size:10px;line-height:1;pointer-events:none;text-shadow:0 0 6px #fff3a0;animation:gzTwinkle 2s ease-in-out infinite}
 .game-btn .gz-spark.a{top:-5px;right:8px}
@@ -24,6 +28,10 @@
 @keyframes gzWiggle{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-14deg)}90%{transform:rotate(12deg)}95%{transform:rotate(-6deg)}}
 @keyframes gzShake{0%,100%{transform:rotate(0) scale(1.1)}25%{transform:rotate(-12deg) scale(1.1)}75%{transform:rotate(12deg) scale(1.1)}}
 @keyframes gzTwinkle{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(90deg)}}
-@media(max-width:480px){.nav-left{gap:8px}.game-btn{font-size:12.5px;padding:7px 12px 7px 9px;gap:5px}.game-btn svg{width:17px;height:17px}}
-@media(max-width:360px){.game-btn .gz-txt{font-size:12px}.logo{font-size:18px!important}}
+@media(max-width:860px){.gz-top{inset:12px 10px auto;gap:8px}
+.gz-top>.game-btn{margin-top:0;flex-direction:column;justify-content:center;gap:2px;width:62px;min-height:62px;padding:8px 4px;border-radius:20px;font-size:11px;letter-spacing:0;line-height:1.2;text-align:center}
+.gz-top>.game-btn svg{width:24px;height:24px}
+.gz-top>.game-btn .gz-br{display:inline}
+.gz-top>.game-btn .gz-spark.a{right:4px}.gz-top>.game-btn .gz-spark.b{left:6px}}
+@media(max-width:380px){.gz-top>.game-btn{width:56px;min-height:56px;font-size:10.5px}.logo{font-size:18px!important}}
 @media(prefers-reduced-motion:reduce){.game-btn,.game-btn::before,.game-btn::after,.game-btn svg,.game-btn .gz-spark{animation:none!important}.game-btn .gz-spark{opacity:.8}}
