@@ -479,6 +479,20 @@ footer{border-color:rgba(15,31,69,.12)}
 </style>
 <script src="members.js" defer></script>
 <link rel="stylesheet" href="game-zone.css">
+<style>/* 會員專區鎖定畫面 */
+.mz-lock,.mz-open{display:none}
+.mz-state-locked .mz-lock,.mz-state-open .mz-open{display:block}
+.mz-state-loading .mz-load{display:block}.mz-load{display:none;color:var(--muted);font-size:14px;margin-top:20px}
+.mz-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;background:linear-gradient(110deg,#ffd76a,#ffb347);color:#5a3a00;font-size:13px;font-weight:800;letter-spacing:.08em;box-shadow:0 6px 16px rgba(255,179,71,.35)}
+.mz-lockicon{width:84px;height:84px;margin:26px auto 6px;border-radius:26px;display:grid;place-items:center;font-size:40px;background:#fff;border:1px solid #ecd3e6;box-shadow:0 14px 34px rgba(156,72,113,.12);animation:mzWobble 3s ease-in-out infinite}
+@keyframes mzWobble{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-8deg)}90%{transform:rotate(8deg)}95%{transform:rotate(-4deg)}}
+.mz-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.mz-btns button{font:inherit;font-weight:700;font-size:15px;padding:12px 24px;border-radius:999px;cursor:pointer;border:1px solid #dcc3e6;background:#fff;color:#9c4871;transition:transform .25s}
+.mz-btns button.pri{border:0;color:#fff;background:linear-gradient(110deg,#ff7aa2,#c27cff);box-shadow:0 8px 20px rgba(194,124,255,.35)}
+.mz-btns button:hover{transform:translateY(-2px)}
+.mz-free{display:block;margin-top:18px;font-size:14px;color:#9c4871;text-decoration:underline;text-underline-offset:4px}
+@media(prefers-reduced-motion:reduce){.mz-lockicon{animation:none}}
+</style>
 </head>
 <body>
 
@@ -500,15 +514,25 @@ footer{border-color:rgba(15,31,69,.12)}
 <div class="gz-top gz-game"><a href="index.html" class="game-btn mk-btn" aria-label="回到花花行銷區"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="13" width="4" height="7" rx="1.2" fill="#fff"/><rect x="10" y="9" width="4" height="11" rx="1.2" fill="#fff"/><rect x="17" y="5" width="4" height="15" rx="1.2" fill="#fff"/><path d="M3 9.5 9 5l4 2.5L20 2.5" fill="none" stroke="#ffe08a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="gz-txt">花花<br class="gz-br">行銷區</span><span class="gz-spark a" aria-hidden="true">✦</span><span class="gz-spark b" aria-hidden="true">✦</span></a><nav>
   <a href="game.html" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
   <div class="nav-links">
-    <div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">AI互動模板</a><div class="nav-dd-menu"><a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="quarterfull.html">QUARTERFULL</a></div></div><a href="ai-zone.html">花花AI區</a><a href="play.html" class="on" aria-current="page">花花遊戲區</a><div class="gz-member-nav" data-member-slot></div>
+    <div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">AI互動模板</a><div class="nav-dd-menu"><a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="quarterfull.html">QUARTERFULL</a></div></div><div class="nav-dd mem-dd"><a class="nav-dd-btn on" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">👑 會員專區</a><div class="nav-dd-menu"><a href="ai-zone.html">🤖 花花AI區</a><a href="play.html" class="on" aria-current="page">🎮 花花遊戲區</a></div></div><div class="gz-member-nav" data-member-slot></div>
   </div>
 </nav></div>
 <main class="gz-page gz-soon">
-  <section class="wrap gz-hero reveal">
-    <div class="gz-ey"><span>🎮</span> Coming Soon · 準備中</div>
+  <section class="wrap gz-hero reveal mz-gate mz-state-loading">
+    <span class="mz-badge">👑 會員專區</span>
     <h1><em style="background-image:linear-gradient(110deg,#ff7aa2,#c27cff,#ff7aa2)">花花遊戲區</em></h1>
-    <p class="gz-sub">這一區的內容正在準備中，敬請期待 ✿<br>先去看看其他 AI 互動模板吧！</p>
-    <a class="gz-back" href="game.html">← 回到遊戲區首頁</a>
+    <p class="mz-load">正在確認會員狀態…</p>
+    <div class="mz-lock">
+      <div class="mz-lockicon" aria-hidden="true">🔒</div>
+      <p class="gz-sub">這裡是會員專屬區域，登入會員就能進入。<br>還不是會員？免費註冊一下吧 ✿</p>
+      <div class="mz-btns"><button type="button" class="pri" data-mz-open="register">註冊會員</button><button type="button" data-mz-open="login">登入</button></div>
+      <a class="mz-free" href="game.html">先去免費玩 AI 互動模板 →</a>
+    </div>
+    <div class="mz-open">
+      <div class="gz-ey" style="margin-top:22px"><span>🎮</span> Coming Soon · 準備中</div>
+      <p class="gz-sub" style="margin-top:20px">歡迎回來！這一區的會員內容正在準備中，敬請期待 ✿</p>
+      <a class="gz-back" href="game.html">← 回到遊戲區首頁</a>
+    </div>
   </section>
 </main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div><p class="footer-email" style="width:100%;text-align:center;margin:20px 0 0;font-size:14px"><a href="mailto:kingking82532@gmail.com" style="color:inherit;text-decoration:underline;text-underline-offset:4px">聯絡信箱：kingking82532@gmail.com</a></p></footer>
@@ -526,6 +550,15 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)})
 <div class="fab-stack"><a class="line-fab" href="https://line.me/R/ti/p/@446prsjv" target="_blank" rel="noopener" aria-label="加入 LINE 官方帳號詢問"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 3C6.48 3 2 6.62 2 11.08c0 4 3.55 7.35 8.35 7.98.33.07.77.22.88.5.1.25.07.65.03.9l-.14.86c-.04.25-.2.99.87.54 1.07-.45 5.77-3.4 7.87-5.82C21.31 14.44 22 12.84 22 11.08 22 6.62 17.52 3 12 3z"/><path fill="#06c755" d="M8.9 9.35h-.7a.2.2 0 0 0-.2.2v4.35c0 .11.09.2.2.2h.7a.2.2 0 0 0 .2-.2V9.55a.2.2 0 0 0-.2-.2zm4.82 0h-.7a.2.2 0 0 0-.2.2v2.58l-1.99-2.69-.02-.02h-.84a.2.2 0 0 0-.2.2v4.35c0 .11.09.2.2.2h.7a.2.2 0 0 0 .2-.2v-2.58l2 2.7.05.05h.8a.2.2 0 0 0 .2-.2V9.55a.2.2 0 0 0-.2-.2zm-6.5 3.65H5.32V9.55a.2.2 0 0 0-.2-.2h-.7a.2.2 0 0 0-.2.2v4.35c0 .05.02.1.06.14.04.04.09.06.14.06h2.8a.2.2 0 0 0 .2-.2v-.7a.2.2 0 0 0-.2-.2zm10.37-2.56c.11 0 .2-.09.2-.2v-.7a.2.2 0 0 0-.2-.2h-2.8c-.05 0-.1.02-.14.06a.2.2 0 0 0-.06.14v4.35c0 .05.02.1.06.14.04.04.09.06.14.06h2.8a.2.2 0 0 0 .2-.2v-.7a.2.2 0 0 0-.2-.2h-1.9v-.73h1.9a.2.2 0 0 0 .2-.2v-.7a.2.2 0 0 0-.2-.2h-1.9v-.73h1.9z"/></svg><span class="fab-tip">LINE 官方帳號 @446prsjv</span></a><a class="line-fab dc-fab" href="https://discord.gg/CEvxw8Ds" target="_blank" rel="noopener" aria-label="加入 Discord 社群"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg><span class="fab-tip">加入 Discord 社群</span></a></div>
 <script>
 document.querySelectorAll('.fab-copy').forEach(function(b){var tip=b.querySelector('.fab-tip'),orig=tip.textContent;b.addEventListener('click',function(){var id=b.dataset.id,done=function(){tip.textContent='已複製 '+b.dataset.name+' ID：'+id;b.classList.add('copied');clearTimeout(b._t);b._t=setTimeout(function(){b.classList.remove('copied');tip.textContent=orig},2200)};(navigator.clipboard?navigator.clipboard.writeText(id):Promise.reject()).then(done,function(){prompt('複製 '+b.dataset.name+' ID',id)})})});
+</script>
+<script>
+(function(){var root=document.querySelector('.mz-gate');if(!root)return;
+function set(s){root.classList.remove('mz-state-loading','mz-state-locked','mz-state-open');root.classList.add('mz-state-'+s);}
+function apply(m){set(m&&m.user?'open':'locked');}
+if(window.jasmineMember&&window.jasmineMember.ready)apply(window.jasmineMember);
+document.addEventListener('jasmine-member',function(e){apply(e.detail)});
+setTimeout(function(){if(root.classList.contains('mz-state-loading'))set('locked')},6000);
+root.querySelectorAll('[data-mz-open]').forEach(function(b){b.addEventListener('click',function(){if(window.jasmineMembers)window.jasmineMembers.open(b.getAttribute('data-mz-open'))})});})();
 </script>
 </body>
 </html>

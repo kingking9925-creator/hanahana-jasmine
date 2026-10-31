@@ -475,6 +475,11 @@ footer{border-color:rgba(15,31,69,.12)}
 .gz-cta a{padding:12px 22px;border-radius:999px;background:linear-gradient(110deg,#ff7aa2,#c27cff);color:#fff;font-weight:700;white-space:nowrap}
 @media(max-width:760px){.gz-page{padding-top:170px}.gz-grid{grid-template-columns:1fr}.gz-member{justify-content:center;text-align:center;padding:18px}.gz-member-t{align-items:center}.gz-cta{text-align:center;justify-content:center}.gz-cta div{align-items:center}}
 @media(prefers-reduced-motion:reduce){.gz-hero h1 em{animation:none}}
+.gz-hp{margin:8px 0 0;color:var(--muted);font-size:14px}
+.gz-k.gold{color:#b7791f}
+.gz-mem .gz-card.mem{background:linear-gradient(160deg,#fffdf6,#fff)}
+.gz-mem .gz-tag{background:linear-gradient(110deg,#ffd76a,#ffb347);color:#5a3a00}
+.gz-soon-pill{align-self:flex-start;font-size:12px;font-weight:700;color:#8a7280;padding:4px 10px;border-radius:999px;border:1px dashed #d9c6d2}
 </style>
 <script src="members.js" defer></script>
 <link rel="stylesheet" href="game-zone.css">
@@ -499,7 +504,7 @@ footer{border-color:rgba(15,31,69,.12)}
 <div class="gz-top gz-game"><a href="index.html" class="game-btn mk-btn" aria-label="回到花花行銷區"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="13" width="4" height="7" rx="1.2" fill="#fff"/><rect x="10" y="9" width="4" height="11" rx="1.2" fill="#fff"/><rect x="17" y="5" width="4" height="15" rx="1.2" fill="#fff"/><path d="M3 9.5 9 5l4 2.5L20 2.5" fill="none" stroke="#ffe08a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="gz-txt">花花<br class="gz-br">行銷區</span><span class="gz-spark a" aria-hidden="true">✦</span><span class="gz-spark b" aria-hidden="true">✦</span></a><nav>
   <a href="game.html" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
   <div class="nav-links">
-    <div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">AI互動模板</a><div class="nav-dd-menu"><a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="quarterfull.html">QUARTERFULL</a></div></div><a href="ai-zone.html">花花AI區</a><a href="play.html">花花遊戲區</a><div class="gz-member-nav" data-member-slot></div>
+    <div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">AI互動模板</a><div class="nav-dd-menu"><a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="quarterfull.html">QUARTERFULL</a></div></div><div class="nav-dd mem-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">👑 會員專區</a><div class="nav-dd-menu"><a href="ai-zone.html">🤖 花花AI區</a><a href="play.html">🎮 花花遊戲區</a></div></div><div class="gz-member-nav" data-member-slot></div>
   </div>
 </nav></div>
 <main class="gz-page">
@@ -510,7 +515,7 @@ footer{border-color:rgba(15,31,69,.12)}
   </section>
 
   <section class="wrap gz-sec">
-    <div class="gz-h reveal"><span class="gz-k">AI 互動模板</span><h2>選一個世界進入</h2></div>
+    <div class="gz-h reveal"><span class="gz-k">免費玩 · AI 互動模板</span><h2>選一個世界進入</h2><p class="gz-hp">不用註冊，點了就能玩</p></div>
     <div class="gz-grid">
       <a class="gz-card reveal" href="frontia.html" style="--c1:#7aa8ff;--c2:#b993ff">
         <span class="gz-tag">AI 互動劇情</span>
@@ -539,6 +544,27 @@ footer{border-color:rgba(15,31,69,.12)}
         <p>校園異能長生流連載中，網遊 BL《網游之大佬愛上我》已完結，免費開讀。</p>
         <div class="gz-stat"><b>60</b><span>已發布話數</span><b>2</b><span>作品</span></div>
         <span class="gz-go">進入世界 →</span>
+      </a>
+    </div>
+  </section>
+
+
+  <section class="wrap gz-sec gz-mem">
+    <div class="gz-h reveal"><span class="gz-k gold">👑 會員專區</span><h2>會員限定的兩個世界</h2><p class="gz-hp">註冊會員後登入就能進入</p></div>
+    <div class="gz-grid">
+      <a class="gz-card mem reveal" href="ai-zone.html" style="--c1:#7aa8ff;--c2:#5cc8a8">
+        <span class="gz-tag">🔒 會員專屬</span>
+        <h3>🤖 花花AI區</h3>
+        <p>花花的 AI 工具與實驗作品，會員限定開放。</p>
+        <span class="gz-soon-pill">準備中</span>
+        <span class="gz-go">進入會員區 →</span>
+      </a>
+      <a class="gz-card mem reveal" href="play.html" style="--c1:#ff7aa2;--c2:#c27cff">
+        <span class="gz-tag">🔒 會員專屬</span>
+        <h3>🎮 花花遊戲區</h3>
+        <p>花花親手做的小遊戲與互動企劃，會員限定開放。</p>
+        <span class="gz-soon-pill">準備中</span>
+        <span class="gz-go">進入會員區 →</span>
       </a>
     </div>
   </section>
