@@ -41,6 +41,13 @@
 .mk-btn:hover,.mk-btn:focus-visible{box-shadow:0 10px 26px rgba(255,111,145,.5),inset 0 1px 0 rgba(255,255,255,.5)}
 .mk-btn:focus-visible{outline-color:#ff6f91}
 .gz-game .nav-links a{letter-spacing:.06em}
-.gz-game .nav-links a.on{color:#fff!important;background:linear-gradient(110deg,#c27cff,#7aa8ff);font-weight:700}
+.gz-game .nav-links>a.on,.gz-game .nav-dd-menu a.on{color:#fff!important;background:linear-gradient(110deg,#c27cff,#7aa8ff);font-weight:700}
 @media(max-width:860px){.gz-game .nav-links{flex-wrap:nowrap!important;gap:0}.gz-game .nav-links a{letter-spacing:0;font-size:11.5px!important;padding:7px 6px!important}}
 @media(max-width:380px){.gz-game .nav-links a{font-size:10.5px!important;padding:6px 4px!important}}
+/* 遊戲區導覽列：右側註冊／登入 */
+.gz-game .nav-links{align-items:center}
+.gz-member-nav{display:flex;align-items:center}
+.gz-game .member-nav{margin-left:8px;padding-left:10px}
+.gz-game .member-nav button:first-child{background:linear-gradient(110deg,#ff7aa2,#c27cff)!important;color:#fff!important;border:0!important;font-weight:700;box-shadow:0 4px 12px rgba(194,124,255,.3)}
+@media(max-width:860px){.gz-game .member-nav{margin-left:4px;padding-left:5px;gap:2px}.gz-game .member-nav button{font-size:11.5px!important;padding:6px 8px!important}.gz-game .nav-dd-btn{font-size:11.5px!important;padding:7px 6px!important}}
+@media(max-width:380px){.gz-game .member-nav button{font-size:10.5px!important;padding:5px 6px!important}.gz-game .nav-dd-btn{font-size:10.5px!important;padding:6px 4px!important}}
