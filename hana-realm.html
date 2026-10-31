@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>花之境界 Online｜花花遊戲區</title>
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#2b2140">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="hana-realm.css">
+<script src="members.js" defer></script>
+</head>
+<body>
+<div id="app">
+  <!-- 會員檢查 -->
+  <section id="gate" class="screen gate show">
+    <div class="gate-card">
+      <div class="logo-mark">🌸</div>
+      <h1>花之境界 Online</h1>
+      <p class="en">HANA REALM ONLINE</p>
+      <p id="gateMsg">正在確認會員狀態…</p>
+      <div id="gateBtns" class="row" hidden>
+        <button class="btn pri" data-mz-open="login">登入</button>
+        <button class="btn" data-mz-open="register">註冊會員</button>
+      </div>
+      <a class="link" href="play.html">← 回到花花遊戲區</a>
+    </div>
+  </section>
+
+  <!-- 標題畫面 -->
+  <section id="title" class="screen title">
+    <div class="title-sky"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="title-card">
+      <p class="tag">韓漫風 Q 版橫向 RPG · v0.1 試玩版</p>
+      <h1>花之境界 <span>Online</span></h1>
+      <p class="sub">永恆花樹開始凋零，被召喚而來的你——花之旅人，<br>要在艾瑟蘭大陸冒險、挖礦、鍛造，找回失落的花之聖印。</p>
+      <div class="row">
+        <button id="btnStart" class="btn pri big">開始冒險</button>
+        <button id="btnNew" class="btn" hidden>重新創角</button>
+      </div>
+      <a class="link" href="play.html">← 回到花花遊戲區</a>
+    </div>
+  </section>
+
+  <!-- 捏臉創角 -->
+  <section id="create" class="screen create">
+    <div class="create-wrap">
+      <div class="create-preview">
+        <canvas id="pv" width="320" height="360"></canvas>
+        <button id="btnRandom" class="btn sm">🎲 隨機外觀</button>
+      </div>
+      <div class="create-form">
+        <h2 id="createTitle">創造你的角色</h2>
+        <label class="field">角色名稱<input id="inName" maxlength="8" placeholder="最多 8 個字"></label>
+        <div class="field">職業<div id="optCls" class="opts cls"></div></div>
+        <div class="field">髮型<div id="optHair" class="opts"></div></div>
+        <div class="field">髮色<div id="optHairColor" class="opts sw"></div></div>
+        <div class="field">眼型<div id="optEyeShape" class="opts"></div></div>
+        <div class="field">瞳色<div id="optEye" class="opts sw"></div></div>
+        <div class="field">膚色<div id="optSkin" class="opts sw"></div></div>
+        <div class="field">服裝<div id="optOutfit" class="opts sw"></div></div>
+        <div class="field">臉部裝飾<div id="optDeco" class="opts"></div></div>
+        <div class="row end"><button id="btnCancelCreate" class="btn" hidden>取消</button><button id="btnCreate" class="btn pri">完成，進入王都 →</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 遊戲畫面 -->
+  <section id="play" class="screen play">
+    <canvas id="cv" width="960" height="540"></canvas>
+    <div class="hud-top">
+      <div class="me">
+        <canvas id="face" width="56" height="56"></canvas>
+        <div class="me-info">
+          <div class="me-name"><b id="hName">—</b><span id="hLv">Lv.1</span><span id="hCls"></span></div>
+          <div class="bar hp"><i id="bHp"></i><span id="tHp"></span></div>
+          <div class="bar mp"><i id="bMp"></i><span id="tMp"></span></div>
+        </div>
+      </div>
+      <div class="hud-right">
+        <span class="gold">🪙 <b id="hGold">0</b></span>
+        <span class="zone" id="hZone">櫻華王都</span>
+        <button class="ic" id="btnMenu" title="選單">☰</button>
+      </div>
+    </div>
+    <div class="bar exp"><i id="bExp"></i><span id="tExp"></span></div>
+    <div id="toast" class="toast"></div>
+    <div class="rotate-hint">📱 手機橫放玩起來更舒服喔</div>
+    <div id="prompt" class="prompt"></div>
+
+    <div class="hud-bottom">
+      <div class="quick">
+        <button class="qb" id="qHp" title="紅藥水 (1)">❤️<b id="nHp">0</b></button>
+        <button class="qb" id="qMp" title="藍藥水 (2)">💧<b id="nMp">0</b></button>
+        <button class="qb" id="qBag" title="背包 (I)">🎒</button>
+        <button class="qb" id="qAuto" title="自動打怪 (Q)">⚔️<small>自動</small></button>
+      </div>
+    </div>
+
+    <div class="touch" id="touch">
+      <div class="pad">
+        <button data-k="left">◀</button><button data-k="right">▶</button>
+      </div>
+      <div class="acts">
+        <button data-k="act" class="a-act">互動</button>
+        <button data-k="skill" class="a-skill">技能</button>
+        <button data-k="attack" class="a-atk">攻擊</button>
+        <button data-k="jump" class="a-jump">跳</button>
+      </div>
+    </div>
+    <p class="keys-help">←→ 移動　Space 跳躍　J 攻擊　K 技能　E 互動／挖礦　Q 自動打怪　1/2 喝藥　I 背包</p>
+
+    <!-- 面板 -->
+    <div id="panel" class="panel" hidden>
+      <div class="panel-card">
+        <button class="x" id="panelX">×</button>
+        <h3 id="panelT"></h3>
+        <div id="panelB"></div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="hana-realm.js"></script>
+</body>
+</html>

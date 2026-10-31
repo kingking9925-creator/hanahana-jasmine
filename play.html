@@ -493,6 +493,30 @@ footer{border-color:rgba(15,31,69,.12)}
 .mz-free{display:block;margin-top:18px;font-size:14px;color:#9c4871;text-decoration:underline;text-underline-offset:4px}
 @media(prefers-reduced-motion:reduce){.mz-lockicon{animation:none}}
 </style>
+<style>/* 會員遊戲大廳 */
+.gz-soon:has(.mz-state-open){align-items:flex-start}
+.mz-state-open{max-width:1100px!important}
+.lb-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:18px;margin-top:22px;text-align:left}
+.lb-card{display:flex;flex-direction:column;border-radius:26px;overflow:hidden;background:#fff;border:1px solid #efe3ea;box-shadow:0 12px 30px rgba(60,30,50,.08);color:inherit;text-decoration:none;transition:transform .3s,box-shadow .3s}
+.lb-card.hot:hover{transform:translateY(-6px);box-shadow:0 22px 46px rgba(156,72,113,.2)}
+.lb-art{position:relative;height:170px;overflow:hidden;background:linear-gradient(170deg,#5b4c8f,#c9b3ff 60%,#ffd9e8)}
+.lb-art.dim{background:linear-gradient(160deg,#ece6f4,#f7f1f6);height:130px}
+.lb-moon{position:absolute;right:28px;top:22px;width:44px;height:44px;border-radius:50%;background:#fff6d6;box-shadow:0 0 30px #fff6d6}
+.lb-sakura{position:absolute;bottom:-30px;width:120px;height:120px;border-radius:50%;background:#ffc4dc}
+.lb-sakura.a{left:-30px}.lb-sakura.b{right:40px;bottom:-60px;background:#ffb0cf}
+.lb-hero{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:64px;animation:lbBob 2.4s ease-in-out infinite}
+.lb-art.dim .lb-hero{font-size:44px;opacity:.5;animation:none;bottom:36px}
+@keyframes lbBob{50%{transform:translate(-50%,-8px)}}
+.lb-badge{position:absolute;left:14px;top:14px;padding:5px 12px;border-radius:999px;background:linear-gradient(110deg,#ffd76a,#ffb347);color:#5a3a00;font-size:12px;font-weight:800}
+.lb-bd{display:flex;flex-direction:column;gap:8px;padding:20px 22px 22px;flex:1}
+.lb-bd h3{margin:0;font-size:22px;color:#3b2333}.lb-en{margin:-4px 0 0;font-size:11px;letter-spacing:.3em;color:#b06aa0}
+.lb-bd p{margin:0;font-size:14px;line-height:1.75;color:var(--muted)}
+.lb-tags{display:flex;flex-wrap:wrap;gap:6px}.lb-tags span{font-size:11.5px;padding:3px 9px;border-radius:999px;background:#f6efff;color:#7b3fc4}
+.lb-play{margin-top:auto;align-self:flex-start;padding:11px 22px;border-radius:999px;font-weight:800;color:#fff;background:linear-gradient(110deg,#ff7aa2,#c27cff);box-shadow:0 8px 20px rgba(194,124,255,.35)}
+.lb-play.off{background:#f3edf2;color:#a08a98;box-shadow:none;font-weight:700}
+@media(max-width:860px){.lb-grid{grid-template-columns:1fr}.lb-card.soon{flex-direction:row}.lb-card.soon .lb-art{width:110px;height:auto;flex:none}.lb-card.soon .lb-hero{bottom:auto;top:50%;transform:translate(-50%,-50%)}}
+@media(prefers-reduced-motion:reduce){.lb-hero{animation:none}}
+</style>
 </head>
 <body>
 
@@ -529,9 +553,22 @@ footer{border-color:rgba(15,31,69,.12)}
       <a class="mz-free" href="game.html">先去免費玩 AI 互動模板 →</a>
     </div>
     <div class="mz-open">
-      <div class="gz-ey" style="margin-top:22px"><span>🎮</span> Coming Soon · 準備中</div>
-      <p class="gz-sub" style="margin-top:20px">歡迎回來！這一區的會員內容正在準備中，敬請期待 ✿</p>
-      <a class="gz-back" href="game.html">← 回到遊戲區首頁</a>
+      <p class="gz-sub" style="margin-top:14px">歡迎回來！選一款遊戲開始玩吧 ✿</p>
+      <div class="lb-grid">
+        <a class="lb-card hot" href="hana-realm.html">
+          <div class="lb-art"><span class="lb-moon"></span><span class="lb-sakura a"></span><span class="lb-sakura b"></span><span class="lb-hero">🧚</span><span class="lb-badge">v0.1 試玩中</span></div>
+          <div class="lb-bd">
+            <h3>花之境界 Online</h3>
+            <p class="lb-en">HANA REALM ONLINE</p>
+            <p>韓漫風 Q 版橫向 RPG。自己捏臉創角，選職業去打怪、挖礦、鍛造裝備，還能抽寵物和坐騎。</p>
+            <div class="lb-tags"><span>捏臉</span><span>4 大職業</span><span>自動打怪</span><span>挖礦鍛造</span><span>抽卡</span><span>寵物坐騎</span></div>
+            <span class="lb-play">▶ 開始遊戲</span>
+          </div>
+        </a>
+        <div class="lb-card soon"><div class="lb-art dim"><span class="lb-hero">🎮</span></div><div class="lb-bd"><h3>新遊戲 #02</h3><p>下一款遊戲的點子正在醞釀中，敬請期待。</p><span class="lb-play off">敬請期待</span></div></div>
+        <div class="lb-card soon"><div class="lb-art dim"><span class="lb-hero">🕹️</span></div><div class="lb-bd"><h3>新遊戲 #03</h3><p>更多小遊戲陸續推出。</p><span class="lb-play off">敬請期待</span></div></div>
+      </div>
+      <a class="gz-back" href="game.html" style="margin-top:28px">← 回到遊戲區首頁</a>
     </div>
   </section>
 </main>
