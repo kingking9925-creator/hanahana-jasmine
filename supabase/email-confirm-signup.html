@@ -1,0 +1,24 @@
+<!-- Supabase → Authentication → Emails → Templates → 「Confirm signup」
+     主旨（Subject）：【花花 Jasmine】請驗證你的會員信箱
+     內容（Body）：把下面整段貼上 -->
+<div style="margin:0;padding:32px 16px;background:#fff4f9;font-family:'PingFang TC','Microsoft JhengHei','Noto Sans TC',Arial,sans-serif;color:#4e3244">
+  <div style="max-width:480px;margin:0 auto;background:#ffffff;border-radius:24px;border:1px solid #f0d8e6;overflow:hidden">
+    <div style="padding:28px 28px 18px;text-align:center;background:linear-gradient(130deg,#ffe3ef,#efe6fb)">
+      <div style="font-size:40px;line-height:1">🌸</div>
+      <h1 style="margin:10px 0 0;font-size:22px;color:#9c4871">歡迎加入花花 Jasmine！</h1>
+    </div>
+    <div style="padding:26px 28px 30px;font-size:15px;line-height:1.9">
+      <p style="margin:0 0 14px">你好 ✿</p>
+      <p style="margin:0 0 20px">謝謝你註冊花花 Jasmine 會員。請點下面的按鈕驗證你的信箱，完成後會自動回到網站，登入就能開始使用會員功能。</p>
+      <p style="margin:0 0 22px;text-align:center">
+        <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:13px 30px;border-radius:999px;background:#c27cff;background-image:linear-gradient(110deg,#ff7aa2,#c27cff);color:#ffffff;font-weight:700;text-decoration:none">驗證我的信箱</a>
+      </p>
+      <p style="margin:0 0 6px;font-size:13px;color:#8a7280">如果按鈕沒有反應，請複製下面的網址貼到瀏覽器：</p>
+      <p style="margin:0 0 20px;font-size:12px;word-break:break-all"><a href="{{ .ConfirmationURL }}" style="color:#9c4871">{{ .ConfirmationURL }}</a></p>
+      <p style="margin:0;font-size:13px;color:#8a7280">如果你沒有註冊花花 Jasmine，可以直接忽略這封信。</p>
+    </div>
+    <div style="padding:16px 28px;background:#faf5f8;font-size:12px;color:#a08a98;text-align:center">
+      花花 Jasmine・<a href="https://fafa-jasmineliu.vercel.app/" style="color:#a08a98">fafa-jasmineliu.vercel.app</a><br>有問題請來信 kingking82532@gmail.com
+    </div>
+  </div>
+</div>
