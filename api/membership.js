@@ -38,7 +38,8 @@ module.exports = async function handler(req, res) {
       const token = cookieToken(req); if (!token) return send(200,{user:null});
       const result = await upstream('user','GET',null,token);
       if (!result.response.ok) { clearCookie(res); return send(200,{user:null}); }
-      return send(200,{user:{id:result.data.id,email:result.data.email}});
+      const md=result.data.user_metadata||{};
+      return send(200,{user:{id:result.data.id,email:result.data.email,createdAt:result.data.created_at,nickname:typeof md.nickname==='string'?md.nickname:'',theme:['light','dark','system'].includes(md.theme)?md.theme:''}});
     }
     if (['register','login'].includes(action) && req.method === 'POST') {
       let body = req.body || {}; if (typeof body === 'string') { try {body=JSON.parse(body);}catch{return send(400,{error:'請求格式不正確。'});} }
@@ -53,6 +54,17 @@ module.exports = async function handler(req, res) {
         return send(200,{ok:true,signedIn:true});
       }
       return send(200,{ok:true,signedIn:false,message:'請查看信箱完成驗證，再回到網站登入。若曾註冊，請直接登入。'});
+    }
+    if (action === 'profile' && req.method === 'POST') {
+      const token = cookieToken(req); if (!token) return send(401,{error:'請先登入會員。'});
+      let body = req.body || {}; if (typeof body === 'string') { try {body=JSON.parse(body);}catch{return send(400,{error:'請求格式不正確。'});} }
+      const data = {};
+      if (typeof body.nickname === 'string') { const n = body.nickname.trim(); if (n.length > 20 || /[<>]/.test(n)) return send(400,{error:'暱稱最多 20 個字，且不能包含 < >。'}); data.nickname = n; }
+      if (typeof body.theme === 'string') { if (!['light','dark','system'].includes(body.theme)) return send(400,{error:'主題設定不正確。'}); data.theme = body.theme; }
+      if (!Object.keys(data).length) return send(400,{error:'沒有要更新的資料。'});
+      const result = await upstream('user','PUT',{data},token);
+      if (!result.response.ok) return send(result.response.status===401?401:400,{error:'更新失敗，請重新登入後再試。'});
+      return send(200,{ok:true});
     }
     if (action === 'payment') return send(503,{error:'付款方案尚未開放，目前不會建立訂單或扣款。'});
     return send(404,{error:'找不到此會員功能。'});
