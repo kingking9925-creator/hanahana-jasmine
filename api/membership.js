@@ -47,14 +47,14 @@ module.exports = async function handler(req, res) {
       const email = typeof body.email === 'string' ? body.email.trim() : '';
       const password = typeof body.password === 'string' ? body.password : '';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length>254 || password.length>128 || password.length<(action==='register'?8:1)) return send(400,{error:'請檢查 Email 與密碼；註冊密碼至少 8 個字元。'});
-      const result = await upstream(action==='register'?'signup':'token?grant_type=password','POST',{email,password});
+      const result = await upstream(action==='register'?'signup?redirect_to='+encodeURIComponent(SITE+'/member.html?verified=1'):'token?grant_type=password','POST',{email,password});
       if (!result.response.ok) return send(result.response.status===429?429:400,{error:result.response.status===429?'操作太頻繁，請稍後再試。':action==='login'?'無法登入，請確認帳號、密碼與信箱驗證狀態。':'暫時無法註冊，請檢查資料或稍後再試。'});
       if (result.data.access_token) {
         const age = Math.max(1, Math.min(Number(result.data.expires_in)||3600,3600));
         res.setHeader('Set-Cookie', COOKIE+'='+encodeURIComponent(result.data.access_token)+'; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age='+age);
         return send(200,{ok:true,signedIn:true});
       }
-      return send(200,{ok:true,signedIn:false,message:'請查看信箱完成驗證，再回到網站登入。若曾註冊，請直接登入。'});
+      return send(200,{ok:true,signedIn:false,message:'驗證信已寄出！請到信箱點「驗證我的信箱」，完成後會自動回到會員頁面登入。若曾註冊過，請直接登入。'});
     }
     if (action === 'profile' && req.method === 'POST') {
       const token = cookieToken(req); if (!token) return send(401,{error:'請先登入會員。'});
