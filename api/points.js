@@ -88,7 +88,16 @@ module.exports = async function handler(req, res) {
       ]);
       if (!w.ok || !l.ok || !o.ok) return send(503, { error: '點數資料讀取失敗，請稍後再試。' });
       const s = w.data || {};
-      return send(200, { balance: s.total || 0, paid: s.paid || 0, bonus: s.bonus || 0, grants: s.grants || [], suspended: !!s.suspended, suspendReason: s.suspend_reason || '', owed: s.owed || 0, ledger: l.data, orders: o.data, packages: PACKAGES, env: conf.prod ? 'prod' : 'stage', isAdmin: isAdmin(user) });
+      return send(200, { balance: s.total || 0, paid: s.paid || 0, bonus: s.bonus || 0, grants: s.grants || [], suspended: !!s.suspended, suspendReason: s.suspend_reason || '', owed: s.owed || 0, level: s.level || null, topupTotal: s.topup_total || 0, checkedToday: !!s.checked_today, streak: s.streak || 0, ledger: l.data, orders: o.data, packages: PACKAGES, env: conf.prod ? 'prod' : 'stage', isAdmin: isAdmin(user) });
+    }
+
+    // ---------- 每日簽到（送贈送點數） ----------
+    if (action === 'checkin' && req.method === 'POST') {
+      const r = await rest('rpc/do_checkin', { method: 'POST', admin: true, body: { p_user: user.id } });
+      if (!r.ok) return send(503, { error: '簽到失敗，請稍後再試。' });
+      if (r.data.result === 'already') return send(409, { error: '今天已經簽到過了，明天再來喔！' });
+      if (r.data.result === 'suspended') return send(403, { error: '帳號目前暫停使用。' });
+      return send(200, r.data);
     }
 
     // ---------- 建立儲值訂單 → 回傳綠界付款表單 ----------
