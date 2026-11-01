@@ -11,7 +11,7 @@ api/membership.js 是 Vercel Node.js Function，支援 status、register、login
 3. 在對應 Vercel 專案設定 SUPABASE_URL 與 SUPABASE_ANON_KEY，使用公開 anon/publishable 金鑰；不要使用 service_role 金鑰。
 4. PUBLIC_SITE_URL 設為 https://fafa-jasmineliu.vercel.app（換網域時同步調整）。
 5. 正式開放前補齊會員服務條款、隱私告知及必要的防濫用設定，完成真實測試帳號流程後才設定 MEMBERS_ENABLED=true 並重新部署。
-6. 目前登入 Cookie 最多一小時，過期需重新登入。帳號復原目前由客服協助，尚未實作站內忘記密碼流程。
+6. 登入後 30 天內自動續期（access token 過期時用 refresh token 換新，兩者都放在 HttpOnly Cookie）；按登出才會清除。帳號復原目前由客服協助，尚未實作站內忘記密碼流程。
 
 密碼不會寫入瀏覽器儲存空間；會員 access token 放在 Secure、HttpOnly、SameSite=Lax Cookie。
 啟用前仍須在實際 Supabase 與 Vercel 環境驗證，不能把本機模擬測試視為實際帳號測試。
@@ -83,3 +83,17 @@ api/membership.js 是 Vercel Node.js Function，支援 status、register、login
    - Redirect URLs 新增：`https://fafa-jasmineliu.vercel.app/member.html*`
 3. 會員點驗證信的按鈕後，會回到 `member.html`，顯示「信箱驗證成功」並自動打開登入視窗。連結過期會顯示中文提示。
 4. Supabase 內建寄信服務每小時只能寄少量信件（只適合測試）。正式開放前建議在 Authentication → Emails → SMTP Settings 接自己的寄信服務（例如 Resend、Brevo），寄件者名稱可設「花花 Jasmine」。
+
+## 個人資料・頭像・等級福利（v4）
+- 個人資料（真實姓名、生日、性別、手機、地址）存在 `member_profiles`，只有本人和站長（service_role）讀得到，不會出現在任何公開頁面。生日設定後會員不能自行修改。
+- 頭像：上傳照片（瀏覽器端裁成 256×256 JPEG，約 10–40KB，存在 `member_profiles.avatar`），或選預設圖示（存在 user_metadata.avatar_preset）。
+- 需要 `SUPABASE_SERVICE_ROLE_KEY` 才能儲存個人資料與上傳頭像。
+- 等級福利：
+  | 等級 | 累積儲值 | 每日簽到 | 生日禮 | 儲值回饋 |
+  |---|---|---|---|---|
+  | 🌸 一般 | 0 | 50 | 50 | — |
+  | 🥈 銀花 | 300 | 60 | 100 | 3% |
+  | 🥇 金花 | 1,500 | 70 | 300 | 5% |
+  | 💎 鑽花 | 5,000 | 80 | 800 | 8% |
+  連續簽到第 7 天 +50。簽到、生日禮 30 天到期；儲值回饋 90 天到期。退單／退款時，該筆的儲值回饋會一併收回。
+- 調整數值：修改 `supabase/points.sql` 最後一段（v4）的 `_level` 與 `do_checkin`，重新執行。

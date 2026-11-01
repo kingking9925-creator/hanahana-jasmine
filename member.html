@@ -498,7 +498,8 @@ footer{border-color:rgba(15,31,69,.12)}
 .mb-page{padding-top:140px}
 .mb-page .mz-gate{max-width:980px}
 .mb-head{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:24px;border-radius:28px;background:linear-gradient(120deg,#fff5fa,#f4efff);border:1px solid #ecd3e6;box-shadow:0 12px 30px rgba(156,72,113,.08)}
-.mb-avatar{width:76px;height:76px;flex:none;border-radius:24px;display:grid;place-items:center;font-size:34px;font-weight:800;color:#fff;background:linear-gradient(130deg,#ff7aa2,#c27cff,#7aa8ff);box-shadow:0 10px 24px rgba(194,124,255,.35)}
+.mb-avatar{cursor:pointer;border:0;font-family:inherit;background-size:cover!important;background-position:center!important;position:relative;
+width:76px;height:76px;flex:none;border-radius:24px;display:grid;place-items:center;font-size:34px;font-weight:800;color:#fff;background:linear-gradient(130deg,#ff7aa2,#c27cff,#7aa8ff);box-shadow:0 10px 24px rgba(194,124,255,.35)}
 .mb-who{flex:1;min-width:180px}
 .mb-name{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.mb-name b{font-size:24px;color:#3b2333}
 .mb-level{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid #ecd3e6;color:#9c4871}
@@ -543,6 +544,24 @@ footer{border-color:rgba(15,31,69,.12)}
 .mb-fav.on{background:linear-gradient(130deg,#fff6fa,#f4efff);border-color:#e1c8f5}
 .mb-star{position:absolute;right:10px;top:10px;width:34px;height:34px;border-radius:50%;border:1px solid #ecd3e6;background:#fff;font-size:18px;color:#e0a32e;cursor:pointer}
 .mb-fav.on .mb-star{background:#fff3d6;border-color:#ffd27a}
+.mb-avatar.img{color:transparent}.mb-avatar.emoji{font-size:40px;background:linear-gradient(130deg,#fff3f8,#f1e9ff)}
+.mb-avatar.sm{width:56px;height:56px;font-size:24px;border-radius:18px}.mb-avatar.sm.emoji{font-size:30px}
+.mb-avatar.lv-normal{box-shadow:0 0 0 3px #fff,0 0 0 6px #ffb8d2}.mb-avatar.lv-silver{box-shadow:0 0 0 3px #fff,0 0 0 6px #c8ced8,0 8px 20px rgba(150,160,180,.4)}
+.mb-avatar.lv-gold{box-shadow:0 0 0 3px #fff,0 0 0 6px #f2c14e,0 8px 22px rgba(242,193,78,.5)}.mb-avatar.lv-diamond{box-shadow:0 0 0 3px #fff,0 0 0 6px #9fd8ff,0 0 26px rgba(160,140,255,.7);animation:mbGlow 2.5s ease-in-out infinite}
+@keyframes mbGlow{50%{box-shadow:0 0 0 3px #fff,0 0 0 6px #c9a7ff,0 0 34px rgba(120,200,255,.8)}}
+.mb-avatar::after{content:"📷";position:absolute;right:-6px;bottom:-6px;width:26px;height:26px;border-radius:50%;background:#fff;font-size:13px;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.15);color:#000}.mb-avatar.sm::after{display:none}
+.mb-edit{border:0;background:transparent;cursor:pointer;font-size:15px;padding:2px 4px;opacity:.7}.mb-edit:hover{opacity:1}
+.mb-perks{align-items:stretch}.mb-ptable{width:100%;overflow-x:auto}.mb-ptable table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+.mb-ptable th,.mb-ptable td{padding:10px;text-align:center;border-bottom:1px solid #f0dfe9}.mb-ptable tbody th{text-align:left;color:#6b4f63;font-weight:700}.mb-ptable thead th{color:#9c4871}
+.mb-ptable td.soon{color:#a08a98;font-style:italic}
+.mb-bday{flex-direction:row;align-items:center;justify-content:space-between;gap:14px;background:linear-gradient(120deg,#fff8ec,#fff1f7)}.mb-bday>div{display:flex;flex-direction:column;gap:4px}
+.mb-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}.mb-field select{display:block;width:100%;margin-top:6px;padding:11px 14px;border:1px solid #e3cfdc;border-radius:12px;font:inherit;font-size:15px;background:#fff}
+.mb-field small{display:block;margin-top:4px;font-weight:400;font-size:12px;color:var(--muted)}
+.mb-dlg{border:0;padding:0;border-radius:24px;max-width:420px;width:calc(100% - 32px);box-shadow:0 30px 80px rgba(60,20,50,.3)}.mb-dlg::backdrop{background:rgba(40,20,40,.45)}
+.mb-dlg-card{padding:22px;display:flex;flex-direction:column;gap:10px}.mb-dlg-card h3{margin:0;color:#3b2333}
+.mb-upload{text-align:center;cursor:pointer}.mb-presets{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.mb-presets button{aspect-ratio:1;border-radius:14px;border:1px solid #f0dfe9;background:#faf5f8;font-size:24px;cursor:pointer}.mb-presets button.on{border-color:#c27cff;box-shadow:0 0 0 2px #e4d2ff}
+.mb-presets button.txt{font-size:12px;font-weight:700;color:#9c4871;grid-column:span 2;aspect-ratio:auto}
 .mb-alert.bad{background:#fff0f3;border-color:#f6c6d2;color:#b4234f}
 .mb-split{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin:6px 0 2px}.mb-split>div{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:16px;background:#faf5f8;border:1px solid #f0dfe9}.mb-split span{font-size:12.5px;color:var(--muted)}.mb-split b{font-family:var(--display);font-size:22px;color:#3b2333}.mb-split small{font-size:12px;color:var(--muted)}
 .mb-alert.warn{background:#fff6e6;border-color:#f3dcb4;color:#8c6345}.mb-alert.ok{background:#ecfbf2;border-color:#bfe9cf;color:#2a7a4b}
@@ -561,7 +580,7 @@ footer{border-color:rgba(15,31,69,.12)}
 .mb-theme button.on{border-color:#c27cff;box-shadow:0 0 0 3px #e4d2ff;color:#7b3fc4}
 .mb-field{display:block;width:100%;font-size:13px;font-weight:700;color:#7a5d70;margin-top:8px}
 .mb-field input{display:block;width:100%;margin-top:6px;padding:11px 14px;border:1px solid #e3cfdc;border-radius:12px;font:inherit;font-size:15px;box-sizing:border-box}
-@media(max-width:760px){.mb-page{padding-top:160px}.mb-grid,.mb-grid2{grid-template-columns:1fr}.mb-dots span{width:30px;height:30px}.mb-packs{grid-template-columns:repeat(3,1fr)}.mb-pts{align-items:flex-start;width:100%;flex-direction:row;align-items:center;justify-content:space-between}.mb-head{padding:18px}.mb-tabs button{font-size:13px;padding:9px 10px}}
+@media(max-width:760px){.mb-page{padding-top:160px}.mb-grid,.mb-grid2,.mb-2col{grid-template-columns:1fr}.mb-bday{flex-direction:column;align-items:flex-start}.mb-dots span{width:30px;height:30px}.mb-packs{grid-template-columns:repeat(3,1fr)}.mb-pts{align-items:flex-start;width:100%;flex-direction:row;align-items:center;justify-content:space-between}.mb-head{padding:18px}.mb-tabs button{font-size:13px;padding:9px 10px}}
 </style>
 </head>
 <body>
@@ -599,9 +618,9 @@ footer{border-color:rgba(15,31,69,.12)}
     </div>
     <div class="mz-open">
       <div class="mb-head">
-        <div class="mb-avatar" id="mbAvatar">花</div>
+        <button type="button" class="mb-avatar" id="mbAvatar" title="更換頭像">花</button>
         <div class="mb-who">
-          <div class="mb-name"><b id="mbName">會員</b><span class="mb-level" id="mbLevel">🌸 一般會員</span></div>
+          <div class="mb-name"><b id="mbName">會員</b><button type="button" class="mb-edit" id="nameEdit" title="修改暱稱">✏️</button><span class="mb-level" id="mbLevel">🌸 一般會員</span></div>
           <p id="mbEmail" class="mb-sub"></p>
           <p id="mbSince" class="mb-sub"></p>
         </div>
@@ -619,18 +638,34 @@ footer{border-color:rgba(15,31,69,.12)}
       <div class="mb-panel" data-panel="home">
         <div class="mb-grid mb-grid2">
           <div class="mb-card mb-chk"><h3>📅 每日簽到</h3>
-            <p class="mb-sub">每天簽到送贈送點數，連續第 7 天再多送 10 點！</p>
+            <p class="mb-sub">每天簽到送 <b>50 點</b>起（等級越高越多），連續第 7 天再多送 50 點！</p>
             <div class="mb-dots" id="ckDots"></div>
             <div class="mb-row"><button class="mb-btn pri" id="ckBtn" disabled>簽到</button><span class="mb-sub" id="ckMsg">連續簽到 0 天</span></div>
-            <p class="mb-sub mb-tiny">簽到點數為贈送點數，30 天內有效；等級越高，每天拿得越多。</p>
+            <p class="mb-sub mb-tiny">簽到點數為贈送點數，30 天內有效。</p>
           </div>
           <div class="mb-card mb-lv"><h3>👑 會員等級</h3>
             <p class="mb-big" id="lvName">🌸 一般會員</p>
             <div class="mb-bar"><i id="lvBar"></i></div>
             <p class="mb-sub" id="lvNext">累積儲值 NT$0，再儲值 NT$300 升級銀花會員</p>
-            <div class="mb-tiers"><span data-t="normal">🌸 一般<br><small>簽到 +2</small></span><span data-t="silver">🥈 銀花<br><small>NT$300・+3</small></span><span data-t="gold">🥇 金花<br><small>NT$1,500・+4</small></span><span data-t="diamond">💎 鑽花<br><small>NT$5,000・+5</small></span></div>
+            <div class="mb-tiers"><span data-t="normal">🌸 一般<br><small>NT$0</small></span><span data-t="silver">🥈 銀花<br><small>NT$300</small></span><span data-t="gold">🥇 金花<br><small>NT$1,500</small></span><span data-t="diamond">💎 鑽花<br><small>NT$5,000</small></span></div>
+            <button class="mb-btn" type="button" id="perkBtn" style="margin-top:8px">查看等級福利</button>
           </div>
         </div>
+        <div class="mb-card mb-perks" id="perks" hidden>
+          <h3>👑 會員等級福利</h3>
+          <div class="mb-ptable"><table>
+            <thead><tr><th></th><th>🌸 一般</th><th>🥈 銀花</th><th>🥇 金花</th><th>💎 鑽花</th></tr></thead>
+            <tbody>
+              <tr><th>升級條件（累積儲值）</th><td>註冊即享</td><td>NT$300</td><td>NT$1,500</td><td>NT$5,000</td></tr>
+              <tr><th>📅 每日簽到</th><td>50 點</td><td>60 點</td><td>70 點</td><td>80 點</td></tr>
+              <tr><th>🎂 生日禮（生日當月）</th><td>50 點</td><td>100 點</td><td>300 點</td><td>800 點</td></tr>
+              <tr><th>💎 儲值回饋</th><td>—</td><td>3%</td><td>5%</td><td>8%</td></tr>
+              <tr><th>🖼️ 專屬頭像框</th><td>粉色</td><td>銀色</td><td>金色</td><td>鑽石光</td></tr>
+              <tr><th>🎮 遊戲／AI 折扣</th><td colspan="4" class="soon">即將推出，等級越高折扣越多</td></tr>
+            </tbody></table></div>
+          <p class="mb-sub mb-tiny">連續簽到第 7 天加送 50 點。簽到、生日禮為贈送點數，30 天內有效；儲值回饋為贈送點數，90 天內有效。等級依累積付費儲值計算，退單或退款的訂單不列入。</p>
+        </div>
+        <div class="mb-card mb-bday"><div><h3>🎂 生日禮</h3><p class="mb-sub" id="bdMsg">在「設定」填寫生日，生日當月就能領取生日禮點數。</p></div><button class="mb-btn pri" id="bdBtn" disabled>領取生日禮</button></div>
         <div class="mb-card"><div class="mb-row" style="justify-content:space-between;width:100%;margin:0"><h3>⭐ 我的收藏</h3><button class="mb-btn" data-go="favs">管理收藏</button></div><div class="mb-favs" id="hFavs"><p class="mb-sub">還沒有收藏，到「⭐ 收藏」挑幾個喜歡的吧！</p></div></div>
         <div class="mb-grid">
           <div class="mb-card"><h3>💎 點數錢包</h3><p class="mb-big" id="hBal">—</p><p class="mb-sub">NT$1 = 1 點，可用在花花的遊戲和 AI 服務</p><button class="mb-btn pri" data-go="points">前往儲值</button></div>
@@ -650,6 +685,7 @@ footer{border-color:rgba(15,31,69,.12)}
           <div class="mb-split"><div><span>💎 付費點數</span><b id="pPaid">0</b><small>無使用期限</small></div><div><span>🎁 贈送點數</span><b id="pBonus">0</b><small id="pBonusExp">—</small></div></div>
           <p class="mb-sub">扣點時會先扣付費點數，再扣贈送點數（先到期的先扣）。</p>
           <h3 style="margin-top:18px">選擇儲值方案</h3>
+          <p class="mb-sub" id="ptRebate"></p>
           <label class="mb-agree"><input type="checkbox" id="ptAgree"><span>我已閱讀並同意<a href="points-terms.html" target="_blank">《點數使用條款》</a>，了解點數入帳即完成數位內容提供，<b>儲值後恕不退款</b>，也不適用七天解除權（重複扣款、盜刷或系統錯誤除外）；提出信用卡退單將扣回點數。</span></label>
           <div class="mb-packs" id="ptPacks"></div>
           <p class="mb-sub" style="margin-top:12px"><a href="points-terms.html">點數使用條款</a>・付款方式：信用卡（即時入帳）、ATM 轉帳、超商代碼（付款完成後入帳）。按下方案後會前往綠界安全付款頁面。</p>
@@ -690,19 +726,43 @@ footer{border-color:rgba(15,31,69,.12)}
           </div>
         </div>
         <div class="mb-card">
-          <h3>👤 個人資料</h3>
-          <label class="mb-field">暱稱<input id="stNick" maxlength="20" placeholder="最多 20 個字"></label>
+          <h3>👤 頭像與暱稱</h3>
+          <div class="mb-row"><button type="button" class="mb-avatar sm" id="stAvatar">花</button><button class="mb-btn" type="button" id="stAvatarBtn">更換頭像</button></div>
+          <label class="mb-field">暱稱（會顯示在網站上）<input id="stNick" maxlength="20" placeholder="最多 20 個字"></label>
           <label class="mb-field">Email<input id="stEmail" disabled></label>
           <div class="mb-row"><button class="mb-btn pri" id="stSave">儲存暱稱</button><span id="stMsg" class="mb-sub"></span></div>
         </div>
         <div class="mb-card">
+          <h3>🔒 個人資料（不公開）</h3>
+          <p class="mb-sub">這些資料<b>只有你自己和站長看得到</b>，不會顯示在網站任何公開的地方。</p>
+          <label class="mb-field">真實姓名<input id="pvName" maxlength="30" autocomplete="name"></label>
+          <div class="mb-2col">
+            <label class="mb-field">生日<input id="pvBirthday" type="date" max="" autocomplete="bday"><small id="pvBdNote">填寫後就不能自行修改，生日當月可領生日禮</small></label>
+            <label class="mb-field">性別<select id="pvGender"><option value="">請選擇</option><option>女</option><option>男</option><option>其他</option><option>不透露</option></select></label>
+          </div>
+          <label class="mb-field">手機<input id="pvPhone" type="tel" maxlength="20" placeholder="09xx-xxx-xxx" autocomplete="tel"></label>
+          <label class="mb-field">地址<input id="pvAddress" maxlength="120" autocomplete="street-address" placeholder="寄送活動獎品時使用（選填）"></label>
+          <div class="mb-row"><button class="mb-btn pri" id="pvSave">儲存個人資料</button><span id="pvMsg" class="mb-sub"></span></div>
+          <p class="mb-sub mb-tiny">個人資料蒐集說明：本站蒐集上述資料，僅用於會員身分確認、生日禮發放、活動通知與獎品寄送，不會提供給第三方。你可以隨時修改（生日除外）或來信要求刪除。</p>
+        </div>
+        <div class="mb-card">
           <h3>🔐 帳號</h3>
-          <p class="mb-sub">登入狀態最多維持 1 小時。需要修改密碼或刪除帳號，請<a href="mailto:kingking82532@gmail.com">聯繫花花</a>。</p>
+          <p class="mb-sub">登入後 <b>30 天內不用重新登入</b>（按「登出」才會登出）。需要修改密碼或刪除帳號，請<a href="mailto:kingking82532@gmail.com">聯繫花花</a>。</p>
           <button class="mb-btn" id="stLogout">登出</button>
         </div>
       </div>
     </div>
   </section>
+  <dialog class="mb-dlg" id="avDlg">
+    <form method="dialog" class="mb-dlg-card">
+      <h3>更換頭像</h3>
+      <p class="mb-sub">上傳一張照片（會自動裁切成正方形），或選一個可愛圖示。</p>
+      <label class="mb-btn pri mb-upload">📷 上傳照片<input type="file" id="avFile" accept="image/jpeg,image/png,image/webp" hidden></label>
+      <div class="mb-presets" id="avPresets"></div>
+      <p class="mb-sub" id="avMsg"></p>
+      <div class="mb-row" style="justify-content:flex-end"><button class="mb-btn" value="close">關閉</button></div>
+    </form>
+  </dialog>
 </main>
 <script>
 (function(){
@@ -720,7 +780,7 @@ footer{border-color:rgba(15,31,69,.12)}
   var TIERS=['normal','silver','gold','diamond'];
   function renderLevel(w){
     var lv=w&&w.level||{key:'normal',name:'一般會員',icon:'🌸',next:300,next_name:'銀花會員'},tot=w&&w.topupTotal||0;
-    $('#mbLevel').textContent=lv.icon+' '+lv.name;$('#lvName').textContent=lv.icon+' '+lv.name;
+    $('#mbLevel').textContent=lv.icon+' '+lv.name;['#mbAvatar','#stAvatar'].forEach(function(s){var el=$(s);el.classList.remove('lv-normal','lv-silver','lv-gold','lv-diamond');el.classList.add('lv-'+lv.key)});$('#lvName').textContent=lv.icon+' '+lv.name;
     var prevT={normal:0,silver:300,gold:1500,diamond:5000}[lv.key]||0;
     $('#lvBar').style.width=(lv.next?Math.min(100,100*(tot-prevT)/(lv.next-prevT)):100)+'%';
     $('#lvNext').textContent=lv.next?'累積儲值 NT$'+tot.toLocaleString()+'，再儲值 NT$'+(lv.next-tot).toLocaleString()+' 升級'+lv.next_name:'累積儲值 NT$'+tot.toLocaleString()+'，已是最高等級 ✨';
@@ -729,7 +789,7 @@ footer{border-color:rgba(15,31,69,.12)}
   function renderCheckin(w,ready){
     var st=w&&w.streak||0,done=w&&w.checkedToday,pos=done?((st-1)%7)+1:(st%7);
     $('#ckDots').innerHTML=[1,2,3,4,5,6,7].map(function(d){return '<span class="'+(d<=pos?'on':'')+(d===7?' gift':'')+'">'+(d===7?'🎁':d)+'</span>'}).join('');
-    $('#ckMsg').textContent=ready?(done?'今天已簽到・連續 '+st+' 天':'連續簽到 '+st+' 天'):'點數功能開通後就能簽到';
+    $('#ckMsg').textContent=ready?(done?'今天已簽到・連續 '+st+' 天':'連續簽到 '+st+' 天'+(w&&w.level?'・今天可領 '+(50+(w.level.bonus||0)+((st+1)%7===0?50:0))+' 點':'')):'點數功能開通後就能簽到';
     var b=$('#ckBtn');b.disabled=!ready||done||(w&&w.suspended);b.textContent=done?'✅ 已簽到':'簽到';
   }
   $('#ckBtn').onclick=function(){var b=this;b.disabled=true;fetch('/api/points?action=checkin',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:'{}'}).then(function(r){return r.json()}).then(function(d){if(d.error)throw new Error(d.error);$('#ckMsg').textContent='🎉 簽到成功！獲得 '+d.points+' 點贈送點數';return loadWallet().then(function(){$('#ckMsg').textContent='🎉 簽到成功！獲得 '+d.points+' 點贈送點數（連續 '+d.streak+' 天）'})}).catch(function(e){$('#ckMsg').textContent=e.message;b.disabled=false})};
@@ -742,10 +802,45 @@ footer{border-color:rgba(15,31,69,.12)}
   function setBal(n){['#mbBal','#hBal','#pBal'].forEach(function(s){$(s).textContent=n==null?'—':n.toLocaleString()+' 點'})}
   function renderProfile(){
     var nick=user.nickname||user.email.split('@')[0];
-    $('#mbName').textContent=nick;$('#mbAvatar').textContent=nick.slice(0,1).toUpperCase();
+    $('#mbName').textContent=nick;renderAvatar();
     $('#mbEmail').textContent=user.email;$('#mbSince').textContent=user.createdAt?'加入日期 '+fmtDate(user.createdAt).split(' ')[0]:'';
     $('#stNick').value=user.nickname||'';$('#stEmail').value=user.email;
   }
+  var avatarImg='',PRESETS=['🌸','🐰','🐱','🐶','🦊','🐻','🐼','🦄','🐥','🍓','🌙','⭐'];
+  function renderAvatar(){
+    var nick=user.nickname||user.email.split('@')[0];
+    ['#mbAvatar','#stAvatar'].forEach(function(s){var el=$(s);el.style.backgroundImage=avatarImg?'url('+avatarImg+')':'';el.classList.toggle('img',!!avatarImg);el.classList.toggle('emoji',!avatarImg&&!!user.avatarPreset);el.textContent=avatarImg?'':(user.avatarPreset||nick.slice(0,1).toUpperCase())});
+  }
+  function post(url,body){return fetch(url,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(d){if(!r.ok||d.error)throw new Error(d.error||'失敗');return d})})}
+  // 頭像
+  function openAv(){var d=$('#avDlg');$('#avMsg').textContent='';$('#avPresets').innerHTML=PRESETS.map(function(p){return '<button type="button" data-p="'+p+'" class="'+(user.avatarPreset===p&&!avatarImg?'on':'')+'">'+p+'</button>'}).join('')+'<button type="button" data-p="" class="txt">用名字</button>';
+    $('#avPresets').querySelectorAll('[data-p]').forEach(function(b){b.onclick=function(){$('#avMsg').textContent='儲存中…';post('/api/membership?action=avatar',{preset:b.dataset.p}).then(function(){user.avatarPreset=b.dataset.p;avatarImg='';renderAvatar();d.close()}).catch(function(e){$('#avMsg').textContent=e.message})}});
+    d.showModal()}
+  ['#mbAvatar','#stAvatar','#stAvatarBtn'].forEach(function(s){$(s).onclick=openAv});
+  $('#avFile').onchange=function(){var f=this.files[0];this.value='';if(!f)return;if(f.size>15e6){$('#avMsg').textContent='檔案太大了（上限 15MB）';return}
+    $('#avMsg').textContent='處理中…';var img=new Image();img.onload=function(){var c=document.createElement('canvas');c.width=c.height=256;var s=Math.min(img.width,img.height),g=c.getContext('2d');g.drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,256,256);URL.revokeObjectURL(img.src);
+      var q=.86,data=c.toDataURL('image/jpeg',q);while(data.length>140000&&q>.4){q-=.1;data=c.toDataURL('image/jpeg',q)}
+      post('/api/membership?action=avatar',{image:data}).then(function(){avatarImg=data;user.avatarPreset='';renderAvatar();$('#avDlg').close()}).catch(function(e){$('#avMsg').textContent=e.message})};
+    img.onerror=function(){$('#avMsg').textContent='讀不到這張圖片，換一張試試'};img.src=URL.createObjectURL(f)};
+  // 暱稱快速修改
+  $('#nameEdit').onclick=function(){var v=prompt('輸入新的暱稱（最多 20 個字）',user.nickname||'');if(v==null)return;v=v.trim().slice(0,20);post('/api/membership?action=profile',{nickname:v}).then(function(){user.nickname=v;renderProfile()}).catch(function(e){alert(e.message)})};
+  // 私人資料
+  function loadPrivate(){fetch('/api/membership?action=private',{credentials:'same-origin'}).then(function(r){return r.json()}).then(function(d){if(d.error){$('#pvMsg').textContent=d.error;return}var p=d.profile;avatarImg=p.avatar||'';renderAvatar();
+    $('#pvName').value=p.realName;$('#pvBirthday').value=p.birthday;$('#pvBirthday').disabled=p.birthdayLocked;$('#pvBdNote').textContent=p.birthdayLocked?'生日已設定，如需更正請聯繫花花':'填寫後就不能自行修改，生日當月可領生日禮';$('#pvGender').value=p.gender;$('#pvPhone').value=p.phone;$('#pvAddress').value=p.address}).catch(function(){})}
+  $('#pvBirthday').max=new Date().toISOString().slice(0,10);
+  $('#pvSave').onclick=function(){var bd=$('#pvBirthday').value,body={realName:$('#pvName').value,gender:$('#pvGender').value,phone:$('#pvPhone').value,address:$('#pvAddress').value};
+    if(bd&&!$('#pvBirthday').disabled){if(!confirm('生日設定為 '+bd+'，儲存後就不能自行修改，確定嗎？'))return;body.birthday=bd}
+    $('#pvMsg').textContent='儲存中…';post('/api/membership?action=private',body).then(function(){$('#pvMsg').textContent='已儲存 ✿';loadPrivate();loadWallet()}).catch(function(e){$('#pvMsg').textContent=e.message})};
+  // 生日禮與福利表
+  $('#perkBtn').onclick=function(){var p=$('#perks');p.hidden=!p.hidden;this.textContent=p.hidden?'查看等級福利':'收起等級福利';if(!p.hidden)p.scrollIntoView({behavior:'smooth',block:'center'})};
+  function renderBirthday(w){var b=w&&w.birthday,btn=$('#bdBtn'),lv=w&&w.level;btn.disabled=true;
+    if(!w){$('#bdMsg').textContent='在「設定」填寫生日，生日當月就能領取生日禮點數。';return}
+    var pts=lv&&lv.birthday?lv.birthday:50;
+    if(!b||!b.set){$('#bdMsg').innerHTML='到「設定」填寫生日，生日當月就能領取 <b>'+pts+' 點</b>生日禮（依等級）。';return}
+    if(b.claimed){$('#bdMsg').textContent='🎉 今年的生日禮已經領過了，生日快樂！';btn.textContent='已領取';return}
+    if(b.this_month){$('#bdMsg').innerHTML='🎂 生日快樂！這個月可以領取 <b>'+pts+' 點</b>生日禮';btn.disabled=false;btn.textContent='領取生日禮';return}
+    $('#bdMsg').innerHTML='你的生日在 <b>'+b.month+' 月</b>，到時候可以領取 <b>'+pts+' 點</b>生日禮（依當時等級）。'}
+  $('#bdBtn').onclick=function(){var b=this;b.disabled=true;post('/api/points?action=birthday',{}).then(function(d){$('#bdMsg').textContent='🎉 已領取 '+d.points+' 點生日禮，生日快樂！';b.textContent='已領取';loadWallet()}).catch(function(e){$('#bdMsg').textContent=e.message;b.disabled=false})};
   function renderGame(){
     var s=null;try{s=JSON.parse(localStorage.getItem('hanaRealm.save.v1'))}catch(e){}
     var CL={knight:'聖薔薇騎士',mage:'星詠魔導士',ranger:'月影遊俠',priest:'花語聖職者'};
@@ -757,7 +852,8 @@ footer{border-color:rgba(15,31,69,.12)}
     $('#ptPacks').querySelectorAll('button').forEach(function(b){b.onclick=function(){topup(+b.dataset.amt,b)}});
   }
   function renderWallet(w){
-    wallet=w;renderLevel(w);renderCheckin(w,true);setBal(w.balance);$('#ptEnv').hidden=w.env!=='stage';
+    wallet=w;renderLevel(w);renderCheckin(w,true);renderBirthday(w);
+    var rb=w.level&&w.level.rebate;$('#ptRebate').textContent=rb?'🎁 你是'+w.level.name+'，每次儲值額外回饋 '+rb+'% 贈送點數！':'升級銀花會員（累積儲值 NT$300）起，每次儲值都有點數回饋！';setBal(w.balance);$('#ptEnv').hidden=w.env!=='stage';
     $('#pPaid').textContent=(w.paid||0).toLocaleString();$('#pBonus').textContent=(w.bonus||0).toLocaleString();
     $('#pBonusExp').textContent=w.grants&&w.grants.length?w.grants[0].remaining+' 點於 '+fmtDate(w.grants[0].expires_at).split(' ')[0]+' 到期':'沒有贈送點數';
     var sus=$('#ptSus');sus.hidden=!w.suspended;if(w.suspended){sus.textContent='⚠️ 帳號目前暫停使用：'+(w.suspendReason||'請來信聯繫花花')+'。處理完成前無法儲值或使用點數。';$('#ptPacks').querySelectorAll('button').forEach(function(b){b.disabled=true})}
@@ -798,7 +894,7 @@ footer{border-color:rgba(15,31,69,.12)}
     fetch('/api/membership?action=profile',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({nickname:v})}).then(function(r){return r.json()}).then(function(d){if(d.error)throw new Error(d.error);user.nickname=v;renderProfile();$('#stMsg').textContent='已儲存 ✿'}).catch(function(e){$('#stMsg').textContent=e.message||'儲存失敗'})};
   $('#stLogout').onclick=function(){fetch('/api/membership?action=logout',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:'{}'}).finally(function(){location.href='index.html'})};
   function onMember(m){
-    if(!m||!m.user||user)return;user=m.user;favs=Array.isArray(user.favorites)?user.favorites:[];renderProfile();renderGame();renderFavs();renderLevel(null);renderCheckin(null,false);
+    if(!m||!m.user||user)return;user=m.user;favs=Array.isArray(user.favorites)?user.favorites:[];renderProfile();renderGame();renderFavs();renderLevel(null);renderCheckin(null,false);renderBirthday(null);loadPrivate();
     if(user.theme&&window.jasmineTheme&&user.theme!==jasmineTheme.get()){jasmineTheme.set(user.theme);markTheme()}
     var q=new URLSearchParams(location.search);var t=q.get('tab');if(['home','points','favs','games','settings'].indexOf(t)>=0)tab(t);
     if(q.get('trade')){tab('points');watchTrade(q.get('trade'))}else loadWallet();
