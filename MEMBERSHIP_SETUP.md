@@ -67,3 +67,19 @@ api/membership.js 是 Vercel Node.js Function，支援 status、register、login
   - 例外退款（重複扣款／盜刷／系統錯誤）：扣回點數並標記退款，款項請到綠界廠商後台退刷
   - 停權／解除停權（可一併清除欠款）
 - 已執行過舊版 `points.sql` 也沒關係，直接再貼一次新版執行即可（可重複執行）。
+
+## 會員等級・每日簽到・收藏（v3）
+- 等級依累積付費儲值：🌸 一般 0／🥈 銀花 NT$300／🥇 金花 NT$1,500／💎 鑽花 NT$5,000（退單、退款的訂單不計）。
+- 每日簽到：每天 2 點＋等級加成（銀 +1、金 +2、鑽 +3），連續第 7、14、21…天再加 10 點；發放為贈送點數，30 天到期；以台灣時間換日。停權帳號不能簽到。
+- 收藏：存在會員帳號（Supabase user_metadata.favorites），可收藏花之境界、FRONTIA、FLAI、ASHBONE、QUARTERFULL。
+- 要調整門檻或點數：修改 `supabase/points.sql` 裡的 `_level` 與 `do_checkin`，重新執行一次即可。
+
+## 註冊驗證信（中文）與驗證後回到登入
+1. Supabase → Authentication → Emails → Templates → **Confirm signup**：
+   - Subject：`【花花 Jasmine】請驗證你的會員信箱`
+   - Body：貼上 `supabase/email-confirm-signup.html` 的內容（保留 `{{ .ConfirmationURL }}`）→ Save。
+2. Supabase → Authentication → URL Configuration：
+   - Site URL：`https://fafa-jasmineliu.vercel.app`
+   - Redirect URLs 新增：`https://fafa-jasmineliu.vercel.app/member.html*`
+3. 會員點驗證信的按鈕後，會回到 `member.html`，顯示「信箱驗證成功」並自動打開登入視窗。連結過期會顯示中文提示。
+4. Supabase 內建寄信服務每小時只能寄少量信件（只適合測試）。正式開放前建議在 Authentication → Emails → SMTP Settings 接自己的寄信服務（例如 Resend、Brevo），寄件者名稱可設「花花 Jasmine」。

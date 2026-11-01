@@ -529,6 +529,20 @@ footer{border-color:rgba(15,31,69,.12)}
 .mb-agree{display:flex;gap:10px;align-items:flex-start;margin:8px 0 4px;padding:12px 14px;border-radius:14px;background:#faf5f8;border:1px solid #f0dfe9;font-size:13.5px;line-height:1.7;color:#6b4f63;cursor:pointer}.mb-agree input{margin-top:4px;width:18px;height:18px;accent-color:#c27cff;flex:none}.mb-agree a{color:#9c4871;text-decoration:underline}
 .mb-err{color:#d6336c;font-size:13.5px;margin:6px 0 0;min-height:1em}
 .mb-alert{padding:12px 16px;border-radius:16px;margin-bottom:12px;font-size:14px;background:#eef4ff;border:1px solid #cfe0ff;color:#3d5a99}
+.mb-grid2{grid-template-columns:1fr 1fr}
+.mb-tiny{font-size:12px!important}
+.mb-dots{display:flex;gap:6px;margin:6px 0}.mb-dots span{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font-size:13px;font-weight:700;color:#b9a3b2;background:#faf5f8;border:1px solid #f0dfe9}
+.mb-dots span.on{color:#fff;border:0;background:linear-gradient(130deg,#ff7aa2,#c27cff)}.mb-dots span.gift{font-size:16px}
+.mb-bar{width:100%;height:10px;border-radius:99px;background:#f3e8f0;overflow:hidden;margin:6px 0 2px}.mb-bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#ffd76a,#ff7aa2,#c27cff);transition:width .6s}
+.mb-tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:100%;margin-top:8px}.mb-tiers span{text-align:center;font-size:12.5px;font-weight:700;padding:8px 4px;border-radius:12px;background:#faf5f8;color:#a08a98;border:1px solid #f0dfe9;line-height:1.5}
+.mb-tiers small{font-weight:400;font-size:11px}.mb-tiers span.done{color:#7b5c70}.mb-tiers span.on{background:linear-gradient(130deg,#fff3d6,#ffe1ee);border-color:#ffc6a0;color:#9c4871;box-shadow:0 4px 12px rgba(255,170,120,.25)}
+.mb-favs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;width:100%;margin-top:6px}
+.mb-fav{position:relative;display:flex;flex-direction:column;gap:2px;padding:14px;border-radius:18px;background:#faf5f8;border:1px solid #f0dfe9;color:inherit;text-decoration:none;transition:transform .2s}
+.mb-fav:hover{transform:translateY(-2px)}.mb-fav a{display:flex;flex-direction:column;gap:2px;color:inherit;text-decoration:none}
+.mb-fav .e{font-size:28px}.mb-fav b{font-size:14.5px;color:#3b2333}.mb-fav small{font-size:12px;color:var(--muted)}
+.mb-fav.on{background:linear-gradient(130deg,#fff6fa,#f4efff);border-color:#e1c8f5}
+.mb-star{position:absolute;right:10px;top:10px;width:34px;height:34px;border-radius:50%;border:1px solid #ecd3e6;background:#fff;font-size:18px;color:#e0a32e;cursor:pointer}
+.mb-fav.on .mb-star{background:#fff3d6;border-color:#ffd27a}
 .mb-alert.bad{background:#fff0f3;border-color:#f6c6d2;color:#b4234f}
 .mb-split{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin:6px 0 2px}.mb-split>div{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:16px;background:#faf5f8;border:1px solid #f0dfe9}.mb-split span{font-size:12.5px;color:var(--muted)}.mb-split b{font-family:var(--display);font-size:22px;color:#3b2333}.mb-split small{font-size:12px;color:var(--muted)}
 .mb-alert.warn{background:#fff6e6;border-color:#f3dcb4;color:#8c6345}.mb-alert.ok{background:#ecfbf2;border-color:#bfe9cf;color:#2a7a4b}
@@ -547,7 +561,7 @@ footer{border-color:rgba(15,31,69,.12)}
 .mb-theme button.on{border-color:#c27cff;box-shadow:0 0 0 3px #e4d2ff;color:#7b3fc4}
 .mb-field{display:block;width:100%;font-size:13px;font-weight:700;color:#7a5d70;margin-top:8px}
 .mb-field input{display:block;width:100%;margin-top:6px;padding:11px 14px;border:1px solid #e3cfdc;border-radius:12px;font:inherit;font-size:15px;box-sizing:border-box}
-@media(max-width:760px){.mb-page{padding-top:160px}.mb-grid{grid-template-columns:1fr}.mb-packs{grid-template-columns:repeat(3,1fr)}.mb-pts{align-items:flex-start;width:100%;flex-direction:row;align-items:center;justify-content:space-between}.mb-head{padding:18px}.mb-tabs button{font-size:13px;padding:9px 10px}}
+@media(max-width:760px){.mb-page{padding-top:160px}.mb-grid,.mb-grid2{grid-template-columns:1fr}.mb-dots span{width:30px;height:30px}.mb-packs{grid-template-columns:repeat(3,1fr)}.mb-pts{align-items:flex-start;width:100%;flex-direction:row;align-items:center;justify-content:space-between}.mb-head{padding:18px}.mb-tabs button{font-size:13px;padding:9px 10px}}
 </style>
 </head>
 <body>
@@ -575,6 +589,7 @@ footer{border-color:rgba(15,31,69,.12)}
 </nav></div>
 <main class="gz-page mb-page">
   <section class="wrap mz-gate mz-state-loading">
+    <div id="mbVerified" class="mb-alert ok" hidden style="text-align:center">✅ 信箱驗證成功！請登入你的會員帳號。</div>
     <p class="mz-load" style="text-align:center">正在確認會員狀態…</p>
     <div class="mz-lock" style="text-align:center">
       <span class="mz-badge">👤 我的會員頁面</span>
@@ -586,7 +601,7 @@ footer{border-color:rgba(15,31,69,.12)}
       <div class="mb-head">
         <div class="mb-avatar" id="mbAvatar">花</div>
         <div class="mb-who">
-          <div class="mb-name"><b id="mbName">會員</b><span class="mb-level">🌸 一般會員</span></div>
+          <div class="mb-name"><b id="mbName">會員</b><span class="mb-level" id="mbLevel">🌸 一般會員</span></div>
           <p id="mbEmail" class="mb-sub"></p>
           <p id="mbSince" class="mb-sub"></p>
         </div>
@@ -596,11 +611,27 @@ footer{border-color:rgba(15,31,69,.12)}
       <div class="mb-tabs" role="tablist">
         <button role="tab" data-tab="home" class="on">🏠 總覽</button>
         <button role="tab" data-tab="points">💎 點數</button>
+        <button role="tab" data-tab="favs">⭐ 收藏</button>
         <button role="tab" data-tab="games">🎮 我的遊戲</button>
         <button role="tab" data-tab="settings">⚙️ 設定</button>
       </div>
 
       <div class="mb-panel" data-panel="home">
+        <div class="mb-grid mb-grid2">
+          <div class="mb-card mb-chk"><h3>📅 每日簽到</h3>
+            <p class="mb-sub">每天簽到送贈送點數，連續第 7 天再多送 10 點！</p>
+            <div class="mb-dots" id="ckDots"></div>
+            <div class="mb-row"><button class="mb-btn pri" id="ckBtn" disabled>簽到</button><span class="mb-sub" id="ckMsg">連續簽到 0 天</span></div>
+            <p class="mb-sub mb-tiny">簽到點數為贈送點數，30 天內有效；等級越高，每天拿得越多。</p>
+          </div>
+          <div class="mb-card mb-lv"><h3>👑 會員等級</h3>
+            <p class="mb-big" id="lvName">🌸 一般會員</p>
+            <div class="mb-bar"><i id="lvBar"></i></div>
+            <p class="mb-sub" id="lvNext">累積儲值 NT$0，再儲值 NT$300 升級銀花會員</p>
+            <div class="mb-tiers"><span data-t="normal">🌸 一般<br><small>簽到 +2</small></span><span data-t="silver">🥈 銀花<br><small>NT$300・+3</small></span><span data-t="gold">🥇 金花<br><small>NT$1,500・+4</small></span><span data-t="diamond">💎 鑽花<br><small>NT$5,000・+5</small></span></div>
+          </div>
+        </div>
+        <div class="mb-card"><div class="mb-row" style="justify-content:space-between;width:100%;margin:0"><h3>⭐ 我的收藏</h3><button class="mb-btn" data-go="favs">管理收藏</button></div><div class="mb-favs" id="hFavs"><p class="mb-sub">還沒有收藏，到「⭐ 收藏」挑幾個喜歡的吧！</p></div></div>
         <div class="mb-grid">
           <div class="mb-card"><h3>💎 點數錢包</h3><p class="mb-big" id="hBal">—</p><p class="mb-sub">NT$1 = 1 點，可用在花花的遊戲和 AI 服務</p><button class="mb-btn pri" data-go="points">前往儲值</button></div>
           <div class="mb-card"><h3>🎮 繼續遊戲</h3><div id="hGame" class="mb-sub">還沒有遊戲紀錄</div><a class="mb-btn" href="hana-realm.html">進入花之境界 Online</a></div>
@@ -632,6 +663,12 @@ footer{border-color:rgba(15,31,69,.12)}
           <h3>儲值訂單</h3>
           <div id="ptOrders" class="mb-list"><p class="mb-sub">還沒有訂單</p></div>
         </div>
+      </div>
+
+      <div class="mb-panel" data-panel="favs" hidden>
+        <p class="mb-sub" style="margin-bottom:12px">點 ⭐ 收藏喜歡的作品，總覽頁就能一鍵前往。收藏會存在你的會員帳號。</p>
+        <div class="mb-favs all" id="favAll"></div>
+        <p class="mb-sub" id="favMsg"></p>
       </div>
 
       <div class="mb-panel" data-panel="games" hidden>
@@ -671,6 +708,31 @@ footer{border-color:rgba(15,31,69,.12)}
 (function(){
   var $=function(s){return document.querySelector(s)}, user=null, wallet=null;
   var REASON={topup:'儲值',bonus:'贈送點數',game:'遊戲',ai:'AI',admin:'調整',chargeback:'信用卡退單',refund:'退款'};
+  var FAV_ITEMS=[{id:'hana-realm',e:'🧚',n:'花之境界 Online',d:'Q 版橫向 RPG',u:'hana-realm.html'},{id:'frontia',e:'📖',n:'FRONTIA',d:'AI 互動劇情',u:'frontia.html'},{id:'flai',e:'💬',n:'FLAI',d:'AI 互動模板',u:'flai.html'},{id:'ashbone',e:'🎙️',n:'ASHBONE',d:'AI 角色聊天',u:'ashbone.html'},{id:'quarterfull',e:'📚',n:'QUARTERFULL',d:'線上小說',u:'quarterfull.html'}];
+  var favs=[];
+  function renderFavs(){
+    var mine=FAV_ITEMS.filter(function(i){return favs.indexOf(i.id)>=0});
+    $('#hFavs').innerHTML=mine.length?mine.map(function(i){return '<a class="mb-fav" href="'+i.u+'"><span class="e">'+i.e+'</span><b>'+i.n+'</b><small>'+i.d+'</small></a>'}).join(''):'<p class="mb-sub">還沒有收藏，到「⭐ 收藏」挑幾個喜歡的吧！</p>';
+    $('#favAll').innerHTML=FAV_ITEMS.map(function(i){var on=favs.indexOf(i.id)>=0;return '<div class="mb-fav'+(on?' on':'')+'"><a href="'+i.u+'"><span class="e">'+i.e+'</span><b>'+i.n+'</b><small>'+i.d+'</small></a><button class="mb-star" data-fav="'+i.id+'" aria-pressed="'+on+'" title="'+(on?'取消收藏':'收藏')+'">'+(on?'★':'☆')+'</button></div>'}).join('');
+    $('#favAll').querySelectorAll('[data-fav]').forEach(function(b){b.onclick=function(){var id=b.dataset.fav;favs=favs.indexOf(id)>=0?favs.filter(function(x){return x!==id}):favs.concat(id);renderFavs();saveFavs()}});
+  }
+  function saveFavs(){$('#favMsg').textContent='儲存中…';fetch('/api/membership?action=profile',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({favorites:favs})}).then(function(r){return r.json()}).then(function(d){$('#favMsg').textContent=d.error?d.error:'已儲存 ✿'}).catch(function(){$('#favMsg').textContent='儲存失敗，請稍後再試'})}
+  var TIERS=['normal','silver','gold','diamond'];
+  function renderLevel(w){
+    var lv=w&&w.level||{key:'normal',name:'一般會員',icon:'🌸',next:300,next_name:'銀花會員'},tot=w&&w.topupTotal||0;
+    $('#mbLevel').textContent=lv.icon+' '+lv.name;$('#lvName').textContent=lv.icon+' '+lv.name;
+    var prevT={normal:0,silver:300,gold:1500,diamond:5000}[lv.key]||0;
+    $('#lvBar').style.width=(lv.next?Math.min(100,100*(tot-prevT)/(lv.next-prevT)):100)+'%';
+    $('#lvNext').textContent=lv.next?'累積儲值 NT$'+tot.toLocaleString()+'，再儲值 NT$'+(lv.next-tot).toLocaleString()+' 升級'+lv.next_name:'累積儲值 NT$'+tot.toLocaleString()+'，已是最高等級 ✨';
+    document.querySelectorAll('.mb-tiers span').forEach(function(s){s.classList.toggle('on',s.dataset.t===lv.key);s.classList.toggle('done',TIERS.indexOf(s.dataset.t)<TIERS.indexOf(lv.key))});
+  }
+  function renderCheckin(w,ready){
+    var st=w&&w.streak||0,done=w&&w.checkedToday,pos=done?((st-1)%7)+1:(st%7);
+    $('#ckDots').innerHTML=[1,2,3,4,5,6,7].map(function(d){return '<span class="'+(d<=pos?'on':'')+(d===7?' gift':'')+'">'+(d===7?'🎁':d)+'</span>'}).join('');
+    $('#ckMsg').textContent=ready?(done?'今天已簽到・連續 '+st+' 天':'連續簽到 '+st+' 天'):'點數功能開通後就能簽到';
+    var b=$('#ckBtn');b.disabled=!ready||done||(w&&w.suspended);b.textContent=done?'✅ 已簽到':'簽到';
+  }
+  $('#ckBtn').onclick=function(){var b=this;b.disabled=true;fetch('/api/points?action=checkin',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:'{}'}).then(function(r){return r.json()}).then(function(d){if(d.error)throw new Error(d.error);$('#ckMsg').textContent='🎉 簽到成功！獲得 '+d.points+' 點贈送點數';return loadWallet().then(function(){$('#ckMsg').textContent='🎉 簽到成功！獲得 '+d.points+' 點贈送點數（連續 '+d.streak+' 天）'})}).catch(function(e){$('#ckMsg').textContent=e.message;b.disabled=false})};
   var STATUS={pending:'待付款',paid:'已入帳',failed:'失敗',refunded:'已退款',chargeback:'退單'};
   function fmtDate(s){if(!s)return'';var d=new Date(s);return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -695,7 +757,7 @@ footer{border-color:rgba(15,31,69,.12)}
     $('#ptPacks').querySelectorAll('button').forEach(function(b){b.onclick=function(){topup(+b.dataset.amt,b)}});
   }
   function renderWallet(w){
-    wallet=w;setBal(w.balance);$('#ptEnv').hidden=w.env!=='stage';
+    wallet=w;renderLevel(w);renderCheckin(w,true);setBal(w.balance);$('#ptEnv').hidden=w.env!=='stage';
     $('#pPaid').textContent=(w.paid||0).toLocaleString();$('#pBonus').textContent=(w.bonus||0).toLocaleString();
     $('#pBonusExp').textContent=w.grants&&w.grants.length?w.grants[0].remaining+' 點於 '+fmtDate(w.grants[0].expires_at).split(' ')[0]+' 到期':'沒有贈送點數';
     var sus=$('#ptSus');sus.hidden=!w.suspended;if(w.suspended){sus.textContent='⚠️ 帳號目前暫停使用：'+(w.suspendReason||'請來信聯繫花花')+'。處理完成前無法儲值或使用點數。';$('#ptPacks').querySelectorAll('button').forEach(function(b){b.disabled=true})}
@@ -705,7 +767,7 @@ footer{border-color:rgba(15,31,69,.12)}
   }
   function loadWallet(){
     return fetch('/api/points?action=status').then(function(r){return r.json()}).then(function(st){
-      if(!st.pointsReady){$('#ptOff').hidden=false;packs(st.packages||[50,150,300,600,1500],false);setBal(0);return null}
+      if(!st.pointsReady){renderLevel(null);renderCheckin(null,false);$('#ptOff').hidden=false;packs(st.packages||[50,150,300,600,1500],false);setBal(0);return null}
       packs(st.packages,true);
       return fetch('/api/points?action=wallet',{credentials:'same-origin'}).then(function(r){return r.json()}).then(function(w){if(w.error){$('#ptErr').textContent=w.error;return null}renderWallet(w);return w});
     }).catch(function(){$('#ptOff').hidden=false;packs([50,150,300,600,1500],false)});
@@ -736,11 +798,18 @@ footer{border-color:rgba(15,31,69,.12)}
     fetch('/api/membership?action=profile',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({nickname:v})}).then(function(r){return r.json()}).then(function(d){if(d.error)throw new Error(d.error);user.nickname=v;renderProfile();$('#stMsg').textContent='已儲存 ✿'}).catch(function(e){$('#stMsg').textContent=e.message||'儲存失敗'})};
   $('#stLogout').onclick=function(){fetch('/api/membership?action=logout',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:'{}'}).finally(function(){location.href='index.html'})};
   function onMember(m){
-    if(!m||!m.user||user)return;user=m.user;renderProfile();renderGame();
+    if(!m||!m.user||user)return;user=m.user;favs=Array.isArray(user.favorites)?user.favorites:[];renderProfile();renderGame();renderFavs();renderLevel(null);renderCheckin(null,false);
     if(user.theme&&window.jasmineTheme&&user.theme!==jasmineTheme.get()){jasmineTheme.set(user.theme);markTheme()}
-    var q=new URLSearchParams(location.search);var t=q.get('tab');if(['home','points','games','settings'].indexOf(t)>=0)tab(t);
+    var q=new URLSearchParams(location.search);var t=q.get('tab');if(['home','points','favs','games','settings'].indexOf(t)>=0)tab(t);
     if(q.get('trade')){tab('points');watchTrade(q.get('trade'))}else loadWallet();
   }
+  // 從驗證信回來：顯示成功訊息並打開登入視窗
+  (function(){var q=new URLSearchParams(location.search),h=location.hash;
+    if(q.get('verified')==='1'||/type=signup/.test(h)){
+      $('#mbVerified').hidden=false;try{history.replaceState(null,'','member.html')}catch(e){}
+      var tries=0;(function openLogin(){if(window.jasmineMember&&window.jasmineMember.ready){if(!window.jasmineMember.user&&window.jasmineMembers)window.jasmineMembers.open('login');return}if(++tries<40)setTimeout(openLogin,150)})();
+    } else if(/error_description=/.test(h)){var d=decodeURIComponent((h.match(/error_description=([^&]*)/)||[])[1]||'').replace(/\+/g,' ');var v=$('#mbVerified');v.hidden=false;v.className='mb-alert bad';v.textContent='驗證連結無效或已過期，請重新註冊或直接登入試試看。';try{history.replaceState(null,'','member.html')}catch(e){}}
+  })();
   document.addEventListener('jasmine-member',function(e){onMember(e.detail)});
   if(window.jasmineMember&&window.jasmineMember.ready)onMember(window.jasmineMember);
 })();
