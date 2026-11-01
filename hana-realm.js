@@ -93,7 +93,7 @@ const RECIPES = {
   ]
 };
 const HERB_SPOTS = [['herb', 1080, GROUND], ['herb', 1400, GROUND], ['herb', 1830, GROUND], ['herb', 2090, 300], ['moonflower', 2560, GROUND], ['moonflower', 2800, 300], ['moonflower', 3280, 360], ['herb', 3070, 230]];
-const FISH_SPOTS = [{ x: 2240, name: '草原小池', pool: [['fish1', .75], ['fish2', .25]] }, { x: 3420, name: '月影湖', pool: [['fish1', .3], ['fish2', .5], ['fish3', .2]] }];
+const FISH_SPOTS = [{ x: 2240, name: '草原小池', pool: [['fish1', .75], ['fish2', .25]] }, { x: 3380, name: '月影湖', pool: [['fish1', .3], ['fish2', .5], ['fish3', .2]] }];
 const MONSTERS = {
   slime: { name: '花露史萊姆', lv: 1, hp: 45, atk: 7, exp: 9, spd: 45, w: 42, h: 34, gold: [3, 8], drop: ['dew', .5], col: '#ff9ec4' },
   bfly: { name: '月光蝶', lv: 3, hp: 80, atk: 11, exp: 18, spd: 70, w: 44, h: 36, gold: [6, 14], drop: ['dust', .45], col: '#b9a6ff', fly: true },
@@ -106,16 +106,23 @@ const MOUNTS = { deer: { n: '櫻花鹿', e: '🦌', spd: 1.45 } };
 
 /* ---------- 地圖 ---------- */
 const ZONES = [
-  { from: 0, to: 950, name: '櫻華王都', sky: ['#ffd9e8', '#fff5ec'], hill: '#f6c9da', safe: true },
-  { from: 950, to: 2350, name: '花露草原', sky: ['#cfe9ff', '#fff7ef'], hill: '#bfe3c9' },
-  { from: 2350, to: 3500, name: '月影森林', sky: ['#5b4c8f', '#c9b3ff'], hill: '#4a6b6a' },
-  { from: 3500, to: MAP_W, name: '水晶礦洞', sky: ['#2c2547', '#5d5590'], hill: '#3c3560' }
+  { from: 0, to: 980, lv: 0, name: '櫻華王都', sky: ['#ffd9e8', '#fff5ec'], hill: '#f6c9da', safe: true },
+  { from: 980, to: 2350, lv: 1, name: '花露草原', sky: ['#cfe9ff', '#fff7ef'], hill: '#bfe3c9' },
+  { from: 2350, to: 3500, lv: 5, name: '月影森林', sky: ['#5b4c8f', '#c9b3ff'], hill: '#4a6b6a' },
+  { from: 3500, to: MAP_W, lv: 8, name: '水晶礦洞', sky: ['#2c2547', '#5d5590'], hill: '#3c3560' }
 ];
 const PLATS = [
   { x: 1150, y: 380, w: 200 }, { x: 1450, y: 320, w: 180 }, { x: 1750, y: 380, w: 220 }, { x: 2050, y: 300, w: 160 },
   { x: 2450, y: 370, w: 240 }, { x: 2760, y: 300, w: 200 }, { x: 3050, y: 230, w: 180 }, { x: 3230, y: 360, w: 200 },
   { x: 3600, y: 380, w: 220 }, { x: 3880, y: 300, w: 220 }
 ];
+// 傳送門：每張地圖是獨立的，走到傳送門按 E 才能換地圖
+const PORTALS = [];
+ZONES.forEach((z, i) => {
+  if (i > 0) PORTALS.push({ x: z.from + 70, to: i - 1, land: ZONES[i - 1].to - 150 });
+  if (i < ZONES.length - 1) PORTALS.push({ x: z.to - 70, to: i + 1, land: ZONES[i + 1].from + 150 });
+});
+const HUB = { x: 80, name: '花之噴泉傳送陣' };
 const NPCS = [
   { id: 'forge', x: 266, name: '鍛造師 蘿絲', e: '⚒️', col: '#ff9e7a', hair: '#7a4b2e' },
   { id: 'shop', x: 456, name: '花之商店 米米', e: '🛍️', col: '#9ec0ff', hair: '#f4c46a' },
@@ -359,7 +366,7 @@ function startPlay(first) {
   drops = []; projs = []; fx = []; texts = [];
   petals = Array.from({ length: 26 }, () => ({ x: rnd(0, W), y: rnd(-H, H), s: rnd(.6, 1.3), v: rnd(20, 50), r: rnd(0, 6) }));
   refreshFace(); updateHud(); show('play');
-  if (first) setTimeout(() => toast('歡迎來到櫻華王都！往右走進花露草原打怪吧 →'), 400); else checkOffline();
+  if (first) setTimeout(() => toast('歡迎來到櫻華王都！往右走到傳送門，按 E 進入花露草原打怪吧 →'), 400); else checkOffline();
 }
 function spawnMob(type, x, y) {
   const d = MONSTERS[type];
@@ -409,9 +416,27 @@ function usePot(type) {
   else { if (S.mp >= st.maxMp) return; S.mp = Math.min(st.maxMp, S.mp + Math.round(st.maxMp * .6 * pm)); }
   S.inv[type]--; addText(P.x, P.y - 80, type === 'hpPot' ? '+HP' : '+MP', type === 'hpPot' ? '#ff6b9a' : '#6ea0ff'); updateHud();
 }
+function nearPortal() { return P.onG && P.y > GROUND - 5 ? PORTALS.find(p => Math.abs(p.x - P.x) < 40) : null; }
+function nearHub() { return P.onG && P.y > GROUND - 5 && Math.abs(HUB.x - P.x) < 45; }
+let fadeT = 0;
+function warp(x, zi) {
+  P.x = x; P.y = GROUND; P.vx = P.vy = 0; fishing = null; fadeT = 1;
+  const zz = ZONES[zi]; cam = clamp(P.x - W / 2, zz.from, Math.max(zz.from, zz.to - W));
+  toast(`📍 ${zz.name}${zz.lv ? `（建議 Lv.${zz.lv}+）` : ''}`); persist();
+}
+function usePortal(pt) { warp(pt.land, pt.to); }
+function openHub() {
+  const cur = ZONES.indexOf(zoneAt(P.x));
+  openPanel('⛲ ' + HUB.name, `<p class="note">花之噴泉連通艾瑟蘭大陸各地，選擇要前往的地圖（免費）。</p><div class="list">${ZONES.map((z, i) => i === 0 ? '' : `<div class="item"><div><b>${z.name}</b><p>建議等級 Lv.${z.lv}+　怪物：${[...new Set(SPAWNS.filter(([, x]) => x >= z.from && x < z.to).map(s => MONSTERS[s[0]].name))].join('、')}</p></div><button class="btn sm pri" data-z="${i}">${i === cur ? '目前位置' : '傳送'}</button></div>`).join('')}</div>`, b => {
+    b.querySelectorAll('[data-z]').forEach(btn => btn.onclick = () => { const i = +btn.dataset.z; closePanel(); warp(ZONES[i].from + 150, i); });
+  });
+}
 function nearNpc() { return NPCS.find(n => Math.abs(n.x - P.x) < 55 && P.y > GROUND - 5); }
 function nearOre() { return ores.find(o => !o.dead && Math.abs(o.x - P.x) < 55 && Math.abs(o.y - P.y) < 30); }
 function interact() {
+  if (fishing) return;
+  const pt = nearPortal(); if (pt) { usePortal(pt); return; }
+  if (nearHub()) { openHub(); return; }
   const n = nearNpc(); if (n) { openNpc(n.id); return; }
   const o = nearOre(); if (o) { mine(o); return; }
   const h = nearHerb(); if (h) { gather(h); return; }
@@ -494,11 +519,12 @@ function runAuto(dt) {
   const st = stats();
   if (S.hp < st.maxHp * .4 && S.inv.hpPot) usePot('hpPot');
   if (S.mp < st.maxMp * .2 && S.inv.mpPot) usePot('mpPot');
-  if (zoneAt(P.x).safe) { keys.right = true; keys.left = false; return; }
+  if (zoneAt(P.x).safe) { const tp = PORTALS.find(p => p.x < ZONES[0].to); if (Math.abs(tp.x - P.x) < 20) { keys.right = keys.left = false; usePortal(tp); } else { keys.right = tp.x > P.x; keys.left = !keys.right; } return; }
+  const zc = zoneAt(P.x);
   const c = CLASSES[S.cls];
   const alive = mobs.filter(m => !m.dead);
   let tgt = null, bd = 1e9;
-  for (const m of alive) { const dy = Math.abs(m.y - P.y), dx = Math.abs(m.x - P.x); const d = dx + dy * 3; if (dx < 700 && d < bd) { bd = d; tgt = m; } }
+  for (const m of alive) { if (m.x < zc.from || m.x >= zc.to) continue; const dy = Math.abs(m.y - P.y), dx = Math.abs(m.x - P.x); const d = dx + dy * 3; if (dx < 700 && d < bd) { bd = d; tgt = m; } }
   keys.left = keys.right = false;
   if (!tgt) return;
   const dx = tgt.x - P.x, dy = tgt.y - P.y, reach = (c.type === 'melee' ? c.range : c.range * .8);
@@ -525,7 +551,7 @@ function update(dt) {
   keys.jumpOnce = keys.dropOnce = false;
   if (keys.attack) attack(); if (keys.skill) skill();
   const prevY = P.y;
-  P.vy += 1800 * dt; P.x = clamp(P.x + P.vx * dt, 20, MAP_W - 20); P.y += P.vy * dt;
+  P.vy += 1800 * dt; { const zz = zoneAt(P.x); P.x = clamp(P.x + P.vx * dt, zz.from + 20, zz.to - 20); } P.y += P.vy * dt;
   P.dropT -= dt;
   const gy = P.dropT > 0 ? GROUND : groundAt(P.x, P.y, prevY);
   if (P.y >= gy && P.vy >= 0) { P.y = gy; P.vy = 0; P.onG = true; } else if (P.y < gy - 1) P.onG = false;
@@ -569,10 +595,10 @@ function update(dt) {
   for (const t of texts) { t.t += dt; t.y -= 40 * dt; }
   texts = texts.filter(t => t.t < 1.1);
   for (const p of petals) { p.y += p.v * dt; p.x += Math.sin(T + p.r) * 12 * dt - 8 * dt; if (p.y > H + 10) { p.y = -10; p.x = rnd(0, W); } if (p.x < -10) p.x = W + 5; }
-  cam = clamp(P.x - W / 2, 0, MAP_W - W);
-  const n = nearNpc(), o = nearOre(), pr = $('#prompt');
-  const hb = !n && !o && nearHerb(), fs = !n && !o && !hb && nearFish();
-  const msg = fishing ? '🎣 釣魚中…（移動會讓魚跑掉）' : n ? `${n.e} ${n.name}　（按 E／互動）` : o ? `⛏️ ${ORES[o.type].n}　（按 E／互動 挖礦）` : hb ? `${ITEMS[hb.type].e} ${ITEMS[hb.type].n}　（按 E／互動 採集）` : fs ? `🎣 ${fs.name}　（按 E／互動 釣魚）` : '';
+  { const zz = zoneAt(P.x); cam = clamp(P.x - W / 2, zz.from, Math.max(zz.from, zz.to - W)); } fadeT = Math.max(0, fadeT - dt * 2.2);
+  const pt = nearPortal(), hubN = !pt && nearHub(), n = !pt && !hubN && nearNpc(), o = !pt && !hubN && nearOre(), pr = $('#prompt');
+  const hb = !pt && !hubN && !n && !o && nearHerb(), fs = !pt && !hubN && !n && !o && !hb && nearFish();
+  const msg = fishing ? '🎣 釣魚中…（移動會讓魚跑掉）' : pt ? `🌀 傳送門 → ${ZONES[pt.to].name}　（按 E／互動 進入）` : hubN ? `⛲ ${HUB.name}：快速前往各地圖　（按 E／互動）` : n ? `${n.e} ${n.name}　（按 E／互動）` : o ? `⛏️ ${ORES[o.type].n}　（按 E／互動 挖礦）` : hb ? `${ITEMS[hb.type].e} ${ITEMS[hb.type].n}　（按 E／互動 採集）` : fs ? `🎣 ${fs.name}　（按 E／互動 釣魚）` : '';
   pr.textContent = msg; pr.classList.toggle('show', !!msg);
   $('#hZone').textContent = zoneAt(P.x).name;
   saveTimer += dt; if (saveTimer > 5) { saveTimer = 0; persist(); }
@@ -593,6 +619,19 @@ function zoneMix(x) { // 平滑過渡天空色
   const i = ZONES.findIndex(z => x >= z.from && x < z.to); const z = ZONES[Math.max(0, i)], nz = ZONES[Math.min(ZONES.length - 1, i + 1)];
   const t = clamp((x - (z.to - 250)) / 250, 0, 1);
   return { top: lerpColor(z.sky[0], nz.sky[0], t), bot: lerpColor(z.sky[1], nz.sky[1], t), hill: lerpColor(z.hill, nz.hill, t), dark: lerpColor(z === ZONES[2] || z === ZONES[3] ? '#ffffff' : '#000000', nz === ZONES[2] || nz === ZONES[3] ? '#ffffff' : '#000000', t) };
+}
+function drawPortal(g, x, label) {
+  const y = GROUND - 52;
+  g.save(); g.translate(x, y);
+  const gr = g.createRadialGradient(0, 0, 4, 0, 0, 46); gr.addColorStop(0, 'rgba(255,255,255,.95)'); gr.addColorStop(.45, 'rgba(190,150,255,.75)'); gr.addColorStop(1, 'rgba(255,140,200,0)');
+  g.fillStyle = gr; g.beginPath(); g.ellipse(0, 0, 34, 50, 0, 0, 7); g.fill();
+  g.strokeStyle = 'rgba(255,255,255,.85)'; g.lineWidth = 2;
+  for (let i = 0; i < 3; i++) { g.beginPath(); g.ellipse(0, 0, 14 + i * 8, 22 + i * 12, 0, T * (2 + i) + i, T * (2 + i) + i + 3.6); g.stroke(); }
+  g.fillStyle = 'rgba(255,255,255,.9)';
+  for (let i = 0; i < 6; i++) { const a = T * 1.6 + i * 1.05; g.beginPath(); g.arc(Math.cos(a) * 30, Math.sin(a * 1.3) * 44, 2, 0, 7); g.fill(); }
+  g.restore();
+  g.fillStyle = 'rgba(255,246,236,.95)'; g.beginPath(); g.roundRect(x - 56, GROUND - 132, 112, 24, 9); g.fill();
+  g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; g.fillText('🌀 ' + label, x, GROUND - 115);
 }
 function tree(g, x, y, s, col) { g.fillStyle = '#8a5a5a'; g.fillRect(x - 4 * s, y - 40 * s, 8 * s, 40 * s); g.fillStyle = col; [[0, -58, 26], [-20, -46, 20], [20, -46, 20], [-10, -70, 18], [12, -68, 18]].forEach(([a, b, r]) => { g.beginPath(); g.arc(x + a * s, y + b * s, r * s, 0, 7); g.fill(); }); }
 function house(g, x, y, col, roof, sign) {
@@ -617,7 +656,8 @@ function draw() {
   for (const zz of ZONES) { if (zz.to < cam || zz.from > cam + W) continue; g.fillStyle = zz === ZONES[0] ? '#f3d9c4' : zz === ZONES[1] ? '#9fd89a' : zz === ZONES[2] ? '#5f8a6e' : '#6b6290'; g.fillRect(zz.from, GROUND, zz.to - zz.from, H - GROUND); g.fillStyle = zz === ZONES[0] ? '#e8c3a6' : zz === ZONES[1] ? '#7fc47b' : zz === ZONES[2] ? '#4a735a' : '#4f4775'; g.fillRect(zz.from, GROUND, zz.to - zz.from, 10); }
   if (cam < 1000) { house(g, 220, GROUND, '#fff1e8', '#ff9e7a', '鍛造屋'); house(g, 410, GROUND, '#f3f7ff', '#8fb3ff', '花之商店'); house(g, 600, GROUND, '#f7efff', '#b48cff', '星願召喚殿'); house(g, 790, GROUND, '#fff0f6', '#ff8fb6', '美容院'); g.fillStyle = '#bfe6ff'; g.beginPath(); g.ellipse(80, GROUND - 6, 46, 10, 0, 0, 7); g.fill(); g.fillStyle = '#e9d7c6'; g.fillRect(70, GROUND - 46, 20, 40); g.fillStyle = '#9fd3ff'; g.fillRect(77, GROUND - 60 + Math.sin(T * 3) * 2, 6, 18); }
   g.fillStyle = '#fff'; g.font = 'bold 13px sans-serif'; g.textAlign = 'center';
-  [[950, '→ 花露草原'], [2350, '→ 月影森林'], [3500, '→ 水晶礦洞']].forEach(([x, s]) => { if (x > cam - 100 && x < cam + W + 100) { g.fillStyle = '#8a5a3c'; g.fillRect(x - 3, GROUND - 60, 6, 60); g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(x - 52, GROUND - 74, 104, 26, 8); g.fill(); g.fillStyle = '#9c4871'; g.fillText(s, x, GROUND - 56); } });
+  for (const pt of PORTALS) { if (pt.x < cam - 80 || pt.x > cam + W + 80) continue; drawPortal(g, pt.x, ZONES[pt.to].name); }
+  if (cam < 300) { const a = .35 + Math.sin(T * 3) * .15; g.strokeStyle = `rgba(180,140,255,${a + .3})`; g.lineWidth = 3; g.beginPath(); g.ellipse(HUB.x, GROUND - 2, 58, 12, 0, 0, 7); g.stroke(); g.fillStyle = `rgba(200,170,255,${a})`; g.fill(); g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(HUB.x - 50, GROUND - 100, 100, 22, 8); g.fill(); g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.fillText('⛲ 傳送陣', HUB.x, GROUND - 84); }
   for (const p of PLATS) { if (p.x > cam + W || p.x + p.w < cam) continue; g.fillStyle = p.x < 2350 ? '#c79a6b' : '#5c4a6e'; g.beginPath(); g.roundRect(p.x, p.y, p.w, 18, 9); g.fill(); g.fillStyle = p.x < 2350 ? '#9fd89a' : '#7a9a88'; g.beginPath(); g.roundRect(p.x, p.y - 2, p.w, 9, 6); g.fill(); }
   for (const f of FISH_SPOTS) { if (f.x < cam - 120 || f.x > cam + W + 120) continue; g.fillStyle = '#8fd0ff'; g.beginPath(); g.ellipse(f.x, GROUND + 6, 70, 14, 0, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.6)'; g.beginPath(); g.ellipse(f.x - 20 + Math.sin(T * 2) * 6, GROUND + 4, 14, 3, 0, 0, 7); g.fill(); g.fillStyle = '#5fae6a'; [[-62, -4], [58, -2]].forEach(([a, bb]) => { g.beginPath(); g.ellipse(f.x + a, GROUND + bb, 6, 12, 0, 0, 7); g.fill(); }); }
   for (const h of herbs) { if (h.dead || h.x < cam - 40 || h.x > cam + W + 40) continue; const sw = Math.sin(T * 2 + h.x) * 2;
@@ -647,6 +687,7 @@ function draw() {
   g.restore();
   g.fillStyle = 'rgba(255,190,215,.85)';
   if (zn !== ZONES[3]) for (const p of petals) { g.save(); g.translate(p.x, p.y); g.rotate(T * p.s + p.r); g.beginPath(); g.ellipse(0, 0, 5 * p.s, 3 * p.s, 0, 0, 7); g.fill(); g.restore(); }
+  if (fadeT > 0) { g.fillStyle = `rgba(255,255,255,${fadeT})`; g.fillRect(0, 0, W, H); }
 }
 function drawMob(m) {
   const d = m.d, x = m.x, y = m.y, f = m.vx > 0 ? 1 : -1;
@@ -785,10 +826,10 @@ function openMenu() {
     b.querySelector('[data-m=tal]').onclick = openTalents;
     b.querySelector('[data-m=life]').onclick = () => openLife();
     b.querySelector('[data-m=town]').onclick = () => { P.x = 120; P.y = GROUND; auto = false; $('#qAuto').classList.remove('on'); closePanel(); };
-    b.querySelector('[data-m=help]').onclick = () => openPanel('❓ 操作說明', `<div class="list"><div class="item"><div><b>電腦</b><p>←→／A D 移動・Space／↑ 跳躍・↓＋跳躍 跳下平台・J 攻擊・K 技能・E 互動（NPC／挖礦／採藥／釣魚）・Q 自動打怪・1 紅藥水・2 藍藥水・I 背包・G 裝備・T 天賦・L 生活技能</p></div></div><div class="item"><div><b>手機</b><p>左下 ◀ ▶ 移動，右下「攻擊／技能／跳／互動」，右上快捷鍵可喝藥、開背包和自動打怪。建議橫向遊玩。</p></div></div><div class="item"><div><b>自動打怪</b><p>開啟後角色會自己找最近的怪物、移動、攻擊、放技能，血量低於 40% 會自動喝紅藥水。</p></div></div></div>`);
+    b.querySelector('[data-m=help]').onclick = () => openPanel('❓ 操作說明', `<div class="list"><div class="item"><div><b>電腦</b><p>←→／A D 移動・Space／↑ 跳躍・↓＋跳躍 跳下平台・J 攻擊・K 技能・E 互動（NPC／傳送門／挖礦／採藥／釣魚）・Q 自動打怪・1 紅藥水・2 藍藥水・I 背包・G 裝備・T 天賦・L 生活技能</p></div></div><div class="item"><div><b>手機</b><p>左下 ◀ ▶ 移動，右下「攻擊／技能／跳／互動」，右上快捷鍵可喝藥、開背包和自動打怪。建議橫向遊玩。</p></div></div><div class="item"><div><b>自動打怪</b><p>開啟後角色會自己找最近的怪物、移動、攻擊、放技能，血量低於 40% 會自動喝紅藥水。</p></div></div></div>`);
     b.querySelector('[data-m=road]').onclick = () => openPanel('🗺️ 開發進度', `<div class="list">
       <div class="item"><div><b>✅ v0.1</b><p>捏臉創角、4 大職業、橫向地圖、打怪、自動打怪、挖礦、鍛造、商店、抽卡、寵物、坐騎、存檔</p></div></div>
-      <div class="item"><div><b>✅ v0.2（現在）</b><p>6 部位裝備與 4 種稀有度、強化 +15、裝備打造、天賦樹與核心天賦、採藥・釣魚・煉金・料理、料理增益、離線掛機收益</p></div></div>
+      <div class="item"><div><b>✅ v0.2（現在）</b><p>6 部位裝備與 4 種稀有度、強化 +15、裝備打造、天賦樹與核心天賦、採藥・釣魚・煉金・料理、料理增益、離線掛機收益、地圖傳送門與噴泉傳送陣</p></div></div>
       <div class="item"><div><b>🔜 v0.3</b><p>雲端存檔（綁定會員帳號）、任務系統、副本與區域首領</p></div></div>
       <div class="item"><div><b>🔜 v0.3</b><p>多人連線：同地圖看見其他玩家、公開聊天、一起聽歌的音樂廳</p></div></div>
       <div class="item"><div><b>🔜 之後</b><p>好友、組隊、情侶與結婚、夫妻家園與家具裝飾、時裝商城、更多寵物與坐騎</p></div></div></div>`);
