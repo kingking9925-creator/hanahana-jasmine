@@ -186,3 +186,7 @@ button{font:inherit;cursor:pointer}
 .title.show{padding:min(14vh,110px) 16px min(17vh,140px)}
 @media (max-height:520px){.title.show{padding:7vh 16px 10vh}}
 @media (max-aspect-ratio:3/4){.title.show{padding:max(18vh,110px) 16px max(14vh,100px)}}
+/* 標題與按鈕整組置中 */
+.title.show,.title.show{justify-content:center;gap:clamp(20px,6vh,56px);padding:16px}
+@media (max-height:520px){.title.show{padding:10px 16px;gap:14px}}
+@media (max-aspect-ratio:3/4){.title.show{padding:16px;gap:40px}}
