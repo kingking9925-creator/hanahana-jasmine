@@ -190,3 +190,9 @@ button{font:inherit;cursor:pointer}
 .title.show,.title.show{justify-content:center;gap:clamp(20px,6vh,56px);padding:16px}
 @media (max-height:520px){.title.show{padding:10px 16px;gap:14px}}
 @media (max-aspect-ratio:3/4){.title.show{padding:16px;gap:40px}}
+
+/* 捏臉選項名稱 */
+.field .fl{display:flex;align-items:baseline;gap:8px}
+.field .fl em{font-style:normal;font-size:12px;font-weight:700;color:#b0508a;background:#fff0f6;border-radius:999px;padding:1px 9px}
+.field .fl em:empty{display:none}
+.opts.sw button{width:30px;height:30px}
