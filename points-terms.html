@@ -547,7 +547,9 @@ footer{border-color:rgba(15,31,69,.12)}
 @media(max-width:760px){.mb-page{padding-top:160px}.mb-grid{grid-template-columns:1fr}.mb-packs{grid-template-columns:repeat(3,1fr)}.mb-pts{align-items:flex-start;width:100%;flex-direction:row;align-items:center;justify-content:space-between}.mb-head{padding:18px}.mb-tabs button{font-size:13px;padding:9px 10px}}
 </style>
 <style>.terms{max-width:820px}.terms h1{font-family:var(--serif);font-size:clamp(30px,5vw,42px);margin:14px 0 6px;color:#3b2333}
-.terms section{margin-top:22px;padding:20px 24px;border-radius:22px;background:#fff;border:1px solid #f0dfe9}
+.terms-box{margin-top:22px;padding:8px 28px;border-radius:24px;background:#fff;border:1px solid #f0dfe9;box-shadow:0 12px 30px rgba(156,72,113,.06)}
+.terms section{padding:22px 0;border-bottom:1px dashed #efdde8}.terms section:last-child{border-bottom:0}
+@media(max-width:600px){.terms-box{padding:4px 18px}}
 .terms h2{margin:0 0 8px;font-size:18px;color:#9c4871}.terms ol{margin:0;padding-left:1.4em}.terms ul{margin:6px 0 0;padding-left:1.2em}.terms li{margin:8px 0;line-height:1.85;font-size:15px;color:#4a3a45}
 .terms a{color:#9c4871;text-decoration:underline;text-underline-offset:3px}.terms .mb-btn{text-decoration:none;color:#fff}.terms-back{margin-top:26px;text-align:center}</style>
 </head>
@@ -580,6 +582,7 @@ footer{border-color:rgba(15,31,69,.12)}
     <h1>點數使用條款</h1>
     <p class="mb-sub">最後更新：2026 年 11 月 1 日　｜　服務提供者：花花 Jasmine（以下稱「本站」）　｜　聯絡信箱：<a href="mailto:kingking82532@gmail.com">kingking82532@gmail.com</a></p>
 
+    <div class="terms-box">
     <section><h2>一、點數是什麼</h2>
       <ol>
         <li>「會員點數」（以下稱「點數」）是本站會員用來兌換本站遊戲、AI 服務等數位內容的儲值單位，分為：
@@ -646,7 +649,7 @@ footer{border-color:rgba(15,31,69,.12)}
         <li>如有任何問題或爭議，歡迎先來信 <a href="mailto:kingking82532@gmail.com">kingking82532@gmail.com</a>，本站會盡快回覆處理。</li>
       </ol>
     </section>
-
+    </div>
     <p class="terms-back"><a class="mb-btn pri" href="member.html?tab=points">← 回到我的點數</a></p>
   </article>
 </main>

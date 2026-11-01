@@ -35,7 +35,8 @@
     if (img && img !== 'none' && gradientLight(img)) { remember(el); el.style.backgroundImage = 'none'; el.style.backgroundColor = '#221b2e'; bg = null; }
     if (bg && bg.a > .35 && lum(bg) > .55) { remember(el); el.style.backgroundColor = rgb(darkBg(bg), Math.max(bg.a, .9)); }
     var c = parse(s.color);
-    if (c && lum(c) < .3) { remember(el); el.style.color = rgb(lightText(c)); }
+    var ownGrad = img && img !== 'none' && /gradient\(/.test(img);
+    if (c && lum(c) < .3 && !ownGrad) { remember(el); el.style.color = rgb(lightText(c)); }
     var bc = parse(s.borderTopColor);
     if (bc && parseFloat(s.borderTopWidth) > 0 && bc.a > .2 && lum(bc) > .55) { remember(el); el.style.borderColor = 'rgba(255,255,255,.12)'; }
     if (s.boxShadow && s.boxShadow !== 'none' && /rgba\((?:2[0-9]{2}|1[5-9][0-9]),/.test(s.boxShadow)) { remember(el); el.style.boxShadow = '0 10px 30px rgba(0,0,0,.35)'; }
