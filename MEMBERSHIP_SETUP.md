@@ -24,3 +24,32 @@ api/membership.js 是 Vercel Node.js Function，支援 status、register、login
 收款金鑰只放 Vercel 環境變數；不得放入 HTML、members.js 或 Git。
 不得把前端返回成功頁當作付款成功依據。
 在以上工作完成前，保留「尚未開放付款」狀態，不要收取真實款項。
+
+## 會員點數（NT$1 = 1 點）＋ 綠界儲值
+
+已實作：`api/points.js`（建立綠界訂單、接收付款通知並入帳、查詢點數）、`member.html`（會員頁面：點數、儲值、紀錄、我的遊戲、設定）、`supabase/points.sql`（資料表與入帳函式）。
+儲值方案：50／150／300／600／1500，付款方式 ALL（信用卡、ATM、超商代碼等，由綠界頁面選擇）。
+入帳只依據綠界伺服器通知（ReturnURL）並驗證 CheckMacValue；從綠界返回網站的頁面不會當作付款成功。同一筆訂單只會入帳一次。
+
+### 開通步驟（先測試環境）
+1. Supabase → SQL Editor：貼上 `supabase/points.sql` 全部內容執行一次。
+2. Supabase → Project Settings → API：複製 `service_role` 金鑰。
+3. Vercel → 專案 → Settings → Environment Variables 新增：
+   - `SUPABASE_SERVICE_ROLE_KEY` = 上一步的金鑰（只放這裡，絕不貼到聊天室、HTML 或 GitHub）
+   - `ECPAY_ENV` = `stage`
+   - `POINTS_ENABLED` = `true`
+4. Vercel 重新部署（Deployments → 最新一筆 → Redeploy）。
+5. 登入會員 → 會員頁面 → 點數 → 選方案，用綠界測試信用卡付款：卡號 4311-9522-2222-2222、有效期限填未來日期、安全碼 222、3D 驗證碼 1234。
+6. 確認點數紀錄出現「儲值」、餘額增加。
+
+### 切換正式收款
+1. 在綠界廠商後台取得正式 MerchantID、HashKey、HashIV。
+2. Vercel 環境變數新增 `ECPAY_MERCHANT_ID`、`ECPAY_HASH_KEY`、`ECPAY_HASH_IV`，並把 `ECPAY_ENV` 改成 `prod`，重新部署。
+3. 先用小額（NT$50）實際付款一次確認入帳。
+4. 正式開放前，補上點數使用條款（用途、有效期限、退款方式等）。
+
+### 之後遊戲／AI 扣點
+伺服器端呼叫 Supabase `spend_points(user_id, 點數, 'game' 或 'ai', 用途代碼)`；點數不足回傳 -1。只能用 service_role 呼叫，前端無法自行扣點或加點。
+
+## 暗夜模式
+`theme.js` 已載入全站每一頁。會員頁面 → 設定 → 外觀主題可選「亮色／暗夜模式／跟隨系統」，存在瀏覽器，登入時也會存到會員帳號（Supabase user_metadata.theme）。
