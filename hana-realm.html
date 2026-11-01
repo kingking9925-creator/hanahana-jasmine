@@ -48,6 +48,16 @@
     </div>
   </section>
 
+  <!-- 職業選擇 -->
+  <section id="classpick" class="screen classpick" data-theme-keep>
+    <div class="cp-wrap">
+      <header class="cp-head"><p class="cp-step">STEP 1 / 2</p><h1>選擇你的職業</h1><p>職業決定你的戰鬥方式，選好之後就不能更改喔</p></header>
+      <div id="cpList" class="cp-list"></div>
+      <div id="cpDetail" class="cp-detail"></div>
+      <div class="cp-actions"><button id="cpBack" class="tbtn">← 返回</button><button id="cpGo" class="tbtn pri">選擇這個職業 →</button></div>
+    </div>
+  </section>
+
   <!-- 捏臉創角 -->
   <section id="create" class="screen create">
     <div class="create-wrap">
@@ -56,9 +66,10 @@
         <button id="btnRandom" class="btn sm doll-only">🎲 隨機外觀</button>
       </div>
       <div class="create-form">
-        <h2 id="createTitle">創造你的角色</h2>
+        <p class="cp-step dark" id="createStep">STEP 2 / 2</p><h2 id="createTitle">創造你的角色</h2>
         <label class="field">角色名稱<input id="inName" maxlength="8" placeholder="最多 8 個字"></label>
-        <div class="field">職業<div id="optCls" class="opts cls"></div></div>
+        <div class="field" id="clsChosen"><span class="fl">職業</span><div class="cls-chosen"><b id="clsChosenName"></b><button type="button" class="btn sm" id="btnRepick">重新選擇職業</button></div></div>
+        <div class="field" id="clsRow" hidden>職業<div id="optCls" class="opts cls"></div></div>
         <div class="field">畫風<div id="optArt" class="opts"></div></div>
         <div class="field doll-only"><span class="fl">髮型<em id="nHair"></em></span><div id="optHair" class="opts"></div></div>
         <div class="field doll-only"><span class="fl">髮色<em id="nHairColor"></em></span><div id="optHairColor" class="opts sw"></div></div>
@@ -83,7 +94,7 @@
         </div>
       </div>
       <div class="hud-right">
-        <span class="gold">🪙 <b id="hGold">0</b></span>
+        <span class="gold"><img class="gi" src="img/hr/ui/i_gold.webp" alt=""> <b id="hGold">0</b></span>
         <span class="zone" id="hZone">櫻華王都</span>
         <button class="ic" id="btnMenu" title="選單">☰</button>
       </div>
@@ -95,13 +106,13 @@
 
     <div class="hud-bottom">
       <div class="quick">
-        <button class="qb" id="qHp" title="紅藥水 (1)">❤️<b id="nHp">0</b></button>
-        <button class="qb" id="qMp" title="藍藥水 (2)">💧<b id="nMp">0</b></button>
-        <button class="qb" id="qBag" title="背包 (I)">🎒</button>
-        <button class="qb" id="qGear" title="裝備 (G)">🛡️</button>
-        <button class="qb" id="qTal" title="天賦 (T)">🌳<i class="dot" id="talDot" hidden></i></button>
-        <button class="qb" id="qLife" title="生活技能 (L)">🧪</button>
-        <button class="qb" id="qAuto" title="自動打怪 (Q)">⚔️<small>自動</small></button>
+        <button class="qb" id="qHp" title="紅藥水 (1)"><img src="img/hr/ui/hpPot.webp" alt=""><b id="nHp">0</b></button>
+        <button class="qb" id="qMp" title="藍藥水 (2)"><img src="img/hr/ui/mpPot.webp" alt=""><b id="nMp">0</b></button>
+        <button class="qb" id="qBag" title="背包 (I)"><img src="img/hr/ui/i_bag.webp" alt=""></button>
+        <button class="qb" id="qGear" title="裝備 (G)"><img src="img/hr/ui/i_gear.webp" alt=""></button>
+        <button class="qb" id="qTal" title="天賦 (T)"><img src="img/hr/ui/i_talent.webp" alt=""><i class="dot" id="talDot" hidden></i></button>
+        <button class="qb" id="qLife" title="生活技能 (L)"><img src="img/hr/ui/i_life.webp" alt=""></button>
+        <button class="qb" id="qAuto" title="自動打怪 (Q)"><img src="img/hr/ui/i_auto.webp" alt=""><small>自動</small></button>
       </div>
     </div>
 

@@ -2,7 +2,7 @@
 (() => {
 'use strict';
 const $ = s => document.querySelector(s);
-const W = 960, H = 540, GROUND = 470, MAP_W = 4200;
+const W = 960, H = 540, GROUND = 470, MAP_W = 8200;
 const SAVE_KEY = 'hanaRealm.save.v1';
 const rnd = (a, b) => a + Math.random() * (b - a);
 const rint = (a, b) => Math.floor(rnd(a, b + 1));
@@ -43,6 +43,7 @@ const ITEMS = {
 };
 /* ---------- 裝備 ---------- */
 const SLOTS = { weapon: '武器', hat: '帽子', armor: '衣服', shoes: '鞋子', ring: '戒指', neck: '項鍊' };
+const ic = k => `<img class="gi" src="${ART_DIR}ui/${k}.webp" alt="">`;
 const SLOT_E = { weapon: '⚔️', hat: '🎩', armor: '👘', shoes: '👢', ring: '💍', neck: '📿' };
 const RARITY = [{ n: '普通', c: '#8f8a86', m: 1 }, { n: '稀有', c: '#3d7dff', m: 1.35 }, { n: '史詩', c: '#a24dff', m: 1.8 }, { n: '傳說', c: '#ff8a1e', m: 2.5 }];
 const GEAR_NAMES = { weapon: ['木製', '櫻花', '月影', '水晶', '星辰'], hat: ['布織', '櫻花', '月影', '水晶', '星辰'], armor: ['旅人', '櫻花', '月影', '水晶', '星辰'], shoes: ['草編', '櫻花', '月影', '水晶', '星辰'], ring: ['銅', '櫻花', '月影', '水晶', '星辰'], neck: ['麻繩', '櫻花', '月影', '水晶', '星辰'] };
@@ -110,10 +111,10 @@ const MOUNTS = { deer: { n: '櫻花鹿', e: '🦌', spd: 1.45 } };
 
 /* ---------- 地圖 ---------- */
 const ZONES = [
-  { from: 0, to: 980, lv: 0, name: '櫻華王都', sky: ['#ffd9e8', '#fff5ec'], hill: '#f6c9da', safe: true },
-  { from: 980, to: 2350, lv: 1, name: '花露草原', sky: ['#cfe9ff', '#fff7ef'], hill: '#bfe3c9' },
-  { from: 2350, to: 3500, lv: 5, name: '月影森林', sky: ['#5b4c8f', '#c9b3ff'], hill: '#4a6b6a' },
-  { from: 3500, to: MAP_W, lv: 8, name: '水晶礦洞', sky: ['#2c2547', '#5d5590'], hill: '#3c3560' }
+  { from: 0, to: 1800, lv: 0, name: '櫻華王都', sky: ['#ffd9e8', '#fff5ec'], hill: '#f6c9da', safe: true },
+  { from: 1800, to: 4200, lv: 1, name: '花露草原', sky: ['#cfe9ff', '#fff7ef'], hill: '#bfe3c9' },
+  { from: 4200, to: 6400, lv: 5, name: '月影森林', sky: ['#5b4c8f', '#c9b3ff'], hill: '#4a6b6a' },
+  { from: 6400, to: MAP_W, lv: 8, name: '水晶礦洞', sky: ['#2c2547', '#5d5590'], hill: '#3c3560' }
 ];
 const PLATS = [
   { x: 1150, y: 380, w: 200 }, { x: 1450, y: 320, w: 180 }, { x: 1750, y: 380, w: 220 }, { x: 2050, y: 300, w: 160 },
@@ -126,12 +127,12 @@ ZONES.forEach((z, i) => {
   if (i > 0) PORTALS.push({ x: z.from + 90, to: i - 1, land: ZONES[i - 1].to - 170 });
   if (i < ZONES.length - 1) PORTALS.push({ x: z.to - 90, to: i + 1, land: ZONES[i + 1].from + 170 });
 });
-const HUB = { x: 80, name: '花之噴泉傳送陣' };
+const HUB = { x: 130, name: '花之噴泉傳送陣' };
 const NPCS = [
-  { id: 'forge', x: 266, name: '鍛造師 蘿絲', e: '⚒️', col: '#ff9e7a', hair: '#7a4b2e' },
-  { id: 'shop', x: 456, name: '花之商店 米米', e: '🛍️', col: '#9ec0ff', hair: '#f4c46a' },
-  { id: 'gacha', x: 646, name: '星願召喚殿', e: '✨', col: '#b48cff', hair: '#f2f2f2' },
-  { id: 'salon', x: 836, name: '美容院 小葵', e: '💇', col: '#ff8fb6', hair: '#ff9ec4' }
+  { id: 'forge', x: 470, name: '鍛造師 蘿絲', e: '⚒️', col: '#ff9e7a', hair: '#7a4b2e' },
+  { id: 'shop', x: 830, name: '花之商店 米米', e: '🛍️', col: '#9ec0ff', hair: '#f4c46a' },
+  { id: 'gacha', x: 1190, name: '星願召喚殿', e: '✨', col: '#b48cff', hair: '#f2f2f2' },
+  { id: 'salon', x: 1530, name: '美容院 小葵', e: '💇', col: '#ff8fb6', hair: '#ff9ec4' }
 ];
 const SPAWNS = [
   ['slime', 1100, GROUND], ['slime', 1300, GROUND], ['slime', 1600, GROUND], ['slime', 1900, GROUND], ['slime', 2150, GROUND],
@@ -140,6 +141,30 @@ const SPAWNS = [
   ['golem', 3700, GROUND], ['golem', 4000, GROUND], ['sprite', 3700, 380]
 ];
 const ORE_SPOTS = [['iron', 1230, GROUND], ['iron', 1700, GROUND], ['iron', 2000, GROUND], ['iron', 1520, 320], ['crystal', 2620, GROUND], ['crystal', 2850, 300], ['crystal', 3690, GROUND], ['star', 3130, 230], ['star', 3990, 300], ['crystal', 3950, GROUND]];
+// 舊地圖座標 → 放大後的新地圖（每區等比例拉寬，再補上更多怪物與平台）
+const OLD_Z = [[0, 980], [980, 2350], [2350, 3500], [3500, 4200]];
+function remapX(x) {
+  for (let i = 0; i < OLD_Z.length; i++) { const [a, b] = OLD_Z[i]; if (x < b || i === OLD_Z.length - 1) { const z = ZONES[i], t = clamp((x - a) / (b - a), 0, 1); return Math.round(z.from + 120 + t * (z.to - z.from - 240)); } }
+  return x;
+}
+HERB_SPOTS.forEach(h => h[1] = remapX(h[1])); FISH_SPOTS.forEach(f => f.x = remapX(f.x));
+ORE_SPOTS.forEach(o => o[1] = remapX(o[1]));
+PLATS.forEach(pl => pl.x = remapX(pl.x));
+SPAWNS.forEach(sp => sp[1] = remapX(sp[1]));
+[[1, 2600, 360, 200], [1, 3300, 340, 220], [2, 5600, 330, 220], [3, 7500, 360, 220]].forEach(([, x, y, w]) => PLATS.push({ x, y, w }));
+SPAWNS.push(['slime', 2400, GROUND], ['slime', 3000, GROUND], ['slime', 3600, GROUND], ['bfly', 2700, 330], ['bfly', 3400, 310], ['slime', 3400, 340],
+  ['sprite', 4700, GROUND], ['sprite', 5300, GROUND], ['sprite', 6000, GROUND], ['bfly', 5650, 300], ['sprite', 5650, 330],
+  ['golem', 7000, GROUND], ['golem', 7700, GROUND], ['sprite', 7550, 360]);
+ORE_SPOTS.push(['iron', 3800, GROUND], ['crystal', 5900, GROUND], ['star', 7900, GROUND]);
+HERB_SPOTS.push(['herb', 2900, GROUND], ['moonflower', 5200, GROUND], ['herb', 3700, GROUND]);
+// 場景裝飾物件（AI 插畫）：[圖, x, 高度, 前景?]
+const PROPS = [
+  ['o_lamp', 300, 150], ['o_bush', 640, 70], ['o_lamp', 1010, 150], ['o_bench', 990, 62], ['o_bush', 1360, 70], ['o_lamp', 1700, 150], ['o_bench', 340, 62],
+  ['o_sign', 1950, 110], ['o_bush', 2200, 80], ['o_fence', 2480, 70], ['o_hay', 2850, 66], ['o_bush', 3150, 80], ['o_fence', 3550, 70], ['o_chest', 3950, 54], ['o_hay', 3480, 66],
+  ['o_sign', 4350, 110], ['o_mush', 4600, 90], ['o_lantern', 4900, 80], ['o_mush', 5450, 100], ['o_lantern', 5800, 80], ['o_mush', 5980, 86],
+  ['o_lantern', 6600, 80], ['o_mush', 6900, 80], ['o_lantern', 7350, 80], ['o_chest', 8000, 54]
+];
+const BUILDINGS = [['h_forge', 470, 250], ['h_shop', 830, 240], ['h_gacha', 1190, 280], ['h_salon', 1530, 240], ['h_cabin', 6150, 200], ['h_cottage', 2960, 230]];
 
 /* ---------- 存檔 ---------- */
 let S = null;
@@ -152,6 +177,7 @@ function newSave(look, name, cls) {
 function newSaveFull(look, name, cls) { const s = migrate(newSave(look, name, cls)); s.equip.weapon.lv = 1; s.equip.armor = makeGear(1, 'armor', 0); return s; }
 function load() { try { const s = JSON.parse(localStorage.getItem(SAVE_KEY)); return s && s.v === 1 ? migrate(s) : null; } catch { return null; } }
 function migrate(s) { // 舊存檔補上新系統的欄位
+  if (!s.map2) { if (s.x) s.x = remapX(s.x); s.map2 = 1; }
   for (const k of ['herb', 'moonflower', 'fish1', 'fish2', 'fish3', 'luck', 'food1', 'food2', 'food3']) if (s.inv[k] == null) s.inv[k] = 0;
   if (!s.equip) {
     s.equip = {}; s.gear = [];
@@ -431,7 +457,7 @@ function drawMount(g, x, y, f, t) {
 }
 
 /* ---------- 畫面切換 ---------- */
-const screens = ['gate', 'title', 'create', 'play'];
+const screens = ['gate', 'title', 'classpick', 'create', 'play'];
 function show(id) { screens.forEach(s => $('#' + s).classList.toggle('show', s === id)); if (id === 'play') { resize(); running = true; } else running = false; }
 
 /* ---------- 會員檢查 ---------- */
@@ -452,8 +478,8 @@ function toTitle() {
   $('#btnNew').hidden = !S;
   show('title');
 }
-$('#btnStart').onclick = () => { if (S) startPlay(); else openCreate(false); };
-$('#btnNew').onclick = () => { if (confirm('重新創角會清除目前角色的進度，確定嗎？')) { localStorage.removeItem(SAVE_KEY); S = null; openCreate(false); } };
+$('#btnStart').onclick = () => { if (S) startPlay(); else openClassPick(); };
+$('#btnNew').onclick = () => { if (confirm('重新創角會清除目前角色的進度，確定嗎？')) { localStorage.removeItem(SAVE_KEY); S = null; openClassPick(); } };
 
 /* ---------- 捏臉 ---------- */
 let draft = null, editing = false;
@@ -492,9 +518,38 @@ function renderCreate() {
   document.querySelectorAll('.doll-only').forEach(el => el.hidden = !!ill);
   drawHero(pg, 160, 335, draft, draft.cls, { scale: 3.4, artScale: 2.6, fit: 310, face: 1 });
 }
-function openCreate(edit) {
+/* ---------- 職業選擇（先選職業，再捏臉） ---------- */
+const CLASS_INFO = {
+  knight: { en: 'ROSE KNIGHT', role: '前線坦克・近戰', lore: '守護櫻華王都的薔薇騎士團成員。以厚重的銀甲與長劍站在隊伍最前方，越是危急越能綻放力量。', play: '血量最高、最耐打，適合第一次玩的新手。貼身砍怪，技能可以一次掃到一整排。', stars: { hp: 5, atk: 3, range: 1, ctrl: 3 }, tip: '新手推薦' },
+  mage: { en: 'STAR MAGE', role: '遠程・範圍魔法', lore: '在星詠塔修行的魔導士，能把夜空的星辰化為流星降下。身體雖然嬌弱，火力卻是全職業最華麗的。', play: '站在遠處放魔法，技能「流星花雨」能同時打中一群怪，清怪速度最快。', stars: { hp: 2, atk: 5, range: 4, ctrl: 4 }, tip: '清怪最快' },
+  ranger: { en: 'MOON RANGER', role: '遠程・高爆擊', lore: '在月影森林長大的獵人，能聽見風與樹葉的聲音。月光下射出的箭從不落空。', play: '射程最遠、爆擊率最高，邊走邊射。技能「月影箭」可以直線穿透一排怪物。', stars: { hp: 3, atk: 4, range: 5, ctrl: 2 }, tip: '爆擊最高' },
+  priest: { en: 'FLOWER PRIEST', role: '治療・輔助', lore: '侍奉永恆花樹的聖職者，花語能喚醒生命。是冒險路上最讓人安心的存在。', play: '可以邊打邊幫自己補血，喝藥水的次數最少，打王最穩定。', stars: { hp: 4, atk: 2, range: 2, ctrl: 5 }, tip: '最好生存' }
+};
+let pickCls = 'knight';
+function renderClassPick() {
+  const c = CLASSES[pickCls], ci = CLASS_INFO[pickCls], m = ART.hero && ART.hero[pickCls];
+  $('#cpList').innerHTML = Object.entries(CLASSES).map(([k, v]) => `<button type="button" class="cp-tab${k === pickCls ? ' on' : ''}" data-c="${k}"><img src="${ART_DIR}${k}_idle.webp" alt=""><span><b>${v.name}</b><small>${CLASS_INFO[k].role}</small></span></button>`).join('');
+  $('#cpList').querySelectorAll('[data-c]').forEach(b => b.onclick = () => { pickCls = b.dataset.c; renderClassPick(); });
+  const bar = (n, t) => `<div class="cp-stat"><span>${t}</span><i>${'<em></em>'.repeat(n)}${'<em class="off"></em>'.repeat(5 - n)}</i></div>`;
+  $('#cpDetail').innerHTML = `
+    <div class="cp-art"><img src="${ART_DIR}${pickCls}_attack.webp" alt="${c.name}"><span class="cp-tip">${ci.tip}</span></div>
+    <div class="cp-info">
+      <p class="cp-en">${ci.en}</p><h2>${c.name}</h2><p class="cp-role">${ci.role}</p>
+      <p class="cp-lore">${ci.lore}</p>
+      <div class="cp-stats">${bar(ci.stars.hp, '生存')}${bar(ci.stars.atk, '攻擊')}${bar(ci.stars.range, '射程')}${bar(ci.stars.ctrl, '輔助')}</div>
+      <div class="cp-skill"><b>✦ 職業技能：${c.skill.name}</b><p>${ci.play}</p></div>
+      <div class="cp-nums"><span>HP ${c.hp}</span><span>MP ${c.mp}</span><span>攻擊 ${c.atk}</span><span>爆擊 ${Math.round(c.crit * 100)}%</span></div>
+    </div>`;
+}
+function openClassPick() { pickCls = 'knight'; renderClassPick(); show('classpick'); }
+$('#cpGo').onclick = () => openCreate(false, pickCls);
+$('#cpBack').onclick = () => toTitle();
+$('#btnRepick').onclick = () => { pickCls = draft.cls; renderClassPick(); show('classpick'); };
+function openCreate(edit, cls) {
   editing = edit;
-  draft = edit ? { ...S.look, cls: S.cls, art: S.look.art || 'illust' } : { ...randomLook(), cls: 'knight', art: 'doll' };
+  draft = edit ? { ...S.look, cls: S.cls, art: S.look.art || 'illust' } : { ...randomLook(), cls: cls || 'knight', art: 'doll' };
+  $('#clsRow').hidden = !edit; $('#clsChosen').hidden = edit; $('#createStep').hidden = edit;
+  if (!edit) $('#clsChosenName').textContent = CLASSES[draft.cls].name;
   $('#inName').value = edit ? S.name : ''; $('#inName').disabled = edit;
   $('#createTitle').textContent = edit ? '美容院：重新打扮' : '創造你的角色';
   $('#btnCreate').textContent = edit ? '儲存造型' : '完成，進入王都 →';
@@ -611,7 +666,7 @@ function mine(o) {
     o.dead = ORES[o.type].respawn;
     const n = 1 + (Math.random() < .25 + S.pickLv * .05 + S.life.mine.lv * .03 ? 1 : 0);
     lifeExp('mine', { iron: 4, crystal: 8, star: 15 }[o.type]);
-    S.inv[o.type] += n; addText(o.x, o.y - 50, `${ITEMS[o.type].e} ${ITEMS[o.type].n} x${n}`, '#fff'); persist();
+    S.inv[o.type] += n; addText(o.x, o.y - 50, `${ITEMS[o.type].n} x${n}`, '#fff', false, o.type); persist();
   }
 }
 function dmgRoll(mult) { const st = stats(); const crit = Math.random() < st.crit; return { v: Math.max(1, Math.round(st.atk * mult * rnd(.85, 1.15) * (crit ? 1.6 : 1))), crit }; }
@@ -770,9 +825,9 @@ let hudTick = 0;
 function collect(d) {
   if (d.kind === 'gear') { addGear(d.gear); return; }
   if (d.kind === 'gold') { S.gold += d.n; addText(P.x, P.y - 80, '+' + d.n + ' 🪙', '#ffe08a'); }
-  else { S.inv[d.kind] = (S.inv[d.kind] || 0) + d.n; addText(P.x, P.y - 80, `${ITEMS[d.kind].e} ${ITEMS[d.kind].n}`, '#fff'); }
+  else { S.inv[d.kind] = (S.inv[d.kind] || 0) + d.n; addText(P.x, P.y - 80, `${ITEMS[d.kind].n}`, '#fff', false, d.kind); }
 }
-function addText(x, y, s, col, big) { texts.push({ x, y, s: String(s), col, big, t: 0 }); }
+function addText(x, y, s, col, big, icon) { texts.push({ x, y, s: String(s), col, big, icon, t: 0 }); }
 function burst(x, y, col, n) { for (let i = 0; i < n; i++) fx.push({ kind: 'spark', x, y, vx: rnd(-160, 160), vy: rnd(-220, -40), col, t: 0 }); }
 
 /* ---------- 繪製 ---------- */
@@ -782,7 +837,13 @@ function zoneMix(x) { // 平滑過渡天空色
   const t = clamp((x - (z.to - 250)) / 250, 0, 1);
   return { top: lerpColor(z.sky[0], nz.sky[0], t), bot: lerpColor(z.sky[1], nz.sky[1], t), hill: lerpColor(z.hill, nz.hill, t), dark: lerpColor(z === ZONES[2] || z === ZONES[3] ? '#ffffff' : '#000000', nz === ZONES[2] || nz === ZONES[3] ? '#ffffff' : '#000000', t) };
 }
+function drawImg(g, key, x, y, h, flip) { const im = artImg(key); if (!im) return false; const w = im.naturalWidth * h / im.naturalHeight; g.save(); g.translate(x, y); if (flip) g.scale(-1, 1); g.drawImage(im, -w / 2, -h, w, h); g.restore(); return true; }
 function drawPortal(g, x, label) {
+  if (artImg('ui/o_portal')) {
+    g.save(); g.globalAlpha = .55 + Math.sin(T * 3) * .15; const gl = g.createRadialGradient(x, GROUND - 60, 5, x, GROUND - 60, 90); gl.addColorStop(0, 'rgba(220,170,255,.8)'); gl.addColorStop(1, 'rgba(220,170,255,0)'); g.fillStyle = gl; g.fillRect(x - 90, GROUND - 150, 180, 160); g.restore();
+    drawImg(g, 'ui/o_portal', x, GROUND + 4, 128);
+    g.fillStyle = 'rgba(255,246,236,.95)'; g.beginPath(); g.roundRect(x - 56, GROUND - 158, 112, 24, 9); g.fill(); g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; g.fillText('🌀 ' + label, x, GROUND - 141); return;
+  }
   const y = GROUND - 52;
   g.save(); g.translate(x, y);
   const gr = g.createRadialGradient(0, 0, 4, 0, 0, 46); gr.addColorStop(0, 'rgba(255,255,255,.95)'); gr.addColorStop(.45, 'rgba(190,150,255,.75)'); gr.addColorStop(1, 'rgba(255,140,200,0)');
@@ -827,25 +888,29 @@ function draw() {
   g.save(); g.translate(-cam, 0);
   // 地面
   for (const zz of ZONES) { if (zz.to < cam || zz.from > cam + W) continue; if (bgi) { g.fillStyle = 'rgba(40,20,40,.10)'; g.fillRect(zz.from, GROUND, zz.to - zz.from, 4); continue; } g.fillStyle = zz === ZONES[0] ? '#f3d9c4' : zz === ZONES[1] ? '#9fd89a' : zz === ZONES[2] ? '#5f8a6e' : '#6b6290'; g.fillRect(zz.from, GROUND, zz.to - zz.from, H - GROUND); g.fillStyle = zz === ZONES[0] ? '#e8c3a6' : zz === ZONES[1] ? '#7fc47b' : zz === ZONES[2] ? '#4a735a' : '#4f4775'; g.fillRect(zz.from, GROUND, zz.to - zz.from, 10); }
-  if (cam < 1000 && bgi) [[266, '⚒️ 鍛造屋'], [456, '🛍️ 花之商店'], [646, '✨ 星願召喚殿'], [836, '💇 美容院']].forEach(([x, t]) => { g.font = 'bold 13px sans-serif'; g.textAlign = 'center'; const tw = g.measureText(t).width + 22; g.fillStyle = 'rgba(255,248,240,.95)'; g.beginPath(); g.roundRect(x - tw / 2, GROUND - 150, tw, 26, 10); g.fill(); g.strokeStyle = '#e8b4c8'; g.lineWidth = 2; g.stroke(); g.fillStyle = '#9c4871'; g.fillText(t, x, GROUND - 132); });
-  else if (cam < 1000) { house(g, 220, GROUND, '#fff1e8', '#ff9e7a', '鍛造屋'); house(g, 410, GROUND, '#f3f7ff', '#8fb3ff', '花之商店'); house(g, 600, GROUND, '#f7efff', '#b48cff', '星願召喚殿'); house(g, 790, GROUND, '#fff0f6', '#ff8fb6', '美容院'); g.fillStyle = '#bfe6ff'; g.beginPath(); g.ellipse(80, GROUND - 6, 46, 10, 0, 0, 7); g.fill(); g.fillStyle = '#e9d7c6'; g.fillRect(70, GROUND - 46, 20, 40); g.fillStyle = '#9fd3ff'; g.fillRect(77, GROUND - 60 + Math.sin(T * 3) * 2, 6, 18); }
+  for (const [k, x, h] of BUILDINGS) if (x > cam - 220 && x < cam + W + 220) drawImg(g, 'ui/' + k, x, GROUND + 6, h);
+  for (const [k, x, h] of PROPS) if (x > cam - 120 && x < cam + W + 120) drawImg(g, 'ui/' + k, x, GROUND + 4, h);
+  if (cam < 1900) [[470, '鍛造屋'], [830, '花之商店'], [1190, '星願召喚殿'], [1530, '美容院']].forEach(([x, t]) => { g.font = 'bold 13px sans-serif'; g.textAlign = 'center'; const tw = g.measureText(t).width + 24; g.fillStyle = 'rgba(255,248,240,.95)'; g.beginPath(); g.roundRect(x - tw / 2, GROUND - 300, tw, 26, 10); g.fill(); g.strokeStyle = '#f6d27a'; g.lineWidth = 2; g.stroke(); g.fillStyle = '#9c4871'; g.fillText(t, x, GROUND - 282); });
   g.fillStyle = '#fff'; g.font = 'bold 13px sans-serif'; g.textAlign = 'center';
   for (const pt of PORTALS) { if (pt.x < cam - 80 || pt.x > cam + W + 80) continue; drawPortal(g, pt.x, ZONES[pt.to].name); }
-  if (cam < 300) { const a = .35 + Math.sin(T * 3) * .15; g.strokeStyle = `rgba(180,140,255,${a + .3})`; g.lineWidth = 3; g.beginPath(); g.ellipse(HUB.x, GROUND - 2, 58, 12, 0, 0, 7); g.stroke(); g.fillStyle = `rgba(200,170,255,${a})`; g.fill(); g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(HUB.x - 50, GROUND - 100, 100, 22, 8); g.fill(); g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.fillText('⛲ 傳送陣', HUB.x, GROUND - 84); }
-  for (const p of PLATS) { if (p.x > cam + W || p.x + p.w < cam) continue; g.fillStyle = p.x < 2350 ? '#c79a6b' : '#5c4a6e'; g.beginPath(); g.roundRect(p.x, p.y, p.w, 18, 9); g.fill(); g.fillStyle = p.x < 2350 ? '#9fd89a' : '#7a9a88'; g.beginPath(); g.roundRect(p.x, p.y - 2, p.w, 9, 6); g.fill(); }
+  if (cam < 400 && drawImg(g, 'ui/o_fountain', HUB.x, GROUND + 6, 120)) { g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(HUB.x - 50, GROUND - 146, 100, 22, 8); g.fill(); g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; g.fillText('⛲ 傳送陣', HUB.x, GROUND - 130); }
+  else if (cam < 300) { const a = .35 + Math.sin(T * 3) * .15; g.strokeStyle = `rgba(180,140,255,${a + .3})`; g.lineWidth = 3; g.beginPath(); g.ellipse(HUB.x, GROUND - 2, 58, 12, 0, 0, 7); g.stroke(); g.fillStyle = `rgba(200,170,255,${a})`; g.fill(); g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(HUB.x - 50, GROUND - 100, 100, 22, 8); g.fill(); g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.fillText('⛲ 傳送陣', HUB.x, GROUND - 84); }
+  for (const p of PLATS) { if (p.x > cam + W + 40 || p.x + p.w < cam - 40) continue; const zi = ZONES.indexOf(zoneAt(p.x)), pk = zi <= 1 ? 'p_grass' : zi === 2 ? 'p_forest' : 'p_cave', pim = artImg('ui/' + pk); if (pim) { const w = p.w * 1.12, h = pim.naturalHeight * w / pim.naturalWidth, top = { p_grass: .33, p_forest: .4, p_cave: .35 }[pk]; g.drawImage(pim, p.x + p.w / 2 - w / 2, p.y - h * top + 2, w, h); continue; } g.fillStyle = p.x < 2350 ? '#c79a6b' : '#5c4a6e'; g.beginPath(); g.roundRect(p.x, p.y, p.w, 18, 9); g.fill(); g.fillStyle = p.x < 2350 ? '#9fd89a' : '#7a9a88'; g.beginPath(); g.roundRect(p.x, p.y - 2, p.w, 9, 6); g.fill(); }
   for (const f of FISH_SPOTS) { if (f.x < cam - 120 || f.x > cam + W + 120) continue; g.fillStyle = '#8fd0ff'; g.beginPath(); g.ellipse(f.x, GROUND + 6, 70, 14, 0, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.6)'; g.beginPath(); g.ellipse(f.x - 20 + Math.sin(T * 2) * 6, GROUND + 4, 14, 3, 0, 0, 7); g.fill(); g.fillStyle = '#5fae6a'; [[-62, -4], [58, -2]].forEach(([a, bb]) => { g.beginPath(); g.ellipse(f.x + a, GROUND + bb, 6, 12, 0, 0, 7); g.fill(); }); }
   for (const h of herbs) { if (h.dead || h.x < cam - 40 || h.x > cam + W + 40) continue; const sw = Math.sin(T * 2 + h.x) * 2;
+    if (drawImg(g, 'ui/o_' + h.type, h.x, h.y + 3, h.type === 'herb' ? 46 : 54)) continue;
     g.strokeStyle = '#4f9a58'; g.lineWidth = 2.5; g.beginPath(); g.moveTo(h.x - 6, h.y); g.quadraticCurveTo(h.x - 8 + sw, h.y - 12, h.x - 4 + sw, h.y - 20); g.moveTo(h.x + 6, h.y); g.quadraticCurveTo(h.x + 8 + sw, h.y - 12, h.x + 5 + sw, h.y - 18); g.moveTo(h.x, h.y); g.lineTo(h.x + sw, h.y - 24); g.stroke();
     g.fillStyle = h.type === 'herb' ? '#7fd88a' : '#fff1a8'; for (let i = 0; i < 5; i++) { g.beginPath(); g.arc(h.x + sw + Math.cos(i * 1.256) * 5, h.y - 26 + Math.sin(i * 1.256) * 5, 3.5, 0, 7); g.fill(); } g.fillStyle = h.type === 'herb' ? '#3d8a4a' : '#ffb347'; g.beginPath(); g.arc(h.x + sw, h.y - 26, 2.6, 0, 7); g.fill(); }
   for (const o of ores) {
     if (o.x < cam - 50 || o.x > cam + W + 50) continue; const d = ORES[o.type];
     if (o.dead) { g.fillStyle = 'rgba(0,0,0,.15)'; g.beginPath(); g.ellipse(o.x, o.y - 3, 18, 5, 0, 0, 7); g.fill(); continue; }
+    if (drawImg(g, 'ui/o_' + o.type, o.x, o.y + 4, o.type === 'iron' ? 44 : 54)) { if (o.hp < d.hp) { g.fillStyle = '#0006'; g.fillRect(o.x - 18, o.y - 62, 36, 5); g.fillStyle = '#ffe08a'; g.fillRect(o.x - 18, o.y - 62, 36 * o.hp / d.hp, 5); } continue; }
     g.fillStyle = d.col; g.beginPath(); g.moveTo(o.x - 24, o.y); g.lineTo(o.x - 18, o.y - 26); g.lineTo(o.x - 2, o.y - 36); g.lineTo(o.x + 16, o.y - 28); g.lineTo(o.x + 24, o.y); g.fill();
     g.fillStyle = d.gem; [[-8, -18], [6, -24], [10, -10]].forEach(([a, b]) => { g.beginPath(); g.moveTo(o.x + a, o.y + b - 6); g.lineTo(o.x + a + 4, o.y + b); g.lineTo(o.x + a, o.y + b + 6); g.lineTo(o.x + a - 4, o.y + b); g.fill(); });
     if (o.hp < d.hp) { g.fillStyle = '#0006'; g.fillRect(o.x - 18, o.y - 46, 36, 5); g.fillStyle = '#ffe08a'; g.fillRect(o.x - 18, o.y - 46, 36 * o.hp / d.hp, 5); }
   }
   for (const n of NPCS) { if (n.x < cam - 50 || n.x > cam + W + 50) continue; if (!(ART.npc && ART.npc[n.id] && drawArt(g, 'npc_' + n.id, ART.npc[n.id], n.x, GROUND + 3, .5, P.x < n.x ? -1 : 1, 1 + Math.sin(T * 2.6 + n.x) * .012))) drawChibi(g, n.x, GROUND, { hair: 'bob', hairColor: n.hair, eyeShape: 'gentle', eye: '#7a4b2e', skin: '#ffe2d0', outfit: n.col, deco: 'blush' }, n.id === 'forge' ? 'knight' : n.id === 'gacha' ? 'mage' : 'priest', { face: -1, blink: Math.sin(T * 2 + n.x) > .97 }); g.fillStyle = '#fff'; g.font = 'bold 11px sans-serif'; g.textAlign = 'center'; g.fillStyle = 'rgba(48,38,60,.75)'; const tw = g.measureText(n.name).width + 12; g.beginPath(); g.roundRect(n.x - tw / 2, GROUND + 6, tw, 17, 8); g.fill(); g.fillStyle = '#ffe08a'; g.fillText(n.name, n.x, GROUND + 19); }
-  for (const d of drops) { const yy = d.y - 8 + Math.sin(d.t * 5) * 2; if (d.kind === 'gold') { g.fillStyle = '#ffcf4a'; g.beginPath(); g.arc(d.x, yy, 7, 0, 7); g.fill(); g.fillStyle = '#fff2a8'; g.beginPath(); g.arc(d.x - 2, yy - 2, 2.5, 0, 7); g.fill(); } else if (d.kind === 'gear') { g.save(); g.shadowColor = RARITY[d.gear.r].c; g.shadowBlur = 12; g.font = '20px sans-serif'; g.textAlign = 'center'; g.fillText(SLOT_E[d.gear.slot], d.x, yy + 6); g.restore(); } else { g.font = '18px sans-serif'; g.textAlign = 'center'; g.fillText(ITEMS[d.kind].e, d.x, yy + 6); } }
+  for (const d of drops) { const yy = d.y - 8 + Math.sin(d.t * 5) * 2; const ik = d.kind === 'gold' ? 'i_gold' : d.kind === 'gear' ? 's_' + d.gear.slot : d.kind; if (d.kind === 'gear') { g.save(); g.shadowColor = RARITY[d.gear.r].c; g.shadowBlur = 14; } const ok = drawImg(g, 'ui/' + ik, d.x, yy + 12, d.kind === 'gold' ? 20 : 26); if (d.kind === 'gear') g.restore(); if (ok) continue; if (d.kind === 'gold') { g.fillStyle = '#ffcf4a'; g.beginPath(); g.arc(d.x, yy, 7, 0, 7); g.fill(); g.fillStyle = '#fff2a8'; g.beginPath(); g.arc(d.x - 2, yy - 2, 2.5, 0, 7); g.fill(); } else if (d.kind === 'gear') { g.save(); g.shadowColor = RARITY[d.gear.r].c; g.shadowBlur = 12; g.font = '20px sans-serif'; g.textAlign = 'center'; g.fillText(SLOT_E[d.gear.slot], d.x, yy + 6); g.restore(); } else { g.font = '18px sans-serif'; g.textAlign = 'center'; g.fillText(ITEMS[d.kind].e, d.x, yy + 6); } }
   for (const m of mobs) { if (m.dead || m.x < cam - 80 || m.x > cam + W + 80) continue; drawMob(m); }
   if (S.pet) { const px = P.x - P.face * 36; drawPet(g, S.pet, (S._petX = S._petX == null ? px : S._petX + (px - S._petX) * .08), P.y, T); }
   const flick = P.inv > 0 && Math.floor(T * 20) % 2;
@@ -857,7 +922,7 @@ function draw() {
   g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; const nw = g.measureText(S.name).width + 14; g.fillStyle = 'rgba(48,38,60,.8)'; g.beginPath(); g.roundRect(P.x - nw / 2, P.y + 6, nw, 18, 9); g.fill(); g.fillStyle = '#fff'; g.fillText(S.name, P.x, P.y + 19);
   for (const p of projs) drawProj(p);
   for (const f of fx) drawFx(f);
-  for (const t of texts) { g.globalAlpha = 1 - Math.max(0, t.t - .6) * 2; g.font = `900 ${t.big ? 26 : 20}px sans-serif`; g.textAlign = 'center'; g.lineWidth = 4; g.strokeStyle = 'rgba(60,20,40,.75)'; g.strokeText(t.s, t.x, t.y); g.fillStyle = t.col; g.fillText(t.s, t.x, t.y); g.globalAlpha = 1; }
+  for (const t of texts) { g.globalAlpha = 1 - Math.max(0, t.t - .6) * 2; g.font = `900 ${t.big ? 26 : 20}px sans-serif`; g.textAlign = 'center'; g.lineWidth = 4; g.strokeStyle = 'rgba(60,20,40,.75)'; g.strokeText(t.s, t.x, t.y); g.fillStyle = t.col; g.fillText(t.s, t.x, t.y); if (t.icon) { const tw = g.measureText(t.s).width; drawImg(g, 'ui/' + t.icon, t.x - tw / 2 - 14, t.y + 6, 24); } g.globalAlpha = 1; }
   g.restore();
   g.fillStyle = 'rgba(255,190,215,.85)';
   if (zn !== ZONES[3]) for (const p of petals) { g.save(); g.translate(p.x, p.y); g.rotate(T * p.s + p.r); g.beginPath(); g.ellipse(0, 0, 5 * p.s, 3 * p.s, 0, 0, 7); g.fill(); g.restore(); }
@@ -925,7 +990,7 @@ function closePanel() { $('#panel').hidden = true; persist(); updateHud(); }
 $('#panelX').onclick = closePanel; $('#panel').addEventListener('click', e => { if (e.target.id === 'panel') closePanel(); });
 function openBag() {
   const st = stats();
-  const cells = Object.entries(ITEMS).filter(([k]) => S.inv[k] || ['hpPot', 'mpPot', 'ticket'].includes(k)).map(([k, it]) => `<div class="cell"><span class="e">${it.e}</span>${it.n}<b>${S.inv[k] || 0}</b></div>`).join('');
+  const cells = Object.entries(ITEMS).filter(([k]) => S.inv[k] || ['hpPot', 'mpPot', 'ticket'].includes(k)).map(([k, it]) => `<div class="cell"><span class="e">${ic(k)}</span>${it.n}<b>${S.inv[k] || 0}</b></div>`).join('');
   const pets = S.pets.length ? S.pets.map(p => `<button class="btn sm" data-pet="${p}">${PETS[p].e} ${PETS[p].n}${S.pet === p ? '（出戰中）' : ''}</button>`).join(' ') : '<span class="note">還沒有寵物，去星願召喚殿抽抽看！</span>';
   const mounts = S.mounts.length ? S.mounts.map(m => `<button class="btn sm" data-mount="${m}">${MOUNTS[m].e} ${MOUNTS[m].n}${S.riding && S.mount === m ? '（騎乘中）' : ''}</button>`).join(' ') : '<span class="note">還沒有坐騎（SSR 獎勵）</span>';
   openPanel('🎒 背包', `<p class="note">${CLASSES[S.cls].name}・攻擊 ${st.atk}・防禦 ${st.def}・爆擊 ${(st.crit * 100).toFixed(0)}%・十字鎬 Lv.${S.pickLv}・🪙 ${S.gold}・擊敗怪物 ${S.kills}</p><div class="row" style="justify-content:flex-start;margin:0 0 12px"><button class="btn sm pri" data-go="gear">🛡️ 裝備</button><button class="btn sm" data-go="tal">🌳 天賦</button><button class="btn sm" data-go="life">🧪 生活技能</button></div><div class="grid">${cells}</div><h3 style="margin-top:16px;font-size:16px">🐾 寵物（會幫你撿東西）</h3><div>${pets}</div><h3 style="margin-top:16px;font-size:16px">🦌 坐騎</h3><div>${mounts}</div>`, b => {
@@ -942,7 +1007,7 @@ function openNpc(id) {
 }
 function canPay(cost) { return Object.entries(cost).every(([k, v]) => (k === 'gold' ? S.gold : S.inv[k] || 0) >= v); }
 function pay(cost) { Object.entries(cost).forEach(([k, v]) => { if (k === 'gold') S.gold -= v; else S.inv[k] -= v; }); }
-const costText = c => Object.entries(c).filter(([, v]) => v > 0).map(([k, v]) => k === 'gold' ? `🪙${v}` : `${ITEMS[k].e}${v}`).join('　');
+const costText = c => Object.entries(c).filter(([, v]) => v > 0).map(([k, v]) => k === 'gold' ? `${ic('i_gold')}${v}` : `${ic(k)}${v}`).join('　');
 function openForge() {
   const wl = S.weaponLv, pl = S.pickLv;
   const wCost = { gold: 40 + wl * 40, iron: 3 + wl * 2, crystal: wl >= 3 ? wl - 1 : 0, star: wl >= 6 ? wl - 4 : 0, dew: wl < 3 ? 2 : 0, leaf: wl >= 4 ? 2 : 0 };
@@ -1027,7 +1092,7 @@ function addGear(it) {
     if (i >= 0) { S.gold += gearPrice(S.gear[i]); S.gear.splice(i, 1); } else { S.gold += gearPrice(it); addText(P.x, P.y - 80, '背包滿了，自動賣出', '#ffe08a'); return; }
   }
   S.gear.push(it);
-  addText(P.x, P.y - 92, `${SLOT_E[it.slot]} ${RARITY[it.r].n}・${gearName(it, S.cls)}`, it.r >= 2 ? '#ffd27a' : '#fff', it.r >= 2);
+  addText(P.x, P.y - 92, `${RARITY[it.r].n}・${gearName(it, S.cls)}`, it.r >= 2 ? '#ffd27a' : '#fff', it.r >= 2);
   if (it.r === 3) toast(`🌟 傳說裝備掉落！${gearName(it, S.cls)}`);
 }
 function lifeExp(k, n) {
@@ -1042,7 +1107,7 @@ function gather(h) {
   P.atkCd = .5; P.atkT = 1; h.dead = 15; burst(h.x, h.y - 14, h.type === 'herb' ? '#7fd88a' : '#ffe58a', 8);
   const L = S.life.herb.lv, n = 1 + (Math.random() < .15 + L * .06 ? 1 : 0);
   S.inv[h.type] += n; lifeExp('herb', h.type === 'herb' ? 4 : 8);
-  addText(h.x, h.y - 40, `${ITEMS[h.type].e} ${ITEMS[h.type].n} x${n}`, '#fff'); persist();
+  addText(h.x, h.y - 40, `${ITEMS[h.type].n} x${n}`, '#fff', false, h.type); persist();
 }
 function startFishing(spot) {
   if (fishing) return;
@@ -1058,7 +1123,7 @@ function updateFishing(dt) {
     const bonus = S.life.fish.lv * .02;
     for (const [k, p] of fishing.spot.pool) { const pp = k === 'fish3' || k === 'fish2' ? p + bonus : p; if (x < pp) { got = k; break; } x -= pp; }
     S.inv[got]++; lifeExp('fish', got === 'fish3' ? 14 : got === 'fish2' ? 8 : 5);
-    addText(P.x, P.y - 90, `${ITEMS[got].e} 釣到 ${ITEMS[got].n}！`, '#9ee6ff', got === 'fish3');
+    addText(P.x, P.y - 90, `釣到 ${ITEMS[got].n}！`, '#9ee6ff', got === 'fish3', got);
     fishing = null; persist();
   }
 }
@@ -1066,14 +1131,14 @@ function useFood(k) {
   const r = RECIPES.cook.find(x => x.out === k); if (!r || !S.inv[k]) return;
   S.inv[k]--; const until = Date.now() + r.min * 60e3;
   for (const b in r.buff) S.buffs[b] = { v: r.buff[b], until };
-  toast(`${ITEMS[k].e} 吃了${ITEMS[k].n}：${r.d}`); persist(); updateHud();
+  toast(`吃了${ITEMS[k].n}：${r.d}`); persist(); updateHud();
 }
 function craft(kind, i) {
   const r = RECIPES[kind][i]; const L = S.life[kind];
   if (L.lv < r.lv || !canPay(r.need)) return false;
   pay(r.need); const dbl = Math.random() < Math.min(.4, (L.lv - r.lv) * .05);
   S.inv[r.out] += r.n * (dbl ? 2 : 1); lifeExp(kind, 6 + r.lv * 3);
-  toast(`${ITEMS[r.out].e} 製作了 ${ITEMS[r.out].n} x${r.n * (dbl ? 2 : 1)}${dbl ? '（大成功！）' : ''}`); persist();
+  toast(`製作了 ${ITEMS[r.out].n} x${r.n * (dbl ? 2 : 1)}${dbl ? '（大成功！）' : ''}`); persist();
   return true;
 }
 const afkPerHourKills = 120;
@@ -1098,8 +1163,8 @@ function checkOffline() {
   setTimeout(() => openAfk(rew, z.name), 500);
 }
 function openAfk(rew, zone) {
-  const mats = Object.entries(rew.mats).map(([k, n]) => `${ITEMS[k].e}${ITEMS[k].n} x${n}`).join('、') || '—';
-  const gear = rew.gear.map(g => `<span style="color:${RARITY[g.r].c}">${SLOT_E[g.slot]}${gearName(g, S.cls)}</span>`).join('、') || '—';
+  const mats = Object.entries(rew.mats).map(([k, n]) => `${ic(k)}${ITEMS[k].n} x${n}`).join('、') || '—';
+  const gear = rew.gear.map(g => `<span style="color:${RARITY[g.r].c}">${ic('s_' + g.slot)}${gearName(g, S.cls)}</span>`).join('、') || '—';
   openPanel('🌙 離線掛機收益', `<p class="note">你不在的時候，${esc(S.name)} 在「${zone}」掛機了 <b>${rew.hours.toFixed(1)} 小時</b>，擊倒 ${rew.kills} 隻怪物！</p>
     <div class="grid"><div class="cell"><span class="e">✨</span>經驗<b>${rew.exp.toLocaleString()}</b></div><div class="cell"><span class="e">🪙</span>金幣<b>${rew.gold.toLocaleString()}</b></div><div class="cell"><span class="e">⚔️</span>擊倒<b>${rew.kills}</b></div></div>
     <p class="note">素材：${mats}<br>裝備：${gear}</p>
@@ -1113,7 +1178,7 @@ function openAfk(rew, zone) {
 }
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 function statLine(g) { return Object.entries(g).map(([k, v]) => k === 'atk' ? `攻擊 +${v}` : k === 'def' ? `防禦 +${v}` : k === 'hp' ? `HP +${v}` : `爆擊 +${(v * 100).toFixed(1)}%`).join('・'); }
-function gearCard(it, btns) { return `<div class="item"><div><b style="color:${RARITY[it.r].c}">${SLOT_E[it.slot]} ${gearName(it, S.cls)}${it.enh ? ' +' + it.enh : ''}</b><p>${RARITY[it.r].n}・Lv.${it.lv}・${statLine(gearStats(it))}</p></div><div class="row" style="margin:0;flex-wrap:nowrap">${btns}</div></div>`; }
+function gearCard(it, btns) { return `<div class="item"><div><b style="color:${RARITY[it.r].c}">${ic('s_' + it.slot)} ${gearName(it, S.cls)}${it.enh ? ' +' + it.enh : ''}</b><p>${RARITY[it.r].n}・Lv.${it.lv}・${statLine(gearStats(it))}</p></div><div class="row" style="margin:0;flex-wrap:nowrap">${btns}</div></div>`; }
 function openGear(tab) {
   tab = tab || 'eq'; const st = stats();
   const tabs = `<div class="row" style="justify-content:flex-start;margin:0 0 12px">${[['eq', '🛡️ 裝備中'], ['bag', `🎒 裝備背包（${S.gear.length}/${GEAR_CAP}）`]].map(([k, n]) => `<button class="btn sm ${tab === k ? 'pri' : ''}" data-tab="${k}">${n}</button>`).join('')}</div>`;
@@ -1151,8 +1216,8 @@ function openLife(tab) {
   let body = '';
   if (tab === 'skills') body = `<div class="list">${Object.entries(LIFE).map(([k, [e, n]]) => { const L = S.life[k]; return `<div class="item"><div><b>${e} ${n} Lv.${L.lv}</b><p>${{ mine: '在礦點按 E 挖礦，等級越高越容易多挖到', herb: '在草藥、月光花旁按 E 採集', fish: '在池塘、湖邊按 E 釣魚，等級越高越容易釣到稀有魚', smith: '在鍛造屋強化或打造裝備，等級越高強化成功率越高', alch: '用草藥、月光花調製藥水', cook: '用釣到的魚做料理，吃了有增益效果' }[k]}</p><div class="lbar"><i style="width:${100 * L.exp / lifeNeed(L.lv)}%"></i></div></div></div>`; }).join('')}</div>`;
   else if (tab === 'eat') { const foods = RECIPES.cook.filter(r => S.inv[r.out] > 0); const act = ['atk', 'exp', 'drop'].filter(k => buffOn(k)).map(k => `${{ atk: '攻擊', exp: '經驗', drop: '掉寶' }[k]} +${Math.round(buffOn(k) * 100)}%（剩 ${Math.ceil((S.buffs[k].until - Date.now()) / 60e3)} 分）`).join('、');
-    body = `<p class="note">目前增益：${act || '無'}</p>` + (foods.length ? `<div class="list">${foods.map(r => `<div class="item"><div><b>${ITEMS[r.out].e} ${ITEMS[r.out].n} x${S.inv[r.out]}</b><p>${r.d}</p></div><button class="btn sm pri" data-eat="${r.out}">享用</button></div>`).join('')}</div>` : '<p class="note">還沒有料理，到「🍳 料理」用魚做一份吧！</p>'); }
-  else body = `<p class="note">${LIFE[tab][0]} ${LIFE[tab][1]} Lv.${S.life[tab].lv}・等級越高，越有機會做出雙倍成品</p><div class="list">${RECIPES[tab].map((r, i) => `<div class="item"><div><b>${ITEMS[r.out].e} ${ITEMS[r.out].n} x${r.n}</b><p>${r.d}${S.life[tab].lv < r.lv ? `（需要 Lv.${r.lv}）` : ''}</p><span class="cost">${costText(r.need)}</span></div><button class="btn sm pri" data-c="${i}" ${S.life[tab].lv >= r.lv && canPay(r.need) ? '' : 'disabled'}>製作</button></div>`).join('')}</div>`;
+    body = `<p class="note">目前增益：${act || '無'}</p>` + (foods.length ? `<div class="list">${foods.map(r => `<div class="item"><div><b>${ic(r.out)} ${ITEMS[r.out].n} x${S.inv[r.out]}</b><p>${r.d}</p></div><button class="btn sm pri" data-eat="${r.out}">享用</button></div>`).join('')}</div>` : '<p class="note">還沒有料理，到「🍳 料理」用魚做一份吧！</p>'); }
+  else body = `<p class="note">${LIFE[tab][0]} ${LIFE[tab][1]} Lv.${S.life[tab].lv}・等級越高，越有機會做出雙倍成品</p><div class="list">${RECIPES[tab].map((r, i) => `<div class="item"><div><b>${ic(r.out)} ${ITEMS[r.out].n} x${r.n}</b><p>${r.d}${S.life[tab].lv < r.lv ? `（需要 Lv.${r.lv}）` : ''}</p><span class="cost">${costText(r.need)}</span></div><button class="btn sm pri" data-c="${i}" ${S.life[tab].lv >= r.lv && canPay(r.need) ? '' : 'disabled'}>製作</button></div>`).join('')}</div>`;
   openPanel('🧪 生活技能', tabs + body, b => {
     b.querySelectorAll('[data-tab]').forEach(x => x.onclick = () => openLife(x.dataset.tab));
     b.querySelectorAll('[data-c]').forEach(x => x.onclick = () => { craft(tab, +x.dataset.c); openLife(tab); });
@@ -1172,7 +1237,7 @@ function openForgeV2(tab) {
     const L = Math.max(1, S.lv);
     const opts = [['iron', { gold: 120, iron: 8 }, '鐵礦打造：多為普通／稀有'], ['crystal', { gold: 400, iron: 6, crystal: 4 }, '水晶打造：稀有以上，有機會史詩'], ['star', { gold: 1200, crystal: 6, star: 3 }, '星辰打造：史詩以上，有機會傳說']];
     body = `<p class="note">選擇部位和材料，打造 Lv.${L} 的裝備。鍛造等級越高，越容易做出好裝備。</p><div class="row" style="justify-content:flex-start;margin:0 0 10px">${Object.keys(SLOTS).map(s => `<button class="btn sm ${openForgeV2.slot === s ? 'pri' : ''}" data-slot="${s}">${SLOT_E[s]} ${SLOTS[s]}</button>`).join('')}</div><div class="list">` +
-      opts.map(([k, cost, d], i) => `<div class="item"><div><b>${ITEMS[k].e} ${d.split('：')[0]}</b><p>${d.split('：')[1]}</p><span class="cost">${costText(cost)}</span></div><button class="btn sm pri" data-craft="${i}" ${canPay(cost) ? '' : 'disabled'}>打造</button></div>`).join('') + '</div>';
+      opts.map(([k, cost, d], i) => `<div class="item"><div><b>${ic(k)} ${d.split('：')[0]}</b><p>${d.split('：')[1]}</p><span class="cost">${costText(cost)}</span></div><button class="btn sm pri" data-craft="${i}" ${canPay(cost) ? '' : 'disabled'}>打造</button></div>`).join('') + '</div>';
     body += '';
     openForgeV2._opts = opts;
   } else {
