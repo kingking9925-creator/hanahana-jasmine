@@ -184,45 +184,62 @@ const expNeed = lv => Math.round(18 * Math.pow(lv, 1.55));
 function shade(hex, f) { const n = parseInt(hex.slice(1), 16); let r = n >> 16, g = (n >> 8) & 255, b = n & 255; r = clamp(Math.round(r * f), 0, 255); g = clamp(Math.round(g * f), 0, 255); b = clamp(Math.round(b * f), 0, 255); return `rgb(${r},${g},${b})`; }
 function drawWeapon(g, kind, swing) {
   g.save(); g.rotate(-0.6 + swing * 2.2);
-  if (kind === 'sword') { g.fillStyle = '#e9eef7'; g.fillRect(-2, -30, 5, 26); g.fillStyle = '#ff8fb6'; g.fillRect(-6, -5, 13, 4); g.fillStyle = '#8a5a3c'; g.fillRect(-1.5, -1, 4, 8); }
-  else if (kind === 'staff') { g.fillStyle = '#8a5a3c'; g.fillRect(-1.5, -30, 3.5, 38); g.fillStyle = '#ffe58a'; star(g, 0, -33, 7, 3.2); }
-  else if (kind === 'bow') { g.strokeStyle = '#8a5a3c'; g.lineWidth = 3; g.beginPath(); g.arc(-6, -10, 16, -1.2, 1.2); g.stroke(); g.strokeStyle = '#fff'; g.lineWidth = 1; g.beginPath(); g.moveTo(-6 + 16 * Math.cos(-1.2), -10 + 16 * Math.sin(-1.2)); g.lineTo(-6 + 16 * Math.cos(1.2), -10 + 16 * Math.sin(1.2)); g.stroke(); }
-  else { g.fillStyle = '#c9a26b'; g.fillRect(-1.5, -24, 3, 30); g.fillStyle = '#ff8fb6'; for (let i = 0; i < 5; i++) { g.beginPath(); g.arc(Math.cos(i * 1.256) * 4.5, -27 + Math.sin(i * 1.256) * 4.5, 3.4, 0, 7); g.fill(); } g.fillStyle = '#ffe58a'; g.beginPath(); g.arc(0, -27, 2.5, 0, 7); g.fill(); }
+  if (kind === 'sword') { g.fillStyle = grad(g, -2, 0, 3, 0, '#ffffff', '#c9d2e6'); g.beginPath(); g.moveTo(-2.5, -6); g.lineTo(-2.5, -30); g.lineTo(.5, -35); g.lineTo(3.5, -30); g.lineTo(3.5, -6); g.closePath(); g.fill(); g.fillStyle = '#ff8fb6'; g.fillRect(-.3, -28, 1.6, 20); g.fillStyle = '#ffd34d'; g.beginPath(); g.roundRect(-7, -6, 15, 4, 2); g.fill(); g.fillStyle = '#8a5a3c'; g.fillRect(-1.5, -2, 4, 8); g.fillStyle = '#ff6b9a'; g.beginPath(); g.arc(.5, 7, 2.2, 0, 7); g.fill(); }
+  else if (kind === 'staff') { g.fillStyle = grad(g, -2, 0, 2, 0, '#b07a52', '#7a4b2e'); g.fillRect(-1.6, -30, 3.6, 40); g.fillStyle = '#ffd34d'; g.beginPath(); g.arc(.2, -33, 6, 0, 7); g.fill(); g.fillStyle = '#b48cff'; star(g, .2, -33, 6.5, 3); g.fillStyle = '#fff'; g.beginPath(); g.arc(-1.5, -35, 1.2, 0, 7); g.fill(); }
+  else if (kind === 'bow') { g.strokeStyle = '#a06a3c'; g.lineWidth = 3.4; g.beginPath(); g.arc(-6, -10, 16, -1.2, 1.2); g.stroke(); g.strokeStyle = '#ffd34d'; g.lineWidth = 1.4; g.beginPath(); g.arc(-6, -10, 16, -.2, .2); g.stroke(); g.strokeStyle = '#fff'; g.lineWidth = 1; g.beginPath(); g.moveTo(-6 + 16 * Math.cos(-1.2), -10 + 16 * Math.sin(-1.2)); g.lineTo(-6 + 16 * Math.cos(1.2), -10 + 16 * Math.sin(1.2)); g.stroke(); }
+  else { g.fillStyle = '#e0b46a'; g.fillRect(-1.5, -24, 3.2, 30); g.fillStyle = '#ff8fb6'; for (let i = 0; i < 5; i++) { g.beginPath(); g.arc(Math.cos(i * 1.256) * 4.8, -27 + Math.sin(i * 1.256) * 4.8, 3.6, 0, 7); g.fill(); } g.fillStyle = '#ffe58a'; g.beginPath(); g.arc(0, -27, 2.6, 0, 7); g.fill(); g.fillStyle = '#7fd88a'; g.beginPath(); g.ellipse(4, -18, 3.5, 1.6, .5, 0, 7); g.fill(); }
   g.restore();
 }
 function star(g, x, y, r, r2) { g.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r2 : r; g.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); } g.closePath(); g.fill(); }
 function drawEyes(g, look, fx, blink) {
-  const ex = [-7 + fx, 7 + fx], y = -42;
+  const ex = [-6 + fx, 8.5 + fx], y = -38.5;
   ex.forEach((x, i) => {
-    if (blink) { g.strokeStyle = '#3a2a35'; g.lineWidth = 2; g.beginPath(); g.moveTo(x - 4, y); g.lineTo(x + 4, y); g.stroke(); return; }
-    const sh = look.eyeShape;
-    let w = 4.4, h = 6;
-    if (sh === 'round') { w = 4.8; h = 6; } if (sh === 'gentle') { h = 5; } if (sh === 'sharp') { w = 4.6; h = 4.6; } if (sh === 'sleepy') { h = 3.6; }
-    g.fillStyle = '#2a1f2a'; g.beginPath(); g.ellipse(x, y, w, h, 0, 0, 7); g.fill();
-    g.fillStyle = look.eye; g.beginPath(); g.ellipse(x, y + 1, w - 1.2, h - 1.4, 0, 0, 7); g.fill();
-    g.fillStyle = '#fff'; g.beginPath(); g.arc(x - 1.4, y - 2, 1.6, 0, 7); g.fill(); g.beginPath(); g.arc(x + 1.5, y + 2, .8, 0, 7); g.fill();
-    g.strokeStyle = '#2a1f2a'; g.lineWidth = 1.6; g.beginPath();
-    if (sh === 'sharp') { g.moveTo(x - 5, y - h + (i ? 1 : -1)); g.lineTo(x + 5, y - h + (i ? -1 : 1)); }
-    else if (sh === 'sleepy') { g.moveTo(x - 5, y - h + 1); g.lineTo(x + 5, y - h + 1); }
-    else { g.arc(x, y + 1, w + .6, Math.PI * 1.15, Math.PI * 1.85); }
+    if (blink) { g.strokeStyle = '#3a2433'; g.lineWidth = 2.2; g.beginPath(); g.arc(x, y - 2, 5, .3, Math.PI - .3); g.stroke(); return; }
+    const sh = look.eyeShape, ec = look.eye || '#5b3a29';
+    let w = 5, h = 7;
+    if (sh === 'round') { w = 5.4; h = 7; } if (sh === 'gentle') { h = 6.2; } if (sh === 'sharp') { w = 5.2; h = 5.6; } if (sh === 'sleepy') { h = 4.4; }
+    const sc = i ? .92 : 1; // 遠側的眼睛稍窄（3/4 側臉）
+    g.save(); g.translate(x, y); g.scale(sc, 1);
+    g.fillStyle = '#fff'; g.beginPath(); g.ellipse(0, .5, w + .6, h, 0, 0, 7); g.fill();
+    const ig = g.createLinearGradient(0, -h, 0, h); ig.addColorStop(0, shade(ec, .55)); ig.addColorStop(.55, ec); ig.addColorStop(1, lighten(ec, .55));
+    g.fillStyle = ig; g.beginPath(); g.ellipse(.6, 1, w - .4, h - .6, 0, 0, 7); g.fill();
+    g.fillStyle = shade(ec, .35); g.beginPath(); g.ellipse(.8, 1.4, w * .42, h * .45, 0, 0, 7); g.fill();
+    g.fillStyle = '#fff'; g.beginPath(); g.ellipse(-1.6, -2.4, 2, 2.4, -.3, 0, 7); g.fill(); g.beginPath(); g.arc(2.2, 3.2, 1, 0, 7); g.fill();
+    g.fillStyle = 'rgba(255,255,255,.6)'; g.beginPath(); g.arc(-2.6, 3, .7, 0, 7); g.fill();
+    g.strokeStyle = '#2a1824'; g.lineWidth = 2.2; g.lineCap = 'round'; g.beginPath();
+    if (sh === 'sharp') { g.moveTo(-w - 1, -h + (i ? 1.5 : -.5)); g.lineTo(w + 1.5, -h + (i ? -.5 : 1.5)); }
+    else if (sh === 'sleepy') { g.moveTo(-w - 1, -h + 1.5); g.quadraticCurveTo(0, -h + .5, w + 1.5, -h + 1.5); }
+    else { g.ellipse(0, .8, w + 1, h + .4, 0, Math.PI * 1.08, Math.PI * 1.92); }
     g.stroke();
+    g.lineWidth = 1.6; g.beginPath(); g.moveTo(w + .6, -h + 2); g.lineTo(w + 2.6, -h + .6); g.stroke();
+    g.restore();
   });
 }
 function drawHairBack(g, look) {
-  g.fillStyle = look.hairColor;
-  if (look.hair === 'long') { g.beginPath(); g.roundRect(-19, -52, 38, 46, 10); g.fill(); }
-  if (look.hair === 'twin') { [[-22, -34], [22, -34]].forEach(([x, y]) => { g.beginPath(); g.ellipse(x, y, 7, 14, x < 0 ? .3 : -.3, 0, 7); g.fill(); }); }
-  if (look.hair === 'pony') { g.beginPath(); g.ellipse(0, -30, 7, 16, 0, 0, 7); g.fill(); }
+  const c = look.hairColor || '#7a4b2e'; g.fillStyle = grad(g, 0, -60, 0, -8, shade(c, .9), shade(c, .7));
+  g.beginPath(); g.ellipse(0, -46, 20, 18, 0, 0, 7); g.fill();
+  if (look.hair === 'long') { g.beginPath(); g.moveTo(-19, -50); g.quadraticCurveTo(-24, -24, -18, -8); g.quadraticCurveTo(-8, -12, 0, -8); g.quadraticCurveTo(10, -12, 18, -8); g.quadraticCurveTo(24, -24, 19, -50); g.closePath(); g.fill(); }
+  if (look.hair === 'twin') { [-1, 1].forEach(sd => { g.beginPath(); g.moveTo(sd * 15, -56); g.quadraticCurveTo(sd * 30, -46, sd * 25, -16); g.quadraticCurveTo(sd * 22, -26, sd * 16, -42); g.closePath(); g.fill(); }); }
+  if (look.hair === 'pony') { g.beginPath(); g.moveTo(-12, -58); g.quadraticCurveTo(-30, -50, -26, -26); g.quadraticCurveTo(-22, -34, -14, -44); g.closePath(); g.fill(); }
+  if (look.hair === 'bob') { g.beginPath(); g.roundRect(-21, -50, 42, 22, 10); g.fill(); }
 }
+function hairFill(g, c) { return grad(g, -10, -66, 8, -30, lighten(c, .28), shade(c, .82)); }
 function drawHairFront(g, look, fx) {
-  const c = look.hairColor; g.fillStyle = c;
-  g.beginPath(); g.arc(0, -46, 19.5, Math.PI * 1.02, Math.PI * 1.98); g.lineTo(19, -40); g.quadraticCurveTo(8 + fx, -50, -2 + fx, -40); g.quadraticCurveTo(-10 + fx, -50, -19, -40); g.closePath(); g.fill();
-  if (look.hair === 'bob') { g.beginPath(); g.roundRect(-20, -48, 7, 18, 4); g.roundRect(13, -48, 7, 18, 4); g.fill(); }
-  if (look.hair === 'spiky') { for (let i = -2; i <= 2; i++) { g.beginPath(); g.moveTo(i * 8 - 6, -60); g.lineTo(i * 8, -72 + Math.abs(i) * 3); g.lineTo(i * 8 + 6, -60); g.fill(); } }
-  if (look.hair === 'long' || look.hair === 'twin') { g.beginPath(); g.roundRect(-20, -48, 5, 20, 3); g.roundRect(15, -48, 5, 20, 3); g.fill(); }
-  if (look.hair === 'twin') { g.fillStyle = '#ff6b9a'; g.beginPath(); g.arc(-17, -58, 3, 0, 7); g.arc(17, -58, 3, 0, 7); g.fill(); }
-  if (look.hair === 'pony') { g.fillStyle = '#ffe58a'; g.beginPath(); g.arc(0, -64, 3, 0, 7); g.fill(); }
-  g.fillStyle = 'rgba(255,255,255,.35)'; g.beginPath(); g.ellipse(-6, -58, 6, 2, -.3, 0, 7); g.fill();
+  const c = look.hairColor || '#7a4b2e'; g.fillStyle = hairFill(g, c);
+  g.beginPath(); g.arc(0, -46, 20, Math.PI * 1.0, Math.PI * 2.0);
+  // 瀏海：一撮一撮的尖髮束
+  const locks = [[20, -40], [16, -48], [11.5, -44.5], [6, -51], [1 + fx, -45.5], [-4, -51], [-8.5, -45], [-13, -50], [-17, -42], [-20, -40]];
+  for (const [lx, ly] of locks) g.lineTo(lx, ly);
+  g.closePath(); g.fill();
+  if (look.hair === 'bob') { g.beginPath(); g.moveTo(-20, -48); g.quadraticCurveTo(-23, -36, -17, -28); g.lineTo(-14, -40); g.closePath(); g.moveTo(20, -48); g.quadraticCurveTo(23, -36, 17, -28); g.lineTo(14, -40); g.closePath(); g.fill(); }
+  if (look.hair === 'spiky') { for (let i = -2; i <= 2; i++) { g.beginPath(); g.moveTo(i * 8 - 6, -60); g.lineTo(i * 8 + 2, -73 + Math.abs(i) * 3); g.lineTo(i * 8 + 6, -60); g.fill(); } }
+  if (look.hair === 'short') { g.beginPath(); g.moveTo(-20, -46); g.lineTo(-19, -36); g.lineTo(-15, -42); g.closePath(); g.moveTo(20, -46); g.lineTo(19, -37); g.lineTo(15, -42); g.closePath(); g.fill(); g.beginPath(); g.moveTo(2, -65); g.quadraticCurveTo(8, -72, 12, -68); g.quadraticCurveTo(7, -67, 6, -63); g.fill(); }
+  if (look.hair === 'long' || look.hair === 'twin') { g.beginPath(); g.moveTo(-20, -48); g.quadraticCurveTo(-23, -34, -18, -24); g.lineTo(-15, -40); g.closePath(); g.moveTo(20, -48); g.quadraticCurveTo(23, -34, 18, -24); g.lineTo(15, -40); g.closePath(); g.fill(); }
+  if (look.hair === 'twin') { g.fillStyle = '#ff6b9a'; [[-17, -58], [17, -58]].forEach(([a, b]) => { g.beginPath(); g.ellipse(a - 3, b, 3.5, 2.4, .4, 0, 7); g.ellipse(a + 3, b, 3.5, 2.4, -.4, 0, 7); g.fill(); g.beginPath(); g.arc(a, b, 1.6, 0, 7); g.fill(); }); }
+  if (look.hair === 'pony') { g.fillStyle = '#ffe58a'; g.beginPath(); g.arc(-15, -58, 3, 0, 7); g.fill(); }
+  // 天使光圈高光
+  g.strokeStyle = 'rgba(255,255,255,.5)'; g.lineWidth = 2.2; g.lineCap = 'round'; g.beginPath(); g.arc(0, -46, 15, Math.PI * 1.15, Math.PI * 1.45); g.stroke();
+  g.lineWidth = 1.4; g.beginPath(); g.arc(0, -46, 15, Math.PI * 1.55, Math.PI * 1.72); g.stroke();
 }
 /* (x,y)=腳底中心；opt: face(1/-1) walk(0..) atk(0..1) scale */
 /* ---------- 插畫素材（AI 生成＋去背，放在 img/hr/） ---------- */
@@ -248,34 +265,80 @@ function drawHero(g, x, y, look, cls, opt = {}) {
     const bob = opt.walk ? -Math.abs(Math.sin(opt.walk * 9)) * 4 : 0, rot = opt.walk ? Math.sin(opt.walk * 9) * .035 : 0;
     if (drawArt(g, cls + '_' + f, a[f], x, y + 3 + bob, s, face, sy, rot)) return;
   }
-  drawChibi(g, x, y, look, cls, opt);
+  drawChibi(g, x, y, look, cls, opt.artScale ? opt : { ...opt, scale: (opt.scale || 1) * 1.28 });
 }
+const DOLL_CV = {}; // 捏臉版：先畫在離屏畫布，再統一描深色外框（楓之谷式粗描邊）
+function dollCanvas(key, w, h) { let c = DOLL_CV[key]; if (!c || c.width !== w || c.height !== h) { c = DOLL_CV[key] = document.createElement('canvas'); c.width = w; c.height = h; } return c; }
 function drawChibi(g, x, y, look, cls, opt = {}) {
-  const f = opt.face || 1, sc = opt.scale || 1, wt = opt.walk || 0, at = opt.atk || 0;
-  g.save(); g.translate(x, y); g.scale(sc, sc);
-  g.fillStyle = 'rgba(0,0,0,.12)'; g.beginPath(); g.ellipse(0, 0, 16, 4, 0, 0, 7); g.fill();
-  const bob = Math.abs(Math.sin(wt * 10)) * 1.5;
-  g.translate(0, -bob);
-  g.scale(f, 1);
+  const sc = opt.scale || 1, k = 2, U = sc * k, Wd = Math.ceil(130 * U), Hd = Math.ceil(120 * U), oy = 18 * U;
+  const dc = dollCanvas('d', Wd, Hd), d = dc.getContext('2d');
+  d.setTransform(1, 0, 0, 1, 0, 0); d.clearRect(0, 0, Wd, Hd);
+  d.translate(Wd / 2, Hd - oy); d.scale(U, U);
+  dollBody(d, look, cls, opt);
+  const oc = dollCanvas('o', Wd, Hd), o = oc.getContext('2d');
+  o.setTransform(1, 0, 0, 1, 0, 0); o.globalCompositeOperation = 'source-over'; o.clearRect(0, 0, Wd, Hd);
+  const ow = 1.5 * U;
+  for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6; o.drawImage(dc, Math.cos(a) * ow, Math.sin(a) * ow); }
+  o.globalCompositeOperation = 'source-in'; o.fillStyle = '#3a2433'; o.fillRect(0, 0, Wd, Hd);
+  o.globalCompositeOperation = 'source-over'; o.drawImage(dc, 0, 0);
+  g.save();
+  g.fillStyle = 'rgba(0,0,0,.14)'; g.beginPath(); g.ellipse(x, y, 17 * sc, 4.5 * sc, 0, 0, 7); g.fill();
+  g.drawImage(oc, x - Wd / 2 / k, y - (Hd - oy) / k, Wd / k, Hd / k);
+  g.restore();
+}
+function grad(g, x0, y0, x1, y1, c0, c1) { const gr = g.createLinearGradient(x0, y0, x1, y1); gr.addColorStop(0, c0); gr.addColorStop(1, c1); return gr; }
+function lighten(hex, t) { const n = parseInt(hex.slice(1), 16); const f = v => Math.round(v + (255 - v) * t); return `rgb(${f(n >> 16)},${f((n >> 8) & 255)},${f(n & 255)})`; }
+function dollBody(g, look, cls, opt) {
+  const f = opt.face || 1, wt = opt.walk || 0, at = opt.atk || 0;
+  const oc = look.outfit || '#ff8fb6', hc = look.hairColor || '#7a4b2e', sk = look.skin || '#ffe9dc';
+  const bob = Math.abs(Math.sin(wt * 10)) * 1.5, br = wt ? 0 : Math.sin((typeof T === 'number' ? T : 0) * 3.2) * .5;
+  g.translate(0, -bob); g.scale(f, 1);
+  // 背後：披風／頭髮
+  const capeC = { knight: '#ff8fb6', mage: '#6b4bb8', ranger: '#4f8a52', priest: '#fff6e0' }[cls] || oc;
+  const sw = Math.sin(wt * 10) * 2;
+  g.fillStyle = grad(g, 0, -28, 0, -4, lighten(capeC, .15), shade(capeC, .8)); g.beginPath(); g.moveTo(-9, -28); g.quadraticCurveTo(-20 - sw, -14, -17 - sw, -3); g.lineTo(-4, -6); g.lineTo(-2, -26); g.closePath(); g.fill();
+  if (cls === 'ranger') { g.fillStyle = '#8a5a3c'; g.save(); g.translate(-9, -24); g.rotate(-.5); g.fillRect(-3, -12, 7, 18); g.fillStyle = '#e9eef7'; g.fillRect(-2, -16, 2, 5); g.fillRect(1.5, -15, 2, 4); g.restore(); }
   drawHairBack(g, look);
+  // 腿與靴子
   const leg = Math.sin(wt * 10) * 4;
-  g.fillStyle = shade(look.outfit, .6); g.beginPath(); g.roundRect(-8 + leg * .5, -12, 7, 12, 3); g.roundRect(1 - leg * .5, -12, 7, 12, 3); g.fill();
-  g.fillStyle = '#5a4050'; g.beginPath(); g.roundRect(-9 + leg * .5, -3, 9, 4, 2); g.roundRect(0 - leg * .5, -3, 9, 4, 2); g.fill();
-  g.fillStyle = look.outfit; g.beginPath(); g.moveTo(-11, -27); g.lineTo(11, -27); g.lineTo(14, -9); g.lineTo(-14, -9); g.closePath(); g.fill();
-  g.fillStyle = '#fff'; g.beginPath(); g.moveTo(-5, -27); g.lineTo(0, -21); g.lineTo(5, -27); g.fill();
-  g.fillStyle = shade(look.outfit, .85); g.fillRect(-14, -12, 28, 3);
-  g.fillStyle = look.skin; g.beginPath(); g.arc(-12, -17 - leg * .3, 3.5, 0, 7); g.fill();
-  g.save(); g.translate(12, -18); drawWeapon(g, CLASSES[cls].weapon, at); g.fillStyle = look.skin; g.beginPath(); g.arc(0, 0, 3.6, 0, 7); g.fill(); g.restore();
-  g.fillStyle = look.skin; g.beginPath(); g.arc(0, -44, 18, 0, 7); g.fill();
-  g.fillStyle = look.skin; g.beginPath(); g.ellipse(-18, -42, 3, 4, 0, 0, 7); g.ellipse(18, -42, 3, 4, 0, 0, 7); g.fill();
-  const fx = 2.5;
+  const pants = shade(oc, .45);
+  g.fillStyle = pants; g.beginPath(); g.roundRect(-8 + leg * .5, -13, 7, 10, 2); g.roundRect(1 - leg * .5, -13, 7, 10, 2); g.fill();
+  const boot = cls === 'knight' ? '#dfe3ee' : cls === 'priest' ? '#fff8ee' : '#7a4f3a';
+  [[-9 + leg * .5], [0 - leg * .5]].forEach(([bx]) => { g.fillStyle = grad(g, 0, -7, 0, 1, lighten(boot, .2), shade(boot, .8)); g.beginPath(); g.roundRect(bx, -6, 9.5, 6.5, [3, 3, 2, 2]); g.fill(); g.fillStyle = shade(oc, .9); g.fillRect(bx, -7, 9.5, 2); g.fillStyle = 'rgba(255,255,255,.55)'; g.fillRect(bx + 1.5, -4.8, 3, 1.2); });
+  // 身體（上衣）
+  g.save(); g.translate(0, br * .3);
+  g.fillStyle = grad(g, 0, -28, 0, -8, lighten(oc, .25), shade(oc, .85));
+  g.beginPath(); g.moveTo(-10, -28); g.quadraticCurveTo(0, -30, 10, -28); g.lineTo(13, -10); g.quadraticCurveTo(0, -6, -13, -10); g.closePath(); g.fill();
+  g.fillStyle = 'rgba(255,255,255,.25)'; g.beginPath(); g.moveTo(-8, -26); g.lineTo(-4, -26); g.lineTo(-7, -12); g.lineTo(-10, -12); g.closePath(); g.fill();
+  if (cls === 'priest') { g.fillStyle = '#fff6e0'; g.fillRect(-3, -27, 6, 18); g.fillStyle = '#e8b84a'; g.fillRect(-3, -27, 1.2, 18); g.fillRect(1.8, -27, 1.2, 18); }
+  g.fillStyle = '#fff'; g.beginPath(); g.moveTo(-6, -28); g.lineTo(0, -22); g.lineTo(6, -28); g.quadraticCurveTo(0, -26, -6, -28); g.fill();
+  g.fillStyle = cls === 'mage' ? '#b48cff' : cls === 'ranger' ? '#7fd8a8' : '#ff6b9a'; g.beginPath(); g.moveTo(0, -24.5); g.lineTo(1.8, -22.5); g.lineTo(0, -20.5); g.lineTo(-1.8, -22.5); g.fill();
+  g.fillStyle = '#6b4636'; g.fillRect(-13, -13, 26, 3); g.fillStyle = '#ffd34d'; g.beginPath(); g.roundRect(-2.5, -14, 5, 5, 1.2); g.fill();
+  if (cls === 'knight') { g.fillStyle = grad(g, 0, -31, 0, -22, '#ffffff', '#b9c0d4'); g.beginPath(); g.ellipse(-10, -26, 6, 4.5, -.3, 0, 7); g.ellipse(10, -26, 6, 4.5, .3, 0, 7); g.fill(); g.fillStyle = '#ff8fb6'; g.beginPath(); g.arc(10, -26.5, 1.8, 0, 7); g.fill(); }
+  // 後手
+  g.fillStyle = shade(oc, .8); g.beginPath(); g.ellipse(-12, -21 - leg * .3, 3.6, 5.5, .3, 0, 7); g.fill();
+  g.fillStyle = sk; g.beginPath(); g.arc(-12.5, -16 - leg * .3, 3.2, 0, 7); g.fill();
+  g.restore();
+  // 武器＋前手
+  g.save(); g.translate(12, -18); drawWeapon(g, CLASSES[cls].weapon, at);
+  g.fillStyle = shade(oc, .9); g.beginPath(); g.ellipse(-1, -4, 3.6, 5, -.3, 0, 7); g.fill();
+  g.fillStyle = sk; g.beginPath(); g.arc(0, 0, 3.5, 0, 7); g.fill(); g.restore();
+  // 頭
+  g.save(); g.translate(0, br * .6);
+  const hg = g.createRadialGradient(-5, -50, 4, 0, -44, 20); hg.addColorStop(0, lighten(sk, .35)); hg.addColorStop(1, sk);
+  g.fillStyle = hg; g.beginPath(); g.ellipse(0, -44, 18.5, 17.5, 0, 0, 7); g.fill();
+  g.fillStyle = shade(sk, .92); g.beginPath(); g.ellipse(-17.5, -41, 2.6, 3.8, 0, 0, 7); g.fill();
+  const fx = 3;
   drawEyes(g, look, fx, opt.blink);
-  if (look.deco === 'blush' || look.deco === 'star' || look.deco === 'mole') { g.fillStyle = 'rgba(255,120,160,.38)'; g.beginPath(); g.ellipse(-9 + fx, -35, 4, 2.4, 0, 0, 7); g.ellipse(11 + fx, -35, 4, 2.4, 0, 0, 7); g.fill(); }
-  if (look.deco === 'mole') { g.fillStyle = '#4a3040'; g.beginPath(); g.arc(12 + fx, -37, .9, 0, 7); g.fill(); }
+  g.fillStyle = look.deco === 'blush' ? 'rgba(255,110,150,.5)' : 'rgba(255,140,170,.28)'; g.beginPath(); g.ellipse(-10 + fx, -32, 4.2, 2.3, 0, 0, 7); g.ellipse(13 + fx, -32, 4.2, 2.3, 0, 0, 7); g.fill();
+  if (look.deco === 'mole') { g.fillStyle = '#4a3040'; g.beginPath(); g.arc(13 + fx, -36.5, .9, 0, 7); g.fill(); }
   if (look.deco === 'star') { g.fillStyle = '#ffd34d'; star(g, -12 + fx, -36, 3.4, 1.5); }
-  g.strokeStyle = '#a0506e'; g.lineWidth = 1.4; g.beginPath(); g.arc(1.5 + fx, -35, 2.4, .2, Math.PI - .2); g.stroke();
-  if (look.deco === 'glasses') { g.strokeStyle = '#6a4a5a'; g.lineWidth = 1.3; g.beginPath(); g.arc(-7 + fx, -42, 6, 0, 7); g.moveTo(13 + fx, -42); g.arc(7 + fx, -42, 6, 0, 7); g.moveTo(-1 + fx, -42); g.lineTo(1 + fx, -42); g.stroke(); }
+  g.fillStyle = '#c0506e'; g.beginPath(); g.moveTo(.8 + fx, -30.6); g.quadraticCurveTo(2.6 + fx, -28.2, 4.4 + fx, -30.6); g.closePath(); g.fill();
+  if (look.deco === 'glasses') { g.strokeStyle = '#6a4a5a'; g.lineWidth = 1.3; g.beginPath(); g.arc(-6 + fx, -41, 6.5, 0, 7); g.moveTo(15 + fx, -41); g.arc(8.5 + fx, -41, 6.5, 0, 7); g.moveTo(.5 + fx, -41); g.lineTo(2 + fx, -41); g.stroke(); }
   drawHairFront(g, look, fx);
+  if (cls === 'priest') { [[-12, -59], [-5, -63], [3, -64], [11, -60]].forEach(([a, b], i) => { g.fillStyle = i % 2 ? '#fff' : '#ffc1d8'; for (let j = 0; j < 5; j++) { g.beginPath(); g.arc(a + Math.cos(j * 1.256) * 2.4, b + Math.sin(j * 1.256) * 2.4, 1.9, 0, 7); g.fill(); } g.fillStyle = '#ffd34d'; g.beginPath(); g.arc(a, b, 1.3, 0, 7); g.fill(); }); }
+  if (cls === 'mage') { g.fillStyle = '#ffd34d'; star(g, 13, -58, 4.5, 2); }
+  if (cls === 'ranger') { g.fillStyle = '#7fd88a'; g.beginPath(); g.ellipse(-12, -60, 3, 7, -.8, 0, 7); g.ellipse(-7, -63, 2.5, 6, -.3, 0, 7); g.fill(); }
   g.restore();
 }
 function drawPet(g, id, x, y, t) {
