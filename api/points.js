@@ -92,6 +92,7 @@ module.exports = async function handler(req, res) {
       let body = req.body || {}; if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = {}; } }
       const amount = Number(body.amount);
       if (!PACKAGES.includes(amount)) return send(400, { error: '請選擇儲值方案。' });
+      if (body.agree !== true) return send(400, { error: '請先同意《點數使用條款》。' });
       const since = new Date(Date.now() - 10 * 60e3).toISOString();
       const recent = await rest(`topup_orders?select=trade_no&user_id=eq.${user.id}&status=eq.pending&created_at=gte.${since}`, { admin: true });
       if (recent.ok && recent.data.length >= 5) return send(429, { error: '建立訂單太頻繁，請稍後再試。' });
