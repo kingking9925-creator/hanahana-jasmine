@@ -146,3 +146,5 @@ button{font:inherit;cursor:pointer}
 .lbar{height:6px;border-radius:9px;background:#f3e8f0;margin-top:6px;overflow:hidden;width:200px;max-width:100%}.lbar i{display:block;height:100%;background:linear-gradient(90deg,#7fd88a,#4fb3ff)}
 @media (max-width:640px){.tal-grid{grid-template-columns:1fr}}
 @media (hover:none),(pointer:coarse){.quick{flex-wrap:wrap;max-width:200px;justify-content:center}}
+
+.field[hidden]{display:none!important}

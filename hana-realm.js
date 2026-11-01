@@ -92,8 +92,8 @@ const RECIPES = {
     { out: 'food3', n: 1, need: { fish3: 1, moonflower: 1 }, lv: 5, d: '15 分鐘內攻擊 +10%、掉寶 +15%', buff: { atk: .1, drop: .15 }, min: 15 }
   ]
 };
-const HERB_SPOTS = [['herb', 1080, GROUND], ['herb', 1400, GROUND], ['herb', 1830, GROUND], ['herb', 2090, 300], ['moonflower', 2560, GROUND], ['moonflower', 2800, 300], ['moonflower', 3280, 360], ['herb', 3070, 230]];
-const FISH_SPOTS = [{ x: 2240, name: '草原小池', pool: [['fish1', .75], ['fish2', .25]] }, { x: 3380, name: '月影湖', pool: [['fish1', .3], ['fish2', .5], ['fish3', .2]] }];
+const HERB_SPOTS = [['herb', 1160, GROUND], ['herb', 1400, GROUND], ['herb', 1830, GROUND], ['herb', 2090, 300], ['moonflower', 2560, GROUND], ['moonflower', 2800, 300], ['moonflower', 3280, 360], ['herb', 3070, 230]];
+const FISH_SPOTS = [{ x: 2140, name: '草原小池', pool: [['fish1', .75], ['fish2', .25]] }, { x: 3320, name: '月影湖', pool: [['fish1', .3], ['fish2', .5], ['fish3', .2]] }];
 const MONSTERS = {
   slime: { name: '花露史萊姆', lv: 1, hp: 45, atk: 7, exp: 9, spd: 45, w: 42, h: 34, gold: [3, 8], drop: ['dew', .5], col: '#ff9ec4' },
   bfly: { name: '月光蝶', lv: 3, hp: 80, atk: 11, exp: 18, spd: 70, w: 44, h: 36, gold: [6, 14], drop: ['dust', .45], col: '#b9a6ff', fly: true },
@@ -119,8 +119,8 @@ const PLATS = [
 // 傳送門：每張地圖是獨立的，走到傳送門按 E 才能換地圖
 const PORTALS = [];
 ZONES.forEach((z, i) => {
-  if (i > 0) PORTALS.push({ x: z.from + 70, to: i - 1, land: ZONES[i - 1].to - 150 });
-  if (i < ZONES.length - 1) PORTALS.push({ x: z.to - 70, to: i + 1, land: ZONES[i + 1].from + 150 });
+  if (i > 0) PORTALS.push({ x: z.from + 90, to: i - 1, land: ZONES[i - 1].to - 170 });
+  if (i < ZONES.length - 1) PORTALS.push({ x: z.to - 90, to: i + 1, land: ZONES[i + 1].from + 170 });
 });
 const HUB = { x: 80, name: '花之噴泉傳送陣' };
 const NPCS = [
@@ -135,7 +135,7 @@ const SPAWNS = [
   ['sprite', 2500, GROUND], ['sprite', 2750, GROUND], ['sprite', 3000, GROUND], ['bfly', 2570, 370], ['sprite', 2860, 300], ['bfly', 3140, 230], ['sprite', 3330, 360],
   ['golem', 3700, GROUND], ['golem', 4000, GROUND], ['sprite', 3700, 380]
 ];
-const ORE_SPOTS = [['iron', 1230, GROUND], ['iron', 1700, GROUND], ['iron', 2000, GROUND], ['iron', 1520, 320], ['crystal', 2620, GROUND], ['crystal', 2850, 300], ['crystal', 3600, GROUND], ['star', 3130, 230], ['star', 3990, 300], ['crystal', 3950, GROUND]];
+const ORE_SPOTS = [['iron', 1230, GROUND], ['iron', 1700, GROUND], ['iron', 2000, GROUND], ['iron', 1520, 320], ['crystal', 2620, GROUND], ['crystal', 2850, 300], ['crystal', 3690, GROUND], ['star', 3130, 230], ['star', 3990, 300], ['crystal', 3950, GROUND]];
 
 /* ---------- 存檔 ---------- */
 let S = null;
@@ -225,6 +225,31 @@ function drawHairFront(g, look, fx) {
   g.fillStyle = 'rgba(255,255,255,.35)'; g.beginPath(); g.ellipse(-6, -58, 6, 2, -.3, 0, 7); g.fill();
 }
 /* (x,y)=腳底中心；opt: face(1/-1) walk(0..) atk(0..1) scale */
+/* ---------- 插畫素材（AI 生成＋去背，放在 img/hr/） ---------- */
+const ART_DIR = 'img/hr/';
+const ART = /*ART*/{"hero":{"knight":{"idle":[109,204,53.8],"walk":[139,192,70.4],"attack":[193,186,75.2]},"mage":{"idle":[126,195,61.3],"walk":[145,193,78.0],"attack":[197,190,83.0]},"ranger":{"idle":[114,192,61.4],"walk":[127,190,74.1],"attack":[196,188,84.1]},"priest":{"idle":[122,190,60.9],"walk":[135,185,72.1],"attack":[200,184,79.6]}},"npc":{"forge":[111,199,66.4],"shop":[114,198,64.1],"gacha":[128,193,63.4],"salon":[111,192,53.9]},"mob":{"slime":[78,87,38.5,0.575],"bfly":[97,92,34.3,0.587],"sprite":[97,111,46.7,0.595],"golem":[162,157,73.2,0.662]},"bg":{"0":0.775,"1":0.85,"2":0.85,"3":0.82}}/*END*/;
+const IMG = {};
+function artImg(k) {
+  let im = IMG[k];
+  if (!im) { im = IMG[k] = new Image(); im.decoding = 'async'; im.onload = () => { if (!k.endsWith('_idle')) return; try { if (S && typeof refreshFace === 'function') refreshFace(); } catch {} try { if (draft && document.getElementById('create').classList.contains('show')) renderCreate(); } catch {} }; im.src = ART_DIR + k + '.webp'; }
+  return im.complete && im.naturalWidth ? im : null;
+}
+function drawArt(g, key, m, x, y, s, face, sy = 1, rot = 0) {
+  const im = artImg(key); if (!im) return false;
+  g.save(); g.translate(x, y); if (rot) g.rotate(rot); g.scale((face || 1) * s, s * sy); g.drawImage(im, -m[2], -m[1], m[0], m[1]); g.restore(); return true;
+}
+for (const c in ART.hero || {}) for (const f in ART.hero[c]) artImg(c + '_' + f);
+const useArt = (look, cls) => look && look.art !== 'doll' && ART.hero && ART.hero[cls];
+function drawHero(g, x, y, look, cls, opt = {}) {
+  if (useArt(look, cls)) {
+    const a = ART.hero[cls], f = opt.atk > 0 ? 'attack' : opt.walk ? 'walk' : 'idle';
+    const s = .56 * (opt.artScale || 1), face = opt.face || 1;
+    const sy = f === 'idle' ? 1 + Math.sin(T * 3.2) * .014 : 1;
+    const bob = opt.walk ? -Math.abs(Math.sin(opt.walk * 9)) * 4 : 0, rot = opt.walk ? Math.sin(opt.walk * 9) * .035 : 0;
+    if (drawArt(g, cls + '_' + f, a[f], x, y + 3 + bob, s, face, sy, rot)) return;
+  }
+  drawChibi(g, x, y, look, cls, opt);
+}
 function drawChibi(g, x, y, look, cls, opt = {}) {
   const f = opt.face || 1, sc = opt.scale || 1, wt = opt.walk || 0, at = opt.atk || 0;
   g.save(); g.translate(x, y); g.scale(sc, sc);
@@ -320,6 +345,8 @@ function opts(el, entries, key, swatch) {
 }
 function renderCreate() {
   opts($('#optCls'), Object.entries(CLASSES).map(([k, c]) => [k, `<b>${c.name}</b><small>${c.desc}</small>`]), 'cls');
+  if (draft.art !== 'doll') draft.art = 'illust';
+  opts($('#optArt'), [['illust', '🎨 插畫版'], ['doll', '✂️ 捏臉版']], 'art');
   if (editing) $('#optCls').querySelectorAll('button').forEach(b => { b.disabled = !b.classList.contains('on'); });
   opts($('#optHair'), Object.entries(HAIRS), 'hair');
   opts($('#optHairColor'), HAIR_COLORS.map(c => [c]), 'hairColor', true);
@@ -330,7 +357,9 @@ function renderCreate() {
   opts($('#optOutfit'), OUTFITS.map((c, i) => [c, '', !owned.includes(i)]), 'outfit', true);
   opts($('#optDeco'), Object.entries(DECOS), 'deco');
   pg.clearRect(0, 0, 320, 360);
-  drawChibi(pg, 160, 300, draft, draft.cls, { scale: 3.4, face: 1 });
+  const ill = useArt(draft, draft.cls);
+  document.querySelectorAll('.doll-only').forEach(el => el.hidden = !!ill);
+  drawHero(pg, 160, 330, draft, draft.cls, { scale: 3.4, artScale: 2.6, face: 1 });
 }
 function openCreate(edit) {
   editing = edit;
@@ -373,6 +402,7 @@ function spawnMob(type, x, y) {
   let minX = x - 120, maxX = x + 120;
   const pl = PLATS.find(p => Math.abs(p.y - y) < 2 && x >= p.x && x <= p.x + p.w);
   if (pl) { minX = pl.x + 20; maxX = pl.x + pl.w - 20; }
+  const mz = zoneAt(x); minX = Math.max(minX, mz.from + 40); maxX = Math.min(maxX, mz.to - 40);
   return { type, d, x, y, hx: x, hy: y, hp: d.hp, vx: (Math.random() < .5 ? -1 : 1) * d.spd, minX, maxX, hitT: 0, dead: 0, aggro: 0, atkCd: 0, t: rnd(0, 6) };
 }
 
@@ -428,7 +458,7 @@ function usePortal(pt) { warp(pt.land, pt.to); }
 function openHub() {
   const cur = ZONES.indexOf(zoneAt(P.x));
   openPanel('⛲ ' + HUB.name, `<p class="note">花之噴泉連通艾瑟蘭大陸各地，選擇要前往的地圖（免費）。</p><div class="list">${ZONES.map((z, i) => i === 0 ? '' : `<div class="item"><div><b>${z.name}</b><p>建議等級 Lv.${z.lv}+　怪物：${[...new Set(SPAWNS.filter(([, x]) => x >= z.from && x < z.to).map(s => MONSTERS[s[0]].name))].join('、')}</p></div><button class="btn sm pri" data-z="${i}">${i === cur ? '目前位置' : '傳送'}</button></div>`).join('')}</div>`, b => {
-    b.querySelectorAll('[data-z]').forEach(btn => btn.onclick = () => { const i = +btn.dataset.z; closePanel(); warp(ZONES[i].from + 150, i); });
+    b.querySelectorAll('[data-z]').forEach(btn => btn.onclick = () => { const i = +btn.dataset.z; closePanel(); warp(ZONES[i].from + 170, i); });
   });
 }
 function nearNpc() { return NPCS.find(n => Math.abs(n.x - P.x) < 55 && P.y > GROUND - 5); }
@@ -560,6 +590,7 @@ function update(dt) {
   if (!zoneAt(P.x).safe && T % 1 < dt) { S.mp = Math.min(st.maxMp, S.mp + 1 + st.tf.mpRegen); }
   if (zoneAt(P.x).safe && T % .5 < dt) { S.hp = Math.min(st.maxHp, S.hp + Math.ceil(st.maxHp * .02)); S.mp = Math.min(st.maxMp, S.mp + 1); }
 
+  const pz = zoneAt(P.x);
   for (const m of mobs) {
     if (m.dead) { m.dead -= dt; if (m.dead <= 0) Object.assign(m, spawnMob(m.type, m.hx, m.hy)); continue; }
     m.t += dt; m.hitT -= dt; m.atkCd -= dt; m.aggro -= dt;
@@ -569,7 +600,7 @@ function update(dt) {
     if (m.x < m.minX) { m.x = m.minX; m.vx = Math.abs(m.vx); } if (m.x > m.maxX) { m.x = m.maxX; m.vx = -Math.abs(m.vx); }
     if (m.d.fly) m.y = m.hy - 30 + Math.sin(m.t * 2.4) * 18;
     const top = m.y - m.d.h;
-    if (Math.abs(m.x - P.x) < (m.d.w / 2 + 12) && P.y > top && P.y - 60 < m.y && m.atkCd <= 0) { hurtPlayer(Math.max(1, Math.round(m.d.atk * rnd(.9, 1.1) - S.lv * .3)), m.x); m.atkCd = 1; }
+    if (m.x >= pz.from && m.x < pz.to && Math.abs(m.x - P.x) < (m.d.w / 2 + 12) && P.y > top && P.y - 60 < m.y && m.atkCd <= 0) { hurtPlayer(Math.max(1, Math.round(m.d.atk * rnd(.9, 1.1) - S.lv * .3)), m.x); m.atkCd = 1; }
   }
   for (const o of ores) if (o.dead) { o.dead -= dt; if (o.dead <= 0) { o.dead = 0; o.hp = ORES[o.type].hp; } }
   for (const h of herbs) if (h.dead) { h.dead -= dt; if (h.dead <= 0) h.dead = 0; }
@@ -640,10 +671,20 @@ function house(g, x, y, col, roof, sign) {
   g.fillStyle = '#ffe9a8'; g.fillRect(x - 54, y - 88, 24, 22); g.fillRect(x + 30, y - 88, 24, 22);
   g.fillStyle = '#fff'; g.beginPath(); g.roundRect(x - 34, y - 135, 68, 22, 8); g.fill(); g.fillStyle = '#9c4871'; g.font = 'bold 13px sans-serif'; g.textAlign = 'center'; g.fillText(sign, x, y - 119);
 }
+function drawBg(im, zn) {
+  const gl = ART.bg[ZONES.indexOf(zn)], h = (GROUND - 6) / gl, w = im.naturalWidth * h / im.naturalHeight, off = (cam - zn.from) * .35;
+  for (let i = Math.floor(off / w); i * w - off < W; i++) {
+    const x = i * w - off; g.save();
+    if (i % 2) { g.translate(x + w, 0); g.scale(-1, 1); g.drawImage(im, 0, 0, w, h); } else g.drawImage(im, x, 0, w, h);
+    g.restore();
+  }
+}
 function draw() {
   const z = zoneMix(P.x);
   const sky = g.createLinearGradient(0, 0, 0, H); sky.addColorStop(0, z.top); sky.addColorStop(1, z.bot); g.fillStyle = sky; g.fillRect(0, 0, W, H);
   const zn = zoneAt(P.x);
+  const bgi = ART.bg && ART.bg[ZONES.indexOf(zn)] ? artImg('bg_' + ZONES.indexOf(zn)) : null;
+  if (bgi) drawBg(bgi, zn); else {
   if (zn === ZONES[2] || zn === ZONES[3]) { g.fillStyle = 'rgba(255,250,220,.9)'; g.beginPath(); g.arc(780 - cam * .03, 90, 34, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.7)'; for (let i = 0; i < 30; i++) { g.fillRect((i * 137 - cam * .05) % W, (i * 71) % 260, 2, 2); } }
   else { g.fillStyle = 'rgba(255,255,255,.75)'; [[120, 90], [420, 60], [760, 110]].forEach(([x, y]) => { const cx = ((x - cam * .1) % (W + 200) + W + 200) % (W + 200) - 100; g.beginPath(); g.arc(cx, y, 26, 0, 7); g.arc(cx + 28, y + 6, 20, 0, 7); g.arc(cx - 26, y + 8, 18, 0, 7); g.fill(); }); }
   g.fillStyle = z.hill; g.globalAlpha = .55; g.beginPath(); g.moveTo(0, H);
@@ -651,10 +692,12 @@ function draw() {
   g.save(); g.translate(-cam * .6, 0);
   for (let i = 0; i < 40; i++) { const tx = i * 180 + 60; if (tx < cam * .6 - 120 || tx > cam * .6 + W + 120) continue; const wx = tx / .6; tree(g, tx, GROUND - 6, .9, wx < 2350 ? '#ffc4dc' : wx < 3500 ? '#6a8f8a' : '#5d5590'); }
   g.restore();
+  }
   g.save(); g.translate(-cam, 0);
   // 地面
-  for (const zz of ZONES) { if (zz.to < cam || zz.from > cam + W) continue; g.fillStyle = zz === ZONES[0] ? '#f3d9c4' : zz === ZONES[1] ? '#9fd89a' : zz === ZONES[2] ? '#5f8a6e' : '#6b6290'; g.fillRect(zz.from, GROUND, zz.to - zz.from, H - GROUND); g.fillStyle = zz === ZONES[0] ? '#e8c3a6' : zz === ZONES[1] ? '#7fc47b' : zz === ZONES[2] ? '#4a735a' : '#4f4775'; g.fillRect(zz.from, GROUND, zz.to - zz.from, 10); }
-  if (cam < 1000) { house(g, 220, GROUND, '#fff1e8', '#ff9e7a', '鍛造屋'); house(g, 410, GROUND, '#f3f7ff', '#8fb3ff', '花之商店'); house(g, 600, GROUND, '#f7efff', '#b48cff', '星願召喚殿'); house(g, 790, GROUND, '#fff0f6', '#ff8fb6', '美容院'); g.fillStyle = '#bfe6ff'; g.beginPath(); g.ellipse(80, GROUND - 6, 46, 10, 0, 0, 7); g.fill(); g.fillStyle = '#e9d7c6'; g.fillRect(70, GROUND - 46, 20, 40); g.fillStyle = '#9fd3ff'; g.fillRect(77, GROUND - 60 + Math.sin(T * 3) * 2, 6, 18); }
+  for (const zz of ZONES) { if (zz.to < cam || zz.from > cam + W) continue; if (bgi) { g.fillStyle = 'rgba(40,20,40,.10)'; g.fillRect(zz.from, GROUND, zz.to - zz.from, 4); continue; } g.fillStyle = zz === ZONES[0] ? '#f3d9c4' : zz === ZONES[1] ? '#9fd89a' : zz === ZONES[2] ? '#5f8a6e' : '#6b6290'; g.fillRect(zz.from, GROUND, zz.to - zz.from, H - GROUND); g.fillStyle = zz === ZONES[0] ? '#e8c3a6' : zz === ZONES[1] ? '#7fc47b' : zz === ZONES[2] ? '#4a735a' : '#4f4775'; g.fillRect(zz.from, GROUND, zz.to - zz.from, 10); }
+  if (cam < 1000 && bgi) [[266, '⚒️ 鍛造屋'], [456, '🛍️ 花之商店'], [646, '✨ 星願召喚殿'], [836, '💇 美容院']].forEach(([x, t]) => { g.font = 'bold 13px sans-serif'; g.textAlign = 'center'; const tw = g.measureText(t).width + 22; g.fillStyle = 'rgba(255,248,240,.95)'; g.beginPath(); g.roundRect(x - tw / 2, GROUND - 150, tw, 26, 10); g.fill(); g.strokeStyle = '#e8b4c8'; g.lineWidth = 2; g.stroke(); g.fillStyle = '#9c4871'; g.fillText(t, x, GROUND - 132); });
+  else if (cam < 1000) { house(g, 220, GROUND, '#fff1e8', '#ff9e7a', '鍛造屋'); house(g, 410, GROUND, '#f3f7ff', '#8fb3ff', '花之商店'); house(g, 600, GROUND, '#f7efff', '#b48cff', '星願召喚殿'); house(g, 790, GROUND, '#fff0f6', '#ff8fb6', '美容院'); g.fillStyle = '#bfe6ff'; g.beginPath(); g.ellipse(80, GROUND - 6, 46, 10, 0, 0, 7); g.fill(); g.fillStyle = '#e9d7c6'; g.fillRect(70, GROUND - 46, 20, 40); g.fillStyle = '#9fd3ff'; g.fillRect(77, GROUND - 60 + Math.sin(T * 3) * 2, 6, 18); }
   g.fillStyle = '#fff'; g.font = 'bold 13px sans-serif'; g.textAlign = 'center';
   for (const pt of PORTALS) { if (pt.x < cam - 80 || pt.x > cam + W + 80) continue; drawPortal(g, pt.x, ZONES[pt.to].name); }
   if (cam < 300) { const a = .35 + Math.sin(T * 3) * .15; g.strokeStyle = `rgba(180,140,255,${a + .3})`; g.lineWidth = 3; g.beginPath(); g.ellipse(HUB.x, GROUND - 2, 58, 12, 0, 0, 7); g.stroke(); g.fillStyle = `rgba(200,170,255,${a})`; g.fill(); g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(HUB.x - 50, GROUND - 100, 100, 22, 8); g.fill(); g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.fillText('⛲ 傳送陣', HUB.x, GROUND - 84); }
@@ -670,14 +713,14 @@ function draw() {
     g.fillStyle = d.gem; [[-8, -18], [6, -24], [10, -10]].forEach(([a, b]) => { g.beginPath(); g.moveTo(o.x + a, o.y + b - 6); g.lineTo(o.x + a + 4, o.y + b); g.lineTo(o.x + a, o.y + b + 6); g.lineTo(o.x + a - 4, o.y + b); g.fill(); });
     if (o.hp < d.hp) { g.fillStyle = '#0006'; g.fillRect(o.x - 18, o.y - 46, 36, 5); g.fillStyle = '#ffe08a'; g.fillRect(o.x - 18, o.y - 46, 36 * o.hp / d.hp, 5); }
   }
-  for (const n of NPCS) { if (n.x < cam - 50 || n.x > cam + W + 50) continue; drawChibi(g, n.x, GROUND, { hair: 'bob', hairColor: n.hair, eyeShape: 'gentle', eye: '#7a4b2e', skin: '#ffe2d0', outfit: n.col, deco: 'blush' }, n.id === 'forge' ? 'knight' : n.id === 'gacha' ? 'mage' : 'priest', { face: -1, blink: Math.sin(T * 2 + n.x) > .97 }); g.fillStyle = '#fff'; g.font = 'bold 11px sans-serif'; g.textAlign = 'center'; g.fillStyle = 'rgba(48,38,60,.75)'; const tw = g.measureText(n.name).width + 12; g.beginPath(); g.roundRect(n.x - tw / 2, GROUND + 6, tw, 17, 8); g.fill(); g.fillStyle = '#ffe08a'; g.fillText(n.name, n.x, GROUND + 19); }
+  for (const n of NPCS) { if (n.x < cam - 50 || n.x > cam + W + 50) continue; if (!(ART.npc && ART.npc[n.id] && drawArt(g, 'npc_' + n.id, ART.npc[n.id], n.x, GROUND + 3, .5, P.x < n.x ? -1 : 1, 1 + Math.sin(T * 2.6 + n.x) * .012))) drawChibi(g, n.x, GROUND, { hair: 'bob', hairColor: n.hair, eyeShape: 'gentle', eye: '#7a4b2e', skin: '#ffe2d0', outfit: n.col, deco: 'blush' }, n.id === 'forge' ? 'knight' : n.id === 'gacha' ? 'mage' : 'priest', { face: -1, blink: Math.sin(T * 2 + n.x) > .97 }); g.fillStyle = '#fff'; g.font = 'bold 11px sans-serif'; g.textAlign = 'center'; g.fillStyle = 'rgba(48,38,60,.75)'; const tw = g.measureText(n.name).width + 12; g.beginPath(); g.roundRect(n.x - tw / 2, GROUND + 6, tw, 17, 8); g.fill(); g.fillStyle = '#ffe08a'; g.fillText(n.name, n.x, GROUND + 19); }
   for (const d of drops) { const yy = d.y - 8 + Math.sin(d.t * 5) * 2; if (d.kind === 'gold') { g.fillStyle = '#ffcf4a'; g.beginPath(); g.arc(d.x, yy, 7, 0, 7); g.fill(); g.fillStyle = '#fff2a8'; g.beginPath(); g.arc(d.x - 2, yy - 2, 2.5, 0, 7); g.fill(); } else if (d.kind === 'gear') { g.save(); g.shadowColor = RARITY[d.gear.r].c; g.shadowBlur = 12; g.font = '20px sans-serif'; g.textAlign = 'center'; g.fillText(SLOT_E[d.gear.slot], d.x, yy + 6); g.restore(); } else { g.font = '18px sans-serif'; g.textAlign = 'center'; g.fillText(ITEMS[d.kind].e, d.x, yy + 6); } }
   for (const m of mobs) { if (m.dead || m.x < cam - 80 || m.x > cam + W + 80) continue; drawMob(m); }
   if (S.pet) { const px = P.x - P.face * 36; drawPet(g, S.pet, (S._petX = S._petX == null ? px : S._petX + (px - S._petX) * .08), P.y, T); }
   const flick = P.inv > 0 && Math.floor(T * 20) % 2;
   if (!flick) {
-    if (S.riding && S.mount) { drawMount(g, P.x, P.y, P.face, P.vx ? T : 0); drawChibi(g, P.x - P.face * 2, P.y - 22, S.look, S.cls, { face: P.face, atk: P.atkT, blink: P.blinkT < 0 }); }
-    else drawChibi(g, P.x, P.y, S.look, S.cls, { face: P.face, walk: P.vx && P.onG ? P.walk : 0, atk: P.atkT, blink: P.blinkT < 0 });
+    if (S.riding && S.mount) { drawMount(g, P.x, P.y, P.face, P.vx ? T : 0); drawHero(g, P.x - P.face * 2, P.y - 22, S.look, S.cls, { face: P.face, atk: P.atkT, blink: P.blinkT < 0 }); }
+    else drawHero(g, P.x, P.y, S.look, S.cls, { face: P.face, walk: P.vx && P.onG ? P.walk : 0, atk: P.atkT, blink: P.blinkT < 0 });
   }
   if (fishing) { const bx = fishing.spot.x + (P.face > 0 ? -10 : 10), by = GROUND + 4 + Math.sin(T * 6) * (fishing.t > fishing.wait - .6 ? 4 : 1.5); g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1; g.beginPath(); g.moveTo(P.x + P.face * 26, P.y - 54); g.quadraticCurveTo((P.x + bx) / 2, P.y - 80, bx, by); g.stroke(); g.fillStyle = '#ff6b6b'; g.beginPath(); g.arc(bx, by, 4, 0, 7); g.fill(); g.strokeStyle = '#8a5a3c'; g.lineWidth = 2.5; g.beginPath(); g.moveTo(P.x + P.face * 6, P.y - 22); g.lineTo(P.x + P.face * 26, P.y - 54); g.stroke(); }
   g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; const nw = g.measureText(S.name).width + 14; g.fillStyle = 'rgba(48,38,60,.8)'; g.beginPath(); g.roundRect(P.x - nw / 2, P.y + 6, nw, 18, 9); g.fill(); g.fillStyle = '#fff'; g.fillText(S.name, P.x, P.y + 19);
@@ -694,10 +737,13 @@ function drawMob(m) {
   g.save(); g.translate(x, y);
   if (m.hitT > 0) g.filter = 'brightness(1.8)';
   g.fillStyle = 'rgba(0,0,0,.12)'; if (!d.fly) { g.beginPath(); g.ellipse(0, 0, d.w / 2, 5, 0, 0, 7); g.fill(); }
+  const am = ART.mob && ART.mob[m.type];
+  if (!(am && drawArt(g, 'mob_' + m.type, am, 0, (d.fly ? -10 + Math.sin(m.t * 4) * 5 : 2), am[3], f, 1 + Math.sin(m.t * 6) * .04))) {
   if (m.type === 'slime') { const sq = Math.sin(m.t * 6) * 3; g.fillStyle = d.col; g.beginPath(); g.ellipse(0, -16 + sq * .3, 21 + sq, 17 - sq, 0, Math.PI, 0); g.lineTo(21 + sq, 0); g.lineTo(-21 - sq, 0); g.fill(); g.fillStyle = '#fff8'; g.beginPath(); g.ellipse(-8, -24, 5, 3, -.4, 0, 7); g.fill(); g.fillStyle = '#ff6b9a'; g.beginPath(); g.arc(0, -36 + sq * .3, 4, 0, 7); g.fill(); eyes(-6 * f + f * 4, -16, f); }
   if (m.type === 'bfly') { const fl = Math.abs(Math.sin(m.t * 14)); g.fillStyle = d.col; g.globalAlpha = .9; g.beginPath(); g.ellipse(-12, -18, 14 * fl + 3, 12, -.5, 0, 7); g.ellipse(12, -18, 14 * fl + 3, 12, .5, 0, 7); g.fill(); g.fillStyle = '#ffe6ff'; g.beginPath(); g.ellipse(-10, -8, 8 * fl + 2, 7, -.3, 0, 7); g.ellipse(10, -8, 8 * fl + 2, 7, .3, 0, 7); g.fill(); g.globalAlpha = 1; g.fillStyle = '#4a3a6a'; g.beginPath(); g.ellipse(0, -14, 4, 12, 0, 0, 7); g.fill(); g.strokeStyle = '#4a3a6a'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(-1, -25); g.lineTo(-6, -34); g.moveTo(1, -25); g.lineTo(6, -34); g.stroke(); }
   if (m.type === 'sprite') { const b = Math.sin(m.t * 5) * 2; g.fillStyle = '#5aa874'; g.beginPath(); g.ellipse(-10, -44 + b, 6, 12, -.6, 0, 7); g.ellipse(10, -44 + b, 6, 12, .6, 0, 7); g.fill(); g.fillStyle = d.col; g.beginPath(); g.arc(0, -24 + b, 18, 0, 7); g.fill(); g.fillStyle = '#5aa874'; g.fillRect(-9, -8 + b, 6, 8); g.fillRect(3, -8 + b, 6, 8); eyes(3 * f, -26 + b, f); }
   if (m.type === 'golem') { g.fillStyle = '#7f78b8'; g.beginPath(); g.roundRect(-28, -54, 56, 46, 12); g.fill(); g.fillStyle = d.col; [[-14, -60], [10, -64], [22, -50]].forEach(([a, b]) => { g.beginPath(); g.moveTo(a, b - 10); g.lineTo(a + 6, b); g.lineTo(a, b + 10); g.lineTo(a - 6, b); g.fill(); }); g.fillStyle = '#5d5590'; g.fillRect(-24, -10, 16, 10); g.fillRect(8, -10, 16, 10); g.fillStyle = '#bfe6ff'; g.beginPath(); g.arc(-8 + f * 4, -34, 4, 0, 7); g.arc(8 + f * 4, -34, 4, 0, 7); g.fill(); }
+  }
   g.filter = 'none'; g.restore();
   if (m.hp < d.hp) { const bw = Math.max(36, d.w); g.fillStyle = '#0007'; g.fillRect(x - bw / 2, y - d.h - 16, bw, 5); g.fillStyle = '#ff5c8a'; g.fillRect(x - bw / 2, y - d.h - 16, bw * Math.max(0, m.hp) / d.hp, 5); }
   if (m.aggro > 0 || Math.abs(m.x - P.x) < 160) { g.font = '11px sans-serif'; g.textAlign = 'center'; g.fillStyle = '#fff'; g.strokeStyle = '#0006'; g.lineWidth = 3; const s = `Lv.${d.lv} ${d.name}`; g.strokeText(s, x, y + 16); g.fillText(s, x, y + 16); }
@@ -723,7 +769,11 @@ function drawFx(f) {
 
 /* ---------- HUD ---------- */
 const fg = $('#face').getContext('2d');
-function refreshFace() { fg.clearRect(0, 0, 56, 56); drawChibi(fg, 28, 104, S.look, S.cls, { scale: 1.45 }); }
+function refreshFace() {
+  fg.clearRect(0, 0, 56, 56);
+  if (useArt(S.look, S.cls)) { const m = ART.hero[S.cls].idle, im = artImg(S.cls + '_idle'); if (im) { const hs = m[1] * .5, sx = clamp(m[2] - hs / 2 + 4, 0, m[0] - hs); fg.drawImage(im, sx, 2, hs, hs, 0, 0, 56, 56); return; } }
+  drawChibi(fg, 28, 104, S.look, S.cls, { scale: 1.45 });
+}
 function updateHud() {
   if (!S) return; const st = stats();
   $('#hName').textContent = S.name; $('#hLv').textContent = 'Lv.' + S.lv; $('#hCls').textContent = CLASSES[S.cls].name;
