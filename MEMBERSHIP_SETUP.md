@@ -38,6 +38,7 @@ api/membership.js 是 Vercel Node.js Function，支援 status、register、login
    - `SUPABASE_SERVICE_ROLE_KEY` = 上一步的金鑰（只放這裡，絕不貼到聊天室、HTML 或 GitHub）
    - `ECPAY_ENV` = `stage`
    - `POINTS_ENABLED` = `true`
+   - `ADMIN_EMAILS` = 你的會員 Email（站長，可用逗號分隔多個），才能使用 `admin-points.html` 點數管理
 4. Vercel 重新部署（Deployments → 最新一筆 → Redeploy）。
 5. 登入會員 → 會員頁面 → 點數 → 選方案，用綠界測試信用卡付款：卡號 4311-9522-2222-2222、有效期限填未來日期、安全碼 222、3D 驗證碼 1234。
 6. 確認點數紀錄出現「儲值」、餘額增加。
@@ -53,3 +54,16 @@ api/membership.js 是 Vercel Node.js Function，支援 status、register、login
 
 ## 暗夜模式
 `theme.js` 已載入全站每一頁。會員頁面 → 設定 → 外觀主題可選「亮色／暗夜模式／跟隨系統」，存在瀏覽器，登入時也會存到會員帳號（Supabase user_metadata.theme）。
+
+## 點數制度 v2（依《點數使用條款》實作）
+- 付費點數無期限；贈送點數每筆各自到期（預設 90 天），過期自動不能使用。
+- 扣點順序：先扣付費點數，再扣贈送點數（先到期的先扣）。函式：`spend_points`（回傳 -1 點數不足、-2 帳號停權）。
+- 儲值時記錄同意的條款版本（`topup_orders.terms_version`、`agreed_at`）。修改條款時，把 `api/points.js` 的 `TERMS_VERSION` 一起更新。
+- 停權中的帳號不能儲值、不能扣點。
+- 站長頁 `admin-points.html`（需登入且在 ADMIN_EMAILS 名單內）：
+  - 查詢會員點數與停權狀態
+  - 發送贈送點數（可設天數與原因）
+  - 信用卡退單：扣回該筆點數，不足時自動停權並記錄欠款
+  - 例外退款（重複扣款／盜刷／系統錯誤）：扣回點數並標記退款，款項請到綠界廠商後台退刷
+  - 停權／解除停權（可一併清除欠款）
+- 已執行過舊版 `points.sql` 也沒關係，直接再貼一次新版執行即可（可重複執行）。

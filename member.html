@@ -529,6 +529,8 @@ footer{border-color:rgba(15,31,69,.12)}
 .mb-agree{display:flex;gap:10px;align-items:flex-start;margin:8px 0 4px;padding:12px 14px;border-radius:14px;background:#faf5f8;border:1px solid #f0dfe9;font-size:13.5px;line-height:1.7;color:#6b4f63;cursor:pointer}.mb-agree input{margin-top:4px;width:18px;height:18px;accent-color:#c27cff;flex:none}.mb-agree a{color:#9c4871;text-decoration:underline}
 .mb-err{color:#d6336c;font-size:13.5px;margin:6px 0 0;min-height:1em}
 .mb-alert{padding:12px 16px;border-radius:16px;margin-bottom:12px;font-size:14px;background:#eef4ff;border:1px solid #cfe0ff;color:#3d5a99}
+.mb-alert.bad{background:#fff0f3;border-color:#f6c6d2;color:#b4234f}
+.mb-split{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin:6px 0 2px}.mb-split>div{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:16px;background:#faf5f8;border:1px solid #f0dfe9}.mb-split span{font-size:12.5px;color:var(--muted)}.mb-split b{font-family:var(--display);font-size:22px;color:#3b2333}.mb-split small{font-size:12px;color:var(--muted)}
 .mb-alert.warn{background:#fff6e6;border-color:#f3dcb4;color:#8c6345}.mb-alert.ok{background:#ecfbf2;border-color:#bfe9cf;color:#2a7a4b}
 .mb-list{width:100%;display:flex;flex-direction:column}
 .mb-li{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px dashed #f0dfe9;font-size:14px}
@@ -536,7 +538,7 @@ footer{border-color:rgba(15,31,69,.12)}
 .mb-li span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
 .mb-li>div:last-child{text-align:right;font-weight:700;white-space:nowrap}
 .mb-li .plus{color:#2a9d5f}.mb-li .minus{color:#d6336c}
-.mb-st.paid{color:#2a9d5f}.mb-st.pending{color:#c98a1b}.mb-st.failed{color:#d6336c}
+.mb-st.paid{color:#2a9d5f}.mb-st.refunded,.mb-st.chargeback{color:#8a7280}.mb-st.pending{color:#c98a1b}.mb-st.failed{color:#d6336c}
 .mb-game{flex-direction:row;align-items:center;gap:18px}
 .mb-game-art{width:96px;height:96px;flex:none;border-radius:24px;display:grid;place-items:center;font-size:52px;background:linear-gradient(170deg,#5b4c8f,#c9b3ff 60%,#ffd9e8)}
 .mb-theme{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin-top:8px}
@@ -609,10 +611,13 @@ footer{border-color:rgba(15,31,69,.12)}
 
       <div class="mb-panel" data-panel="points" hidden>
         <div id="ptEnv" class="mb-alert" hidden>🧪 目前是<b>綠界測試環境</b>：不會真的扣款，請用綠界提供的測試卡號。</div>
+        <div id="ptSus" class="mb-alert bad" hidden></div>
         <div id="ptOff" class="mb-alert warn" hidden>點數儲值準備中，開放後就能在這裡儲值。</div>
         <div id="ptTrade" class="mb-alert ok" hidden></div>
         <div class="mb-card">
           <div class="mb-balrow"><div><h3>目前點數</h3><p class="mb-big" id="pBal">—</p></div><p class="mb-sub">NT$1 = 1 點</p></div>
+          <div class="mb-split"><div><span>💎 付費點數</span><b id="pPaid">0</b><small>無使用期限</small></div><div><span>🎁 贈送點數</span><b id="pBonus">0</b><small id="pBonusExp">—</small></div></div>
+          <p class="mb-sub">扣點時會先扣付費點數，再扣贈送點數（先到期的先扣）。</p>
           <h3 style="margin-top:18px">選擇儲值方案</h3>
           <label class="mb-agree"><input type="checkbox" id="ptAgree"><span>我已閱讀並同意<a href="points-terms.html" target="_blank">《點數使用條款》</a>，了解點數入帳即完成數位內容提供，<b>儲值後恕不退款</b>，也不適用七天解除權（重複扣款、盜刷或系統錯誤除外）；提出信用卡退單將扣回點數。</span></label>
           <div class="mb-packs" id="ptPacks"></div>
@@ -665,8 +670,8 @@ footer{border-color:rgba(15,31,69,.12)}
 <script>
 (function(){
   var $=function(s){return document.querySelector(s)}, user=null, wallet=null;
-  var REASON={topup:'儲值',game:'遊戲',ai:'AI',admin:'調整'};
-  var STATUS={pending:'待付款',paid:'已入帳',failed:'失敗'};
+  var REASON={topup:'儲值',bonus:'贈送點數',game:'遊戲',ai:'AI',admin:'調整',chargeback:'信用卡退單',refund:'退款'};
+  var STATUS={pending:'待付款',paid:'已入帳',failed:'失敗',refunded:'已退款',chargeback:'退單'};
   function fmtDate(s){if(!s)return'';var d=new Date(s);return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function tab(name){document.querySelectorAll('.mb-tabs button').forEach(function(b){b.classList.toggle('on',b.dataset.tab===name)});document.querySelectorAll('.mb-panel').forEach(function(p){p.hidden=p.dataset.panel!==name});try{history.replaceState(null,'','?tab='+name)}catch(e){}}
@@ -691,7 +696,11 @@ footer{border-color:rgba(15,31,69,.12)}
   }
   function renderWallet(w){
     wallet=w;setBal(w.balance);$('#ptEnv').hidden=w.env!=='stage';
-    $('#ptLedger').innerHTML=w.ledger.length?w.ledger.map(function(l){return '<div class="mb-li"><div><b>'+esc(l.note||REASON[l.reason]||l.reason)+'</b><span>'+fmtDate(l.created_at)+'</span></div><div class="'+(l.delta>0?'plus':'minus')+'">'+(l.delta>0?'+':'')+l.delta+' 點<span>餘額 '+l.balance_after+'</span></div></div>'}).join(''):'<p class="mb-sub">還沒有紀錄</p>';
+    $('#pPaid').textContent=(w.paid||0).toLocaleString();$('#pBonus').textContent=(w.bonus||0).toLocaleString();
+    $('#pBonusExp').textContent=w.grants&&w.grants.length?w.grants[0].remaining+' 點於 '+fmtDate(w.grants[0].expires_at).split(' ')[0]+' 到期':'沒有贈送點數';
+    var sus=$('#ptSus');sus.hidden=!w.suspended;if(w.suspended){sus.textContent='⚠️ 帳號目前暫停使用：'+(w.suspendReason||'請來信聯繫花花')+'。處理完成前無法儲值或使用點數。';$('#ptPacks').querySelectorAll('button').forEach(function(b){b.disabled=true})}
+    if(w.isAdmin&&!$('#mbAdmin')){var a=document.createElement('a');a.id='mbAdmin';a.className='mb-btn';a.href='admin-points.html';a.textContent='🛠️ 點數管理（站長）';a.style.marginTop='8px';$('.mb-pts').appendChild(a)}
+    $('#ptLedger').innerHTML=w.ledger.length?w.ledger.map(function(l){return '<div class="mb-li"><div><b>'+esc(l.note||REASON[l.reason]||l.reason)+'</b><span>'+(l.kind==='bonus'?'🎁 贈送點數・':'💎 付費點數・')+fmtDate(l.created_at)+'</span></div><div class="'+(l.delta>0?'plus':'minus')+'">'+(l.delta>0?'+':'')+l.delta+' 點<span>餘額 '+l.balance_after+'</span></div></div>'}).join(''):'<p class="mb-sub">還沒有紀錄</p>';
     $('#ptOrders').innerHTML=w.orders.length?w.orders.map(function(o){return '<div class="mb-li"><div><b>NT$'+o.amount+'・'+o.points+' 點</b><span>'+esc(o.trade_no)+'・'+fmtDate(o.created_at)+'</span></div><div class="mb-st '+o.status+'">'+(STATUS[o.status]||o.status)+'</div></div>'}).join(''):'<p class="mb-sub">還沒有訂單</p>';
   }
   function loadWallet(){
