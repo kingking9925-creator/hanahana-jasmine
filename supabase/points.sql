@@ -302,3 +302,176 @@ revoke all on function public.do_checkin(uuid) from public, anon, authenticated;
 revoke all on function public.wallet_summary() from public, anon;
 grant execute on function public.wallet_summary() to authenticated;
 grant execute on function public._topup_total(uuid), public.do_checkin(uuid) to service_role;
+
+-- ============================================================
+-- v4：個人資料（私人）＋等級福利＋簽到 50 點（可重複執行）
+-- 等級福利：
+--   一般 🌸：簽到 50／生日禮 50／儲值回饋 0%
+--   銀花 🥈（累積 NT$300）：簽到 60／生日禮 100／儲值回饋 3%
+--   金花 🥇（累積 NT$1,500）：簽到 70／生日禮 300／儲值回饋 5%
+--   鑽花 💎（累積 NT$5,000）：簽到 80／生日禮 800／儲值回饋 8%
+--   連續簽到第 7、14、21…天再加 50 點
+--   簽到、生日禮 30 天到期；儲值回饋 90 天到期（皆為贈送點數）
+-- ============================================================
+create table if not exists public.member_profiles (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  avatar text,            -- 上傳頭像（壓縮後的 data URL）
+  real_name text,
+  birthday date,          -- 設定後會員不能自行修改
+  gender text,
+  phone text,
+  address text,
+  updated_at timestamptz not null default now()
+);
+alter table public.member_profiles enable row level security;
+drop policy if exists "read own profile" on public.member_profiles;
+create policy "read own profile" on public.member_profiles for select to authenticated using (auth.uid() = user_id);
+
+create table if not exists public.member_birthday_claims (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  year integer not null,
+  points integer not null,
+  created_at timestamptz not null default now(),
+  primary key (user_id, year)
+);
+alter table public.member_birthday_claims enable row level security;
+drop policy if exists "read own birthday claims" on public.member_birthday_claims;
+create policy "read own birthday claims" on public.member_birthday_claims for select to authenticated using (auth.uid() = user_id);
+
+create or replace function public._level(p_total integer) returns jsonb language sql immutable as $$
+  select case
+    when p_total >= 5000 then jsonb_build_object('key','diamond','name','鑽花會員','icon','💎','bonus',30,'rebate',8,'birthday',800,'next',null,'next_name',null)
+    when p_total >= 1500 then jsonb_build_object('key','gold','name','金花會員','icon','🥇','bonus',20,'rebate',5,'birthday',300,'next',5000,'next_name','鑽花會員')
+    when p_total >= 300  then jsonb_build_object('key','silver','name','銀花會員','icon','🥈','bonus',10,'rebate',3,'birthday',100,'next',1500,'next_name','金花會員')
+    else jsonb_build_object('key','normal','name','一般會員','icon','🌸','bonus',0,'rebate',0,'birthday',50,'next',300,'next_name','銀花會員') end;
+$$;
+
+create or replace function public.do_checkin(p_user uuid) returns jsonb language plpgsql security definer set search_path = public as $$
+declare w public.member_wallets; today date := public._tw_today(); prev public.member_checkins; s integer; lv jsonb; pts integer; total integer;
+begin
+  w := public._wallet_row(p_user);
+  if w.suspended then return jsonb_build_object('result','suspended'); end if;
+  if exists (select 1 from public.member_checkins where user_id = p_user and day = today) then return jsonb_build_object('result','already'); end if;
+  select * into prev from public.member_checkins where user_id = p_user and day = today - 1;
+  s := coalesce(prev.streak, 0) + 1;
+  lv := public._level(public._topup_total(p_user));
+  pts := 50 + (lv->>'bonus')::integer + case when s % 7 = 0 then 50 else 0 end;
+  insert into public.member_checkins(user_id, day, streak, points) values (p_user, today, s, pts);
+  total := public.grant_bonus(p_user, pts, 30, 'checkin', 'CHK' || to_char(today,'YYYYMMDD') || replace(p_user::text,'-',''), '每日簽到（連續第 ' || s || ' 天）');
+  return jsonb_build_object('result','ok','points',pts,'streak',s,'total',total);
+end $$;
+
+-- 儲值入帳＋依等級回饋贈送點數
+create or replace function public.credit_topup(p_trade_no text, p_amount integer, p_ecpay_trade_no text, p_payment_type text, p_notify jsonb)
+returns text language plpgsql security definer set search_path = public as $$
+declare o public.topup_orders; w public.member_wallets; lv jsonb; rb integer;
+begin
+  select * into o from public.topup_orders where trade_no = p_trade_no for update;
+  if not found then return 'not_found'; end if;
+  if o.status <> 'pending' then return 'already'; end if;
+  if o.amount <> p_amount then return 'amount_mismatch'; end if;
+  update public.topup_orders set status = 'paid', paid_at = now(), ecpay_trade_no = p_ecpay_trade_no, payment_type = p_payment_type, notify = p_notify where trade_no = p_trade_no;
+  w := public._wallet_row(o.user_id);
+  update public.member_wallets set balance = balance + o.points, updated_at = now() where user_id = o.user_id returning * into w;
+  insert into public.point_ledger(user_id, delta, balance_after, reason, ref, note, kind) values (o.user_id, o.points, w.balance + public._bonus_left(o.user_id), 'topup', p_trade_no, '儲值 NT$' || o.amount, 'paid');
+  lv := public._level(public._topup_total(o.user_id));
+  rb := floor(o.points * (lv->>'rebate')::numeric / 100);
+  if rb > 0 then
+    perform public.grant_bonus(o.user_id, rb, 90, 'rebate', 'RB' || p_trade_no, (lv->>'name') || '儲值回饋 ' || (lv->>'rebate') || '%');
+  end if;
+  return 'ok';
+end $$;
+
+-- 收回某筆儲值的回饋點數（退單／退款時用）
+create or replace function public._revoke_rebate(p_trade_no text) returns integer language plpgsql security definer set search_path = public as $$
+declare g public.point_grants; w public.member_wallets;
+begin
+  select * into g from public.point_grants where reason = 'rebate' and ref = 'RB' || p_trade_no for update;
+  if not found or g.remaining = 0 then return 0; end if;
+  update public.point_grants set remaining = 0 where id = g.id;
+  select * into w from public.member_wallets where user_id = g.user_id;
+  insert into public.point_ledger(user_id, delta, balance_after, reason, ref, note, kind) values (g.user_id, -g.remaining, w.balance + public._bonus_left(g.user_id), 'rebate_revoke', p_trade_no, '收回儲值回饋', 'bonus');
+  return g.remaining;
+end $$;
+
+create or replace function public.chargeback_order(p_trade_no text, p_note text default null)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare o public.topup_orders; w public.member_wallets; taken integer; short integer;
+begin
+  select * into o from public.topup_orders where trade_no = p_trade_no for update;
+  if not found then return jsonb_build_object('result','not_found'); end if;
+  if o.status <> 'paid' then return jsonb_build_object('result','not_paid','status',o.status); end if;
+  perform public._revoke_rebate(p_trade_no);
+  w := public._wallet_row(o.user_id);
+  taken := least(w.balance, o.points); short := o.points - taken;
+  update public.member_wallets set balance = balance - taken, owed = owed + short,
+    suspended = suspended or short > 0,
+    suspend_reason = case when short > 0 then '信用卡退單，尚有 ' || (owed + short) || ' 點（NT$' || (owed + short) || '）未追回' else suspend_reason end,
+    updated_at = now() where user_id = o.user_id returning * into w;
+  update public.topup_orders set status = 'chargeback', closed_at = now(), admin_note = p_note where trade_no = p_trade_no;
+  insert into public.point_ledger(user_id, delta, balance_after, reason, ref, note, kind) values (o.user_id, -taken, w.balance + public._bonus_left(o.user_id), 'chargeback', p_trade_no, '信用卡退單扣回' || case when short > 0 then '（不足 ' || short || ' 點，帳號暫停）' else '' end, 'paid');
+  return jsonb_build_object('result','ok','taken',taken,'short',short,'suspended',w.suspended);
+end $$;
+
+create or replace function public.refund_order(p_trade_no text, p_note text default null)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare o public.topup_orders; w public.member_wallets; taken integer;
+begin
+  select * into o from public.topup_orders where trade_no = p_trade_no for update;
+  if not found then return jsonb_build_object('result','not_found'); end if;
+  if o.status <> 'paid' then return jsonb_build_object('result','not_paid','status',o.status); end if;
+  perform public._revoke_rebate(p_trade_no);
+  w := public._wallet_row(o.user_id);
+  taken := least(w.balance, o.points);
+  update public.member_wallets set balance = balance - taken, updated_at = now() where user_id = o.user_id returning * into w;
+  update public.topup_orders set status = 'refunded', closed_at = now(), admin_note = p_note where trade_no = p_trade_no;
+  insert into public.point_ledger(user_id, delta, balance_after, reason, ref, note, kind) values (o.user_id, -taken, w.balance + public._bonus_left(o.user_id), 'refund', p_trade_no, '例外退款：' || coalesce(p_note,''), 'paid');
+  return jsonb_build_object('result','ok','taken',taken);
+end $$;
+
+-- 生日禮：生日當月領一次
+create or replace function public.claim_birthday(p_user uuid) returns jsonb language plpgsql security definer set search_path = public as $$
+declare w public.member_wallets; bd date; today date := public._tw_today(); y integer := extract(year from public._tw_today()); lv jsonb; pts integer; total integer;
+begin
+  w := public._wallet_row(p_user);
+  if w.suspended then return jsonb_build_object('result','suspended'); end if;
+  select birthday into bd from public.member_profiles where user_id = p_user;
+  if bd is null then return jsonb_build_object('result','no_birthday'); end if;
+  if extract(month from bd) <> extract(month from today) then return jsonb_build_object('result','not_month'); end if;
+  if exists (select 1 from public.member_birthday_claims where user_id = p_user and year = y) then return jsonb_build_object('result','already'); end if;
+  lv := public._level(public._topup_total(p_user)); pts := (lv->>'birthday')::integer;
+  insert into public.member_birthday_claims(user_id, year, points) values (p_user, y, pts);
+  total := public.grant_bonus(p_user, pts, 30, 'birthday', 'BD' || y || replace(p_user::text,'-',''), '🎂 ' || y || ' 生日禮');
+  return jsonb_build_object('result','ok','points',pts,'total',total);
+end $$;
+
+create or replace function public.wallet_summary() returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare u uuid := auth.uid(); w public.member_wallets; b integer; t integer; c public.member_checkins; today date := public._tw_today(); bd date; claimed boolean;
+begin
+  if u is null then return null; end if;
+  select * into w from public.member_wallets where user_id = u;
+  b := public._bonus_left(u); t := public._topup_total(u);
+  select * into c from public.member_checkins where user_id = u order by day desc limit 1;
+  select birthday into bd from public.member_profiles where user_id = u;
+  claimed := exists (select 1 from public.member_birthday_claims where user_id = u and year = extract(year from today));
+  return jsonb_build_object(
+    'paid', coalesce(w.balance, 0), 'bonus', b, 'total', coalesce(w.balance, 0) + b,
+    'suspended', coalesce(w.suspended, false), 'suspend_reason', w.suspend_reason, 'owed', coalesce(w.owed, 0),
+    'topup_total', t, 'level', public._level(t),
+    'checked_today', coalesce(c.day = today, false),
+    'streak', case when c.day >= today - 1 then c.streak else 0 end,
+    'birthday', jsonb_build_object('set', bd is not null, 'month', extract(month from bd), 'this_month', bd is not null and extract(month from bd) = extract(month from today), 'claimed', claimed),
+    'grants', coalesce((select jsonb_agg(jsonb_build_object('remaining', remaining, 'expires_at', expires_at, 'note', note) order by expires_at)
+                        from public.point_grants where user_id = u and remaining > 0 and expires_at > now()), '[]'::jsonb));
+end $$;
+
+revoke all on function public._revoke_rebate(text) from public, anon, authenticated;
+revoke all on function public.claim_birthday(uuid) from public, anon, authenticated;
+revoke all on function public.do_checkin(uuid) from public, anon, authenticated;
+revoke all on function public.credit_topup(text, integer, text, text, jsonb) from public, anon, authenticated;
+revoke all on function public.chargeback_order(text, text) from public, anon, authenticated;
+revoke all on function public.refund_order(text, text) from public, anon, authenticated;
+revoke all on function public.wallet_summary() from public, anon;
+grant execute on function public.wallet_summary() to authenticated;
+grant execute on function public._revoke_rebate(text), public.claim_birthday(uuid), public.do_checkin(uuid),
+  public.credit_topup(text, integer, text, text, jsonb), public.chargeback_order(text, text), public.refund_order(text, text) to service_role;
