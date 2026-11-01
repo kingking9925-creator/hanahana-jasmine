@@ -32,8 +32,68 @@ const DECOS = { none: '無', blush: '腮紅', mole: '淚痣', star: '星星貼�
 const ITEMS = {
   iron: { n: '鐵礦', e: '🪨', sell: 4 }, crystal: { n: '月光水晶', e: '💎', sell: 12 }, star: { n: '星辰礦石', e: '✨', sell: 30 },
   dew: { n: '花露', e: '💧', sell: 3 }, dust: { n: '月光鱗粉', e: '🦋', sell: 6 }, leaf: { n: '精靈葉', e: '🍃', sell: 9 },
-  hpPot: { n: '紅藥水', e: '❤️' }, mpPot: { n: '藍藥水', e: '🔷' }, ticket: { n: '召喚券', e: '🎫' }
+  hpPot: { n: '紅藥水', e: '❤️' }, mpPot: { n: '藍藥水', e: '🔷' }, ticket: { n: '召喚券', e: '🎫' },
+  herb: { n: '草藥', e: '🌿', sell: 4 }, moonflower: { n: '月光花', e: '🌼', sell: 10 },
+  fish1: { n: '小鯽魚', e: '🐟', sell: 5 }, fish2: { n: '櫻花鱒', e: '🐠', sell: 12 }, fish3: { n: '月光鯉', e: '🎏', sell: 28 },
+  luck: { n: '幸運藥劑', e: '🍀' }, food1: { n: '烤鯽魚', e: '🍢' }, food2: { n: '櫻花鱒魚湯', e: '🍲' }, food3: { n: '月光鯉御膳', e: '🍱' }
 };
+/* ---------- 裝備 ---------- */
+const SLOTS = { weapon: '武器', hat: '帽子', armor: '衣服', shoes: '鞋子', ring: '戒指', neck: '項鍊' };
+const SLOT_E = { weapon: '⚔️', hat: '🎩', armor: '👘', shoes: '👢', ring: '💍', neck: '📿' };
+const RARITY = [{ n: '普通', c: '#8f8a86', m: 1 }, { n: '稀有', c: '#3d7dff', m: 1.35 }, { n: '史詩', c: '#a24dff', m: 1.8 }, { n: '傳說', c: '#ff8a1e', m: 2.5 }];
+const GEAR_NAMES = { weapon: ['木製', '櫻花', '月影', '水晶', '星辰'], hat: ['布織', '櫻花', '月影', '水晶', '星辰'], armor: ['旅人', '櫻花', '月影', '水晶', '星辰'], shoes: ['草編', '櫻花', '月影', '水晶', '星辰'], ring: ['銅', '櫻花', '月影', '水晶', '星辰'], neck: ['麻繩', '櫻花', '月影', '水晶', '星辰'] };
+const GEAR_NOUN = { weapon: { knight: '長劍', mage: '法杖', ranger: '長弓', priest: '花杖' }, hat: '髮飾', armor: '外衣', shoes: '短靴', ring: '戒指', neck: '項鍊' };
+function gearBase(slot, L) {
+  return { weapon: { atk: 4 + L * 1.6 }, hat: { def: 1 + L * .6, hp: 8 + L * 3 }, armor: { def: 2 + L * 1, hp: 15 + L * 5 }, shoes: { def: 1 + L * .5, hp: 6 + L * 2 },
+    ring: { atk: 2 + L * .7, crit: .01 + L * .002 }, neck: { hp: 10 + L * 4, atk: 1 + L * .5 } }[slot];
+}
+function gearStats(it) { const b = gearBase(it.slot, it.lv), m = RARITY[it.r].m * (1 + .08 * (it.enh || 0)), o = {}; for (const k in b) o[k] = k === 'crit' ? b[k] * m : Math.round(b[k] * m); return o; }
+function gearName(it, cls) { const tier = Math.min(4, Math.floor(it.lv / 4)); const noun = it.slot === 'weapon' ? GEAR_NOUN.weapon[cls] : GEAR_NOUN[it.slot]; return GEAR_NAMES[it.slot][tier] + noun; }
+function gearPrice(it) { return Math.round((it.lv * 3 + 5) * RARITY[it.r].m * (1 + (it.enh || 0) * .2)); }
+function rollRarity(bonus = 0) { const x = Math.random(); if (x < .01 * (1 + bonus)) return 3; if (x < .08 * (1 + bonus)) return 2; if (x < .30 * (1 + bonus * .5)) return 1; return 0; }
+function makeGear(L, slot, r) { return { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), slot: slot || pick(Object.keys(SLOTS)), lv: Math.max(1, L), r: r == null ? rollRarity() : r, enh: 0 }; }
+const ENH_MAX = 15;
+function enhInfo(e) { // 強化 +e → +e+1
+  const rate = e < 5 ? 1 : e < 10 ? [.85, .75, .65, .55, .5][e - 5] : [.4, .32, .25, .2, .15][e - 10];
+  const cost = e < 5 ? { gold: 40 + e * 30, iron: 2 + e } : e < 10 ? { gold: 200 + (e - 5) * 80, iron: 4, crystal: 1 + (e - 5) } : { gold: 700 + (e - 10) * 200, crystal: 3, star: 1 + (e - 10) };
+  return { rate, cost, drop: e >= 10 };
+}
+/* ---------- 天賦 ---------- */
+const TALENT_PATHS = {
+  knight: [['薔薇之刃', '進攻'], ['聖盾守護', '防禦'], ['騎士榮耀', '成長']],
+  mage: [['星詠咒文', '進攻'], ['月光結界', '防禦'], ['星辰智慧', '成長']],
+  ranger: [['月影獵殺', '進攻'], ['疾風身法', '防禦'], ['森林之友', '成長']],
+  priest: [['審判之花', '進攻'], ['生命祝福', '防禦'], ['花語恩典', '成長']]
+};
+const TALENT_NODES = [ // [名稱, 效果key, 每級數值, 最高級]
+  [['鋒芒', 'atkPct', .04, 3], ['會心', 'crit', .02, 3], ['技藝', 'skillPct', .06, 3], ['狂熱', 'atkPct', .04, 3], ['核心', 'ks0', 1, 1]],
+  [['堅韌', 'hpPct', .06, 3], ['守護', 'defPct', .08, 3], ['活力', 'hpPct', .06, 3], ['療癒', 'potPct', .1, 3], ['核心', 'ks1', 1, 1]],
+  [['學識', 'expPct', .05, 3], ['財運', 'goldPct', .06, 3], ['尋寶', 'dropPct', .05, 3], ['冥想', 'mpRegen', 1, 3], ['核心', 'ks2', 1, 1]]
+];
+const KEYSTONES = {
+  knight: ['怒放：技能每命中一隻怪，回復 3% HP', '不凋之盾：HP 低於 30% 時，受到傷害 -40%', '榮耀凱旋：擊倒怪物時 15% 機率重置技能冷卻'],
+  mage: ['星塵連鎖：流星花雨多打 2 個目標', '月華護身：HP 低於 30% 時，受到傷害 -40%', '星辰回響：擊倒怪物時 15% 機率重置技能冷卻'],
+  ranger: ['月影穿透：普通攻擊的箭可以穿透 2 隻怪', '殘影閃避：HP 低於 30% 時，受到傷害 -40%', '獵人直覺：擊倒怪物時 15% 機率重置技能冷卻'],
+  priest: ['審判之花：花之治癒的傷害 ×1.6', '生命之泉：HP 低於 30% 時，受到傷害 -40%', '恩典迴響：擊倒怪物時 15% 機率重置技能冷卻']
+};
+const TALENT_LABEL = { atkPct: v => `攻擊力 +${Math.round(v * 100)}%`, crit: v => `爆擊率 +${Math.round(v * 100)}%`, skillPct: v => `技能傷害 +${Math.round(v * 100)}%`, hpPct: v => `最大 HP +${Math.round(v * 100)}%`, defPct: v => `防禦 +${Math.round(v * 100)}%`, potPct: v => `藥水效果 +${Math.round(v * 100)}%`, expPct: v => `經驗 +${Math.round(v * 100)}%`, goldPct: v => `金幣 +${Math.round(v * 100)}%`, dropPct: v => `掉寶率 +${Math.round(v * 100)}%`, mpRegen: v => `每秒 MP +${v}` };
+/* ---------- 生活技能 ---------- */
+const LIFE = { mine: ['⛏️', '採礦'], herb: ['🌿', '採藥'], fish: ['🎣', '釣魚'], smith: ['⚒️', '鍛造'], alch: ['🧪', '煉金'], cook: ['🍳', '料理'] };
+const lifeNeed = lv => Math.round(20 * Math.pow(lv, 1.35));
+const RECIPES = {
+  alch: [
+    { out: 'hpPot', n: 3, need: { herb: 2, dew: 1 }, lv: 1, d: '回復 50% HP' },
+    { out: 'mpPot', n: 3, need: { moonflower: 1, dust: 1 }, lv: 2, d: '回復 60% MP' },
+    { out: 'luck', n: 1, need: { moonflower: 2, leaf: 2, crystal: 1 }, lv: 4, d: '下一次強化成功率 +15%' }
+  ],
+  cook: [
+    { out: 'food1', n: 1, need: { fish1: 2 }, lv: 1, d: '10 分鐘內攻擊力 +10%', buff: { atk: .1 }, min: 10 },
+    { out: 'food2', n: 1, need: { fish2: 2, herb: 1 }, lv: 3, d: '10 分鐘內經驗 +15%', buff: { exp: .15 }, min: 10 },
+    { out: 'food3', n: 1, need: { fish3: 1, moonflower: 1 }, lv: 5, d: '15 分鐘內攻擊 +10%、掉寶 +15%', buff: { atk: .1, drop: .15 }, min: 15 }
+  ]
+};
+const HERB_SPOTS = [['herb', 1080, GROUND], ['herb', 1400, GROUND], ['herb', 1830, GROUND], ['herb', 2090, 300], ['moonflower', 2560, GROUND], ['moonflower', 2800, 300], ['moonflower', 3280, 360], ['herb', 3070, 230]];
+const FISH_SPOTS = [{ x: 2240, name: '草原小池', pool: [['fish1', .75], ['fish2', .25]] }, { x: 3420, name: '月影湖', pool: [['fish1', .3], ['fish2', .5], ['fish3', .2]] }];
 const MONSTERS = {
   slime: { name: '花露史萊姆', lv: 1, hp: 45, atk: 7, exp: 9, spd: 45, w: 42, h: 34, gold: [3, 8], drop: ['dew', .5], col: '#ff9ec4' },
   bfly: { name: '月光蝶', lv: 3, hp: 80, atk: 11, exp: 18, spd: 70, w: 44, h: 36, gold: [6, 14], drop: ['dust', .45], col: '#b9a6ff', fly: true },
@@ -78,9 +138,39 @@ function newSave(look, name, cls) {
     inv: { iron: 0, crystal: 0, star: 0, dew: 0, dust: 0, leaf: 0, hpPot: 5, mpPot: 3, ticket: 3 },
     outfits: [0, 1, 2, 3], pets: [], pet: null, mounts: [], mount: null, riding: false, x: 120, kills: 0 };
 }
-function load() { try { const s = JSON.parse(localStorage.getItem(SAVE_KEY)); return s && s.v === 1 ? s : null; } catch { return null; } }
-function persist() { if (!S) return; try { S.x = P ? Math.round(P.x) : S.x; localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch {} }
-const stats = () => { const c = CLASSES[S.cls]; return { maxHp: c.hp + (S.lv - 1) * 22, maxMp: c.mp + (S.lv - 1) * 9, atk: c.atk + (S.lv - 1) * 3 + S.weaponLv * 5 }; };
+function newSaveFull(look, name, cls) { const s = migrate(newSave(look, name, cls)); s.equip.weapon.lv = 1; s.equip.armor = makeGear(1, 'armor', 0); return s; }
+function load() { try { const s = JSON.parse(localStorage.getItem(SAVE_KEY)); return s && s.v === 1 ? migrate(s) : null; } catch { return null; } }
+function migrate(s) { // 舊存檔補上新系統的欄位
+  for (const k of ['herb', 'moonflower', 'fish1', 'fish2', 'fish3', 'luck', 'food1', 'food2', 'food3']) if (s.inv[k] == null) s.inv[k] = 0;
+  if (!s.equip) {
+    s.equip = {}; s.gear = [];
+    const w = makeGear(Math.max(1, s.lv), 'weapon', 0); w.enh = Math.min(ENH_MAX, s.weaponLv || 0); w.lv = 1; s.equip.weapon = w;
+  }
+  if (!s.talents) s.talents = {};
+  if (!s.life) s.life = {}; for (const k in LIFE) if (!s.life[k]) s.life[k] = { lv: 1, exp: 0 };
+  if (!s.buffs) s.buffs = {};
+  if (!s.afk) s.afk = { bank: 4, day: twDay() };
+  if (!s.lastSeen) s.lastSeen = Date.now();
+  return s;
+}
+function twDay() { return new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10); }
+function persist() { if (!S) return; try { if (P && running) { S.x = Math.round(P.x); S.lastSeen = Date.now(); const zi = ZONES.indexOf(zoneAt(P.x)); S.afkZone = ZONES[zi].safe ? null : zi; } localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch {} }
+function talentFx() {
+  const o = { atkPct: 0, crit: 0, skillPct: 0, hpPct: 0, defPct: 0, potPct: 0, expPct: 0, goldPct: 0, dropPct: 0, mpRegen: 0, ks0: 0, ks1: 0, ks2: 0 };
+  for (const key in (S.talents || {})) { const [p, i] = key.split('-').map(Number); const nd = TALENT_NODES[p] && TALENT_NODES[p][i]; if (nd) o[nd[1]] += nd[2] * S.talents[key]; }
+  return o;
+}
+function buffOn(k) { const b = S.buffs && S.buffs[k]; return b && b.until > Date.now() ? b.v : 0; }
+const stats = () => {
+  const c = CLASSES[S.cls], tf = talentFx(); let atk = 0, def = 0, hp = 0, crit = 0;
+  for (const s in (S.equip || {})) { const it = S.equip[s]; if (!it) continue; const g = gearStats(it); atk += g.atk || 0; def += g.def || 0; hp += g.hp || 0; crit += g.crit || 0; }
+  return {
+    maxHp: Math.round((c.hp + (S.lv - 1) * 22 + hp) * (1 + tf.hpPct)), maxMp: c.mp + (S.lv - 1) * 9,
+    atk: Math.round((c.atk + (S.lv - 1) * 3 + atk) * (1 + tf.atkPct + buffOn('atk'))),
+    def: Math.round((def + S.lv) * (1 + tf.defPct)), crit: Math.min(.75, c.crit + crit + tf.crit), tf
+  };
+};
+const talentPoints = () => Math.max(0, S.lv - 1) - Object.values(S.talents || {}).reduce((a, b) => a + b, 0);
 const expNeed = lv => Math.round(18 * Math.pow(lv, 1.55));
 
 /* ---------- 角色繪製 ---------- */
@@ -251,7 +341,7 @@ $('#btnCreate').onclick = () => {
   if (editing) { S.look = look; persist(); show('play'); toast('造型已更新 ✿'); refreshFace(); return; }
   const name = $('#inName').value.trim();
   if (!name) { $('#inName').focus(); $('#inName').placeholder = '請先取個名字喔！'; return; }
-  S = newSave(look, name, cls); persist(); startPlay(true);
+  S = newSaveFull(look, name, cls); persist(); startPlay(true);
 };
 
 /* ---------- 遊戲狀態 ---------- */
@@ -265,10 +355,11 @@ function startPlay(first) {
   S.hp = clamp(S.hp, 1, st.maxHp); S.mp = clamp(S.mp, 0, st.maxMp);
   mobs = SPAWNS.map(([type, x, y]) => spawnMob(type, x, y));
   ores = ORE_SPOTS.map(([type, x, y]) => ({ type, x, y, hp: ORES[type].hp, dead: 0 }));
+  herbs = HERB_SPOTS.map(([type, x, y]) => ({ type, x, y, dead: 0 })); fishing = null;
   drops = []; projs = []; fx = []; texts = [];
   petals = Array.from({ length: 26 }, () => ({ x: rnd(0, W), y: rnd(-H, H), s: rnd(.6, 1.3), v: rnd(20, 50), r: rnd(0, 6) }));
   refreshFace(); updateHud(); show('play');
-  if (first) setTimeout(() => toast('歡迎來到櫻華王都！往右走進花露草原打怪吧 →'), 400);
+  if (first) setTimeout(() => toast('歡迎來到櫻華王都！往右走進花露草原打怪吧 →'), 400); else checkOffline();
 }
 function spawnMob(type, x, y) {
   const d = MONSTERS[type];
@@ -288,6 +379,9 @@ addEventListener('keydown', e => {
   if (e.key === 'q' || e.key === 'Q') toggleAuto();
   if (e.key === '1') usePot('hpPot'); if (e.key === '2') usePot('mpPot');
   if (e.key === 'i' || e.key === 'I') openBag();
+  if (e.key === 't' || e.key === 'T') openTalents();
+  if (e.key === 'g' || e.key === 'G') openGear();
+  if (e.key === 'l' || e.key === 'L') openLife();
 });
 addEventListener('keyup', e => { const k = KEYMAP[e.key]; if (k) keys[k] = false; });
 document.querySelectorAll('.touch [data-k]').forEach(b => {
@@ -297,7 +391,7 @@ document.querySelectorAll('.touch [data-k]').forEach(b => {
   b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointercancel', off); b.addEventListener('pointerleave', off);
 });
 $('#qHp').onclick = () => usePot('hpPot'); $('#qMp').onclick = () => usePot('mpPot');
-$('#qBag').onclick = openBag; $('#qAuto').onclick = toggleAuto; $('#btnMenu').onclick = openMenu;
+$('#qBag').onclick = openBag; $('#qGear').onclick = () => openGear(); $('#qTal').onclick = openTalents; $('#qLife').onclick = () => openLife(); $('#qAuto').onclick = toggleAuto; $('#btnMenu').onclick = openMenu;
 function toggleAuto() { auto = !auto; $('#qAuto').classList.toggle('on', auto); toast(auto ? '⚔️ 自動打怪：開啟（會自動找怪、放技能、喝藥）' : '自動打怪：關閉'); }
 
 /* ---------- 遊戲邏輯 ---------- */
@@ -310,8 +404,9 @@ function groundAt(x, y, prevY) { // 回傳可站立的地面 y
 function usePot(type) {
   const st = stats();
   if (!S.inv[type]) { toast('沒有' + ITEMS[type].n + '了，去商店買吧'); return; }
-  if (type === 'hpPot') { if (S.hp >= st.maxHp) return; S.hp = Math.min(st.maxHp, S.hp + Math.round(st.maxHp * .5)); }
-  else { if (S.mp >= st.maxMp) return; S.mp = Math.min(st.maxMp, S.mp + Math.round(st.maxMp * .6)); }
+  const pm = 1 + st.tf.potPct;
+  if (type === 'hpPot') { if (S.hp >= st.maxHp) return; S.hp = Math.min(st.maxHp, S.hp + Math.round(st.maxHp * .5 * pm)); }
+  else { if (S.mp >= st.maxMp) return; S.mp = Math.min(st.maxMp, S.mp + Math.round(st.maxMp * .6 * pm)); }
   S.inv[type]--; addText(P.x, P.y - 80, type === 'hpPot' ? '+HP' : '+MP', type === 'hpPot' ? '#ff6b9a' : '#6ea0ff'); updateHud();
 }
 function nearNpc() { return NPCS.find(n => Math.abs(n.x - P.x) < 55 && P.y > GROUND - 5); }
@@ -319,6 +414,8 @@ function nearOre() { return ores.find(o => !o.dead && Math.abs(o.x - P.x) < 55 &
 function interact() {
   const n = nearNpc(); if (n) { openNpc(n.id); return; }
   const o = nearOre(); if (o) { mine(o); return; }
+  const h = nearHerb(); if (h) { gather(h); return; }
+  const f = nearFish(); if (f) { startFishing(f); return; }
 }
 function mine(o) {
   if (P.atkCd > 0) return;
@@ -326,11 +423,12 @@ function mine(o) {
   o.hp -= S.pickLv; burst(o.x, o.y - 20, ORES[o.type].gem, 6);
   if (o.hp <= 0) {
     o.dead = ORES[o.type].respawn;
-    const n = 1 + (Math.random() < .25 + S.pickLv * .05 ? 1 : 0);
+    const n = 1 + (Math.random() < .25 + S.pickLv * .05 + S.life.mine.lv * .03 ? 1 : 0);
+    lifeExp('mine', { iron: 4, crystal: 8, star: 15 }[o.type]);
     S.inv[o.type] += n; addText(o.x, o.y - 50, `${ITEMS[o.type].e} ${ITEMS[o.type].n} x${n}`, '#fff'); persist();
   }
 }
-function dmgRoll(mult) { const st = stats(), c = CLASSES[S.cls]; const crit = Math.random() < c.crit; return { v: Math.max(1, Math.round(st.atk * mult * rnd(.85, 1.15) * (crit ? 1.6 : 1))), crit }; }
+function dmgRoll(mult) { const st = stats(); const crit = Math.random() < st.crit; return { v: Math.max(1, Math.round(st.atk * mult * rnd(.85, 1.15) * (crit ? 1.6 : 1))), crit }; }
 function hitMob(m, mult) {
   if (m.dead) return;
   const r = dmgRoll(mult); m.hp -= r.v; m.hitT = .25; m.aggro = 6; m.vx = (m.x > P.x ? 1 : -1) * Math.abs(m.d.spd);
@@ -339,16 +437,20 @@ function hitMob(m, mult) {
 }
 function killMob(m) {
   m.dead = 7; S.kills++; burst(m.x, m.y - m.d.h / 2, m.d.col, 14);
+  const tf = talentFx(), dropB = tf.dropPct + buffOn('drop');
   gainExp(m.d.exp);
-  drops.push({ kind: 'gold', n: rint(...m.d.gold), x: m.x, y: m.y - 10, vy: -260, vx: rnd(-60, 60), t: 0 });
-  if (Math.random() < m.d.drop[1]) drops.push({ kind: m.d.drop[0], n: 1, x: m.x + 10, y: m.y - 10, vy: -300, vx: rnd(-80, 80), t: 0 });
+  if (tf.ks2 && Math.random() < .15) { P.skCd = 0; addText(P.x, P.y - 100, '冷卻重置！', '#9ee6ff'); }
+  drops.push({ kind: 'gold', n: Math.round(rint(...m.d.gold) * (1 + tf.goldPct)), x: m.x, y: m.y - 10, vy: -260, vx: rnd(-60, 60), t: 0 });
+  if (Math.random() < .1 * (1 + dropB)) drops.push({ kind: 'gear', gear: makeGear(m.d.lv + rint(0, 1), null, rollRarity(dropB)), n: 1, x: m.x - 14, y: m.y - 10, vy: -340, vx: rnd(-50, 50), t: 0 });
+  if (Math.random() < m.d.drop[1] * (1 + dropB)) drops.push({ kind: m.d.drop[0], n: 1, x: m.x + 10, y: m.y - 10, vy: -300, vx: rnd(-80, 80), t: 0 });
   if (Math.random() < .08) drops.push({ kind: 'hpPot', n: 1, x: m.x - 10, y: m.y - 10, vy: -280, vx: rnd(-60, 60), t: 0 });
   if (Math.random() < .03) drops.push({ kind: 'ticket', n: 1, x: m.x, y: m.y - 10, vy: -320, vx: 0, t: 0 });
 }
 function gainExp(n) {
+  n = Math.round(n * (1 + talentFx().expPct + buffOn('exp')));
   S.exp += n;
   while (S.exp >= expNeed(S.lv)) {
-    S.exp -= expNeed(S.lv); S.lv++; S.inv.ticket++;
+    S.exp -= expNeed(S.lv); S.lv++; S.inv.ticket++; setTimeout(() => toast('🌳 獲得 1 點天賦點數，按「🌳」分配'), 2700);
     const st = stats(); S.hp = st.maxHp; S.mp = st.maxMp;
     fx.push({ kind: 'lvup', x: P.x, y: P.y, t: 0 }); toast(`✨ 升級！Lv.${S.lv}（獲得召喚券 x1）`); persist();
   }
@@ -360,23 +462,25 @@ function attack() {
   if (c.type === 'melee') {
     const hits = mobs.filter(m => !m.dead && Math.abs(m.y - m.d.h / 2 - (P.y - 32)) < 60 && (m.x - P.x) * P.face > -10 && Math.abs(m.x - P.x) < c.range + m.d.w / 2).slice(0, 1);
     hits.forEach(m => hitMob(m, 1)); fx.push({ kind: 'slash', x: P.x + P.face * 30, y: P.y - 32, f: P.face, t: 0 });
-  } else projs.push({ kind: c.proj, x: P.x + P.face * 18, y: P.y - 36, vx: P.face * 720, life: c.range / 720, pierce: 0, mult: 1, hit: new Set() });
+  } else projs.push({ kind: c.proj, x: P.x + P.face * 18, y: P.y - 36, vx: P.face * 720, life: c.range / 720, pierce: S.cls === 'ranger' && talentFx().ks0 ? 2 : 0, mult: 1, hit: new Set() });
 }
 function skill() {
   const c = CLASSES[S.cls], sk = c.skill;
   if (P.skCd > 0 || P.atkCd > 0) return;
   if (S.mp < sk.mp) { if (!auto) toast('MP 不夠！'); return; }
   S.mp -= sk.mp; P.skCd = sk.cd; P.atkCd = .5; P.atkT = 1;
+  const tf = talentFx(), sm = sk.mult * (1 + tf.skillPct), mx = sk.max + (S.cls === 'mage' && tf.ks0 ? 2 : 0);
   const inRange = mobs.filter(m => !m.dead && Math.abs(m.x - P.x) < sk.range && Math.abs(m.y - P.y) < 160).sort((a, b) => Math.abs(a.x - P.x) - Math.abs(b.x - P.x));
-  if (sk.kind === 'slash') { inRange.filter(m => (m.x - P.x) * P.face > -20).slice(0, sk.max).forEach(m => hitMob(m, sk.mult)); fx.push({ kind: 'rose', x: P.x + P.face * 60, y: P.y - 34, f: P.face, t: 0 }); }
-  if (sk.kind === 'meteor') { inRange.slice(0, sk.max).forEach((m, i) => { fx.push({ kind: 'meteor', x: m.x, y: m.y - m.d.h / 2, t: -i * .08, m }); }); if (!inRange.length) fx.push({ kind: 'meteor', x: P.x + P.face * 120, y: P.y - 30, t: 0 }); }
-  if (sk.kind === 'pierce') projs.push({ kind: 'moon', x: P.x + P.face * 18, y: P.y - 36, vx: P.face * 900, life: sk.range / 900, pierce: sk.max, mult: sk.mult, hit: new Set() });
-  if (sk.kind === 'heal') { const st = stats(); const h = Math.round(st.maxHp * .35); S.hp = Math.min(st.maxHp, S.hp + h); addText(P.x, P.y - 84, '+' + h, '#7ee08f'); inRange.slice(0, sk.max).forEach(m => { if (Math.abs(m.x - P.x) < sk.range) hitMob(m, sk.mult); }); fx.push({ kind: 'bloom', x: P.x, y: P.y, t: 0 }); }
+  if (sk.kind === 'slash') { inRange.filter(m => (m.x - P.x) * P.face > -20).slice(0, mx).forEach(m => { hitMob(m, sm); if (tf.ks0) { const st = stats(); S.hp = Math.min(st.maxHp, S.hp + Math.round(st.maxHp * .03)); } }); fx.push({ kind: 'rose', x: P.x + P.face * 60, y: P.y - 34, f: P.face, t: 0 }); }
+  if (sk.kind === 'meteor') { inRange.slice(0, mx).forEach((m, i) => { fx.push({ kind: 'meteor', x: m.x, y: m.y - m.d.h / 2, t: -i * .08, m, mult: sm }); }); if (!inRange.length) fx.push({ kind: 'meteor', x: P.x + P.face * 120, y: P.y - 30, t: 0 }); }
+  if (sk.kind === 'pierce') projs.push({ kind: 'moon', x: P.x + P.face * 18, y: P.y - 36, vx: P.face * 900, life: sk.range / 900, pierce: sk.max, mult: sm, hit: new Set() });
+  if (sk.kind === 'heal') { const st = stats(); const h = Math.round(st.maxHp * .35); S.hp = Math.min(st.maxHp, S.hp + h); addText(P.x, P.y - 84, '+' + h, '#7ee08f'); inRange.slice(0, mx).forEach(m => { if (Math.abs(m.x - P.x) < sk.range) hitMob(m, sm * (tf.ks0 ? 1.6 : 1)); }); fx.push({ kind: 'bloom', x: P.x, y: P.y, t: 0 }); }
   addText(P.x, P.y - 100, sk.name, '#fff');
   updateHud();
 }
 function hurtPlayer(n, fromX) {
   if (P.inv > 0) return;
+  const st0 = stats(); n = Math.max(1, Math.round(n * 60 / (60 + st0.def) * (st0.tf.ks1 && S.hp < st0.maxHp * .3 ? .6 : 1)));
   S.hp -= n; P.inv = 1; P.vx = (P.x < fromX ? -1 : 1) * 260; P.vy = -280; P.onG = false;
   addText(P.x, P.y - 74, n, '#a77bff');
   if (S.hp <= 0) {
@@ -427,7 +531,7 @@ function update(dt) {
   if (P.y >= gy && P.vy >= 0) { P.y = gy; P.vy = 0; P.onG = true; } else if (P.y < gy - 1) P.onG = false;
   if (P.onG && !PLATS.some(p => Math.abs(P.y - p.y) < 1 && P.x >= p.x - 6 && P.x <= p.x + p.w + 6) && P.y < GROUND - 1) P.onG = false;
   P.atkCd -= dt; P.skCd -= dt; P.inv -= dt; P.atkT = Math.max(0, P.atkT - dt * 4); P.blinkT -= dt; if (P.blinkT < -.12) P.blinkT = rnd(2, 4);
-  if (!zoneAt(P.x).safe && T % 1 < dt) { S.mp = Math.min(st.maxMp, S.mp + 1); }
+  if (!zoneAt(P.x).safe && T % 1 < dt) { S.mp = Math.min(st.maxMp, S.mp + 1 + st.tf.mpRegen); }
   if (zoneAt(P.x).safe && T % .5 < dt) { S.hp = Math.min(st.maxHp, S.hp + Math.ceil(st.maxHp * .02)); S.mp = Math.min(st.maxMp, S.mp + 1); }
 
   for (const m of mobs) {
@@ -442,6 +546,8 @@ function update(dt) {
     if (Math.abs(m.x - P.x) < (m.d.w / 2 + 12) && P.y > top && P.y - 60 < m.y && m.atkCd <= 0) { hurtPlayer(Math.max(1, Math.round(m.d.atk * rnd(.9, 1.1) - S.lv * .3)), m.x); m.atkCd = 1; }
   }
   for (const o of ores) if (o.dead) { o.dead -= dt; if (o.dead <= 0) { o.dead = 0; o.hp = ORES[o.type].hp; } }
+  for (const h of herbs) if (h.dead) { h.dead -= dt; if (h.dead <= 0) h.dead = 0; }
+  updateFishing(dt);
   for (const p of projs) {
     p.x += p.vx * dt; p.life -= dt;
     for (const m of mobs) {
@@ -458,14 +564,15 @@ function update(dt) {
     if (d.t > 40) d.gone = true;
   }
   drops = drops.filter(d => !d.gone);
-  for (const f of fx) { f.t += dt; if (f.kind === 'meteor' && f.m && !f.done && f.t > .25) { f.done = true; hitMob(f.m, CLASSES.mage.skill.mult); } }
+  for (const f of fx) { f.t += dt; if (f.kind === 'meteor' && f.m && !f.done && f.t > .25) { f.done = true; hitMob(f.m, f.mult || CLASSES.mage.skill.mult); } }
   fx = fx.filter(f => f.t < (f.kind === 'lvup' ? 1.6 : .55));
   for (const t of texts) { t.t += dt; t.y -= 40 * dt; }
   texts = texts.filter(t => t.t < 1.1);
   for (const p of petals) { p.y += p.v * dt; p.x += Math.sin(T + p.r) * 12 * dt - 8 * dt; if (p.y > H + 10) { p.y = -10; p.x = rnd(0, W); } if (p.x < -10) p.x = W + 5; }
   cam = clamp(P.x - W / 2, 0, MAP_W - W);
   const n = nearNpc(), o = nearOre(), pr = $('#prompt');
-  const msg = n ? `${n.e} ${n.name}　（按 E／互動）` : o ? `⛏️ ${ORES[o.type].n}　（按 E／互動 挖礦）` : '';
+  const hb = !n && !o && nearHerb(), fs = !n && !o && !hb && nearFish();
+  const msg = fishing ? '🎣 釣魚中…（移動會讓魚跑掉）' : n ? `${n.e} ${n.name}　（按 E／互動）` : o ? `⛏️ ${ORES[o.type].n}　（按 E／互動 挖礦）` : hb ? `${ITEMS[hb.type].e} ${ITEMS[hb.type].n}　（按 E／互動 採集）` : fs ? `🎣 ${fs.name}　（按 E／互動 釣魚）` : '';
   pr.textContent = msg; pr.classList.toggle('show', !!msg);
   $('#hZone').textContent = zoneAt(P.x).name;
   saveTimer += dt; if (saveTimer > 5) { saveTimer = 0; persist(); }
@@ -473,6 +580,7 @@ function update(dt) {
 }
 let hudTick = 0;
 function collect(d) {
+  if (d.kind === 'gear') { addGear(d.gear); return; }
   if (d.kind === 'gold') { S.gold += d.n; addText(P.x, P.y - 80, '+' + d.n + ' 🪙', '#ffe08a'); }
   else { S.inv[d.kind] = (S.inv[d.kind] || 0) + d.n; addText(P.x, P.y - 80, `${ITEMS[d.kind].e} ${ITEMS[d.kind].n}`, '#fff'); }
 }
@@ -511,6 +619,10 @@ function draw() {
   g.fillStyle = '#fff'; g.font = 'bold 13px sans-serif'; g.textAlign = 'center';
   [[950, '→ 花露草原'], [2350, '→ 月影森林'], [3500, '→ 水晶礦洞']].forEach(([x, s]) => { if (x > cam - 100 && x < cam + W + 100) { g.fillStyle = '#8a5a3c'; g.fillRect(x - 3, GROUND - 60, 6, 60); g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(x - 52, GROUND - 74, 104, 26, 8); g.fill(); g.fillStyle = '#9c4871'; g.fillText(s, x, GROUND - 56); } });
   for (const p of PLATS) { if (p.x > cam + W || p.x + p.w < cam) continue; g.fillStyle = p.x < 2350 ? '#c79a6b' : '#5c4a6e'; g.beginPath(); g.roundRect(p.x, p.y, p.w, 18, 9); g.fill(); g.fillStyle = p.x < 2350 ? '#9fd89a' : '#7a9a88'; g.beginPath(); g.roundRect(p.x, p.y - 2, p.w, 9, 6); g.fill(); }
+  for (const f of FISH_SPOTS) { if (f.x < cam - 120 || f.x > cam + W + 120) continue; g.fillStyle = '#8fd0ff'; g.beginPath(); g.ellipse(f.x, GROUND + 6, 70, 14, 0, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.6)'; g.beginPath(); g.ellipse(f.x - 20 + Math.sin(T * 2) * 6, GROUND + 4, 14, 3, 0, 0, 7); g.fill(); g.fillStyle = '#5fae6a'; [[-62, -4], [58, -2]].forEach(([a, bb]) => { g.beginPath(); g.ellipse(f.x + a, GROUND + bb, 6, 12, 0, 0, 7); g.fill(); }); }
+  for (const h of herbs) { if (h.dead || h.x < cam - 40 || h.x > cam + W + 40) continue; const sw = Math.sin(T * 2 + h.x) * 2;
+    g.strokeStyle = '#4f9a58'; g.lineWidth = 2.5; g.beginPath(); g.moveTo(h.x - 6, h.y); g.quadraticCurveTo(h.x - 8 + sw, h.y - 12, h.x - 4 + sw, h.y - 20); g.moveTo(h.x + 6, h.y); g.quadraticCurveTo(h.x + 8 + sw, h.y - 12, h.x + 5 + sw, h.y - 18); g.moveTo(h.x, h.y); g.lineTo(h.x + sw, h.y - 24); g.stroke();
+    g.fillStyle = h.type === 'herb' ? '#7fd88a' : '#fff1a8'; for (let i = 0; i < 5; i++) { g.beginPath(); g.arc(h.x + sw + Math.cos(i * 1.256) * 5, h.y - 26 + Math.sin(i * 1.256) * 5, 3.5, 0, 7); g.fill(); } g.fillStyle = h.type === 'herb' ? '#3d8a4a' : '#ffb347'; g.beginPath(); g.arc(h.x + sw, h.y - 26, 2.6, 0, 7); g.fill(); }
   for (const o of ores) {
     if (o.x < cam - 50 || o.x > cam + W + 50) continue; const d = ORES[o.type];
     if (o.dead) { g.fillStyle = 'rgba(0,0,0,.15)'; g.beginPath(); g.ellipse(o.x, o.y - 3, 18, 5, 0, 0, 7); g.fill(); continue; }
@@ -519,7 +631,7 @@ function draw() {
     if (o.hp < d.hp) { g.fillStyle = '#0006'; g.fillRect(o.x - 18, o.y - 46, 36, 5); g.fillStyle = '#ffe08a'; g.fillRect(o.x - 18, o.y - 46, 36 * o.hp / d.hp, 5); }
   }
   for (const n of NPCS) { if (n.x < cam - 50 || n.x > cam + W + 50) continue; drawChibi(g, n.x, GROUND, { hair: 'bob', hairColor: n.hair, eyeShape: 'gentle', eye: '#7a4b2e', skin: '#ffe2d0', outfit: n.col, deco: 'blush' }, n.id === 'forge' ? 'knight' : n.id === 'gacha' ? 'mage' : 'priest', { face: -1, blink: Math.sin(T * 2 + n.x) > .97 }); g.fillStyle = '#fff'; g.font = 'bold 11px sans-serif'; g.textAlign = 'center'; g.fillStyle = 'rgba(48,38,60,.75)'; const tw = g.measureText(n.name).width + 12; g.beginPath(); g.roundRect(n.x - tw / 2, GROUND + 6, tw, 17, 8); g.fill(); g.fillStyle = '#ffe08a'; g.fillText(n.name, n.x, GROUND + 19); }
-  for (const d of drops) { const yy = d.y - 8 + Math.sin(d.t * 5) * 2; if (d.kind === 'gold') { g.fillStyle = '#ffcf4a'; g.beginPath(); g.arc(d.x, yy, 7, 0, 7); g.fill(); g.fillStyle = '#fff2a8'; g.beginPath(); g.arc(d.x - 2, yy - 2, 2.5, 0, 7); g.fill(); } else { g.font = '18px sans-serif'; g.textAlign = 'center'; g.fillText(ITEMS[d.kind].e, d.x, yy + 6); } }
+  for (const d of drops) { const yy = d.y - 8 + Math.sin(d.t * 5) * 2; if (d.kind === 'gold') { g.fillStyle = '#ffcf4a'; g.beginPath(); g.arc(d.x, yy, 7, 0, 7); g.fill(); g.fillStyle = '#fff2a8'; g.beginPath(); g.arc(d.x - 2, yy - 2, 2.5, 0, 7); g.fill(); } else if (d.kind === 'gear') { g.save(); g.shadowColor = RARITY[d.gear.r].c; g.shadowBlur = 12; g.font = '20px sans-serif'; g.textAlign = 'center'; g.fillText(SLOT_E[d.gear.slot], d.x, yy + 6); g.restore(); } else { g.font = '18px sans-serif'; g.textAlign = 'center'; g.fillText(ITEMS[d.kind].e, d.x, yy + 6); } }
   for (const m of mobs) { if (m.dead || m.x < cam - 80 || m.x > cam + W + 80) continue; drawMob(m); }
   if (S.pet) { const px = P.x - P.face * 36; drawPet(g, S.pet, (S._petX = S._petX == null ? px : S._petX + (px - S._petX) * .08), P.y, T); }
   const flick = P.inv > 0 && Math.floor(T * 20) % 2;
@@ -527,6 +639,7 @@ function draw() {
     if (S.riding && S.mount) { drawMount(g, P.x, P.y, P.face, P.vx ? T : 0); drawChibi(g, P.x - P.face * 2, P.y - 22, S.look, S.cls, { face: P.face, atk: P.atkT, blink: P.blinkT < 0 }); }
     else drawChibi(g, P.x, P.y, S.look, S.cls, { face: P.face, walk: P.vx && P.onG ? P.walk : 0, atk: P.atkT, blink: P.blinkT < 0 });
   }
+  if (fishing) { const bx = fishing.spot.x + (P.face > 0 ? -10 : 10), by = GROUND + 4 + Math.sin(T * 6) * (fishing.t > fishing.wait - .6 ? 4 : 1.5); g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1; g.beginPath(); g.moveTo(P.x + P.face * 26, P.y - 54); g.quadraticCurveTo((P.x + bx) / 2, P.y - 80, bx, by); g.stroke(); g.fillStyle = '#ff6b6b'; g.beginPath(); g.arc(bx, by, 4, 0, 7); g.fill(); g.strokeStyle = '#8a5a3c'; g.lineWidth = 2.5; g.beginPath(); g.moveTo(P.x + P.face * 6, P.y - 22); g.lineTo(P.x + P.face * 26, P.y - 54); g.stroke(); }
   g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; const nw = g.measureText(S.name).width + 14; g.fillStyle = 'rgba(48,38,60,.8)'; g.beginPath(); g.roundRect(P.x - nw / 2, P.y + 6, nw, 18, 9); g.fill(); g.fillStyle = '#fff'; g.fillText(S.name, P.x, P.y + 19);
   for (const p of projs) drawProj(p);
   for (const f of fx) drawFx(f);
@@ -576,6 +689,7 @@ function updateHud() {
   $('#bHp').style.width = (100 * S.hp / st.maxHp) + '%'; $('#tHp').textContent = `HP ${Math.ceil(S.hp)}/${st.maxHp}`;
   $('#bMp').style.width = (100 * S.mp / st.maxMp) + '%'; $('#tMp').textContent = `MP ${Math.ceil(S.mp)}/${st.maxMp}`;
   $('#bExp').style.width = (100 * S.exp / expNeed(S.lv)) + '%'; $('#tExp').textContent = `EXP ${S.exp}/${expNeed(S.lv)}（${(100 * S.exp / expNeed(S.lv)).toFixed(1)}%）`;
+  $('#talDot').hidden = talentPoints() <= 0;
   $('#hGold').textContent = S.gold.toLocaleString(); $('#nHp').textContent = S.inv.hpPot; $('#nMp').textContent = S.inv.mpPot;
 }
 let toastT;
@@ -587,16 +701,17 @@ function closePanel() { $('#panel').hidden = true; persist(); updateHud(); }
 $('#panelX').onclick = closePanel; $('#panel').addEventListener('click', e => { if (e.target.id === 'panel') closePanel(); });
 function openBag() {
   const st = stats();
-  const cells = Object.entries(ITEMS).map(([k, it]) => `<div class="cell"><span class="e">${it.e}</span>${it.n}<b>${S.inv[k] || 0}</b></div>`).join('');
+  const cells = Object.entries(ITEMS).filter(([k]) => S.inv[k] || ['hpPot', 'mpPot', 'ticket'].includes(k)).map(([k, it]) => `<div class="cell"><span class="e">${it.e}</span>${it.n}<b>${S.inv[k] || 0}</b></div>`).join('');
   const pets = S.pets.length ? S.pets.map(p => `<button class="btn sm" data-pet="${p}">${PETS[p].e} ${PETS[p].n}${S.pet === p ? '（出戰中）' : ''}</button>`).join(' ') : '<span class="note">還沒有寵物，去星願召喚殿抽抽看！</span>';
   const mounts = S.mounts.length ? S.mounts.map(m => `<button class="btn sm" data-mount="${m}">${MOUNTS[m].e} ${MOUNTS[m].n}${S.riding && S.mount === m ? '（騎乘中）' : ''}</button>`).join(' ') : '<span class="note">還沒有坐騎（SSR 獎勵）</span>';
-  openPanel('🎒 背包', `<p class="note">${CLASSES[S.cls].name}・攻擊力 ${st.atk}・武器 +${S.weaponLv}・十字鎬 Lv.${S.pickLv}・🪙 ${S.gold}・擊敗怪物 ${S.kills}</p><div class="grid">${cells}</div><h3 style="margin-top:16px;font-size:16px">🐾 寵物（會幫你撿東西）</h3><div>${pets}</div><h3 style="margin-top:16px;font-size:16px">🦌 坐騎</h3><div>${mounts}</div>`, b => {
+  openPanel('🎒 背包', `<p class="note">${CLASSES[S.cls].name}・攻擊 ${st.atk}・防禦 ${st.def}・爆擊 ${(st.crit * 100).toFixed(0)}%・十字鎬 Lv.${S.pickLv}・🪙 ${S.gold}・擊敗怪物 ${S.kills}</p><div class="row" style="justify-content:flex-start;margin:0 0 12px"><button class="btn sm pri" data-go="gear">🛡️ 裝備</button><button class="btn sm" data-go="tal">🌳 天賦</button><button class="btn sm" data-go="life">🧪 生活技能</button></div><div class="grid">${cells}</div><h3 style="margin-top:16px;font-size:16px">🐾 寵物（會幫你撿東西）</h3><div>${pets}</div><h3 style="margin-top:16px;font-size:16px">🦌 坐騎</h3><div>${mounts}</div>`, b => {
+    b.querySelectorAll('[data-go]').forEach(x => x.onclick = () => ({ gear: () => openGear(), tal: openTalents, life: () => openLife() })[x.dataset.go]());
     b.querySelectorAll('[data-pet]').forEach(x => x.onclick = () => { S.pet = S.pet === x.dataset.pet ? null : x.dataset.pet; S._petX = null; openBag(); });
     b.querySelectorAll('[data-mount]').forEach(x => x.onclick = () => { S.mount = x.dataset.mount; S.riding = !S.riding; openBag(); });
   });
 }
 function openNpc(id) {
-  if (id === 'forge') return openForge();
+  if (id === 'forge') return openForgeV2();
   if (id === 'shop') return openShop();
   if (id === 'gacha') return openGacha();
   if (id === 'salon') { openCreate(true); }
@@ -656,19 +771,212 @@ function openGacha(res) {
 function openMenu() {
   openPanel('☰ 選單', `<div class="list menu-list">
     <button class="btn" data-m="bag">🎒 背包・寵物・坐騎</button>
+    <button class="btn" data-m="gear">🛡️ 裝備・強化</button>
+    <button class="btn" data-m="tal">🌳 天賦樹（可用 ${talentPoints()} 點）</button>
+    <button class="btn" data-m="life">🧪 生活技能・料理・煉金</button>
+    <div class="item"><div><b>🌙 離線掛機</b><p>剩餘 ${S.afk.bank.toFixed(1)} 小時・每天補 4 小時，最多存 8 小時。離開遊戲前待在練功區，回來就能領取收益。</p></div></div>
     <button class="btn" data-m="town">🏰 回到櫻華王都</button>
     <button class="btn" data-m="help">❓ 操作說明</button>
     <button class="btn" data-m="road">🗺️ 開發進度</button>
     <a class="btn" href="play.html">← 存檔並回到花花遊戲區</a>
-  </div><p class="note">v0.1 單人試玩版：進度存在這台裝置的瀏覽器。之後會改成雲端存檔，換裝置也能繼續玩。</p>`, b => {
+  </div><p class="note">v0.2 單人試玩版：進度存在這台裝置的瀏覽器。之後會改成雲端存檔，換裝置也能繼續玩。</p>`, b => {
     b.querySelector('[data-m=bag]').onclick = openBag;
+    b.querySelector('[data-m=gear]').onclick = () => openGear();
+    b.querySelector('[data-m=tal]').onclick = openTalents;
+    b.querySelector('[data-m=life]').onclick = () => openLife();
     b.querySelector('[data-m=town]').onclick = () => { P.x = 120; P.y = GROUND; auto = false; $('#qAuto').classList.remove('on'); closePanel(); };
-    b.querySelector('[data-m=help]').onclick = () => openPanel('❓ 操作說明', `<div class="list"><div class="item"><div><b>電腦</b><p>←→／A D 移動・Space／↑ 跳躍・↓＋跳躍 跳下平台・J 攻擊・K 技能・E 與 NPC 對話／挖礦・Q 自動打怪・1 紅藥水・2 藍藥水・I 背包</p></div></div><div class="item"><div><b>手機</b><p>左下 ◀ ▶ 移動，右下「攻擊／技能／跳／互動」，右上快捷鍵可喝藥、開背包和自動打怪。建議橫向遊玩。</p></div></div><div class="item"><div><b>自動打怪</b><p>開啟後角色會自己找最近的怪物、移動、攻擊、放技能，血量低於 40% 會自動喝紅藥水。</p></div></div></div>`);
+    b.querySelector('[data-m=help]').onclick = () => openPanel('❓ 操作說明', `<div class="list"><div class="item"><div><b>電腦</b><p>←→／A D 移動・Space／↑ 跳躍・↓＋跳躍 跳下平台・J 攻擊・K 技能・E 互動（NPC／挖礦／採藥／釣魚）・Q 自動打怪・1 紅藥水・2 藍藥水・I 背包・G 裝備・T 天賦・L 生活技能</p></div></div><div class="item"><div><b>手機</b><p>左下 ◀ ▶ 移動，右下「攻擊／技能／跳／互動」，右上快捷鍵可喝藥、開背包和自動打怪。建議橫向遊玩。</p></div></div><div class="item"><div><b>自動打怪</b><p>開啟後角色會自己找最近的怪物、移動、攻擊、放技能，血量低於 40% 會自動喝紅藥水。</p></div></div></div>`);
     b.querySelector('[data-m=road]').onclick = () => openPanel('🗺️ 開發進度', `<div class="list">
-      <div class="item"><div><b>✅ v0.1（現在）</b><p>捏臉創角、4 大職業、橫向地圖、打怪、自動打怪、挖礦、鍛造、商店、抽卡、寵物、坐騎、存檔</p></div></div>
-      <div class="item"><div><b>🔜 v0.2</b><p>雲端存檔（綁定會員帳號）、更多髮型與服裝、任務系統</p></div></div>
+      <div class="item"><div><b>✅ v0.1</b><p>捏臉創角、4 大職業、橫向地圖、打怪、自動打怪、挖礦、鍛造、商店、抽卡、寵物、坐騎、存檔</p></div></div>
+      <div class="item"><div><b>✅ v0.2（現在）</b><p>6 部位裝備與 4 種稀有度、強化 +15、裝備打造、天賦樹與核心天賦、採藥・釣魚・煉金・料理、料理增益、離線掛機收益</p></div></div>
+      <div class="item"><div><b>🔜 v0.3</b><p>雲端存檔（綁定會員帳號）、任務系統、副本與區域首領</p></div></div>
       <div class="item"><div><b>🔜 v0.3</b><p>多人連線：同地圖看見其他玩家、公開聊天、一起聽歌的音樂廳</p></div></div>
       <div class="item"><div><b>🔜 之後</b><p>好友、組隊、情侶與結婚、夫妻家園與家具裝飾、時裝商城、更多寵物與坐騎</p></div></div></div>`);
+  });
+}
+
+/* ---------- 裝備・生活技能・天賦・離線掛機 ---------- */
+const GEAR_CAP = 60;
+function addGear(it) {
+  if (S.gear.length >= GEAR_CAP) { // 背包滿：自動賣掉最差的普通裝備
+    const i = S.gear.findIndex(g => g.r === 0 && !g.enh);
+    if (i >= 0) { S.gold += gearPrice(S.gear[i]); S.gear.splice(i, 1); } else { S.gold += gearPrice(it); addText(P.x, P.y - 80, '背包滿了，自動賣出', '#ffe08a'); return; }
+  }
+  S.gear.push(it);
+  addText(P.x, P.y - 92, `${SLOT_E[it.slot]} ${RARITY[it.r].n}・${gearName(it, S.cls)}`, it.r >= 2 ? '#ffd27a' : '#fff', it.r >= 2);
+  if (it.r === 3) toast(`🌟 傳說裝備掉落！${gearName(it, S.cls)}`);
+}
+function lifeExp(k, n) {
+  const L = S.life[k]; L.exp += n;
+  while (L.exp >= lifeNeed(L.lv)) { L.exp -= lifeNeed(L.lv); L.lv++; toast(`${LIFE[k][0]} ${LIFE[k][1]}升到 Lv.${L.lv}！`); }
+}
+let herbs = [], fishing = null;
+function nearHerb() { return herbs.find(h => !h.dead && Math.abs(h.x - P.x) < 50 && Math.abs(h.y - P.y) < 30); }
+function nearFish() { return P.onG && P.y > GROUND - 5 ? FISH_SPOTS.find(f => Math.abs(f.x - P.x) < 70) : null; }
+function gather(h) {
+  if (P.atkCd > 0) return;
+  P.atkCd = .5; P.atkT = 1; h.dead = 15; burst(h.x, h.y - 14, h.type === 'herb' ? '#7fd88a' : '#ffe58a', 8);
+  const L = S.life.herb.lv, n = 1 + (Math.random() < .15 + L * .06 ? 1 : 0);
+  S.inv[h.type] += n; lifeExp('herb', h.type === 'herb' ? 4 : 8);
+  addText(h.x, h.y - 40, `${ITEMS[h.type].e} ${ITEMS[h.type].n} x${n}`, '#fff'); persist();
+}
+function startFishing(spot) {
+  if (fishing) return;
+  fishing = { spot, t: 0, wait: rnd(1.6, 3.6) - Math.min(1, S.life.fish.lv * .08) };
+  P.face = spot.x > P.x ? 1 : -1; toast('🎣 拋竿…不要移動，等魚上鉤');
+}
+function updateFishing(dt) {
+  if (!fishing) return;
+  if (keys.left || keys.right || keys.jump || auto) { fishing = null; toast('魚跑掉了…'); return; }
+  fishing.t += dt;
+  if (fishing.t >= fishing.wait) {
+    let x = Math.random(), got = fishing.spot.pool[0][0];
+    const bonus = S.life.fish.lv * .02;
+    for (const [k, p] of fishing.spot.pool) { const pp = k === 'fish3' || k === 'fish2' ? p + bonus : p; if (x < pp) { got = k; break; } x -= pp; }
+    S.inv[got]++; lifeExp('fish', got === 'fish3' ? 14 : got === 'fish2' ? 8 : 5);
+    addText(P.x, P.y - 90, `${ITEMS[got].e} 釣到 ${ITEMS[got].n}！`, '#9ee6ff', got === 'fish3');
+    fishing = null; persist();
+  }
+}
+function useFood(k) {
+  const r = RECIPES.cook.find(x => x.out === k); if (!r || !S.inv[k]) return;
+  S.inv[k]--; const until = Date.now() + r.min * 60e3;
+  for (const b in r.buff) S.buffs[b] = { v: r.buff[b], until };
+  toast(`${ITEMS[k].e} 吃了${ITEMS[k].n}：${r.d}`); persist(); updateHud();
+}
+function craft(kind, i) {
+  const r = RECIPES[kind][i]; const L = S.life[kind];
+  if (L.lv < r.lv || !canPay(r.need)) return false;
+  pay(r.need); const dbl = Math.random() < Math.min(.4, (L.lv - r.lv) * .05);
+  S.inv[r.out] += r.n * (dbl ? 2 : 1); lifeExp(kind, 6 + r.lv * 3);
+  toast(`${ITEMS[r.out].e} 製作了 ${ITEMS[r.out].n} x${r.n * (dbl ? 2 : 1)}${dbl ? '（大成功！）' : ''}`); persist();
+  return true;
+}
+const afkPerHourKills = 120;
+function checkOffline() {
+  const today = twDay();
+  if (S.afk.day !== today) { S.afk.bank = Math.min(8, S.afk.bank + 4); S.afk.day = today; }
+  const hrs = (Date.now() - (S.lastSeen || Date.now())) / 3.6e6;
+  if (hrs < .05 || S.afkZone == null) return;
+  const use = Math.min(hrs, S.afk.bank); if (use <= 0) { setTimeout(() => toast('今天的離線掛機時數用完了，明天會再補 4 小時'), 800); return; }
+  const z = ZONES[S.afkZone];
+  const types = [...new Set(SPAWNS.filter(([, x]) => x >= z.from && x < z.to).map(s => s[0]))];
+  if (!types.length) return;
+  const st = stats(), avgHp = types.reduce((a, k) => a + MONSTERS[k].hp, 0) / types.length;
+  const eff = clamp(st.atk * 3 / avgHp, .25, 1);
+  const kills = Math.floor(afkPerHourKills * use * eff);
+  const avg = k => types.reduce((a, t) => a + k(MONSTERS[t]), 0) / types.length;
+  const rew = { hours: use, kills, exp: Math.round(kills * avg(m => m.exp) * .5 * (1 + st.tf.expPct)), gold: Math.round(kills * avg(m => (m.gold[0] + m.gold[1]) / 2) * .7 * (1 + st.tf.goldPct)), mats: {}, gear: [] };
+  types.forEach(tp => { const m = MONSTERS[tp]; const n = Math.floor(kills / types.length * m.drop[1] * .5 * (1 + st.tf.dropPct)); if (n) rew.mats[m.drop[0]] = (rew.mats[m.drop[0]] || 0) + n; });
+  const gn = Math.min(8, Math.floor(kills * .02));
+  for (let i = 0; i < gn; i++) rew.gear.push(makeGear(MONSTERS[pick(types)].lv, null, rollRarity(st.tf.dropPct)));
+  S.afk.bank = Math.max(0, S.afk.bank - use); S.lastSeen = Date.now(); persist();
+  setTimeout(() => openAfk(rew, z.name), 500);
+}
+function openAfk(rew, zone) {
+  const mats = Object.entries(rew.mats).map(([k, n]) => `${ITEMS[k].e}${ITEMS[k].n} x${n}`).join('、') || '—';
+  const gear = rew.gear.map(g => `<span style="color:${RARITY[g.r].c}">${SLOT_E[g.slot]}${gearName(g, S.cls)}</span>`).join('、') || '—';
+  openPanel('🌙 離線掛機收益', `<p class="note">你不在的時候，${esc(S.name)} 在「${zone}」掛機了 <b>${rew.hours.toFixed(1)} 小時</b>，擊倒 ${rew.kills} 隻怪物！</p>
+    <div class="grid"><div class="cell"><span class="e">✨</span>經驗<b>${rew.exp.toLocaleString()}</b></div><div class="cell"><span class="e">🪙</span>金幣<b>${rew.gold.toLocaleString()}</b></div><div class="cell"><span class="e">⚔️</span>擊倒<b>${rew.kills}</b></div></div>
+    <p class="note">素材：${mats}<br>裝備：${gear}</p>
+    <div class="row" style="justify-content:flex-start"><button class="btn pri" id="afkClaim">領取收益</button></div>
+    <p class="note">剩餘離線掛機時數：${S.afk.bank.toFixed(1)} 小時（每天補 4 小時，最多存 8 小時）。離開遊戲前待在練功區，就會自動掛機。</p>`, b => {
+    b.querySelector('#afkClaim').onclick = () => {
+      S.gold += rew.gold; for (const k in rew.mats) S.inv[k] += rew.mats[k]; rew.gear.forEach(g => S.gear.length < GEAR_CAP ? S.gear.push(g) : (S.gold += gearPrice(g)));
+      gainExp(rew.exp); persist(); closePanel(); toast('🌙 已領取離線掛機收益！');
+    };
+  });
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function statLine(g) { return Object.entries(g).map(([k, v]) => k === 'atk' ? `攻擊 +${v}` : k === 'def' ? `防禦 +${v}` : k === 'hp' ? `HP +${v}` : `爆擊 +${(v * 100).toFixed(1)}%`).join('・'); }
+function gearCard(it, btns) { return `<div class="item"><div><b style="color:${RARITY[it.r].c}">${SLOT_E[it.slot]} ${gearName(it, S.cls)}${it.enh ? ' +' + it.enh : ''}</b><p>${RARITY[it.r].n}・Lv.${it.lv}・${statLine(gearStats(it))}</p></div><div class="row" style="margin:0;flex-wrap:nowrap">${btns}</div></div>`; }
+function openGear(tab) {
+  tab = tab || 'eq'; const st = stats();
+  const tabs = `<div class="row" style="justify-content:flex-start;margin:0 0 12px">${[['eq', '🛡️ 裝備中'], ['bag', `🎒 裝備背包（${S.gear.length}/${GEAR_CAP}）`]].map(([k, n]) => `<button class="btn sm ${tab === k ? 'pri' : ''}" data-tab="${k}">${n}</button>`).join('')}</div>`;
+  let body;
+  if (tab === 'eq') body = `<p class="note">攻擊 ${st.atk}・防禦 ${st.def}・HP ${st.maxHp}・爆擊 ${(st.crit * 100).toFixed(0)}%</p><div class="list">` + Object.keys(SLOTS).map(s => S.equip[s] ? gearCard(S.equip[s], `<button class="btn sm" data-off="${s}">卸下</button>`) : `<div class="item"><div><b style="color:#b9a3b2">${SLOT_E[s]} ${SLOTS[s]}（空）</b><p>打怪會掉落裝備</p></div></div>`).join('') + '</div>';
+  else {
+    const list = S.gear.slice().sort((a, b) => b.r - a.r || b.lv - a.lv);
+    body = list.length ? `<div class="row" style="justify-content:flex-start;margin:0 0 10px"><button class="btn sm" id="sellCommon">一鍵賣出普通裝備</button></div><div class="list">` + list.map(it => gearCard(it, `<button class="btn sm pri" data-on="${it.id}">裝備</button><button class="btn sm" data-sell="${it.id}">賣 🪙${gearPrice(it)}</button>`)).join('') + '</div>' : '<p class="note">還沒有裝備，打怪有機會掉落！</p>';
+  }
+  openPanel('⚔️ 裝備', tabs + body, b => {
+    b.querySelectorAll('[data-tab]').forEach(x => x.onclick = () => openGear(x.dataset.tab));
+    b.querySelectorAll('[data-off]').forEach(x => x.onclick = () => { const s = x.dataset.off; if (S.gear.length >= GEAR_CAP) return toast('裝備背包滿了'); S.gear.push(S.equip[s]); S.equip[s] = null; persist(); openGear('eq'); });
+    b.querySelectorAll('[data-on]').forEach(x => x.onclick = () => { const i = S.gear.findIndex(g => g.id === x.dataset.on); const it = S.gear[i]; if (it.lv > S.lv + 3) return toast(`等級不夠（需要 Lv.${it.lv - 3}）`); S.gear.splice(i, 1); if (S.equip[it.slot]) S.gear.push(S.equip[it.slot]); S.equip[it.slot] = it; persist(); updateHud(); openGear('bag'); });
+    b.querySelectorAll('[data-sell]').forEach(x => x.onclick = () => { const i = S.gear.findIndex(g => g.id === x.dataset.sell); S.gold += gearPrice(S.gear[i]); S.gear.splice(i, 1); persist(); updateHud(); openGear('bag'); });
+    const sc = b.querySelector('#sellCommon'); if (sc) sc.onclick = () => { let got = 0; S.gear = S.gear.filter(g => { if (g.r === 0 && !g.enh) { got += gearPrice(g); return false; } return true; }); S.gold += got; toast(`賣出普通裝備，獲得 🪙${got}`); persist(); updateHud(); openGear('bag'); };
+  });
+}
+function openTalents() {
+  const tf = talentFx(), pts = talentPoints(), paths = TALENT_PATHS[S.cls];
+  const html = `<p class="note">每升 1 級獲得 1 點天賦點數。可用點數：<b style="color:#c2457a;font-size:16px">${pts}</b>　｜　每條路線投入 8 點後，可以點亮第 5 格「核心天賦」。</p>
+  <div class="tal-grid">${paths.map(([pn, tag], p) => { const spent = TALENT_NODES[p].reduce((a, _, i) => a + (S.talents[p + '-' + i] || 0), 0);
+    return `<div class="tal-col"><h4>${pn}<small>${tag}・已投入 ${spent}</small></h4>` + TALENT_NODES[p].map(([nn, key, val, max], i) => {
+      const r = S.talents[p + '-' + i] || 0, isKs = key.startsWith('ks'), lock = isKs && spent - r < 8;
+      const desc = isKs ? KEYSTONES[S.cls][p] : `${TALENT_LABEL[key](val)}／級`;
+      return `<button class="tal ${r ? 'on' : ''} ${isKs ? 'ks' : ''}" data-t="${p}-${i}" ${pts <= 0 || r >= max || lock ? 'disabled' : ''}><b>${isKs ? '🌟 ' : ''}${nn} ${r}/${max}</b><small>${desc}${lock ? '（需投入 8 點）' : ''}</small></button>`; }).join('') + '</div>'; }).join('')}</div>
+  <div class="row" style="justify-content:flex-start"><button class="btn sm" id="talReset">重置天賦（🪙${S.lv * 100}）</button></div>`;
+  openPanel('🌳 天賦樹・' + CLASSES[S.cls].name, html, b => {
+    b.querySelectorAll('[data-t]').forEach(x => x.onclick = () => { if (talentPoints() <= 0) return; S.talents[x.dataset.t] = (S.talents[x.dataset.t] || 0) + 1; persist(); updateHud(); openTalents(); });
+    b.querySelector('#talReset').onclick = () => { const c = S.lv * 100; if (S.gold < c) return toast('金幣不夠'); if (!confirm('確定要重置所有天賦嗎？')) return; S.gold -= c; S.talents = {}; persist(); updateHud(); openTalents(); };
+  });
+}
+function openLife(tab) {
+  tab = tab || 'skills';
+  const tabs = `<div class="row" style="justify-content:flex-start;margin:0 0 12px">${[['skills', '📊 技能等級'], ['alch', '🧪 煉金'], ['cook', '🍳 料理'], ['eat', '😋 使用料理']].map(([k, n]) => `<button class="btn sm ${tab === k ? 'pri' : ''}" data-tab="${k}">${n}</button>`).join('')}</div>`;
+  let body = '';
+  if (tab === 'skills') body = `<div class="list">${Object.entries(LIFE).map(([k, [e, n]]) => { const L = S.life[k]; return `<div class="item"><div><b>${e} ${n} Lv.${L.lv}</b><p>${{ mine: '在礦點按 E 挖礦，等級越高越容易多挖到', herb: '在草藥、月光花旁按 E 採集', fish: '在池塘、湖邊按 E 釣魚，等級越高越容易釣到稀有魚', smith: '在鍛造屋強化或打造裝備，等級越高強化成功率越高', alch: '用草藥、月光花調製藥水', cook: '用釣到的魚做料理，吃了有增益效果' }[k]}</p><div class="lbar"><i style="width:${100 * L.exp / lifeNeed(L.lv)}%"></i></div></div></div>`; }).join('')}</div>`;
+  else if (tab === 'eat') { const foods = RECIPES.cook.filter(r => S.inv[r.out] > 0); const act = ['atk', 'exp', 'drop'].filter(k => buffOn(k)).map(k => `${{ atk: '攻擊', exp: '經驗', drop: '掉寶' }[k]} +${Math.round(buffOn(k) * 100)}%（剩 ${Math.ceil((S.buffs[k].until - Date.now()) / 60e3)} 分）`).join('、');
+    body = `<p class="note">目前增益：${act || '無'}</p>` + (foods.length ? `<div class="list">${foods.map(r => `<div class="item"><div><b>${ITEMS[r.out].e} ${ITEMS[r.out].n} x${S.inv[r.out]}</b><p>${r.d}</p></div><button class="btn sm pri" data-eat="${r.out}">享用</button></div>`).join('')}</div>` : '<p class="note">還沒有料理，到「🍳 料理」用魚做一份吧！</p>'); }
+  else body = `<p class="note">${LIFE[tab][0]} ${LIFE[tab][1]} Lv.${S.life[tab].lv}・等級越高，越有機會做出雙倍成品</p><div class="list">${RECIPES[tab].map((r, i) => `<div class="item"><div><b>${ITEMS[r.out].e} ${ITEMS[r.out].n} x${r.n}</b><p>${r.d}${S.life[tab].lv < r.lv ? `（需要 Lv.${r.lv}）` : ''}</p><span class="cost">${costText(r.need)}</span></div><button class="btn sm pri" data-c="${i}" ${S.life[tab].lv >= r.lv && canPay(r.need) ? '' : 'disabled'}>製作</button></div>`).join('')}</div>`;
+  openPanel('🧪 生活技能', tabs + body, b => {
+    b.querySelectorAll('[data-tab]').forEach(x => x.onclick = () => openLife(x.dataset.tab));
+    b.querySelectorAll('[data-c]').forEach(x => x.onclick = () => { craft(tab, +x.dataset.c); openLife(tab); });
+    b.querySelectorAll('[data-eat]').forEach(x => x.onclick = () => { useFood(x.dataset.eat); openLife('eat'); });
+  });
+}
+function openForgeV2(tab) {
+  tab = tab || 'enh'; const sm = S.life.smith.lv;
+  const tabs = `<div class="row" style="justify-content:flex-start;margin:0 0 12px">${[['enh', '✨ 強化裝備'], ['craft', '🔨 打造裝備'], ['tool', '⛏️ 工具・藥水']].map(([k, n]) => `<button class="btn sm ${tab === k ? 'pri' : ''}" data-tab="${k}">${n}</button>`).join('')}</div>`;
+  let body = '';
+  if (tab === 'enh') {
+    body = `<p class="note">⚒️ 鍛造 Lv.${sm}（成功率 +${Math.min(10, sm - 1)}%）・🍀 幸運藥劑 x${S.inv.luck}（強化時自動使用，成功率 +15%）<br>+1～+5 一定成功；+6 起可能失敗；+11 以上失敗會掉 1 級。</p><div class="list">` +
+      Object.keys(SLOTS).filter(s => S.equip[s]).map(s => { const it = S.equip[s]; if (it.enh >= ENH_MAX) return gearCard(it, '<b style="color:#ff8a1e">已達 +15</b>');
+        const e = enhInfo(it.enh), rate = Math.min(1, e.rate + Math.min(.1, (sm - 1) * .01) + (S.inv.luck ? .15 : 0));
+        return gearCard(it, `<div style="text-align:right"><span class="cost">${costText(e.cost)}</span><br><button class="btn sm pri" data-enh="${s}" ${canPay(e.cost) ? '' : 'disabled'}>強化 ${Math.round(rate * 100)}%</button></div>`); }).join('') + '</div>';
+  } else if (tab === 'craft') {
+    const L = Math.max(1, S.lv);
+    const opts = [['iron', { gold: 120, iron: 8 }, '鐵礦打造：多為普通／稀有'], ['crystal', { gold: 400, iron: 6, crystal: 4 }, '水晶打造：稀有以上，有機會史詩'], ['star', { gold: 1200, crystal: 6, star: 3 }, '星辰打造：史詩以上，有機會傳說']];
+    body = `<p class="note">選擇部位和材料，打造 Lv.${L} 的裝備。鍛造等級越高，越容易做出好裝備。</p><div class="row" style="justify-content:flex-start;margin:0 0 10px">${Object.keys(SLOTS).map(s => `<button class="btn sm ${openForgeV2.slot === s ? 'pri' : ''}" data-slot="${s}">${SLOT_E[s]} ${SLOTS[s]}</button>`).join('')}</div><div class="list">` +
+      opts.map(([k, cost, d], i) => `<div class="item"><div><b>${ITEMS[k].e} ${d.split('：')[0]}</b><p>${d.split('：')[1]}</p><span class="cost">${costText(cost)}</span></div><button class="btn sm pri" data-craft="${i}" ${canPay(cost) ? '' : 'disabled'}>打造</button></div>`).join('') + '</div>';
+    body += '';
+    openForgeV2._opts = opts;
+  } else {
+    const pl = S.pickLv, pCost = { gold: 60 * pl, iron: 4 * pl, crystal: pl >= 2 ? (pl - 1) * 2 : 0, star: pl >= 4 ? pl - 2 : 0 };
+    openForgeV2._pCost = pCost;
+    body = `<div class="list"><div class="item"><div><b>升級十字鎬 Lv.${pl} → Lv.${pl + 1}</b><p>挖礦更快</p><span class="cost">${costText(pCost)}</span></div><button class="btn sm pri" data-pick ${canPay(pCost) ? '' : 'disabled'}>升級</button></div></div><p class="note">藥水改由「🧪 生活技能 → 煉金」製作。</p>`;
+  }
+  openPanel('⚒️ 鍛造屋・蘿絲', tabs + body, b => {
+    b.querySelectorAll('[data-tab]').forEach(x => x.onclick = () => openForgeV2(x.dataset.tab));
+    b.querySelectorAll('[data-enh]').forEach(x => x.onclick = () => {
+      const it = S.equip[x.dataset.enh], e = enhInfo(it.enh); if (!canPay(e.cost)) return;
+      pay(e.cost); const luck = S.inv.luck > 0; if (luck) S.inv.luck--;
+      const rate = Math.min(1, e.rate + Math.min(.1, (S.life.smith.lv - 1) * .01) + (luck ? .15 : 0));
+      lifeExp('smith', 5 + it.enh * 2);
+      if (Math.random() < rate) { it.enh++; toast(`✨ 強化成功！${gearName(it, S.cls)} +${it.enh}`); burst(P.x, P.y - 40, '#ffe58a', 18); }
+      else if (e.drop) { it.enh--; toast(`💥 強化失敗…掉到 +${it.enh}`); } else toast('💦 強化失敗，等級沒有變');
+      persist(); updateHud(); openForgeV2('enh');
+    });
+    b.querySelectorAll('[data-slot]').forEach(x => x.onclick = () => { openForgeV2.slot = x.dataset.slot; openForgeV2('craft'); });
+    b.querySelectorAll('[data-craft]').forEach(x => x.onclick = () => {
+      const [k, cost] = openForgeV2._opts[+x.dataset.craft]; if (!canPay(cost)) return;
+      if (S.gear.length >= GEAR_CAP) return toast('裝備背包滿了');
+      pay(cost); const sb = (S.life.smith.lv - 1) * .03;
+      let r = k === 'iron' ? (Math.random() < .3 + sb ? 1 : 0) : k === 'crystal' ? (Math.random() < .2 + sb ? 2 : 1) : (Math.random() < .12 + sb ? 3 : 2);
+      const it = makeGear(Math.max(1, S.lv), openForgeV2.slot || null, r); S.gear.push(it); lifeExp('smith', 10 + r * 6);
+      toast(`🔨 打造出 ${RARITY[r].n}・${gearName(it, S.cls)}！`); persist(); updateHud(); openForgeV2('craft');
+    });
+    const pk = b.querySelector('[data-pick]'); if (pk) pk.onclick = () => { pay(openForgeV2._pCost); S.pickLv++; toast(`⛏️ 十字鎬升級！Lv.${S.pickLv}`); persist(); openForgeV2('tool'); };
   });
 }
 
