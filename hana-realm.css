@@ -148,3 +148,11 @@ button{font:inherit;cursor:pointer}
 @media (hover:none),(pointer:coarse){.quick{flex-wrap:wrap;max-width:200px;justify-content:center}}
 
 .field[hidden]{display:none!important}
+/* 封面主視覺（AI 插畫） */
+.gate,.title{background:#2b2140 url(img/hr/cover.webp) center bottom/cover no-repeat;justify-content:flex-start;padding-top:min(6vh,48px)}
+.gate::before,.title::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,33,64,.35) 0%,rgba(43,33,64,0) 45%,rgba(43,33,64,.25) 100%);pointer-events:none}
+.gate-card,.title-card{background:rgba(255,255,255,.16);padding:22px 26px}
+@media (max-height:520px){.gate-card,.title-card{padding:10px 18px;margin-top:4px}.title-card .sub{display:none}.title-card h1{font-size:30px}}
+.gate.show,.title.show{flex-direction:column;align-items:center;justify-content:flex-start}
+.gate-card,.title-card{max-width:520px;background:rgba(43,33,64,.32)}
+.title-card .sub{font-size:13px}

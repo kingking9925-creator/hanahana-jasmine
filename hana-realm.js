@@ -244,6 +244,7 @@ function drawHairFront(g, look, fx) {
 /* (x,y)=腳底中心；opt: face(1/-1) walk(0..) atk(0..1) scale */
 /* ---------- 插畫素材（AI 生成＋去背，放在 img/hr/） ---------- */
 const ART_DIR = 'img/hr/';
+const DOLL = /*DOLL*/{"knight":{"short":{"idle":[107,200,53.0,[153.3,78.1,222.4,94.0],[66.3,69.2,62.0]],"attack":[113,174,55.8,[149.9,72.4,210.8,105.5],[71.0,67.1,69.4]]},"bob":{"idle":[99,190,53.3,[155.9,77.7,217.2,93.9],[64.0,59.7,33.5]],"attack":[108,166,59.2,[156.9,78.4,215.5,101.0],[71.8,57.0,33.5]]},"long":{"idle":[118,190,67.4,[154.7,81.2,220.3,95.2],[77.4,59.9,30.4]],"attack":[125,166,75.1,[152.8,77.3,216.2,105.1],[89.6,56.8,41.5]]},"twin":{"idle":[135,187,73.7,[154.6,81.1,220.2,94.7],[83.9,57.4,31.6]],"attack":[144,162,82.5,[153.7,75.0,215.4,106.1],[94.2,55.2,67.6]]},"pony":{"idle":[115,202,71.4,[153.4,80.6,223.0,94.3],[81.9,70.6,53.9]],"attack":[127,177,69.8,[153.8,76.8,220.8,105.0],[83.6,70.9,44.6]]},"spiky":{"idle":[107,200,57.7,[150.6,75.7,220.4,96.1],[69.2,69.1,29.8]],"attack":[128,174,61.1,[151.3,76.4,214.4,105.5],[75.8,67.4,40.9]]}},"mage":{"short":{"idle":[109,191,55.8,[159.9,78.1,223.2,85.6],[61.8,69.3,28.5]],"attack":[117,164,47.2,[156.4,76.9,222.9,88.2],[54.6,63.3,27.9]]},"bob":{"idle":[109,178,54.9,[161.1,76.0,225.2,89.0],[59.9,56.7,28.5]],"attack":[110,155,49.2,[161.5,79.7,216.9,87.3],[59.2,53.2,25.4]]},"long":{"idle":[120,178,66.9,[160.9,76.3,224.4,87.7],[72.6,57.2,33.5]],"attack":[130,155,62.3,[155.6,78.1,226.4,89.0],[68.7,53.4,81.2]]},"twin":{"idle":[125,172,70.7,[156.0,72.9,228.1,86.8],[76.5,51.1,27.3]],"attack":[130,149,62.7,[155.6,84.6,211.2,85.1],[71.1,49.4,42.2]]},"pony":{"idle":[124,194,70.2,[156.0,75.4,227.0,87.6],[76.3,72.9,26.7]],"attack":[137,169,66.3,[153.4,78.9,222.0,87.3],[76.0,68.8,47.1]]},"spiky":{"idle":[111,187,56.9,[159.7,70.4,223.5,89.2],[64.0,66.0,27.3]],"attack":[122,164,51.7,[158.5,85.0,219.7,87.6],[60.3,63.1,25.4]]}},"ranger":{"short":{"idle":[100,187,55.4,[155.9,77.5,216.1,130.6],[61.3,70.9,66.3]],"attack":[115,172,63.9,[157.5,85.8,208.8,123.6],[66.1,66.5,67.0]]},"bob":{"idle":[105,172,59.6,[158.3,77.7,223.6,132.7],[61.1,60.4,63.2]],"attack":[107,162,63.3,[159.7,84.4,209.8,122.6],[66.4,59.5,91.8]]},"long":{"idle":[113,175,69.4,[157.5,75.6,215.2,133.4],[67.5,64.8,66.3]],"attack":[130,163,77.2,[157.1,81.6,207.1,126.9],[72.2,61.7,105.4]]},"twin":{"idle":[131,170,78.9,[155.9,77.7,219.7,132.8],[82.5,59.5,114.7]],"attack":[134,159,81.8,[154.3,82.5,211.2,121.5],[84.4,57.0,119.0]]},"pony":{"idle":[122,190,77.5,[152.1,82.4,221.8,128.7],[81.1,72.9,60.1]],"attack":[141,178,79.6,[150.7,91.8,210.6,131.4],[82.2,73.1,80.6]]},"spiky":{"idle":[105,186,61.0,[157.0,77.8,214.4,127.6],[66.2,70.9,49.0]],"attack":[129,171,69.2,[156.8,83.4,210.9,133.1],[70.2,66.0,73.8]]}},"priest":{"short":{"idle":[110,193,53.6,[156.0,84.5,226.4,117.5],[61.5,76.2,77.5]],"attack":[107,174,51.2,[155.3,82.4,233.3,116.5],[57.8,69.3,65.7]]},"bob":{"idle":[108,174,54.5,[158.2,84.6,228.7,129.5],[61.7,57.7,28.5]],"attack":[105,158,61.4,[158.2,80.4,221.0,122.1],[68.3,54.5,53.9]]},"long":{"idle":[119,174,65.5,[157.0,80.7,236.0,118.0],[73.9,57.7,37.2]],"attack":[134,158,81.4,[157.2,83.5,224.6,116.7],[86.3,55.0,28.5]]},"twin":{"idle":[132,171,78.1,[154.4,83.7,231.5,123.6],[85.0,55.4,46.5]],"attack":[138,155,75.7,[152.4,85.3,218.3,120.4],[84.7,51.9,26.0]]},"pony":{"idle":[128,194,74.2,[154.2,81.9,231.3,118.3],[82.4,77.6,62.6]],"attack":[120,177,78.3,[151.8,82.3,235.4,115.5],[85.5,73.8,49.0]]},"spiky":{"idle":[116,183,61.7,[154.4,80.9,228.0,118.9],[69.2,67.1,57.7]],"attack":[149,166,78.5,[153.6,86.4,230.3,125.8],[86.8,62.4,29.1]]}}}/*DEND*/; // 捏臉素材：職業 → 髮型 → 姿勢 [w,h,ax,[髮,眼,膚,衣 平均亮度],[眼x,眼y,眼寬]]
 const ART = /*ART*/{"hero":{"knight":{"idle":[109,204,53.8],"walk":[139,192,70.4],"attack":[193,186,75.2]},"mage":{"idle":[126,195,61.3],"walk":[145,193,78.0],"attack":[197,190,83.0]},"ranger":{"idle":[114,192,61.4],"walk":[127,190,74.1],"attack":[196,188,84.1]},"priest":{"idle":[122,190,60.9],"walk":[135,185,72.1],"attack":[200,184,79.6]}},"npc":{"forge":[111,199,66.4],"shop":[114,198,64.1],"gacha":[128,193,63.4],"salon":[111,192,53.9]},"mob":{"slime":[78,87,38.5,0.575],"bfly":[97,92,34.3,0.587],"sprite":[97,111,46.7,0.595],"golem":[162,157,73.2,0.662]},"bg":{"0":0.775,"1":0.85,"2":0.85,"3":0.82}}/*END*/;
 const IMG = {};
 function artImg(k) {
@@ -257,7 +258,66 @@ function drawArt(g, key, m, x, y, s, face, sy = 1, rot = 0) {
 }
 for (const c in ART.hero || {}) for (const f in ART.hero[c]) artImg(c + '_' + f);
 const useArt = (look, cls) => look && look.art !== 'doll' && ART.hero && ART.hero[cls];
+const useDoll = (look, cls) => look && look.art === 'doll' && DOLL[cls];
+/* ---------- 捏臉：AI 插畫＋遮罩換色 ---------- */
+const DOLL_CACHE = new Map(), DOLL_PIX = {};
+function hexRgb(h) { const n = parseInt((h || '#000000').slice(1), 16); return [n >> 16, (n >> 8) & 255, n & 255]; }
+function dollPix(key) { // 讀取圖片與遮罩像素（只做一次）
+  let d = DOLL_PIX[key]; if (d) return d.ready ? d : null;
+  d = DOLL_PIX[key] = { ready: false }; let n = 0;
+  const im = new Image(), mk = new Image();
+  const done = () => { if (++n < 2) return; try {
+    const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight; const x = c.getContext('2d', { willReadFrequently: true });
+    x.drawImage(im, 0, 0); d.px = x.getImageData(0, 0, c.width, c.height);
+    x.clearRect(0, 0, c.width, c.height); x.drawImage(mk, 0, 0, c.width, c.height); d.mk = x.getImageData(0, 0, c.width, c.height).data;
+    d.ready = true; DOLL_CACHE.clear();
+    try { if (S) refreshFace(); } catch {} try { if (draft && document.getElementById('create').classList.contains('show')) renderCreate(); } catch {}
+  } catch {} };
+  im.onload = mk.onload = done; im.src = ART_DIR + 'doll/' + key + '.webp'; mk.src = ART_DIR + 'doll/' + key + '_m.png';
+  return null;
+}
+function recolorPx(out, i, L, lm, c) {
+  const r = L / Math.max(lm, 1);
+  for (let k = 0; k < 3; k++) out[i + k] = r <= 1 ? c[k] * r : c[k] + (255 - c[k]) * Math.min(1, (r - 1) * 1.5);
+}
+const SKIN_BASE = SKINS[0];
+function dollFrame(cls, look, pose) {
+  const hs = DOLL[cls] && DOLL[cls][look.hair] ? look.hair : 'short', meta = DOLL[cls] && DOLL[cls][hs] && DOLL[cls][hs][pose];
+  if (!meta) return null;
+  const ck = [cls, hs, pose, look.hairColor, look.eye, look.skin, look.outfit].join('|');
+  let c = DOLL_CACHE.get(ck); if (c) return { c, meta };
+  const d = dollPix(cls + '_' + hs + '_' + pose); if (!d) return null;
+  const src = d.px.data, out = new Uint8ClampedArray(src), mk = d.mk, lm = meta[3];
+  const cols = { 60: [hexRgb(look.hairColor), lm[0]], 120: [hexRgb(look.eye), lm[1]], 180: look.skin && look.skin !== SKIN_BASE ? [hexRgb(look.skin), lm[2]] : null, 240: [hexRgb(look.outfit), lm[3]] };
+  for (let i = 0; i < out.length; i += 4) {
+    const v = mk[i]; if (!v || !src[i + 3]) continue;
+    const t = cols[v > 210 ? 240 : v > 150 ? 180 : v > 90 ? 120 : 60]; if (!t) continue;
+    recolorPx(out, i, .299 * src[i] + .587 * src[i + 1] + .114 * src[i + 2], t[1], t[0]);
+  }
+  c = document.createElement('canvas'); c.width = d.px.width; c.height = d.px.height; c.getContext('2d').putImageData(new ImageData(out, c.width, c.height), 0, 0);
+  if (DOLL_CACHE.size > 60) DOLL_CACHE.delete(DOLL_CACHE.keys().next().value);
+  DOLL_CACHE.set(ck, c); return { c, meta };
+}
+function drawDeco(g, look, meta) { // 臉部裝飾：依眼睛位置畫在插畫上
+  const e = meta[4]; if (!e || !look.deco || look.deco === 'none') return;
+  const [ex, ey, ew] = e, w = Math.max(14, Math.min(ew, 40));
+  if (look.deco === 'blush') { g.fillStyle = 'rgba(255,110,150,.45)'; g.beginPath(); g.ellipse(ex - w * .5, ey + 9, 6, 3.2, 0, 0, 7); g.ellipse(ex + w * .55, ey + 9, 6, 3.2, 0, 0, 7); g.fill(); }
+  if (look.deco === 'mole') { g.fillStyle = '#4a3040'; g.beginPath(); g.arc(ex + w * .55, ey + 8, 1.6, 0, 7); g.fill(); }
+  if (look.deco === 'star') { g.fillStyle = '#ffd34d'; g.strokeStyle = '#3a2433'; g.lineWidth = 1.2; star(g, ex - w * .55, ey + 9, 5, 2.3); }
+  if (look.deco === 'glasses') { g.strokeStyle = '#4a3040'; g.lineWidth = 2.4; g.beginPath(); g.arc(ex - w * .3, ey, w * .32, 0, 7); g.moveTo(ex + w * .3 + w * .32, ey); g.arc(ex + w * .3, ey, w * .32, 0, 7); g.moveTo(ex - w * .3 + w * .32, ey); g.lineTo(ex + w * .3 - w * .32, ey); g.stroke(); }
+}
 function drawHero(g, x, y, look, cls, opt = {}) {
+  if (look && look.art === 'doll' && DOLL[cls]) {
+    const fr = dollFrame(cls, look, opt.atk > 0 ? 'attack' : 'idle');
+    if (fr) {
+      const m = fr.meta, s = .56 * (opt.artScale || 1), face = opt.face || 1;
+      const sy = !opt.walk && !(opt.atk > 0) ? 1 + Math.sin(T * 3.2) * .014 : 1;
+      const bob = opt.walk ? -Math.abs(Math.sin(opt.walk * 9)) * 4 : 0, rot = opt.walk ? Math.sin(opt.walk * 9) * .05 : 0;
+      g.save(); g.translate(x, y + 3 + bob); if (rot) g.rotate(rot); g.scale(face * s, s * sy); g.translate(-m[2], -m[1]);
+      g.drawImage(fr.c, 0, 0, m[0], m[1]); drawDeco(g, look, m); g.restore(); return;
+    }
+    if (ART.hero && ART.hero[cls]) { drawHero(g, x, y, { ...look, art: 'illust' }, cls, opt); return; }
+  }
   if (useArt(look, cls)) {
     const a = ART.hero[cls], f = opt.atk > 0 ? 'attack' : opt.walk ? 'walk' : 'idle';
     const s = .56 * (opt.artScale || 1), face = opt.face || 1;
@@ -408,12 +468,11 @@ function opts(el, entries, key, swatch) {
 }
 function renderCreate() {
   opts($('#optCls'), Object.entries(CLASSES).map(([k, c]) => [k, `<b>${c.name}</b><small>${c.desc}</small>`]), 'cls');
-  if (draft.art !== 'doll') draft.art = 'illust';
-  opts($('#optArt'), [['illust', '🎨 插畫版'], ['doll', '✂️ 捏臉版']], 'art');
+  if (draft.art !== 'illust') draft.art = 'doll';
+  opts($('#optArt'), [['doll', '✂️ 自訂捏臉'], ['illust', '🎨 職業經典造型']], 'art');
   if (editing) $('#optCls').querySelectorAll('button').forEach(b => { b.disabled = !b.classList.contains('on'); });
   opts($('#optHair'), Object.entries(HAIRS), 'hair');
   opts($('#optHairColor'), HAIR_COLORS.map(c => [c]), 'hairColor', true);
-  opts($('#optEyeShape'), Object.entries(EYE_SHAPES), 'eyeShape');
   opts($('#optEye'), EYE_COLORS.map(c => [c]), 'eye', true);
   opts($('#optSkin'), SKINS.map(c => [c]), 'skin', true);
   const owned = editing && S ? S.outfits : [0, 1, 2, 3];
@@ -426,7 +485,7 @@ function renderCreate() {
 }
 function openCreate(edit) {
   editing = edit;
-  draft = edit ? { ...S.look, cls: S.cls } : { ...randomLook(), cls: 'knight' };
+  draft = edit ? { ...S.look, cls: S.cls, art: S.look.art || 'illust' } : { ...randomLook(), cls: 'knight', art: 'doll' };
   $('#inName').value = edit ? S.name : ''; $('#inName').disabled = edit;
   $('#createTitle').textContent = edit ? '美容院：重新打扮' : '創造你的角色';
   $('#btnCreate').textContent = edit ? '儲存造型' : '完成，進入王都 →';
@@ -834,7 +893,9 @@ function drawFx(f) {
 const fg = $('#face').getContext('2d');
 function refreshFace() {
   fg.clearRect(0, 0, 56, 56);
-  if (useArt(S.look, S.cls)) { const m = ART.hero[S.cls].idle, im = artImg(S.cls + '_idle'); if (im) { const hs = m[1] * .5, sx = clamp(m[2] - hs / 2 + 4, 0, m[0] - hs); fg.drawImage(im, sx, 2, hs, hs, 0, 0, 56, 56); return; } }
+  if (useDoll(S.look, S.cls)) { const fr = dollFrame(S.cls, S.look, 'idle'); if (fr) { const m = fr.meta, hs = m[1] * .5, sx = clamp(m[2] - hs / 2 + 4, 0, m[0] - hs); fg.drawImage(fr.c, sx, 2, hs, hs, 0, 0, 56, 56); fg.save(); fg.scale(56 / hs, 56 / hs); fg.translate(-sx, -2); drawDeco(fg, S.look, m); fg.restore(); return; } }
+  const fa = useArt(S.look, S.cls) || useDoll(S.look, S.cls) ? S.cls : null;
+  if (fa && ART.hero[fa]) { const m = ART.hero[fa].idle, im = artImg(fa + '_idle'); if (im) { const hs = m[1] * .5, sx = clamp(m[2] - hs / 2 + 4, 0, m[0] - hs); fg.drawImage(im, sx, 2, hs, hs, 0, 0, 56, 56); return; } }
   drawChibi(fg, 28, 104, S.look, S.cls, { scale: 1.45 });
 }
 function updateHud() {
