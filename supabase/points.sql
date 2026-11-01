@@ -234,3 +234,71 @@ grant execute on function public._bonus_left(uuid), public._wallet_row(uuid), pu
   public.spend_points(uuid, integer, text, text, text), public.grant_bonus(uuid, integer, integer, text, text, text),
   public.chargeback_order(text, text), public.refund_order(text, text), public.set_suspension(uuid, boolean, text, boolean),
   public.admin_find_user(text) to service_role;
+
+-- ============================================================
+-- v3：會員等級＋每日簽到（可重複執行）
+-- 等級依「累積付費儲值」：一般 0／銀花 300／金花 1500／鑽花 5000（NT$）
+-- 簽到：每天 2 點＋等級加成（銀 +1、金 +2、鑽 +3），連續第 7、14、21…天再加 10 點；簽到點數為贈送點數，30 天到期
+-- ============================================================
+create table if not exists public.member_checkins (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  day date not null,
+  streak integer not null,
+  points integer not null,
+  created_at timestamptz not null default now(),
+  primary key (user_id, day)
+);
+alter table public.member_checkins enable row level security;
+drop policy if exists "read own checkins" on public.member_checkins;
+create policy "read own checkins" on public.member_checkins for select to authenticated using (auth.uid() = user_id);
+
+create or replace function public._topup_total(p_user uuid) returns integer language sql stable security definer set search_path = public as $$
+  select coalesce(sum(amount), 0)::integer from public.topup_orders where user_id = p_user and status = 'paid';
+$$;
+create or replace function public._level(p_total integer) returns jsonb language sql immutable as $$
+  select case
+    when p_total >= 5000 then jsonb_build_object('key','diamond','name','鑽花會員','icon','💎','bonus',3,'next',null,'next_name',null)
+    when p_total >= 1500 then jsonb_build_object('key','gold','name','金花會員','icon','🥇','bonus',2,'next',5000,'next_name','鑽花會員')
+    when p_total >= 300  then jsonb_build_object('key','silver','name','銀花會員','icon','🥈','bonus',1,'next',1500,'next_name','金花會員')
+    else jsonb_build_object('key','normal','name','一般會員','icon','🌸','bonus',0,'next',300,'next_name','銀花會員') end;
+$$;
+create or replace function public._tw_today() returns date language sql stable as $$ select (now() at time zone 'Asia/Taipei')::date $$;
+
+create or replace function public.do_checkin(p_user uuid) returns jsonb language plpgsql security definer set search_path = public as $$
+declare w public.member_wallets; today date := public._tw_today(); prev public.member_checkins; s integer; lv jsonb; pts integer; total integer;
+begin
+  w := public._wallet_row(p_user);
+  if w.suspended then return jsonb_build_object('result','suspended'); end if;
+  if exists (select 1 from public.member_checkins where user_id = p_user and day = today) then return jsonb_build_object('result','already'); end if;
+  select * into prev from public.member_checkins where user_id = p_user and day = today - 1;
+  s := coalesce(prev.streak, 0) + 1;
+  lv := public._level(public._topup_total(p_user));
+  pts := 2 + (lv->>'bonus')::integer + case when s % 7 = 0 then 10 else 0 end;
+  insert into public.member_checkins(user_id, day, streak, points) values (p_user, today, s, pts);
+  total := public.grant_bonus(p_user, pts, 30, 'checkin', 'CHK' || to_char(today,'YYYYMMDD') || replace(p_user::text,'-',''), '每日簽到（連續第 ' || s || ' 天）');
+  return jsonb_build_object('result','ok','points',pts,'streak',s,'total',total);
+end $$;
+
+-- 錢包摘要加上等級與簽到狀態
+create or replace function public.wallet_summary() returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare u uuid := auth.uid(); w public.member_wallets; b integer; t integer; c public.member_checkins; today date := public._tw_today();
+begin
+  if u is null then return null; end if;
+  select * into w from public.member_wallets where user_id = u;
+  b := public._bonus_left(u); t := public._topup_total(u);
+  select * into c from public.member_checkins where user_id = u order by day desc limit 1;
+  return jsonb_build_object(
+    'paid', coalesce(w.balance, 0), 'bonus', b, 'total', coalesce(w.balance, 0) + b,
+    'suspended', coalesce(w.suspended, false), 'suspend_reason', w.suspend_reason, 'owed', coalesce(w.owed, 0),
+    'topup_total', t, 'level', public._level(t),
+    'checked_today', coalesce(c.day = today, false),
+    'streak', case when c.day >= today - 1 then c.streak else 0 end,
+    'grants', coalesce((select jsonb_agg(jsonb_build_object('remaining', remaining, 'expires_at', expires_at, 'note', note) order by expires_at)
+                        from public.point_grants where user_id = u and remaining > 0 and expires_at > now()), '[]'::jsonb));
+end $$;
+
+revoke all on function public._topup_total(uuid) from public, anon, authenticated;
+revoke all on function public.do_checkin(uuid) from public, anon, authenticated;
+revoke all on function public.wallet_summary() from public, anon;
+grant execute on function public.wallet_summary() to authenticated;
+grant execute on function public._topup_total(uuid), public.do_checkin(uuid) to service_role;
