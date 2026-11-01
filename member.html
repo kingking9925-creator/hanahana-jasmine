@@ -526,6 +526,7 @@ footer{border-color:rgba(15,31,69,.12)}
 .mb-pack b{font-family:var(--display);font-size:26px;color:#3b2333}.mb-pack span{font-size:12px;color:var(--muted)}
 .mb-pack em{font-style:normal;margin-top:6px;font-size:13px;font-weight:700;padding:4px 12px;border-radius:999px;color:#fff;background:linear-gradient(110deg,#ff7aa2,#c27cff)}
 .mb-pack:disabled{opacity:.5;cursor:not-allowed}.mb-pack.busy{opacity:.6}
+.mb-agree{display:flex;gap:10px;align-items:flex-start;margin:8px 0 4px;padding:12px 14px;border-radius:14px;background:#faf5f8;border:1px solid #f0dfe9;font-size:13.5px;line-height:1.7;color:#6b4f63;cursor:pointer}.mb-agree input{margin-top:4px;width:18px;height:18px;accent-color:#c27cff;flex:none}.mb-agree a{color:#9c4871;text-decoration:underline}
 .mb-err{color:#d6336c;font-size:13.5px;margin:6px 0 0;min-height:1em}
 .mb-alert{padding:12px 16px;border-radius:16px;margin-bottom:12px;font-size:14px;background:#eef4ff;border:1px solid #cfe0ff;color:#3d5a99}
 .mb-alert.warn{background:#fff6e6;border-color:#f3dcb4;color:#8c6345}.mb-alert.ok{background:#ecfbf2;border-color:#bfe9cf;color:#2a7a4b}
@@ -613,8 +614,9 @@ footer{border-color:rgba(15,31,69,.12)}
         <div class="mb-card">
           <div class="mb-balrow"><div><h3>目前點數</h3><p class="mb-big" id="pBal">—</p></div><p class="mb-sub">NT$1 = 1 點</p></div>
           <h3 style="margin-top:18px">選擇儲值方案</h3>
+          <label class="mb-agree"><input type="checkbox" id="ptAgree"><span>我已閱讀並同意<a href="points-terms.html" target="_blank">《點數使用條款》</a>，了解付費點數無使用期限；點數兌換遊戲、AI 等數位內容後即完成提供，已兌換部分不適用七天解除權。</span></label>
           <div class="mb-packs" id="ptPacks"></div>
-          <p class="mb-sub" style="margin-top:12px">付款方式：信用卡（即時入帳）、ATM 轉帳、超商代碼（付款完成後入帳）。按下方案後會前往綠界安全付款頁面。</p>
+          <p class="mb-sub" style="margin-top:12px"><a href="points-terms.html">點數使用條款</a>・付款方式：信用卡（即時入帳）、ATM 轉帳、超商代碼（付款完成後入帳）。按下方案後會前往綠界安全付款頁面。</p>
           <p class="mb-err" id="ptErr"></p>
         </div>
         <div class="mb-card">
@@ -700,8 +702,8 @@ footer{border-color:rgba(15,31,69,.12)}
     }).catch(function(){$('#ptOff').hidden=false;packs([50,150,300,600,1500],false)});
   }
   function topup(amount,btn){
-    $('#ptErr').textContent='';btn.disabled=true;btn.classList.add('busy');
-    fetch('/api/points?action=topup',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:amount})})
+    $('#ptErr').textContent='';if(!$('#ptAgree').checked){$('#ptErr').textContent='請先勾選同意《點數使用條款》再儲值。';$('#ptAgree').focus();return}btn.disabled=true;btn.classList.add('busy');
+    fetch('/api/points?action=topup',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:amount,agree:true})})
       .then(function(r){return r.json()}).then(function(d){
         if(d.error)throw new Error(d.error);
         var f=document.createElement('form');f.method='POST';f.action=d.action;f.acceptCharset='UTF-8';
