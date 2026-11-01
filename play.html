@@ -515,6 +515,12 @@ footer{border-color:rgba(15,31,69,.12)}
 .lb-tags{display:flex;flex-wrap:wrap;gap:6px}.lb-tags span{font-size:11.5px;padding:3px 9px;border-radius:999px;background:#f6efff;color:#7b3fc4}
 .lb-play{margin-top:auto;align-self:flex-start;padding:11px 22px;border-radius:999px;font-weight:800;color:#fff;background:linear-gradient(110deg,#ff7aa2,#c27cff);box-shadow:0 8px 20px rgba(194,124,255,.35)}
 .lb-guide{grid-column:1/-1;order:99;text-align:center;font-weight:700;color:#9c4871;padding:6px}
+.lb-cover{height:220px;background:#2b2140}.lb-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 78%;transition:transform .6s}
+.lb-card.hot:hover .lb-cover img{transform:scale(1.05)}
+.lb-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(60,30,80,.45),transparent 45%)}
+.lb-logo{position:absolute;z-index:1;left:0;right:0;top:16px;text-align:center;font-family:"Noto Serif TC",serif;font-weight:900;font-size:30px;letter-spacing:.12em;color:#fff6fb;text-shadow:0 2px 0 #7a3478,0 0 14px rgba(255,200,230,.9)}
+.lb-logo small{display:block;font-size:11px;letter-spacing:.5em;color:#ffe7a8;margin-top:2px}
+.lb-cover .lb-badge{z-index:2}
 .lb-play.off{background:#f3edf2;color:#a08a98;box-shadow:none;font-weight:700}
 @media(max-width:860px){.lb-grid{grid-template-columns:1fr}.lb-card.soon{flex-direction:row}.lb-card.soon .lb-art{width:110px;height:auto;flex:none}.lb-card.soon .lb-hero{bottom:auto;top:50%;transform:translate(-50%,-50%)}}
 @media(prefers-reduced-motion:reduce){.lb-hero{animation:none}}
@@ -558,7 +564,7 @@ footer{border-color:rgba(15,31,69,.12)}
       <p class="gz-sub" style="margin-top:14px">歡迎回來！選一款遊戲開始玩吧 ✿</p>
       <div class="lb-grid">
         <a class="lb-card hot" href="hana-realm.html">
-          <div class="lb-art"><span class="lb-moon"></span><span class="lb-sakura a"></span><span class="lb-sakura b"></span><span class="lb-hero">🧚</span><span class="lb-badge">v0.2 試玩中</span></div>
+          <div class="lb-art lb-cover"><img src="img/hr-cover.jpg" alt="花之境界 Online 主視覺" loading="lazy" width="1200" height="800"><span class="lb-logo">花之境界<small>ONLINE</small></span><span class="lb-badge">v0.3 試玩中</span></div>
           <div class="lb-bd">
             <h3>花之境界 Online</h3>
             <p class="lb-en">HANA REALM ONLINE</p>

@@ -196,3 +196,21 @@ button{font:inherit;cursor:pointer}
 .field .fl em{font-style:normal;font-size:12px;font-weight:700;color:#b0508a;background:#fff0f6;border-radius:999px;padding:1px 9px}
 .field .fl em:empty{display:none}
 .opts.sw button{width:30px;height:30px}
+
+/* ===== 標題中央面板 ===== */
+.title-panel{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:clamp(16px,4vh,30px);
+  width:min(600px,92vw);padding:clamp(26px,5vh,44px) clamp(18px,4vw,44px) clamp(22px,4.5vh,38px);border-radius:32px;
+  background:linear-gradient(180deg,rgba(255,240,248,.22),rgba(120,70,150,.30) 55%,rgba(70,35,95,.42));
+  backdrop-filter:blur(3px) saturate(1.1);-webkit-backdrop-filter:blur(3px) saturate(1.1);
+  border:2px solid rgba(255,229,160,.85);
+  box-shadow:0 0 0 6px rgba(255,255,255,.12),0 0 0 7px rgba(255,214,234,.45),0 24px 60px rgba(50,15,70,.45),inset 0 0 40px rgba(255,200,230,.25);
+  animation:tlIn 1s cubic-bezier(.2,.8,.2,1) both}
+.title-panel::before{content:"";position:absolute;inset:10px;border-radius:24px;border:1px dashed rgba(255,235,190,.55);pointer-events:none}
+.title-panel .title-logo,.title-panel .title-actions{animation:none}
+.tp-c{position:absolute;width:34px;height:34px;pointer-events:none}
+.tp-c::before{content:"✿";position:absolute;inset:0;display:grid;place-items:center;font-size:22px;color:#ffe7a8;text-shadow:0 0 10px rgba(255,200,230,.9),0 2px 0 #8a4a86}
+.tp-c.tl{left:-12px;top:-12px}.tp-c.tr{right:-12px;top:-12px}.tp-c.bl{left:-12px;bottom:-12px}.tp-c.br{right:-12px;bottom:-12px}
+.tp-gem{position:absolute;top:-19px;left:50%;transform:translateX(-50%);width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:20px;color:#fff;
+  background:radial-gradient(circle at 35% 30%,#ffd1e6,#ff7fb5 60%,#c25aa8);border:2px solid #ffe7a8;box-shadow:0 0 16px rgba(255,150,200,.8)}
+.title.show{justify-content:center;gap:0}
+@media (max-height:520px){.title-panel{gap:10px;padding:18px 18px 14px}.tp-gem{width:30px;height:30px;top:-15px;font-size:16px}}
