@@ -7,7 +7,7 @@
 //   POINTS_ENABLED = true 才開放儲值
 //   ADMIN_EMAILS = 站長 Email（可用逗號分隔多個），可使用 admin-points.html 管理點數
 const crypto = require('crypto');
-const COOKIE = '__Host-jasmine_access';
+const { getUser } = require('./_auth');
 const SITE = process.env.PUBLIC_SITE_URL || 'https://fafa-jasmineliu.vercel.app';
 const PACKAGES = [50, 150, 300, 600, 1500];      // NT$ = 點數
 const STAGE = { id: '3002607', key: 'pwFHCqoQZGmho4w6', iv: 'EkRm7iFT261dpevs' }; // 綠界公開測試商店
@@ -29,7 +29,6 @@ function checkMac(params, key, iv) {
 const TERMS_VERSION = '2026-11-01';                // 《點數使用條款》版本，改條款時一起更新
 function isAdmin(u) { const list = (process.env.ADMIN_EMAILS || '').toLowerCase().split(',').map(s => s.trim()).filter(Boolean); return !!u && list.includes(String(u.email || '').toLowerCase()); }
 function safeEq(a, b) { const x = Buffer.from(String(a)), y = Buffer.from(String(b)); return x.length === y.length && crypto.timingSafeEqual(x, y); }
-function cookieToken(req) { const item = (req.headers.cookie || '').split(';').map(s => s.trim()).find(s => s.startsWith(COOKIE + '=')); if (!item) return ''; try { return decodeURIComponent(item.slice(COOKIE.length + 1)); } catch { return ''; } }
 function twTime(d = new Date()) { const t = new Date(d.getTime() + 8 * 3600e3); const p = n => String(n).padStart(2, '0'); return `${t.getUTCFullYear()}/${p(t.getUTCMonth() + 1)}/${p(t.getUTCDate())} ${p(t.getUTCHours())}:${p(t.getUTCMinutes())}:${p(t.getUTCSeconds())}`; }
 
 module.exports = async function handler(req, res) {
@@ -47,11 +46,8 @@ module.exports = async function handler(req, res) {
     const text = await r.text(); let data = null; try { data = text ? JSON.parse(text) : null; } catch {}
     return { ok: r.ok, status: r.status, data };
   };
-  const currentUser = async () => {
-    const token = cookieToken(req); if (!token || !base) return null;
-    const r = await fetch(base + '/auth/v1/user', { headers: { apikey: anon, Authorization: 'Bearer ' + token }, signal: AbortSignal.timeout(10000) });
-    if (!r.ok) return null; const u = await r.json(); return { id: u.id, email: u.email, token };
-  };
+  const currentUser = () => getUser(req, res, base, anon);
+
 
   try {
     // ---------- 綠界付款結果通知（伺服器對伺服器） ----------
@@ -88,7 +84,7 @@ module.exports = async function handler(req, res) {
       ]);
       if (!w.ok || !l.ok || !o.ok) return send(503, { error: '點數資料讀取失敗，請稍後再試。' });
       const s = w.data || {};
-      return send(200, { balance: s.total || 0, paid: s.paid || 0, bonus: s.bonus || 0, grants: s.grants || [], suspended: !!s.suspended, suspendReason: s.suspend_reason || '', owed: s.owed || 0, level: s.level || null, topupTotal: s.topup_total || 0, checkedToday: !!s.checked_today, streak: s.streak || 0, ledger: l.data, orders: o.data, packages: PACKAGES, env: conf.prod ? 'prod' : 'stage', isAdmin: isAdmin(user) });
+      return send(200, { balance: s.total || 0, paid: s.paid || 0, bonus: s.bonus || 0, grants: s.grants || [], suspended: !!s.suspended, suspendReason: s.suspend_reason || '', owed: s.owed || 0, level: s.level || null, topupTotal: s.topup_total || 0, checkedToday: !!s.checked_today, streak: s.streak || 0, birthday: s.birthday || null, ledger: l.data, orders: o.data, packages: PACKAGES, env: conf.prod ? 'prod' : 'stage', isAdmin: isAdmin(user) });
     }
 
     // ---------- 每日簽到（送贈送點數） ----------
@@ -97,6 +93,15 @@ module.exports = async function handler(req, res) {
       if (!r.ok) return send(503, { error: '簽到失敗，請稍後再試。' });
       if (r.data.result === 'already') return send(409, { error: '今天已經簽到過了，明天再來喔！' });
       if (r.data.result === 'suspended') return send(403, { error: '帳號目前暫停使用。' });
+      return send(200, r.data);
+    }
+
+    // ---------- 生日禮（生日當月領一次） ----------
+    if (action === 'birthday' && req.method === 'POST') {
+      const r = await rest('rpc/claim_birthday', { method: 'POST', admin: true, body: { p_user: user.id } });
+      if (!r.ok) return send(503, { error: '領取失敗，請稍後再試。' });
+      const msg = { no_birthday: '請先在「設定」填寫生日。', not_month: '生日禮只能在生日當月領取喔！', already: '今年的生日禮已經領過了。', suspended: '帳號目前暫停使用。' }[r.data.result];
+      if (msg) return send(400, { error: msg });
       return send(200, r.data);
     }
 
