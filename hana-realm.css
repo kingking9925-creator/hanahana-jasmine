@@ -182,3 +182,7 @@ button{font:inherit;cursor:pointer}
 @keyframes tlSpin{to{transform:rotate(360deg)}}
 @media (max-height:520px){.title.show{padding:14px 16px 18px}.tl-main{font-size:clamp(40px,8vw,64px)}.tbtn{padding:9px 26px;font-size:17px}.title-actions{gap:8px}}
 @media (max-aspect-ratio:3/4){.title.show{padding-top:max(12vh,72px)}.tl-main{font-size:clamp(46px,16vw,96px)}.tl-sub{font-size:16px}}
+/* 標題往下、按鈕往上 */
+.title.show{padding:min(14vh,110px) 16px min(17vh,140px)}
+@media (max-height:520px){.title.show{padding:7vh 16px 10vh}}
+@media (max-aspect-ratio:3/4){.title.show{padding:max(18vh,110px) 16px max(14vh,100px)}}
