@@ -156,3 +156,29 @@ button{font:inherit;cursor:pointer}
 .gate.show,.title.show{flex-direction:column;align-items:center;justify-content:flex-start}
 .gate-card,.title-card{max-width:520px;background:rgba(43,33,64,.32)}
 .title-card .sub{font-size:13px}
+/* ===== 標題畫面：只留大標題與按鈕 ===== */
+.title.show{justify-content:space-between;padding:min(7vh,56px) 16px min(8vh,64px)}
+.title::before{background:linear-gradient(180deg,rgba(60,30,80,.38) 0%,rgba(60,30,80,0) 38%,rgba(60,30,80,0) 62%,rgba(40,20,60,.45) 100%)}
+.title-logo{position:relative;z-index:1;text-align:center;animation:tlIn 1.1s cubic-bezier(.2,.8,.2,1) both}
+.tl-main{position:relative;margin:0;font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(46px,10vw,104px);line-height:1.05;letter-spacing:.12em;padding-left:.12em;
+  background:linear-gradient(180deg,#fffaf0 0%,#ffe3f0 38%,#ff9cc8 62%,#f2c35b 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-fill-color:transparent;-webkit-text-stroke:1.5px rgba(122,52,120,.9);paint-order:stroke fill}
+.tl-wrap{filter:drop-shadow(0 3px 0 #7a3478) drop-shadow(0 8px 18px rgba(80,20,90,.55)) drop-shadow(0 0 26px rgba(255,214,240,.7))}
+.title-sky{position:absolute;inset:0;pointer-events:none}
+.tl-main::after{content:"✿";position:absolute;right:-.42em;top:-.18em;font-size:.32em;-webkit-text-stroke:0;color:#fff2c4;-webkit-text-fill-color:#fff2c4;text-shadow:0 0 12px #ffd6ea;animation:tlSpin 8s linear infinite}
+.tl-sub{margin:.35em 0 0;font-family:"Cinzel Decorative",serif;font-weight:700;font-size:clamp(16px,2.6vw,28px);letter-spacing:.6em;padding-left:.6em;color:#fff4cf;
+  text-shadow:0 2px 0 #8a4a86,0 0 14px rgba(255,220,160,.9)}
+.tl-sub::before,.tl-sub::after{content:"";display:inline-block;width:clamp(28px,6vw,70px);height:2px;vertical-align:middle;margin:0 .6em;background:linear-gradient(90deg,transparent,#ffe7a8)}
+.tl-sub::after{transform:scaleX(-1)}
+.title-actions{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:12px;animation:tlIn 1.1s .25s cubic-bezier(.2,.8,.2,1) both}
+.tbtn{min-width:230px;padding:13px 34px;border-radius:999px;font-family:"Noto Serif TC",serif;font-weight:900;font-size:20px;letter-spacing:.18em;cursor:pointer;color:#7a3478;
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,234,244,.88));border:2px solid #f6d27a;box-shadow:0 0 0 3px rgba(255,255,255,.35),0 8px 22px rgba(80,20,90,.35);transition:transform .15s,box-shadow .15s}
+.tbtn small{display:block;margin-top:2px;font-family:"Noto Sans TC",sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;color:#a0588f}
+.tbtn.pri{color:#fff;background:linear-gradient(180deg,#ffb3d4 0%,#ff7fb5 55%,#d968c9 100%);border-color:#ffe7a8;text-shadow:0 2px 0 rgba(122,52,120,.55)}
+.tbtn.pri small{color:#fff3fa}
+.tbtn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 0 3px rgba(255,255,255,.5),0 12px 28px rgba(80,20,90,.45),0 0 24px rgba(255,200,230,.8)}
+.tbtn:not(.pri){font-size:15px;padding:9px 26px;min-width:170px}
+@keyframes tlIn{from{opacity:0;transform:translateY(-14px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes tlSpin{to{transform:rotate(360deg)}}
+@media (max-height:520px){.title.show{padding:14px 16px 18px}.tl-main{font-size:clamp(40px,8vw,64px)}.tbtn{padding:9px 26px;font-size:17px}.title-actions{gap:8px}}
+@media (max-aspect-ratio:3/4){.title.show{padding-top:max(12vh,72px)}.tl-main{font-size:clamp(46px,16vw,96px)}.tl-sub{font-size:16px}}

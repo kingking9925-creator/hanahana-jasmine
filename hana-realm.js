@@ -444,7 +444,7 @@ document.querySelectorAll('[data-mz-open]').forEach(b => b.addEventListener('cli
 
 function toTitle() {
   S = load();
-  $('#btnStart').textContent = S ? `繼續冒險（${S.name} Lv.${S.lv}）` : '開始冒險';
+  $('#btnStart').innerHTML = S ? `繼續冒險<small>${S.name}・Lv.${S.lv}</small>` : '創建角色';
   $('#btnNew').hidden = !S;
   show('title');
 }
