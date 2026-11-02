@@ -432,6 +432,7 @@ function dollBody(g, look, cls, opt) {
   g.restore();
 }
 function drawPet(g, id, x, y, t) {
+  if (drawImg(g, 'ui/pet_' + id, x, y + 3 + Math.sin(t * 8) * 1.2, id === 'snake' ? 30 : 36, P && P.face < 0)) return;
   g.save(); g.translate(x, y + Math.sin(t * 8) * 1.2);
   g.fillStyle = 'rgba(0,0,0,.12)'; g.beginPath(); g.ellipse(0, 0, 11, 3, 0, 0, 7); g.fill();
   const body = { dog: '#e9a65f', cat: '#fff1d6', lizard: '#5fcf8a', snake: '#ff9ec4' }[id];
@@ -445,6 +446,7 @@ function drawPet(g, id, x, y, t) {
   g.restore();
 }
 function drawMount(g, x, y, f, t) {
+  if (drawImg(g, 'ui/mount_deer', x - f * 6, y + 4 + Math.sin(t * 12) * 1.5, 104, f < 0)) return;
   g.save(); g.translate(x, y); g.scale(f, 1);
   const s = Math.sin(t * 12) * 3;
   g.fillStyle = '#e8a77a'; g.beginPath(); g.ellipse(0, -18, 24, 10, 0, 0, 7); g.fill();
@@ -915,7 +917,7 @@ function draw() {
   if (S.pet) { const px = P.x - P.face * 36; drawPet(g, S.pet, (S._petX = S._petX == null ? px : S._petX + (px - S._petX) * .08), P.y, T); }
   const flick = P.inv > 0 && Math.floor(T * 20) % 2;
   if (!flick) {
-    if (S.riding && S.mount) { drawMount(g, P.x, P.y, P.face, P.vx ? T : 0); drawHero(g, P.x - P.face * 2, P.y - 22, S.look, S.cls, { face: P.face, atk: P.atkT, blink: P.blinkT < 0 }); }
+    if (S.riding && S.mount) { drawMount(g, P.x, P.y, P.face, P.vx ? T : 0); drawHero(g, P.x + P.face * 2, P.y - 44, S.look, S.cls, { face: P.face, atk: P.atkT, blink: P.blinkT < 0 }); }
     else drawHero(g, P.x, P.y, S.look, S.cls, { face: P.face, walk: P.vx && P.onG ? P.walk : 0, atk: P.atkT, blink: P.blinkT < 0 });
   }
   if (fishing) { const bx = fishing.spot.x + (P.face > 0 ? -10 : 10), by = GROUND + 4 + Math.sin(T * 6) * (fishing.t > fishing.wait - .6 ? 4 : 1.5); g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1; g.beginPath(); g.moveTo(P.x + P.face * 26, P.y - 54); g.quadraticCurveTo((P.x + bx) / 2, P.y - 80, bx, by); g.stroke(); g.fillStyle = '#ff6b6b'; g.beginPath(); g.arc(bx, by, 4, 0, 7); g.fill(); g.strokeStyle = '#8a5a3c'; g.lineWidth = 2.5; g.beginPath(); g.moveTo(P.x + P.face * 6, P.y - 22); g.lineTo(P.x + P.face * 26, P.y - 54); g.stroke(); }
@@ -991,8 +993,8 @@ $('#panelX').onclick = closePanel; $('#panel').addEventListener('click', e => { 
 function openBag() {
   const st = stats();
   const cells = Object.entries(ITEMS).filter(([k]) => S.inv[k] || ['hpPot', 'mpPot', 'ticket'].includes(k)).map(([k, it]) => `<div class="cell"><span class="e">${ic(k)}</span>${it.n}<b>${S.inv[k] || 0}</b></div>`).join('');
-  const pets = S.pets.length ? S.pets.map(p => `<button class="btn sm" data-pet="${p}">${PETS[p].e} ${PETS[p].n}${S.pet === p ? '（出戰中）' : ''}</button>`).join(' ') : '<span class="note">還沒有寵物，去星願召喚殿抽抽看！</span>';
-  const mounts = S.mounts.length ? S.mounts.map(m => `<button class="btn sm" data-mount="${m}">${MOUNTS[m].e} ${MOUNTS[m].n}${S.riding && S.mount === m ? '（騎乘中）' : ''}</button>`).join(' ') : '<span class="note">還沒有坐騎（SSR 獎勵）</span>';
+  const pets = S.pets.length ? S.pets.map(p => `<button class="btn sm" data-pet="${p}">${ic('pet_' + p)} ${PETS[p].n}${S.pet === p ? '（出戰中）' : ''}</button>`).join(' ') : '<span class="note">還沒有寵物，去星願召喚殿抽抽看！</span>';
+  const mounts = S.mounts.length ? S.mounts.map(m => `<button class="btn sm" data-mount="${m}">${ic('mount_' + m)} ${MOUNTS[m].n}${S.riding && S.mount === m ? '（騎乘中）' : ''}</button>`).join(' ') : '<span class="note">還沒有坐騎（SSR 獎勵）</span>';
   openPanel('🎒 背包', `<p class="note">${CLASSES[S.cls].name}・攻擊 ${st.atk}・防禦 ${st.def}・爆擊 ${(st.crit * 100).toFixed(0)}%・十字鎬 Lv.${S.pickLv}・🪙 ${S.gold}・擊敗怪物 ${S.kills}</p><div class="row" style="justify-content:flex-start;margin:0 0 12px"><button class="btn sm pri" data-go="gear">🛡️ 裝備</button><button class="btn sm" data-go="tal">🌳 天賦</button><button class="btn sm" data-go="life">🧪 生活技能</button></div><div class="grid">${cells}</div><h3 style="margin-top:16px;font-size:16px">🐾 寵物（會幫你撿東西）</h3><div>${pets}</div><h3 style="margin-top:16px;font-size:16px">🦌 坐騎</h3><div>${mounts}</div>`, b => {
     b.querySelectorAll('[data-go]').forEach(x => x.onclick = () => ({ gear: () => openGear(), tal: openTalents, life: () => openLife() })[x.dataset.go]());
     b.querySelectorAll('[data-pet]').forEach(x => x.onclick = () => { S.pet = S.pet === x.dataset.pet ? null : x.dataset.pet; S._petX = null; openBag(); });
@@ -1044,16 +1046,16 @@ const GACHA = [
 function rollGacha() {
   let x = Math.random(), r = 'N';
   for (const g2 of GACHA) { if (x < g2.p) { r = g2.r; break; } x -= g2.p; }
-  if (r === 'SSR') { if (!S.mounts.includes('deer')) { S.mounts.push('deer'); S.mount = 'deer'; return { r, e: '🦌', t: '坐騎「櫻花鹿」', s: '在背包點選就能騎乘，移動速度 +45%' }; } S.gold += 1500; return { r, e: '🪙', t: '金幣 1500', s: '已擁有櫻花鹿，轉換成金幣' }; }
-  if (r === 'SR') { const id = pick(Object.keys(PETS)); if (!S.pets.includes(id)) { S.pets.push(id); if (!S.pet) S.pet = id; return { r, e: PETS[id].e, t: `寵物「${PETS[id].n}」`, s: '寵物會跟著你，還會幫你撿掉落物' }; } S.gold += 300; return { r, e: '🪙', t: '金幣 300', s: `已擁有${PETS[id].n}，轉換成金幣` }; }
-  if (r === 'R') { const locked = OUTFITS.map((_, i) => i).filter(i => !S.outfits.includes(i)); if (locked.length) { const i = pick(locked); S.outfits.push(i); return { r, e: '👗', t: '新服裝顏色', s: '到美容院就能換上', col: OUTFITS[i] }; } S.inv.hpPot += 5; return { r, e: '❤️', t: '紅藥水 x5', s: '' }; }
-  const n = pick([{ e: '❤️', t: '紅藥水 x3', f: () => S.inv.hpPot += 3 }, { e: '🔷', t: '藍藥水 x3', f: () => S.inv.mpPot += 3 }, { e: '🪙', t: '金幣 80', f: () => S.gold += 80 }, { e: '🪨', t: '鐵礦 x4', f: () => S.inv.iron += 4 }]); n.f(); return { r, e: n.e, t: n.t, s: '' };
+  if (r === 'SSR') { if (!S.mounts.includes('deer')) { S.mounts.push('deer'); S.mount = 'deer'; return { r, e: ic('mount_deer'), t: '坐騎「櫻花鹿」', s: '在背包點選就能騎乘，移動速度 +45%' }; } S.gold += 1500; return { r, e: ic('i_gold'), t: '金幣 1500', s: '已擁有櫻花鹿，轉換成金幣' }; }
+  if (r === 'SR') { const id = pick(Object.keys(PETS)); if (!S.pets.includes(id)) { S.pets.push(id); if (!S.pet) S.pet = id; return { r, e: ic('pet_' + id), t: `寵物「${PETS[id].n}」`, s: '寵物會跟著你，還會幫你撿掉落物' }; } S.gold += 300; return { r, e: ic('i_gold'), t: '金幣 300', s: `已擁有${PETS[id].n}，轉換成金幣` }; }
+  if (r === 'R') { const locked = OUTFITS.map((_, i) => i).filter(i => !S.outfits.includes(i)); if (locked.length) { const i = pick(locked); S.outfits.push(i); return { r, e: ic('s_armor'), t: '新服裝顏色', s: '到美容院就能換上', col: OUTFITS[i] }; } S.inv.hpPot += 5; return { r, e: ic('hpPot'), t: '紅藥水 x5', s: '' }; }
+  const n = pick([{ e: ic('hpPot'), t: '紅藥水 x3', f: () => S.inv.hpPot += 3 }, { e: ic('mpPot'), t: '藍藥水 x3', f: () => S.inv.mpPot += 3 }, { e: ic('i_gold'), t: '金幣 80', f: () => S.gold += 80 }, { e: ic('iron'), t: '鐵礦 x4', f: () => S.inv.iron += 4 }]); n.f(); return { r, e: n.e, t: n.t, s: '' };
 }
 function openGacha(res) {
-  const show = res ? res.map(x => `<div class="gacha-show ${x.r}"><div class="e">${x.e}</div><b>${x.r}・${x.t}</b>${x.col ? `<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${x.col};vertical-align:middle;margin-left:6px;border:1px solid #ddd"></span>` : ''}<p class="note">${x.s}</p></div>`).join('') : '';
-  openPanel('✨ 星願召喚殿', `<p class="note">用 🎫 召喚券抽取寵物、坐騎、服裝和道具。召喚券可以靠升級、打怪掉落或商店購買取得（遊戲內金幣）。</p>
+  const show = res ? res.map(x => `<div class="gacha-show ${x.r}"><img class="gstar" src="${ART_DIR}ui/r_${x.r === 'N' ? 'R' : x.r}.webp" alt=""><div class="e">${x.e}</div><b>${x.r}・${x.t}</b>${x.col ? `<span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${x.col};vertical-align:middle;margin-left:6px;border:1px solid #ddd"></span>` : ''}<p class="note">${x.s}</p></div>`).join('') : '';
+  openPanel('✨ 星願召喚殿', `<p class="note">用 ${ic('ticket')} 召喚券抽取寵物、坐騎、服裝和道具。召喚券可以靠升級、打怪掉落或商店購買取得（遊戲內金幣）。</p>
     <div class="rates"><span>SSR 2%・坐騎</span><span>SR 13%・寵物</span><span>R 35%・服裝</span><span>N 50%・道具</span></div>
-    <div class="row" style="justify-content:flex-start"><button class="btn pri" data-g="1" ${S.inv.ticket >= 1 ? '' : 'disabled'}>召喚 1 次（🎫1）</button><button class="btn" data-g="10" ${S.inv.ticket >= 10 ? '' : 'disabled'}>召喚 10 次（🎫10）</button><span class="note" style="align-self:center">擁有 🎫 ${S.inv.ticket}</span></div>${show}`, b => {
+    <div class="row" style="justify-content:flex-start"><button class="btn pri" data-g="1" ${S.inv.ticket >= 1 ? '' : 'disabled'}>召喚 1 次（${ic('ticket')}1）</button><button class="btn" data-g="10" ${S.inv.ticket >= 10 ? '' : 'disabled'}>召喚 10 次（${ic('ticket')}10）</button><span class="note" style="align-self:center">擁有 ${ic('ticket')} ${S.inv.ticket}</span></div>${show}`, b => {
     b.querySelectorAll('[data-g]').forEach(x => x.onclick = () => { const n = +x.dataset.g; if (S.inv.ticket < n) return; S.inv.ticket -= n; const out = Array.from({ length: n }, rollGacha); out.sort((a, c) => 'SSR SR R N'.split(' ').indexOf(a.r) - 'SSR SR R N'.split(' ').indexOf(c.r)); persist(); openGacha(out.slice(0, n === 1 ? 1 : 10)); });
   });
 }

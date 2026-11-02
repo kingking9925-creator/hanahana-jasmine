@@ -271,3 +271,11 @@ button{font:inherit;cursor:pointer}
 @media (max-width:760px),(max-height:520px){.me{transform:scale(.78);transform-origin:0 0}}
 .panel-card .x{top:-6px !important;right:-6px !important}
 .hud-right .gold b{color:#7a3478}
+
+.acts button{background:none !important;box-shadow:none !important;padding:0}
+.acts button img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(40,10,40,.4));pointer-events:none}
+.acts button.on img{transform:scale(.9);filter:brightness(1.15) drop-shadow(0 0 10px rgba(255,220,240,.9))}
+.pad button{background:url(img/hr/ui/u_slot.webp) center/100% 100% no-repeat !important;border-radius:16px !important;color:#9c4871 !important;box-shadow:none !important}
+.gacha-show{position:relative}.gacha-show .gstar{position:absolute;right:8px;top:8px;width:34px;height:34px;object-fit:contain}
+.gacha-show .e .gi{width:56px;height:56px}
+@media (max-height:520px){.prompt{top:auto !important;bottom:22px !important;font-size:12px}}
