@@ -1077,17 +1077,52 @@ function drawMinimap() {
 function openPanel(title, html, bind) { $('#panelCard').classList.remove('npc-mode'); $('#panelT').textContent = title; $('#panelB').innerHTML = html; $('#panel').hidden = false; Object.keys(keys).forEach(k => keys[k] = false); if (bind) bind($('#panelB')); }
 function closePanel() { $('#panel').hidden = true; persist(); updateHud(); }
 $('#panelX').onclick = closePanel; $('#panel').addEventListener('click', e => { if (e.target.id === 'panel') closePanel(); });
-function openBag() {
-  const st = stats();
-  const cells = Object.entries(ITEMS).filter(([k]) => S.inv[k] || ['hpPot', 'mpPot', 'ticket'].includes(k)).map(([k, it]) => `<div class="cell"><span class="e">${ic(k)}</span>${it.n}<b>${S.inv[k] || 0}</b></div>`).join('');
-  const pets = S.pets.length ? S.pets.map(p => `<button class="btn sm" data-pet="${p}">${ic('pet_' + p)} ${PETS[p].n}${S.pet === p ? '（出戰中）' : ''}</button>`).join(' ') : '<span class="note">還沒有寵物，去星願召喚殿抽抽看！</span>';
-  const mounts = S.mounts.length ? S.mounts.map(m => `<button class="btn sm" data-mount="${m}">${ic('mount_' + m)} ${MOUNTS[m].n}${S.riding && S.mount === m ? '（騎乘中）' : ''}</button>`).join(' ') : '<span class="note">還沒有坐騎（SSR 獎勵）</span>';
-  openPanel('🎒 背包', `<p class="note">${CLASSES[S.cls].name}・攻擊 ${st.atk}・防禦 ${st.def}・爆擊 ${(st.crit * 100).toFixed(0)}%・十字鎬 Lv.${S.pickLv}・🪙 ${S.gold}・擊敗怪物 ${S.kills}</p><div class="row" style="justify-content:flex-start;margin:0 0 12px"><button class="btn sm pri" data-go="gear">🛡️ 裝備</button><button class="btn sm" data-go="tal">🌳 天賦</button><button class="btn sm" data-go="life">🧪 生活技能</button></div><div class="grid">${cells}</div><h3 style="margin-top:16px;font-size:16px">🐾 寵物（會幫你撿東西）</h3><div>${pets}</div><h3 style="margin-top:16px;font-size:16px">🦌 坐騎</h3><div>${mounts}</div>`, b => {
+/* ---------- 背包（楓之谷式道具欄：分頁＋方格） ---------- */
+const BAG_TABS = [['equip', '裝備'], ['use', '消耗'], ['etc', '其他'], ['special', '特殊']];
+const BAG_USE = ['hpPot', 'mpPot', 'food1', 'food2', 'food3', 'luck', 'ticket'];
+const BAG_ETC = ['iron', 'crystal', 'star', 'dew', 'dust', 'leaf', 'herb', 'moonflower', 'fish1', 'fish2', 'fish3'];
+const ITEM_DESC = { hpPot: '回復 50% HP', mpPot: '回復 60% MP', luck: '強化裝備時自動使用，成功率 +15%', ticket: '到星願召喚殿可以抽一次', food1: '料理：吃了有增益效果', food2: '料理：吃了有增益效果', food3: '料理：吃了有增益效果' };
+const BAG_COLS = 6, BAG_ROWS = 5;
+let bagTab = 'use';
+function bagEntries(tab) {
+  if (tab === 'equip') return S.gear.slice().sort((a, b) => b.r - a.r || b.lv - a.lv).map(it => ({ kind: 'gear', id: it.id, icon: 's_' + it.slot, name: gearName(it, S.cls) + (it.enh ? ' +' + it.enh : ''), col: RARITY[it.r].c, desc: `${RARITY[it.r].n}・Lv.${it.lv}・${statLine(gearStats(it))}`, it }));
+  if (tab === 'use') return BAG_USE.filter(k => S.inv[k] > 0).map(k => ({ kind: 'item', id: k, icon: k, name: ITEMS[k].n, n: S.inv[k], desc: ITEM_DESC[k] || '' }));
+  if (tab === 'etc') return BAG_ETC.filter(k => S.inv[k] > 0).map(k => ({ kind: 'item', id: k, icon: k, name: ITEMS[k].n, n: S.inv[k], desc: `素材・可以拿去鍛造、煉金或料理，商店收購 🪙${ITEMS[k].sell || 0}` }));
+  return [...S.pets.map(p => ({ kind: 'pet', id: p, icon: 'pet_' + p, name: PETS[p].n, desc: S.pet === p ? '出戰中（會幫你撿東西）' : '寵物：出戰後會幫你撿東西', on: S.pet === p })),
+    ...S.mounts.map(m => ({ kind: 'mount', id: m, icon: 'mount_' + m, name: MOUNTS[m].n, desc: S.riding && S.mount === m ? '騎乘中' : '坐騎：騎上去跑得更快', on: S.riding && S.mount === m }))];
+}
+function openBag(tab, sel) {
+  bagTab = tab || bagTab;
+  const list = bagEntries(bagTab), cap = bagTab === 'equip' ? GEAR_CAP : BAG_COLS * BAG_ROWS;
+  const cells = Math.max(BAG_COLS * BAG_ROWS, Math.ceil(list.length / BAG_COLS) * BAG_COLS);
+  const cur = sel != null ? list.find(e => e.id === sel) : null;
+  let grid = '';
+  for (let i = 0; i < cells; i++) { const e = list[i]; grid += e ? `<button type="button" class="inv-slot${cur === e ? ' sel' : ''}${e.on ? ' on' : ''}" data-i="${i}" title="${esc(e.name)}"${e.col ? ` style="--rc:${e.col}"` : ''}><img src="${ART_DIR}ui/${e.icon}.webp" alt="">${e.n != null ? `<b>${e.n}</b>` : ''}</button>` : '<span class="inv-slot empty"></span>'; }
+  let acts = '';
+  if (cur) {
+    if (cur.kind === 'gear') acts = `<button class="btn sm pri" data-act="equip">裝備</button><button class="btn sm" data-act="sell">賣 🪙${gearPrice(cur.it)}</button>`;
+    else if (cur.kind === 'item' && QS_ITEMS.includes(cur.id)) acts = `<button class="btn sm pri" data-act="use">使用</button><button class="btn sm" data-act="quick">放到快捷欄</button>`;
+    else if (cur.kind === 'pet') acts = `<button class="btn sm pri" data-act="pet">${cur.on ? '收回' : '出戰'}</button>`;
+    else if (cur.kind === 'mount') acts = `<button class="btn sm pri" data-act="mount">${cur.on ? '下來' : '騎乘'}</button>`;
+  }
+  const info = cur ? `<div class="inv-info"><img src="${ART_DIR}ui/${cur.icon}.webp" alt=""><div><b${cur.col ? ` style="color:${cur.col}!important"` : ''}>${esc(cur.name)}${cur.n != null ? `　x${cur.n}` : ''}</b><p>${esc(cur.desc)}</p></div><div class="inv-acts">${acts}</div></div>` : '<div class="inv-info hint">點一下格子裡的道具，可以查看說明或使用</div>';
+  const html = `<div class="inv-win"><div class="inv-tabs">${BAG_TABS.map(([k, n]) => `<button type="button" class="inv-tab${k === bagTab ? ' on' : ''}" data-tab="${k}">${n}</button>`).join('')}<span class="inv-cnt">${list.length} / ${cap}</span></div><div class="inv-grid">${grid}</div>${info}<div class="inv-foot"><span class="inv-gold"><img class="gi" src="${ART_DIR}ui/i_gold.webp" alt=""> ${S.gold.toLocaleString()}</span><span class="inv-links"><button type="button" class="btn sm" data-go="gear">裝備欄</button><button type="button" class="btn sm" data-go="tal">天賦</button><button type="button" class="btn sm" data-go="life">生活技能</button></span></div></div>`;
+  openPanel('🎒 道具欄', html, b => {
+    b.querySelectorAll('[data-tab]').forEach(x => x.onclick = () => openBag(x.dataset.tab));
+    b.querySelectorAll('[data-i]').forEach(x => { const e = list[+x.dataset.i]; x.onclick = () => openBag(bagTab, e.id); x.ondblclick = () => { if (e.kind === 'item' && QS_ITEMS.includes(e.id)) { useQuickItem(e.id); openBag(bagTab, e.id); } }; });
     b.querySelectorAll('[data-go]').forEach(x => x.onclick = () => ({ gear: () => openGear(), tal: openTalents, life: () => openLife() })[x.dataset.go]());
-    b.querySelectorAll('[data-pet]').forEach(x => x.onclick = () => { S.pet = S.pet === x.dataset.pet ? null : x.dataset.pet; S._petX = null; openBag(); });
-    b.querySelectorAll('[data-mount]').forEach(x => x.onclick = () => { S.mount = x.dataset.mount; S.riding = !S.riding; openBag(); });
+    b.querySelectorAll('[data-act]').forEach(x => x.onclick = () => {
+      const a = x.dataset.act;
+      if (a === 'use') { useQuickItem(cur.id); return openBag(bagTab, S.inv[cur.id] > 0 ? cur.id : null); }
+      if (a === 'quick') { const i = S.quick.indexOf(null); const slot = i >= 0 ? i : S.quick.indexOf(cur.id) >= 0 ? S.quick.indexOf(cur.id) : QS_N - 1; S.quick[slot] = cur.id; renderQuick(); toast(`已把${cur.name}放到快捷欄 ${slot + 1}`); return openBag(bagTab, cur.id); }
+      if (a === 'equip') { const it = cur.it; if (it.lv > S.lv + 3) return toast(`等級不夠（需要 Lv.${it.lv - 3}）`); S.gear.splice(S.gear.indexOf(it), 1); if (S.equip[it.slot]) S.gear.push(S.equip[it.slot]); S.equip[it.slot] = it; persist(); updateHud(); toast(`裝備了${cur.name}`); return openBag('equip'); }
+      if (a === 'sell') { S.gold += gearPrice(cur.it); S.gear.splice(S.gear.indexOf(cur.it), 1); persist(); updateHud(); return openBag('equip'); }
+      if (a === 'pet') { S.pet = S.pet === cur.id ? null : cur.id; S._petX = null; return openBag('special', cur.id); }
+      if (a === 'mount') { S.mount = cur.id; S.riding = !cur.on; return openBag('special', cur.id); }
+    });
   });
 }
+function useQuickItem(k) { if (k === 'hpPot' || k === 'mpPot') usePot(k); else if (S.inv[k]) useFood(k); renderQuick(); }
 function openNpc(id) {
   if (id === 'forge') return openForgeV2();
   if (id === 'shop') return openShop();
