@@ -351,8 +351,11 @@ function drawDeco(g, look, meta) { // 臉部裝飾：依眼睛位置畫在插畫
   if (look.deco === 'glasses') { g.strokeStyle = '#4a3040'; g.lineWidth = 2.4; g.beginPath(); g.arc(ex - w * .3, ey, w * .32, 0, 7); g.moveTo(ex + w * .3 + w * .32, ey); g.arc(ex + w * .3, ey, w * .32, 0, 7); g.moveTo(ex - w * .3 + w * .32, ey); g.lineTo(ex + w * .3 - w * .32, ey); g.stroke(); }
 }
 /* ---------- 紙娃娃角色：身體（內衣／新手服）＋眼睛＋頭髮＋武器，全部 AI 素材分層 ---------- */
-const AV = /*AV*/{"body":{"f_under":[[104,212,53.0,50.0,50.0],[104,207,52.0,50.0,49.7],[104,208,53.0,50.0,50.0],[115,194,53.0,48.0,48.7],[176,129,124.0,52.0,51.1],[124,208,70.0,53.0,53.0],[140,196,88.0,50.0,50.2],[104,212,53.0,49.0,49.6]],"m_under":[[92,200,47.0,43.0,43.0],[92,198,48.0,43.0,42.7],[98,198,49.0,42.0,43.0],[100,170,55.0,42.0,42.7],[166,118,121.0,43.0,43.4],[115,194,68.0,44.0,44.9],[132,190,86.0,43.0,43.4],[93,200,48.0,43.0,43.3]],"f_cloth":[[104,214,53.0,50.0,50.2],[104,210,53.0,50.0,50.0],[106,211,53.0,50.0,50.0],[116,195,54.0,49.0,48.4],[177,131,124.0,52.0,51.9],[124,210,70.0,53.0,52.8],[140,198,88.0,50.0,50.2],[104,213,53.0,50.0,49.8]],"m_cloth":[[105,226,53.0,50.0,50.7],[112,225,56.0,51.0,50.5],[114,225,54.0,51.0,51.0],[119,200,54.0,49.0,49.0],[176,138,122.0,53.0,52.9],[124,218,69.0,57.0,53.9],[141,206,88.0,51.0,51.4],[108,220,55.0,51.0,51.7]]},"hair":{"hair_f":[[182,250,49.0,61.0,152.5,138.5],[246,225,86.0,61.5,191.5,136.5],[180,154,44.5,62.5,151.5,140.5],[223,230,87.0,85.0,193.5,162.0],[231,248,75.5,63.5,183.0,142.5],[198,168,52.0,82.5,158.0,161.5]],"hair_m":[[222,190,52.0,97.0,181.5,185.5],[228,204,54.0,97.5,186.5,201.0],[207,184,44.0,72.5,174.0,180.5],[218,184,44.0,95.0,173.0,180.0],[226,223,52.5,95.0,186.0,190.0],[219,192,49.5,79.5,181.0,188.5]]},"eye":[[66,59,45.5,86.0,179.5,186.0],[116,56,45.0,87.0,180.0,186.0],[71,42,45.0,101.0,180.5,186.0],[118,42,45.5,101.5,180.0,186.5],[137,53,41.5,89.0,180.5,186.5],[68,54,43.5,90.0,181.5,186.5]]}/*AVEND*/;
+const AV = /*AV*/{"body":{"f_under":[[104,212,53.0,50.0,50.0],[104,207,52.0,50.0,49.7],[104,208,53.0,50.0,50.0],[115,194,53.0,48.0,48.7],[176,129,124.0,52.0,51.1],[124,208,70.0,53.0,53.0],[140,196,88.0,50.0,50.2],[104,212,53.0,49.0,49.6]],"m_under":[[92,200,47.0,43.0,43.0],[92,198,48.0,43.0,42.7],[98,198,49.0,42.0,43.0],[100,170,55.0,42.0,42.7],[166,118,121.0,43.0,43.4],[115,194,68.0,44.0,44.9],[132,190,86.0,43.0,43.4],[93,200,48.0,43.0,43.3]],"f_cloth":[[104,214,53.0,50.0,50.2],[104,210,53.0,50.0,50.0],[106,211,53.0,50.0,50.0],[116,195,54.0,49.0,48.4],[177,131,124.0,52.0,51.9],[124,210,70.0,53.0,52.8],[140,198,88.0,50.0,50.2],[104,213,53.0,50.0,49.8]],"m_cloth":[[105,226,53.0,50.0,50.7],[112,225,56.0,51.0,50.5],[114,225,54.0,51.0,51.0],[119,200,54.0,49.0,49.0],[176,138,122.0,53.0,52.9],[124,218,69.0,57.0,53.9],[141,206,88.0,51.0,51.4],[108,220,55.0,51.0,51.7]]},"hair":{"hair_f":[[182,250,49.0,61.0,152.5,138.5],[246,225,86.0,61.5,191.5,136.5],[180,154,44.5,62.5,151.5,140.5],[223,230,87.0,85.0,193.5,162.0],[231,248,75.5,63.5,183.0,142.5],[198,168,52.0,82.5,158.0,161.5]],"hair_m":[[222,190,52.0,97.0,181.5,185.5],[228,204,54.0,97.5,186.5,201.0],[207,184,44.0,72.5,174.0,180.5],[218,184,44.0,95.0,173.0,180.0],[226,223,52.5,95.0,186.0,190.0],[219,192,49.5,79.5,181.0,188.5]]},"eye":[[134,66,45.5,79.5,179.5,186.0],[135,84,44.5,87.0,179.5,186.0],[136,50,45.0,93.0,180.5,186.0],[134,42,45.5,101.0,180.0,186.0],[137,83,41.5,88.5,180.0,186.0],[138,60,43.5,84.0,181.0,186.0]],"mouth":[[27,11,99.5,132.0,174.5,163.5],[44,36,90.0,121.5,175.0,163.0],[40,22,92.0,127.5,175.0,163.0],[46,22,88.0,130.0,174.5,163.5],[20,28,100.5,124.0,175.0,163.5],[41,28,91.5,127.5,175.5,164.0]],"xeye":[[127,66,57.0,65.0,185.5,176.0],[140,70,46.5,66.0,186.5,177.0],[140,116,48.0,59.0,187.5,177.5],[136,92,50.0,65.0,186.5,177.5],[128,78,54.5,54.0,185.0,177.5],[139,82,47.0,54.0,187.0,177.0]]}/*AVEND*/;
 const AV_HAIR = { f: ['長直髮', '雙馬尾', '鮑伯頭', '高馬尾', '大波浪', '蓬鬆短髮'], m: ['凌亂短髮', '刺蝟頭', '清爽旁分', '長瀏海', '小馬尾', '捲捲頭'] };
+// 表情：x = 表情眼（null 用自己選的眼型）、m = 嘴巴
+const EMO = { normal: { n: '預設', e: '🙂', x: null, m: 0 }, happy: { n: '開心', e: '😄', x: 0, m: 1, k: 'F1' }, angry: { n: '生氣', e: '😠', x: 1, m: 2, k: 'F2' }, cry: { n: '哭哭', e: '😢', x: 2, m: 3, k: 'F3' },
+  surprise: { n: '驚訝', e: '😮', x: null, m: 4, k: 'F4' }, shy: { n: '害羞', e: '😳', x: 3, m: 0, k: 'F6' }, wink: { n: '眨眼', e: '😜', x: 4, m: 5, k: 'F7' }, love: { n: '愛心', e: '😍', x: 5, m: 1, k: 'F8' } };
 const AV_EYE = ['圓亮眼', '溫柔眼', '冷酷眼', '慵懶眼', '貓眼', '活潑大眼'];
 const AV_H = 108; // 站立時的高度（遊戲像素）
 // 每個姿勢前手的位置（以頭半徑為單位，相對頭中心）與武器角度
@@ -385,23 +388,25 @@ function avTint(key, hex, kind) {
 function avOutfit(eq) { return eq && (eq.armor || eq.pants) ? 'cloth' : 'under'; }
 function avWeapon(eq, cls) { const w = eq && eq.weapon; if (!w) return null; return w.wk || (cls === 'mage' || cls === 'priest' ? 'stick' : 'sword'); }
 // 合成一個姿勢的角色（快取），回傳 { c, ax, ay, s }
-function avFrame(look, pose, outfit, weapon) {
-  const gd = look.gender === 'm' ? 'm' : 'f', bk = gd + '_' + outfit, ck = [bk, pose, look.hair, look.hairColor, look.eye, look.eyeColor, weapon].join('|');
+function avFrame(look, pose, outfit, weapon, emo) {
+  const E = EMO[emo] || EMO.normal, gd = look.gender === 'm' ? 'm' : 'f', bk = gd + '_' + outfit, ck = [bk, pose, look.hair, look.hairColor, look.eye, look.eyeColor, weapon, emo].join('|');
   if (AV_COMP.has(ck)) return AV_COMP.get(ck);
   const body = avImg(bk + '_' + pose), hi = clamp(look.hair | 0, 0, 5), ei = clamp(look.eye | 0, 0, 5);
-  const hf = avTint('hair_' + gd + '_' + hi, look.hairColor, 'hair'), hb = avTint('hair_' + gd + '_' + hi + 'b', look.hairColor, 'hair'), ey = avTint('eye_' + ei, look.eyeColor, 'eye');
+  const hf = avTint('hair_' + gd + '_' + hi, look.hairColor, 'hair'), hb = avTint('hair_' + gd + '_' + hi + 'b', look.hairColor, 'hair'), ey = avTint(E.x != null ? 'xeye_' + E.x : 'eye_' + ei, look.eyeColor, 'eye'), mo = avImg('mouth_' + E.m);
   const wim = weapon && pose !== 4 ? avImg('w_' + weapon) : null;
-  if (!body || !hf || !hb || !ey || (weapon && pose !== 4 && !wim)) return null;
+  if (!body || !hf || !hb || !ey || !mo || (weapon && pose !== 4 && !wim)) return null;
   const [w, h, cx, cy, r] = AV.body[bk][pose], c = document.createElement('canvas'); c.width = w + AV_PAD * 2; c.height = h + AV_PAD * 2;
   const x = c.getContext('2d'), P0 = AV_PAD;
   const hm = AV.hair['hair_' + gd][hi], k = 2.06 * r / (hm[4] - hm[2]), tx = P0 + cx - 1.06 * r - hm[2] * k, ty = P0 + cy + r - hm[5] * k;
-  const em = AV.eye[ei], ek = 2.06 * r / em[4], ex = P0 + cx - 1.06 * r + em[2] * ek, eyy = P0 + cy + r - em[5] * ek + em[3] * ek;
+  const fp = m => { const kk = 2.06 * r / m[4]; return [P0 + cx - 1.06 * r + m[2] * kk, P0 + cy + r - m[5] * kk + m[3] * kk, m[0] * kk, m[1] * kk]; };
+  const em = E.x != null ? AV.xeye[E.x] : AV.eye[ei], ek = 2.06 * r / em[4], ex = P0 + cx - 1.06 * r + em[2] * ek, eyy = P0 + cy + r - em[5] * ek + em[3] * ek;
   const hand = AV_HAND[pose], drawW = () => { if (!wim || !hand) return; const L = r * 1.9, ww = wim.naturalWidth * L / wim.naturalHeight; x.save(); x.translate(P0 + cx + hand[0] * r, P0 + cy + hand[1] * r); x.rotate(hand[2]); x.drawImage(wim, -ww / 2, -L * .86, ww, L); x.restore(); };
   if (pose === 5) drawW();
   x.drawImage(hb, tx, ty, hb.width * k, hb.height * k);
   x.drawImage(body, P0, P0, w, h);
   x.drawImage(hf, tx, ty, hf.width * k, hf.height * k);
   x.drawImage(ey, ex, eyy, ey.width * ek, ey.height * ek);
+  { const [mx, my, mw, mh] = fp(AV.mouth[E.m]); x.drawImage(mo, mx, my, mw, mh); }
   if (pose !== 5) drawW();
   const fr = { c, ax: P0 + cx, ay: P0 + h, s: AV_H / AV.body[bk][0][1], head: [P0 + cx, P0 + cy, r] };
   AV_COMP.set(ck, fr); return fr;
@@ -414,7 +419,7 @@ function avPose(opt) {
   return Math.floor(T * 1.1) % 2 ? 7 : 0;
 }
 function drawAvatar(g, x, y, look, opt = {}) {
-  const fr = avFrame(look, opt.pose != null ? opt.pose : avPose(opt), opt.outfit || 'under', opt.weapon || null);
+  const fr = avFrame(look, opt.pose != null ? opt.pose : avPose(opt), opt.outfit || 'under', opt.weapon || null, opt.emo || 'normal');
   if (!fr) return false;
   const s = fr.s * (opt.scale || 1), face = opt.face || 1;
   g.save(); g.translate(x, y + 2); g.scale(face * s, s); g.drawImage(fr.c, -fr.ax, -fr.ay); g.restore(); return true;
@@ -663,7 +668,7 @@ let cam = 0, running = false, last = 0, T = 0, auto = false, saveTimer = 0;
 const keys = {};
 function startPlay(first) {
   const st = stats();
-  P = { x: S.x || 120, y: GROUND, vx: 0, vy: 0, w: 28, h: 64, face: 1, onG: true, walk: 0, atkT: 0, atkCd: 0, skCd: 0, inv: 0, blinkT: 2, dropT: 0 };
+  P = { x: S.x || 120, y: GROUND, vx: 0, vy: 0, w: 28, h: 64, face: 1, emo: 'normal', emoT: 0, onG: true, walk: 0, atkT: 0, atkCd: 0, skCd: 0, inv: 0, blinkT: 2, dropT: 0 };
   S.hp = clamp(S.hp, 1, st.maxHp); S.mp = clamp(S.mp, 0, st.maxMp);
   mobs = SPAWNS.map(([type, x, y]) => spawnMob(type, x, y));
   ores = ORE_SPOTS.map(([type, x, y]) => ({ type, x, y, hp: ORES[type].hp, dead: 0 }));
@@ -691,6 +696,7 @@ addEventListener('keydown', e => {
   if (k) { keys[k] = true; e.preventDefault(); if (k === 'act') interact(); }
   if (e.key === 'q' || e.key === 'Q') toggleAuto();
   if (/^[1-8]$/.test(e.key)) useQuick(+e.key - 1);
+  const ek = Object.keys(EMO).find(k => EMO[k].k === e.key); if (ek) { e.preventDefault(); setEmo(ek); }
   if (e.key === 'i' || e.key === 'I') openBag();
   if (e.key === 'b' || e.key === 'B') openShop();
   if (e.key === 't' || e.key === 'T') openTalents();
@@ -864,7 +870,7 @@ function update(dt) {
   const gy = P.dropT > 0 ? GROUND : groundAt(P.x, P.y, prevY);
   if (P.y >= gy && P.vy >= 0) { P.y = gy; P.vy = 0; P.onG = true; } else if (P.y < gy - 1) P.onG = false;
   if (P.onG && !PLATS.some(p => Math.abs(P.y - p.y) < 1 && P.x >= p.x - 6 && P.x <= p.x + p.w + 6) && P.y < GROUND - 1) P.onG = false;
-  P.atkCd -= dt; P.skCd -= dt; P.inv -= dt; P.atkT = Math.max(0, P.atkT - dt * 4); P.blinkT -= dt; if (P.blinkT < -.12) P.blinkT = rnd(2, 4);
+  P.atkCd -= dt; P.skCd -= dt; P.inv -= dt; P.atkT = Math.max(0, P.atkT - dt * 4); if (P.emoT > 0 && (P.emoT -= dt) <= 0) refreshFace(); P.blinkT -= dt; if (P.blinkT < -.12) P.blinkT = rnd(2, 4);
   if (!zoneAt(P.x).safe && T % 1 < dt) { S.mp = Math.min(st.maxMp, S.mp + 1 + st.tf.mpRegen); }
   if (zoneAt(P.x).safe && T % .5 < dt) { S.hp = Math.min(st.maxHp, S.hp + Math.ceil(st.maxHp * .02)); S.mp = Math.min(st.maxMp, S.mp + 1); }
 
@@ -1011,8 +1017,8 @@ function draw() {
   if (S.pet) { const px = P.x - P.face * 36; drawPet(g, S.pet, (S._petX = S._petX == null ? px : S._petX + (px - S._petX) * .08), P.y, T); }
   const flick = P.inv > 0 && Math.floor(T * 20) % 2;
   if (!flick) {
-    if (S.riding && S.mount) { drawMount(g, P.x, P.y, P.face, P.vx ? T : 0); drawHero(g, P.x + P.face * 2, P.y - 44, S.look, S.cls, { face: P.face, atk: P.atkT, blink: P.blinkT < 0 }); }
-    else drawHero(g, P.x, P.y, S.look, S.cls, { face: P.face, walk: P.vx && P.onG ? P.walk : 0, atk: P.atkT, air: !P.onG, prone: P.prone, blink: P.blinkT < 0 });
+    if (S.riding && S.mount) { drawMount(g, P.x, P.y, P.face, P.vx ? T : 0); drawHero(g, P.x + P.face * 2, P.y - 44, S.look, S.cls, { face: P.face, atk: P.atkT, emo: P.emoT > 0 ? P.emo : 'normal', blink: P.blinkT < 0 }); }
+    else drawHero(g, P.x, P.y, S.look, S.cls, { face: P.face, walk: P.vx && P.onG ? P.walk : 0, atk: P.atkT, air: !P.onG, prone: P.prone, emo: P.emoT > 0 ? P.emo : 'normal', blink: P.blinkT < 0 });
   }
   if (fishing) { const bx = fishing.spot.x + (P.face > 0 ? -10 : 10), by = GROUND + 4 + Math.sin(T * 6) * (fishing.t > fishing.wait - .6 ? 4 : 1.5); g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1; g.beginPath(); g.moveTo(P.x + P.face * 26, P.y - 54); g.quadraticCurveTo((P.x + bx) / 2, P.y - 80, bx, by); g.stroke(); g.fillStyle = '#ff6b6b'; g.beginPath(); g.arc(bx, by, 4, 0, 7); g.fill(); g.strokeStyle = '#8a5a3c'; g.lineWidth = 2.5; g.beginPath(); g.moveTo(P.x + P.face * 6, P.y - 22); g.lineTo(P.x + P.face * 26, P.y - 54); g.stroke(); }
   g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; const nw = g.measureText(S.name).width + 14; g.fillStyle = 'rgba(255,255,255,.95)'; g.beginPath(); g.roundRect(P.x - nw / 2, P.y + 6, nw, 18, 6); g.fill(); g.strokeStyle = 'rgba(30,20,30,.55)'; g.lineWidth = 1.5; g.stroke(); g.fillStyle = '#111'; g.fillText(S.name, P.x, P.y + 19);
@@ -1063,7 +1069,7 @@ function drawFx(f) {
 const fg = $('#face').getContext('2d');
 function refreshFace() {
   fg.clearRect(0, 0, 56, 56);
-  if (S.look && S.look.gender) { const fr = avFrame(S.look, 0, avOutfit(S.equip), null); if (fr) { const [hx, hy, r] = fr.head, sz = r * 2.5; fg.drawImage(fr.c, hx - sz / 2, hy - sz * .5, sz, sz, 0, 0, 56, 56); } else setTimeout(refreshFace, 300); return; }
+  if (S.look && S.look.gender) { const fr = avFrame(S.look, 0, avOutfit(S.equip), null, P && P.emo && P.emoT > 0 ? P.emo : 'normal'); if (fr) { const [hx, hy, r] = fr.head, sz = r * 2.5; fg.drawImage(fr.c, hx - sz / 2, hy - sz * .5, sz, sz, 0, 0, 56, 56); } else setTimeout(refreshFace, 300); return; }
   if (useDoll(S.look, S.cls)) { const fr = dollFrame(S.cls, S.look, 'idle'); if (fr) { const m = fr.meta, hs = m[1] * .5, sx = clamp(m[2] - hs / 2 + 4, 0, m[0] - hs); fg.drawImage(fr.c, sx, 2, hs, hs, 0, 0, 56, 56); return; } }
   const fa = useArt(S.look, S.cls) || useDoll(S.look, S.cls) ? S.cls : null;
   if (fa && ART.hero[fa]) { const m = ART.hero[fa].idle, im = artImg(fa + '_idle'); if (im) { const hs = m[1] * .5, sx = clamp(m[2] - hs / 2 + 4, 0, m[0] - hs); fg.drawImage(im, sx, 2, hs, hs, 0, 0, 56, 56); return; } }
@@ -1109,11 +1115,17 @@ $('#qsGrid').addEventListener('click', e => { const b = e.target.closest('[data-
 $('#qsGrid').addEventListener('contextmenu', e => { const b = e.target.closest('[data-q]'); if (!b) return; e.preventDefault(); openQuickPicker(+b.dataset.q); });
 $('#qsEdit').onclick = () => { qsEdit = !qsEdit; renderQuick(); if (qsEdit) toast('點選要設定的快捷欄格子'); };
 
+/* ---------- 表情 ---------- */
+function setEmo(k) { if (!P) return; P.emo = k; P.emoT = k === 'normal' ? 0 : 4; refreshFace(); $('#emoPick').hidden = true; }
+function renderEmo() { $('#emoPick').innerHTML = Object.entries(EMO).map(([k, v]) => `<button type="button" data-emo="${k}" title="${v.n}${v.k ? '（' + v.k + '）' : ''}"><span>${v.e}</span><small>${v.n}</small>${v.k ? `<i>${v.k}</i>` : ''}</button>`).join(''); $('#emoPick').querySelectorAll('[data-emo]').forEach(b => b.onclick = () => setEmo(b.dataset.emo)); }
+renderEmo();
+$('#qEmo').onclick = () => { $('#emoPick').hidden = !$('#emoPick').hidden; };
+
 /* ---------- 系統訊息 ---------- */
 const LOG = [];
 function logMsg(s) { LOG.push(s); while (LOG.length > 3) LOG.shift(); const el = $('#chatlog'); if (el) el.innerHTML = LOG.map(t => `<p><b>[系統]</b> ${esc(t)}</p>`).join(''); }
 logMsg('←→ 移動・Space 跳躍・↓ 趴下・J 攻擊・K 技能・E 互動・Q 自動打怪');
-logMsg('滑鼠點擊 NPC 可以對話；快捷欄按 1～8 使用道具，右鍵可更換');
+logMsg('滑鼠點擊 NPC 可以對話；快捷欄按 1～8 使用道具；F1～F8 做表情');
 
 /* ---------- NPC 對話（滑鼠點擊） ---------- */
 const NPC_TALK = {

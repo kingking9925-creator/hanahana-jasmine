@@ -454,3 +454,12 @@ button{font:inherit;cursor:pointer}
 .pv-poses{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
 .pv-poses button{padding:4px 10px;border-radius:999px;border:1px solid #e0c48a;background:#fff;font-size:12px;font-weight:800}
 #app .pv-poses button.on{background:linear-gradient(#ff8aa8,#e5486e);color:#fff !important;border-color:#c23a5c}
+
+/* 表情選單 */
+.emo-pick{position:absolute;right:10px;bottom:64px;z-index:6;display:grid;grid-template-columns:repeat(4,58px);gap:5px;padding:8px;border-radius:10px;background:rgba(255,248,238,.97);border:2px solid var(--edge);box-shadow:0 6px 16px rgba(30,10,30,.35)}
+.emo-pick[hidden]{display:none}
+.emo-pick button{position:relative;display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 0 4px;border-radius:8px;border:1px solid #e0c48a;background:#fff}
+.emo-pick button:hover{background:#fff1c4;border-color:#e0a020}
+.emo-pick span{font-size:22px;line-height:1}.emo-pick small{font-size:11px;font-weight:800}
+.emo-pick i{position:absolute;right:2px;top:1px;font-style:normal;font-size:8.5px;font-weight:900;color:#777 !important}
+.sb-menu .qb .emo-ic{font-size:22px;line-height:1;margin-top:-8px}
