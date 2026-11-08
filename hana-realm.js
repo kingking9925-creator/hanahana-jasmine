@@ -2,7 +2,7 @@
 (() => {
 'use strict';
 const $ = s => document.querySelector(s);
-const W = 960, H = 540, GROUND = 470, MAP_W = 8200;
+let W = 960; const H = 540, GROUND = 470, MAP_W = 8200;
 const SAVE_KEY = 'hanaRealm.save.v1';
 const rnd = (a, b) => a + Math.random() * (b - a);
 const rint = (a, b) => Math.floor(rnd(a, b + 1));
@@ -609,6 +609,7 @@ addEventListener('keydown', e => {
   if (e.key === 'q' || e.key === 'Q') toggleAuto();
   if (/^[1-8]$/.test(e.key)) useQuick(+e.key - 1);
   if (e.key === 'i' || e.key === 'I') openBag();
+  if (e.key === 'b' || e.key === 'B') openShop();
   if (e.key === 't' || e.key === 'T') openTalents();
   if (e.key === 'g' || e.key === 'G') openGear();
   if (e.key === 'l' || e.key === 'L') openLife();
@@ -620,7 +621,7 @@ document.querySelectorAll('.touch [data-k]').forEach(b => {
   const off = e => { e.preventDefault(); keys[k] = false; b.classList.remove('on'); };
   b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointercancel', off); b.addEventListener('pointerleave', off);
 });
-$('#qBag').onclick = openBag; $('#qGear').onclick = () => openGear(); $('#qTal').onclick = openTalents; $('#qLife').onclick = () => openLife(); $('#qAuto').onclick = toggleAuto; $('#btnMenu').onclick = openMenu;
+$('#qBag').onclick = () => openBag(); $('#qShop').onclick = () => openShop(); $('#qGear').onclick = () => openGear(); $('#qTal').onclick = openTalents; $('#qLife').onclick = () => openLife(); $('#qAuto').onclick = toggleAuto; $('#btnMenu').onclick = openMenu;
 function toggleAuto() { auto = !auto; $('#qAuto').classList.toggle('on', auto); toast(auto ? '⚔️ 自動打怪：開啟（會自動找怪、放技能、喝藥）' : '自動打怪：關閉'); }
 
 /* ---------- 遊戲邏輯 ---------- */
@@ -1147,19 +1148,26 @@ function openForge() {
     b.querySelector('[data-f=pot]').onclick = () => { pay(potCost); S.inv.hpPot += 2; persist(); openForge(); };
   });
 }
-function openShop() {
-  const sellable = ['iron', 'crystal', 'star', 'dew', 'dust', 'leaf'];
-  const total = sellable.reduce((s, k) => s + (S.inv[k] || 0) * ITEMS[k].sell, 0);
-  openPanel('🛍️ 花之商店・米米', `<div class="list">
-    <div class="item"><div><b>❤️ 紅藥水</b><p>回復 50% HP</p><span class="cost">🪙20</span></div><div class="row" style="margin:0"><button class="btn sm" data-b="hpPot,1">買 1</button><button class="btn sm" data-b="hpPot,10">買 10</button></div></div>
-    <div class="item"><div><b>🔷 藍藥水</b><p>回復 60% MP</p><span class="cost">🪙25</span></div><div class="row" style="margin:0"><button class="btn sm" data-b="mpPot,1">買 1</button><button class="btn sm" data-b="mpPot,10">買 10</button></div></div>
-    <div class="item"><div><b>🎫 召喚券</b><p>星願召喚殿使用</p><span class="cost">🪙300</span></div><button class="btn sm" data-b="ticket,1">買 1</button></div>
-    <div class="item"><div><b>賣出素材（花露、鱗粉、精靈葉）</b><p>礦石建議留著鍛造</p></div><button class="btn sm pri" data-sell="mat">賣出</button></div>
-    <div class="item"><div><b>全部賣出（含礦石）</b><p>可得 🪙${total}</p></div><button class="btn sm" data-sell="all">全部賣</button></div>
-  </div>`, b => {
-    const price = { hpPot: 20, mpPot: 25, ticket: 300 };
-    b.querySelectorAll('[data-b]').forEach(x => x.onclick = () => { const [k, n] = x.dataset.b.split(','); const c = price[k] * n; if (S.gold < c) { toast('金幣不夠喔'); return; } S.gold -= c; S.inv[k] += +n; toast(`買了 ${ITEMS[k].n} x${n}`); persist(); updateHud(); openShop(); });
-    b.querySelectorAll('[data-sell]').forEach(x => x.onclick = () => { const ks = x.dataset.sell === 'all' ? sellable : ['dew', 'dust', 'leaf']; let got = 0; ks.forEach(k => { got += (S.inv[k] || 0) * ITEMS[k].sell; S.inv[k] = 0; }); S.gold += got; toast(`賣出獲得 🪙${got}`); persist(); updateHud(); openShop(); });
+/* ---------- 商城（楓之谷式：左邊分類、右邊商品方格） ---------- */
+const SHOP_ITEMS = [
+  { k: 'hpPot', p: 20, cat: 'pot', d: '回復 50% HP' }, { k: 'mpPot', p: 25, cat: 'pot', d: '回復 60% MP' },
+  { k: 'luck', p: 180, cat: 'pot', d: '強化成功率 +15%' }, { k: 'food1', p: 60, cat: 'pot', d: '料理增益' },
+  { k: 'ticket', p: 300, cat: 'gacha', d: '星願召喚殿抽一次' }
+];
+const SHOP_CATS = [['pot', '🧪 藥水・消耗'], ['gacha', '✨ 召喚券'], ['sell', '💰 賣出素材']];
+let shopCat = 'pot';
+function openShop(cat) {
+  shopCat = cat || shopCat;
+  const side = SHOP_CATS.map(([k, n]) => `<button type="button" class="sh-cat${k === shopCat ? ' on' : ''}" data-cat="${k}">${n}</button>`).join('');
+  let main;
+  if (shopCat === 'sell') {
+    main = '<div class="sh-grid">' + BAG_ETC.filter(k => S.inv[k] > 0).map(k => `<div class="sh-card"><img src="${ART_DIR}ui/${k}.webp" alt=""><b>${ITEMS[k].n}</b><small>持有 ${S.inv[k]}・單價 🪙${ITEMS[k].sell}</small><div class="sh-btns"><button class="sh-buy" data-s="${k},1">賣 1</button><button class="sh-buy" data-s="${k},all">全賣</button></div></div>`).join('') + '</div>';
+    if (!BAG_ETC.some(k => S.inv[k] > 0)) main = '<p class="note">背包裡沒有可以賣的素材，去打怪、挖礦、採藥、釣魚吧！</p>';
+  } else main = '<div class="sh-grid">' + SHOP_ITEMS.filter(x => x.cat === shopCat).map(x => `<div class="sh-card"><img src="${ART_DIR}ui/${x.k}.webp" alt=""><b>${ITEMS[x.k].n}</b><small>${x.d}</small><span class="sh-price"><img class="gi" src="${ART_DIR}ui/i_gold.webp" alt="">${x.p}</span><div class="sh-btns"><button class="sh-buy" data-b="${x.k},1">購買</button><button class="sh-buy" data-b="${x.k},10">買 10</button></div></div>`).join('') + '</div>';
+  openPanel('🛍️ 花之商城', `<div class="sh-win"><div class="sh-side">${side}<div class="sh-gold"><img class="gi" src="${ART_DIR}ui/i_gold.webp" alt=""> ${S.gold.toLocaleString()}</div></div><div class="sh-main">${main}</div></div>`, b => {
+    b.querySelectorAll('[data-cat]').forEach(x => x.onclick = () => openShop(x.dataset.cat));
+    b.querySelectorAll('[data-b]').forEach(x => x.onclick = () => { const [k, n] = x.dataset.b.split(','), it = SHOP_ITEMS.find(y => y.k === k), c = it.p * n; if (S.gold < c) { toast('金幣不夠喔'); return; } S.gold -= c; S.inv[k] = (S.inv[k] || 0) + +n; toast(`買了 ${ITEMS[k].n} x${n}`); persist(); updateHud(); openShop(); });
+    b.querySelectorAll('[data-s]').forEach(x => x.onclick = () => { const [k, n] = x.dataset.s.split(','), q = n === 'all' ? S.inv[k] : 1, got = q * ITEMS[k].sell; S.inv[k] -= q; S.gold += got; toast(`賣出 ${ITEMS[k].n} x${q}，獲得 🪙${got}`); persist(); updateHud(); openShop(); });
   });
 }
 const GACHA = [
@@ -1396,7 +1404,8 @@ function openForgeV2(tab) {
 /* ---------- 主迴圈 ---------- */
 function resize() {
   const touch = matchMedia('(pointer:coarse)').matches, vw = innerWidth, vh = innerHeight - (touch ? 0 : 58); // 電腦版：畫面放在下方狀態列上面
-  // 手機橫向：填滿畫面（只裁切天空）；其他：完整顯示
+  // 畫面寬度跟著螢幕比例變寬，左右不再留黑邊（最寬 1800）
+  const nw = clamp(Math.round(H * vw / vh), 960, 1800); if (nw !== W) { W = nw; cv.width = W; }
   const sc = touch && vw > vh ? Math.max(vw / W, vh / H) : Math.min(vw / W, vh / H);
   const cw = Math.round(W * sc), ch = Math.round(H * sc);
   cv.style.width = cw + 'px'; cv.style.height = ch + 'px';
