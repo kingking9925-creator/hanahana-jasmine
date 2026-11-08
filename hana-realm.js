@@ -831,7 +831,7 @@ function update(dt) {
 let hudTick = 0;
 function collect(d) {
   if (d.kind === 'gear') { addGear(d.gear); return; }
-  if (d.kind === 'gold') { S.gold += d.n; addText(P.x, P.y - 80, '+' + d.n + ' 🪙', '#ffe08a'); }
+  if (d.kind === 'gold') { S.gold += d.n; addText(P.x, P.y - 80, '+' + d.n + ' 金幣', '#ffe08a'); }
   else { S.inv[d.kind] = (S.inv[d.kind] || 0) + d.n; addText(P.x, P.y - 80, `${ITEMS[d.kind].n}`, '#fff', false, d.kind); }
 }
 function addText(x, y, s, col, big, icon) { texts.push({ x, y, s: String(s), col, big, icon, t: 0 }); }
@@ -1088,7 +1088,7 @@ let bagTab = 'use';
 function bagEntries(tab) {
   if (tab === 'equip') return S.gear.slice().sort((a, b) => b.r - a.r || b.lv - a.lv).map(it => ({ kind: 'gear', id: it.id, icon: 's_' + it.slot, name: gearName(it, S.cls) + (it.enh ? ' +' + it.enh : ''), col: RARITY[it.r].c, desc: `${RARITY[it.r].n}・Lv.${it.lv}・${statLine(gearStats(it))}`, it }));
   if (tab === 'use') return BAG_USE.filter(k => S.inv[k] > 0).map(k => ({ kind: 'item', id: k, icon: k, name: ITEMS[k].n, n: S.inv[k], desc: ITEM_DESC[k] || '' }));
-  if (tab === 'etc') return BAG_ETC.filter(k => S.inv[k] > 0).map(k => ({ kind: 'item', id: k, icon: k, name: ITEMS[k].n, n: S.inv[k], desc: `素材・可以拿去鍛造、煉金或料理，商店收購 🪙${ITEMS[k].sell || 0}` }));
+  if (tab === 'etc') return BAG_ETC.filter(k => S.inv[k] > 0).map(k => ({ kind: 'item', id: k, icon: k, name: ITEMS[k].n, n: S.inv[k], desc: `素材・可以拿去鍛造、煉金或料理，商店收購金幣 ${ITEMS[k].sell || 0}` }));
   return [...S.pets.map(p => ({ kind: 'pet', id: p, icon: 'pet_' + p, name: PETS[p].n, desc: S.pet === p ? '出戰中（會幫你撿東西）' : '寵物：出戰後會幫你撿東西', on: S.pet === p })),
     ...S.mounts.map(m => ({ kind: 'mount', id: m, icon: 'mount_' + m, name: MOUNTS[m].n, desc: S.riding && S.mount === m ? '騎乘中' : '坐騎：騎上去跑得更快', on: S.riding && S.mount === m }))];
 }
@@ -1101,7 +1101,7 @@ function openBag(tab, sel) {
   for (let i = 0; i < cells; i++) { const e = list[i]; grid += e ? `<button type="button" class="inv-slot${cur === e ? ' sel' : ''}${e.on ? ' on' : ''}" data-i="${i}" title="${esc(e.name)}"${e.col ? ` style="--rc:${e.col}"` : ''}><img src="${ART_DIR}ui/${e.icon}.webp" alt="">${e.n != null ? `<b>${e.n}</b>` : ''}</button>` : '<span class="inv-slot empty"></span>'; }
   let acts = '';
   if (cur) {
-    if (cur.kind === 'gear') acts = `<button class="btn sm pri" data-act="equip">裝備</button><button class="btn sm" data-act="sell">賣 🪙${gearPrice(cur.it)}</button>`;
+    if (cur.kind === 'gear') acts = `<button class="btn sm pri" data-act="equip">裝備</button><button class="btn sm" data-act="sell">賣 ${ic('i_gold')}${gearPrice(cur.it)}</button>`;
     else if (cur.kind === 'item' && QS_ITEMS.includes(cur.id)) acts = `<button class="btn sm pri" data-act="use">使用</button><button class="btn sm" data-act="quick">放到快捷欄</button>`;
     else if (cur.kind === 'pet') acts = `<button class="btn sm pri" data-act="pet">${cur.on ? '收回' : '出戰'}</button>`;
     else if (cur.kind === 'mount') acts = `<button class="btn sm pri" data-act="mount">${cur.on ? '下來' : '騎乘'}</button>`;
@@ -1161,13 +1161,13 @@ function openShop(cat) {
   const side = SHOP_CATS.map(([k, n]) => `<button type="button" class="sh-cat${k === shopCat ? ' on' : ''}" data-cat="${k}">${n}</button>`).join('');
   let main;
   if (shopCat === 'sell') {
-    main = '<div class="sh-grid">' + BAG_ETC.filter(k => S.inv[k] > 0).map(k => `<div class="sh-card"><img src="${ART_DIR}ui/${k}.webp" alt=""><b>${ITEMS[k].n}</b><small>持有 ${S.inv[k]}・單價 🪙${ITEMS[k].sell}</small><div class="sh-btns"><button class="sh-buy" data-s="${k},1">賣 1</button><button class="sh-buy" data-s="${k},all">全賣</button></div></div>`).join('') + '</div>';
+    main = '<div class="sh-grid">' + BAG_ETC.filter(k => S.inv[k] > 0).map(k => `<div class="sh-card"><img src="${ART_DIR}ui/${k}.webp" alt=""><b>${ITEMS[k].n}</b><small>持有 ${S.inv[k]}・單價 ${ic('i_gold')}${ITEMS[k].sell}</small><div class="sh-btns"><button class="sh-buy" data-s="${k},1">賣 1</button><button class="sh-buy" data-s="${k},all">全賣</button></div></div>`).join('') + '</div>';
     if (!BAG_ETC.some(k => S.inv[k] > 0)) main = '<p class="note">背包裡沒有可以賣的素材，去打怪、挖礦、採藥、釣魚吧！</p>';
   } else main = '<div class="sh-grid">' + SHOP_ITEMS.filter(x => x.cat === shopCat).map(x => `<div class="sh-card"><img src="${ART_DIR}ui/${x.k}.webp" alt=""><b>${ITEMS[x.k].n}</b><small>${x.d}</small><span class="sh-price"><img class="gi" src="${ART_DIR}ui/i_gold.webp" alt="">${x.p}</span><div class="sh-btns"><button class="sh-buy" data-b="${x.k},1">購買</button><button class="sh-buy" data-b="${x.k},10">買 10</button></div></div>`).join('') + '</div>';
   openPanel('🛍️ 花之商城', `<div class="sh-win"><div class="sh-side">${side}<div class="sh-gold"><img class="gi" src="${ART_DIR}ui/i_gold.webp" alt=""> ${S.gold.toLocaleString()}</div></div><div class="sh-main">${main}</div></div>`, b => {
     b.querySelectorAll('[data-cat]').forEach(x => x.onclick = () => openShop(x.dataset.cat));
     b.querySelectorAll('[data-b]').forEach(x => x.onclick = () => { const [k, n] = x.dataset.b.split(','), it = SHOP_ITEMS.find(y => y.k === k), c = it.p * n; if (S.gold < c) { toast('金幣不夠喔'); return; } S.gold -= c; S.inv[k] = (S.inv[k] || 0) + +n; toast(`買了 ${ITEMS[k].n} x${n}`); persist(); updateHud(); openShop(); });
-    b.querySelectorAll('[data-s]').forEach(x => x.onclick = () => { const [k, n] = x.dataset.s.split(','), q = n === 'all' ? S.inv[k] : 1, got = q * ITEMS[k].sell; S.inv[k] -= q; S.gold += got; toast(`賣出 ${ITEMS[k].n} x${q}，獲得 🪙${got}`); persist(); updateHud(); openShop(); });
+    b.querySelectorAll('[data-s]').forEach(x => x.onclick = () => { const [k, n] = x.dataset.s.split(','), q = n === 'all' ? S.inv[k] : 1, got = q * ITEMS[k].sell; S.inv[k] -= q; S.gold += got; toast(`賣出 ${ITEMS[k].n} x${q}，獲得金幣 ${got}`); persist(); updateHud(); openShop(); });
   });
 }
 const GACHA = [
@@ -1298,7 +1298,7 @@ function openAfk(rew, zone) {
   const mats = Object.entries(rew.mats).map(([k, n]) => `${ic(k)}${ITEMS[k].n} x${n}`).join('、') || '—';
   const gear = rew.gear.map(g => `<span style="color:${RARITY[g.r].c}">${ic('s_' + g.slot)}${gearName(g, S.cls)}</span>`).join('、') || '—';
   openPanel('🌙 離線掛機收益', `<p class="note">你不在的時候，${esc(S.name)} 在「${zone}」掛機了 <b>${rew.hours.toFixed(1)} 小時</b>，擊倒 ${rew.kills} 隻怪物！</p>
-    <div class="grid"><div class="cell"><span class="e">✨</span>經驗<b>${rew.exp.toLocaleString()}</b></div><div class="cell"><span class="e">🪙</span>金幣<b>${rew.gold.toLocaleString()}</b></div><div class="cell"><span class="e">⚔️</span>擊倒<b>${rew.kills}</b></div></div>
+    <div class="grid"><div class="cell"><span class="e">✨</span>經驗<b>${rew.exp.toLocaleString()}</b></div><div class="cell"><span class="e">${ic('i_gold')}</span>金幣<b>${rew.gold.toLocaleString()}</b></div><div class="cell"><span class="e">⚔️</span>擊倒<b>${rew.kills}</b></div></div>
     <p class="note">素材：${mats}<br>裝備：${gear}</p>
     <div class="row" style="justify-content:flex-start"><button class="btn pri" id="afkClaim">領取收益</button></div>
     <p class="note">剩餘離線掛機時數：${S.afk.bank.toFixed(1)} 小時（每天補 4 小時，最多存 8 小時）。離開遊戲前待在練功區，就會自動掛機。</p>`, b => {
@@ -1318,14 +1318,14 @@ function openGear(tab) {
   if (tab === 'eq') body = `<p class="note">攻擊 ${st.atk}・防禦 ${st.def}・HP ${st.maxHp}・爆擊 ${(st.crit * 100).toFixed(0)}%</p><div class="list">` + Object.keys(SLOTS).map(s => S.equip[s] ? gearCard(S.equip[s], `<button class="btn sm" data-off="${s}">卸下</button>`) : `<div class="item"><div><b style="color:#b9a3b2">${SLOT_E[s]} ${SLOTS[s]}（空）</b><p>打怪會掉落裝備</p></div></div>`).join('') + '</div>';
   else {
     const list = S.gear.slice().sort((a, b) => b.r - a.r || b.lv - a.lv);
-    body = list.length ? `<div class="row" style="justify-content:flex-start;margin:0 0 10px"><button class="btn sm" id="sellCommon">一鍵賣出普通裝備</button></div><div class="list">` + list.map(it => gearCard(it, `<button class="btn sm pri" data-on="${it.id}">裝備</button><button class="btn sm" data-sell="${it.id}">賣 🪙${gearPrice(it)}</button>`)).join('') + '</div>' : '<p class="note">還沒有裝備，打怪有機會掉落！</p>';
+    body = list.length ? `<div class="row" style="justify-content:flex-start;margin:0 0 10px"><button class="btn sm" id="sellCommon">一鍵賣出普通裝備</button></div><div class="list">` + list.map(it => gearCard(it, `<button class="btn sm pri" data-on="${it.id}">裝備</button><button class="btn sm" data-sell="${it.id}">賣 ${ic('i_gold')}${gearPrice(it)}</button>`)).join('') + '</div>' : '<p class="note">還沒有裝備，打怪有機會掉落！</p>';
   }
   openPanel('⚔️ 裝備', tabs + body, b => {
     b.querySelectorAll('[data-tab]').forEach(x => x.onclick = () => openGear(x.dataset.tab));
     b.querySelectorAll('[data-off]').forEach(x => x.onclick = () => { const s = x.dataset.off; if (S.gear.length >= GEAR_CAP) return toast('裝備背包滿了'); S.gear.push(S.equip[s]); S.equip[s] = null; persist(); openGear('eq'); });
     b.querySelectorAll('[data-on]').forEach(x => x.onclick = () => { const i = S.gear.findIndex(g => g.id === x.dataset.on); const it = S.gear[i]; if (it.lv > S.lv + 3) return toast(`等級不夠（需要 Lv.${it.lv - 3}）`); S.gear.splice(i, 1); if (S.equip[it.slot]) S.gear.push(S.equip[it.slot]); S.equip[it.slot] = it; persist(); updateHud(); openGear('bag'); });
     b.querySelectorAll('[data-sell]').forEach(x => x.onclick = () => { const i = S.gear.findIndex(g => g.id === x.dataset.sell); S.gold += gearPrice(S.gear[i]); S.gear.splice(i, 1); persist(); updateHud(); openGear('bag'); });
-    const sc = b.querySelector('#sellCommon'); if (sc) sc.onclick = () => { let got = 0; S.gear = S.gear.filter(g => { if (g.r === 0 && !g.enh) { got += gearPrice(g); return false; } return true; }); S.gold += got; toast(`賣出普通裝備，獲得 🪙${got}`); persist(); updateHud(); openGear('bag'); };
+    const sc = b.querySelector('#sellCommon'); if (sc) sc.onclick = () => { let got = 0; S.gear = S.gear.filter(g => { if (g.r === 0 && !g.enh) { got += gearPrice(g); return false; } return true; }); S.gold += got; toast(`賣出普通裝備，獲得金幣 ${got}`); persist(); updateHud(); openGear('bag'); };
   });
 }
 function openTalents() {
@@ -1336,7 +1336,7 @@ function openTalents() {
       const r = S.talents[p + '-' + i] || 0, isKs = key.startsWith('ks'), lock = isKs && spent - r < 8;
       const desc = isKs ? KEYSTONES[S.cls][p] : `${TALENT_LABEL[key](val)}／級`;
       return `<button class="tal ${r ? 'on' : ''} ${isKs ? 'ks' : ''}" data-t="${p}-${i}" ${pts <= 0 || r >= max || lock ? 'disabled' : ''}><b>${isKs ? '🌟 ' : ''}${nn} ${r}/${max}</b><small>${desc}${lock ? '（需投入 8 點）' : ''}</small></button>`; }).join('') + '</div>'; }).join('')}</div>
-  <div class="row" style="justify-content:flex-start"><button class="btn sm" id="talReset">重置天賦（🪙${S.lv * 100}）</button></div>`;
+  <div class="row" style="justify-content:flex-start"><button class="btn sm" id="talReset">重置天賦（${ic('i_gold')}${S.lv * 100}）</button></div>`;
   openPanel('🌳 天賦樹・' + CLASSES[S.cls].name, html, b => {
     b.querySelectorAll('[data-t]').forEach(x => x.onclick = () => { if (talentPoints() <= 0) return; S.talents[x.dataset.t] = (S.talents[x.dataset.t] || 0) + 1; persist(); updateHud(); openTalents(); });
     b.querySelector('#talReset').onclick = () => { const c = S.lv * 100; if (S.gold < c) return toast('金幣不夠'); if (!confirm('確定要重置所有天賦嗎？')) return; S.gold -= c; S.talents = {}; persist(); updateHud(); openTalents(); };

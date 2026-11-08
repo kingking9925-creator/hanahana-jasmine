@@ -447,3 +447,5 @@ button{font:inherit;cursor:pointer}
 #app .sh-buy{color:#fff !important;text-shadow:0 1px 1px rgba(0,0,0,.5)}
 .sh-buy:hover{filter:brightness(1.08)}
 @media (max-width:640px){.sh-win{flex-direction:column}.sh-side{width:auto;flex-direction:row;flex-wrap:wrap}.sh-gold{margin:0}}
+.panel-card{overflow-x:hidden !important}
+.inv-acts .btn,.sh-buy{white-space:nowrap}
