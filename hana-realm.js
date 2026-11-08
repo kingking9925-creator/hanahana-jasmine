@@ -402,9 +402,14 @@ function avFrame(look, pose, outfit, weapon, emo) {
   const em = E.x != null ? AV.xeye[E.x] : AV.eye[ei], ek = 2.06 * r / em[4], ex = P0 + cx - 1.06 * r + em[2] * ek, eyy = P0 + cy + r - em[5] * ek + em[3] * ek;
   const hand = AV_HAND[pose], drawW = () => { if (!wim || !hand) return; const L = r * 1.9, ww = wim.naturalWidth * L / wim.naturalHeight; x.save(); x.translate(P0 + cx + hand[0] * r, P0 + cy + hand[1] * r); x.rotate(hand[2]); x.drawImage(wim, -ww / 2, -L * .86, ww, L); x.restore(); };
   if (pose === 5) drawW();
-  x.drawImage(hb, tx, ty, hb.width * k, hb.height * k);
+  const clipHead = () => { x.beginPath(); x.arc(P0 + cx, P0 + cy, r * 1.32, 0, 7); x.clip(); };
+  if (pose === 4) { // 趴下：垂下來的頭髮改成順著背往後躺，頭部附近照原樣
+    x.save(); x.translate(P0 + cx, P0 + cy); x.rotate(1.3); x.translate(-(P0 + cx), -(P0 + cy)); x.drawImage(hb, tx, ty, hb.width * k, hb.height * k); x.restore();
+    x.save(); clipHead(); x.drawImage(hb, tx, ty, hb.width * k, hb.height * k); x.restore();
+  } else x.drawImage(hb, tx, ty, hb.width * k, hb.height * k);
   x.drawImage(body, P0, P0, w, h);
-  x.drawImage(hf, tx, ty, hf.width * k, hf.height * k);
+  if (pose === 4) { x.save(); clipHead(); x.drawImage(hf, tx, ty, hf.width * k, hf.height * k); x.restore(); }
+  else x.drawImage(hf, tx, ty, hf.width * k, hf.height * k);
   x.drawImage(ey, ex, eyy, ey.width * ek, ey.height * ek);
   { const [mx, my, mw, mh] = fp(AV.mouth[E.m]); x.drawImage(mo, mx, my, mw, mh); }
   if (pose !== 5) drawW();
