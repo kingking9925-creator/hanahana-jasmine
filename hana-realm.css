@@ -379,3 +379,22 @@ button{font:inherit;cursor:pointer}
   .toast{top:54px;max-width:calc(100% - 400px);white-space:normal;text-align:center}
   .bgm-btn{right:54px!important}
 }
+
+/* ===== 全部文字改黑色（背景改亮，讓黑字看得清楚） ===== */
+#app,#app *{color:#111 !important}
+#app h1,#app h2,#app h3,#app .cp-head h1,#app .cp-info h2,#app .title-card h1,#app .gate-card h1{text-shadow:0 1px 0 #fff,0 0 10px rgba(255,255,255,.9) !important}
+.gate-card,.title-card{background:rgba(255,250,246,.9) !important;border-color:#e6c98f !important}
+.tag,.cp-role,.cp-nums span{background:rgba(255,255,255,.85) !important;border:1px solid #e6c98f}
+.classpick::before{background:linear-gradient(180deg,rgba(255,245,250,.55),rgba(255,240,248,.35) 40%,rgba(255,236,246,.6)) !important}
+.cp-tab{background:rgba(255,250,246,.88) !important;border-color:#e6c98f !important}
+.cp-tab.on{background:linear-gradient(180deg,#fff3c4,#ffd6ea) !important;border-color:#e0a020 !important}
+.cp-detail{background:rgba(255,250,246,.9) !important}
+.cp-skill{background:#fff !important}
+.cp-stat em.off{background:#e8dce4 !important}
+.btn.pri{background:linear-gradient(110deg,#ffc1d6,#e2c7ff) !important;border:1px solid #d9a6c8 !important}
+.touch .pad button,.touch button{color:#111 !important}
+.rotate-hint{background:#fff !important}
+.tl-main{background:none !important;-webkit-text-fill-color:#111 !important;-webkit-text-stroke:0 !important}
+.tl-main::after{-webkit-text-fill-color:#111 !important}
+.tl-wrap{filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 10px rgba(255,255,255,.95)) drop-shadow(0 0 22px rgba(255,240,248,.9)) !important}
+.tl-sub{text-shadow:0 0 4px #fff,0 0 12px #fff !important}

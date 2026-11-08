@@ -28,6 +28,7 @@ const EYE_NAMES = { '#8a5a2b': '琥珀棕', '#3a2a35': '黑曜石', '#3d6bd9': '
 const EYE_COLORS = Object.keys(EYE_NAMES);
 const SKIN_NAMES = { '#fbf0ef': '冷白皮', '#ffe6dc': '粉白皮', '#fad7bd': '自然膚', '#eebf98': '蜜桃膚', '#d39b6e': '小麥膚', '#9c6644': '古銅膚' };
 const SKINS = Object.keys(SKIN_NAMES);
+const SKIN_FIXED = '#ffe6dc'; // 膚色固定：所有角色都是粉白皮，不開放更改
 const OUTFIT_NAMES = ['櫻粉', '天藍', '純白', '薰紫', '薄荷', '鵝黃', '緋紅', '夜黑'];
 const OUTFITS = ['#ff8fb6', '#7fb0ff', '#f4f4f8', '#b48cff', '#6fd3a0', '#ffd76a', '#e5484d', '#3b3550'];
 const OUTFIT_FREE = 4;   // 前 4 種免費，其餘抽卡解鎖
@@ -190,6 +191,7 @@ function migrate(s) { // 舊存檔補上新系統的欄位
   if (!s.buffs) s.buffs = {};
   if (!s.afk) s.afk = { bank: 4, day: twDay() };
   if (!s.lastSeen) s.lastSeen = Date.now();
+  if (s.look) s.look.skin = SKIN_FIXED; // 舊角色也統一成粉白皮
   if (!Array.isArray(s.quick) || s.quick.length !== QS_N) s.quick = ['hpPot', 'mpPot', 'food1', 'food2', 'food3', 'luck', null, null].slice(0, QS_N).map((k, i) => (s.quick && s.quick[i] !== undefined ? s.quick[i] : k));
   return s;
 }
@@ -489,7 +491,7 @@ $('#btnNew').onclick = () => { if (confirm('重新創角會清除目前角色的
 /* ---------- 捏臉 ---------- */
 let draft = null, editing = false;
 const pv = $('#pv'), pg = pv.getContext('2d');
-function randomLook() { return { hair: pick(Object.keys(HAIRS)), hairColor: pick(HAIR_COLORS), eyeShape: 'round', eye: pick(EYE_COLORS), skin: pick(SKINS), outfit: OUTFITS[rint(0, OUTFIT_FREE - 1)], deco: 'none' }; }
+function randomLook() { return { hair: pick(Object.keys(HAIRS)), hairColor: pick(HAIR_COLORS), eyeShape: 'round', eye: pick(EYE_COLORS), skin: SKIN_FIXED, outfit: OUTFITS[rint(0, OUTFIT_FREE - 1)], deco: 'none' }; }
 function opts(el, entries, key, swatch) {
   el.innerHTML = '';
   entries.forEach(([val, label, locked]) => {
@@ -512,12 +514,12 @@ function renderCreate() {
   if (!SKIN_NAMES[draft.skin]) draft.skin = SKINS[2];
   opts($('#optHairColor'), HAIR_COLORS.map(c => [c, HAIR_NAMES[c]]), 'hairColor', true);
   opts($('#optEye'), EYE_COLORS.map(c => [c, EYE_NAMES[c]]), 'eye', true);
-  opts($('#optSkin'), SKINS.map(c => [c, SKIN_NAMES[c]]), 'skin', true);
+  draft.skin = SKIN_FIXED;
   const owned = editing && S ? S.outfits : [0, 1, 2, 3];
   if (!OUTFITS.includes(draft.outfit)) draft.outfit = OUTFITS[0];
   opts($('#optOutfit'), OUTFITS.map((c, i) => [c, OUTFIT_NAMES[i], !owned.includes(i)]), 'outfit', true);
   const nm = (id, t) => { const e = $('#' + id); if (e) e.textContent = t || ''; };
-  nm('nHairColor', HAIR_NAMES[draft.hairColor]); nm('nEye', EYE_NAMES[draft.eye]); nm('nSkin', SKIN_NAMES[draft.skin]); nm('nOutfit', OUTFIT_NAMES[OUTFITS.indexOf(draft.outfit)]); nm('nHair', HAIRS[draft.hair]);
+  nm('nHairColor', HAIR_NAMES[draft.hairColor]); nm('nEye', EYE_NAMES[draft.eye]); nm('nOutfit', OUTFIT_NAMES[OUTFITS.indexOf(draft.outfit)]); nm('nHair', HAIRS[draft.hair]);
   pg.clearRect(0, 0, 320, 360);
   const ill = useArt(draft, draft.cls);
   document.querySelectorAll('.doll-only').forEach(el => el.hidden = !!ill);
@@ -564,7 +566,7 @@ function openCreate(edit, cls) {
 $('#btnRandom').onclick = () => { const cls = draft.cls; draft = { ...randomLook(), cls }; if (editing && S) draft.outfit = OUTFITS[pick(S.outfits)]; renderCreate(); };
 $('#btnCancelCreate').onclick = () => show('play');
 $('#btnCreate').onclick = () => {
-  const { cls, ...look } = draft;
+  const { cls, ...look } = draft; look.skin = SKIN_FIXED;
   if (editing) { S.look = look; persist(); show('play'); toast('造型已更新 ✿'); refreshFace(); return; }
   const name = $('#inName').value.trim();
   if (!name) { $('#inName').focus(); $('#inName').placeholder = '請先取個名字喔！'; return; }
@@ -927,7 +929,7 @@ function draw() {
   g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; const nw = g.measureText(S.name).width + 14; g.fillStyle = 'rgba(255,255,255,.95)'; g.beginPath(); g.roundRect(P.x - nw / 2, P.y + 6, nw, 18, 6); g.fill(); g.strokeStyle = 'rgba(30,20,30,.55)'; g.lineWidth = 1.5; g.stroke(); g.fillStyle = '#111'; g.fillText(S.name, P.x, P.y + 19);
   for (const p of projs) drawProj(p);
   for (const f of fx) drawFx(f);
-  for (const t of texts) { g.globalAlpha = 1 - Math.max(0, t.t - .6) * 2; g.font = `900 ${t.big ? 26 : 20}px sans-serif`; g.textAlign = 'center'; g.lineWidth = 4; g.strokeStyle = 'rgba(60,20,40,.75)'; g.strokeText(t.s, t.x, t.y); g.fillStyle = t.col; g.fillText(t.s, t.x, t.y); if (t.icon) { const tw = g.measureText(t.s).width; drawImg(g, 'ui/' + t.icon, t.x - tw / 2 - 14, t.y + 6, 24); } g.globalAlpha = 1; }
+  for (const t of texts) { g.globalAlpha = 1 - Math.max(0, t.t - .6) * 2; g.font = `900 ${t.big ? 26 : 20}px sans-serif`; g.textAlign = 'center'; g.lineWidth = 4; g.strokeStyle = 'rgba(255,255,255,.95)'; g.strokeText(t.s, t.x, t.y); g.fillStyle = '#111'; g.fillText(t.s, t.x, t.y); if (t.icon) { const tw = g.measureText(t.s).width; drawImg(g, 'ui/' + t.icon, t.x - tw / 2 - 14, t.y + 6, 24); } g.globalAlpha = 1; }
   g.restore();
   g.fillStyle = 'rgba(255,190,215,.85)';
   if (zn !== ZONES[3]) for (const p of petals) { g.save(); g.translate(p.x, p.y); g.rotate(T * p.s + p.r); g.beginPath(); g.ellipse(0, 0, 5 * p.s, 3 * p.s, 0, 0, 7); g.fill(); g.restore(); }
@@ -947,7 +949,7 @@ function drawMob(m) {
   }
   g.filter = 'none'; g.restore();
   if (m.hp < d.hp) { const bw = Math.max(36, d.w); g.fillStyle = '#0007'; g.fillRect(x - bw / 2, y - d.h - 16, bw, 5); g.fillStyle = '#ff5c8a'; g.fillRect(x - bw / 2, y - d.h - 16, bw * Math.max(0, m.hp) / d.hp, 5); }
-  if (m.aggro > 0 || Math.abs(m.x - P.x) < 160) { g.font = '11px sans-serif'; g.textAlign = 'center'; g.fillStyle = '#fff'; g.strokeStyle = '#0006'; g.lineWidth = 3; const s = `Lv.${d.lv} ${d.name}`; g.strokeText(s, x, y + 16); g.fillText(s, x, y + 16); }
+  if (m.aggro > 0 || Math.abs(m.x - P.x) < 160) { g.font = '11px sans-serif'; g.textAlign = 'center'; g.fillStyle = '#111'; g.strokeStyle = 'rgba(255,255,255,.95)'; g.lineWidth = 3; const s = `Lv.${d.lv} ${d.name}`; g.strokeText(s, x, y + 16); g.fillText(s, x, y + 16); }
 }
 function eyes(x, y, f) { g.fillStyle = '#2a1f2a'; g.beginPath(); g.ellipse(x - 5, y, 2.4, 3.4, 0, 0, 7); g.ellipse(x + 5, y, 2.4, 3.4, 0, 0, 7); g.fill(); g.fillStyle = '#fff'; g.beginPath(); g.arc(x - 5.6, y - 1.2, .9, 0, 7); g.arc(x + 4.4, y - 1.2, .9, 0, 7); g.fill(); }
 function drawProj(p) {
@@ -965,7 +967,7 @@ function drawFx(f) {
   if (f.kind === 'rose') { g.save(); g.translate(f.x, f.y); g.globalAlpha = 1 - t * 1.8; for (let i = 0; i < 8; i++) { const a = i * .8 + t * 6; g.fillStyle = i % 2 ? '#ff6b9a' : '#ffc1d8'; g.beginPath(); g.ellipse(Math.cos(a) * 60 * t * 2 * f.f, Math.sin(a) * 26, 9, 5, a, 0, 7); g.fill(); } g.restore(); g.globalAlpha = 1; }
   if (f.kind === 'meteor') { const k = Math.min(1, t / .25); g.globalAlpha = 1 - Math.max(0, t - .3) * 3; g.fillStyle = '#ffe58a'; star(g, f.x - 80 * (1 - k), f.y - 160 * (1 - k), 12, 5); if (k >= 1) { g.fillStyle = 'rgba(255,200,240,.6)'; g.beginPath(); g.arc(f.x, f.y, 30 * (t - .2) * 4, 0, 7); g.fill(); } g.globalAlpha = 1; }
   if (f.kind === 'bloom') { g.globalAlpha = 1 - t * 1.8; for (let i = 0; i < 10; i++) { const a = i * .628; g.fillStyle = i % 2 ? '#7ee08f' : '#ffc1d8'; g.beginPath(); g.arc(f.x + Math.cos(a) * 110 * t * 1.8, f.y - 30 + Math.sin(a) * 40 * t * 1.8, 6, 0, 7); g.fill(); } g.globalAlpha = 1; }
-  if (f.kind === 'lvup') { g.globalAlpha = 1 - Math.max(0, t - 1) * 1.6; g.strokeStyle = '#ffe58a'; g.lineWidth = 3; for (let i = 0; i < 3; i++) { g.beginPath(); g.ellipse(P.x, P.y - 4, 30 + i * 10 + t * 20, 8 + i * 3, 0, 0, 7); g.stroke(); } g.font = '900 28px sans-serif'; g.textAlign = 'center'; g.lineWidth = 5; g.strokeStyle = '#9c4871'; g.strokeText('LEVEL UP!', P.x, P.y - 110 - t * 20); g.fillStyle = '#ffe58a'; g.fillText('LEVEL UP!', P.x, P.y - 110 - t * 20); g.globalAlpha = 1; }
+  if (f.kind === 'lvup') { g.globalAlpha = 1 - Math.max(0, t - 1) * 1.6; g.strokeStyle = '#ffe58a'; g.lineWidth = 3; for (let i = 0; i < 3; i++) { g.beginPath(); g.ellipse(P.x, P.y - 4, 30 + i * 10 + t * 20, 8 + i * 3, 0, 0, 7); g.stroke(); } g.font = '900 28px sans-serif'; g.textAlign = 'center'; g.lineWidth = 5; g.strokeStyle = '#fff'; g.strokeText('LEVEL UP!', P.x, P.y - 110 - t * 20); g.fillStyle = '#111'; g.fillText('LEVEL UP!', P.x, P.y - 110 - t * 20); g.globalAlpha = 1; }
 }
 
 /* ---------- HUD ---------- */
