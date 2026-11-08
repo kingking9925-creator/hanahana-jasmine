@@ -449,3 +449,8 @@ button{font:inherit;cursor:pointer}
 @media (max-width:640px){.sh-win{flex-direction:column}.sh-side{width:auto;flex-direction:row;flex-wrap:wrap}.sh-gold{margin:0}}
 .panel-card{overflow-x:hidden !important}
 .inv-acts .btn,.sh-buy{white-space:nowrap}
+
+/* 創角：姿勢預覽按鈕 */
+.pv-poses{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.pv-poses button{padding:4px 10px;border-radius:999px;border:1px solid #e0c48a;background:#fff;font-size:12px;font-weight:800}
+#app .pv-poses button.on{background:linear-gradient(#ff8aa8,#e5486e);color:#fff !important;border-color:#c23a5c}

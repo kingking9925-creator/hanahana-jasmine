@@ -11,6 +11,8 @@ const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 
 /* ---------- 資料 ---------- */
 const CLASSES = {
+  novice: { name: '初心者', desc: '還沒轉職・Lv.10 可以轉職', hp: 100, mp: 30, atk: 10, range: 75, type: 'melee', crit: .08, weapon: 'sword',
+    skill: { name: '奮力一擊', mp: 6, cd: 2.2, mult: 1.9, range: 130, max: 3, kind: 'slash' } },
   knight: { name: '聖薔薇騎士', desc: '近戰・高血量', hp: 120, mp: 30, atk: 12, range: 70, type: 'melee', crit: .1, weapon: 'sword',
     skill: { name: '薔薇斬擊', mp: 8, cd: 2.5, mult: 2.2, range: 150, max: 4, kind: 'slash' } },
   mage: { name: '星詠魔導士', desc: '遠程・範圍魔法', hp: 80, mp: 70, atk: 13, range: 320, type: 'proj', proj: 'star', crit: .1, weapon: 'staff',
@@ -45,18 +47,18 @@ const ITEMS = {
 /* ---------- 裝備 ---------- */
 const QS_N = 8; // 快捷欄格數（鍵盤 1～8）
 const QS_ITEMS = ['hpPot', 'mpPot', 'food1', 'food2', 'food3']; // 可放進快捷欄的消耗品
-const SLOTS = { weapon: '武器', hat: '帽子', armor: '衣服', shoes: '鞋子', ring: '戒指', neck: '項鍊' };
+const SLOTS = { weapon: '武器', hat: '帽子', armor: '衣服', pants: '褲子', shoes: '鞋子', ring: '戒指', neck: '項鍊' };
 const ic = k => `<img class="gi" src="${ART_DIR}ui/${k}.webp" alt="">`;
-const SLOT_E = { weapon: '⚔️', hat: '🎩', armor: '👘', shoes: '👢', ring: '💍', neck: '📿' };
+const SLOT_E = { weapon: '⚔️', hat: '🎩', armor: '👘', pants: '👖', shoes: '👢', ring: '💍', neck: '📿' };
 const RARITY = [{ n: '普通', c: '#8f8a86', m: 1 }, { n: '稀有', c: '#3d7dff', m: 1.35 }, { n: '史詩', c: '#a24dff', m: 1.8 }, { n: '傳說', c: '#ff8a1e', m: 2.5 }];
-const GEAR_NAMES = { weapon: ['木製', '櫻花', '月影', '水晶', '星辰'], hat: ['布織', '櫻花', '月影', '水晶', '星辰'], armor: ['旅人', '櫻花', '月影', '水晶', '星辰'], shoes: ['草編', '櫻花', '月影', '水晶', '星辰'], ring: ['銅', '櫻花', '月影', '水晶', '星辰'], neck: ['麻繩', '櫻花', '月影', '水晶', '星辰'] };
-const GEAR_NOUN = { weapon: { knight: '長劍', mage: '法杖', ranger: '長弓', priest: '花杖' }, hat: '髮飾', armor: '外衣', shoes: '短靴', ring: '戒指', neck: '項鍊' };
+const GEAR_NAMES = { weapon: ['木製', '櫻花', '月影', '水晶', '星辰'], hat: ['布織', '櫻花', '月影', '水晶', '星辰'], armor: ['旅人', '櫻花', '月影', '水晶', '星辰'], pants: ['旅人', '櫻花', '月影', '水晶', '星辰'], shoes: ['草編', '櫻花', '月影', '水晶', '星辰'], ring: ['銅', '櫻花', '月影', '水晶', '星辰'], neck: ['麻繩', '櫻花', '月影', '水晶', '星辰'] };
+const GEAR_NOUN = { weapon: { novice: '短劍', knight: '長劍', mage: '法杖', ranger: '長弓', priest: '花杖' }, hat: '髮飾', armor: '外衣', pants: '長褲', shoes: '短靴', ring: '戒指', neck: '項鍊' };
 function gearBase(slot, L) {
-  return { weapon: { atk: 4 + L * 1.6 }, hat: { def: 1 + L * .6, hp: 8 + L * 3 }, armor: { def: 2 + L * 1, hp: 15 + L * 5 }, shoes: { def: 1 + L * .5, hp: 6 + L * 2 },
+  return { weapon: { atk: 4 + L * 1.6 }, hat: { def: 1 + L * .6, hp: 8 + L * 3 }, armor: { def: 2 + L * 1, hp: 15 + L * 5 }, pants: { def: 1 + L * .7, hp: 10 + L * 3 }, shoes: { def: 1 + L * .5, hp: 6 + L * 2 },
     ring: { atk: 2 + L * .7, crit: .01 + L * .002 }, neck: { hp: 10 + L * 4, atk: 1 + L * .5 } }[slot];
 }
 function gearStats(it) { const b = gearBase(it.slot, it.lv), m = RARITY[it.r].m * (1 + .08 * (it.enh || 0)), o = {}; for (const k in b) o[k] = k === 'crit' ? b[k] * m : Math.round(b[k] * m); return o; }
-function gearName(it, cls) { const tier = Math.min(4, Math.floor(it.lv / 4)); const noun = it.slot === 'weapon' ? GEAR_NOUN.weapon[cls] : GEAR_NOUN[it.slot]; return GEAR_NAMES[it.slot][tier] + noun; }
+function gearName(it, cls) { if (it.nm) return it.nm; const tier = Math.min(4, Math.floor(it.lv / 4)); const noun = it.slot === 'weapon' ? GEAR_NOUN.weapon[cls] : GEAR_NOUN[it.slot]; return GEAR_NAMES[it.slot][tier] + noun; }
 function gearPrice(it) { return Math.round((it.lv * 3 + 5) * RARITY[it.r].m * (1 + (it.enh || 0) * .2)); }
 function rollRarity(bonus = 0) { const x = Math.random(); if (x < .01 * (1 + bonus)) return 3; if (x < .08 * (1 + bonus)) return 2; if (x < .30 * (1 + bonus * .5)) return 1; return 0; }
 function makeGear(L, slot, r) { return { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), slot: slot || pick(Object.keys(SLOTS)), lv: Math.max(1, L), r: r == null ? rollRarity() : r, enh: 0 }; }
@@ -68,6 +70,7 @@ function enhInfo(e) { // 強化 +e → +e+1
 }
 /* ---------- 天賦 ---------- */
 const TALENT_PATHS = {
+  novice: [['冒險之心', '進攻'], ['堅強意志', '防禦'], ['新手成長', '成長']],
   knight: [['薔薇之刃', '進攻'], ['聖盾守護', '防禦'], ['騎士榮耀', '成長']],
   mage: [['星詠咒文', '進攻'], ['月光結界', '防禦'], ['星辰智慧', '成長']],
   ranger: [['月影獵殺', '進攻'], ['疾風身法', '防禦'], ['森林之友', '成長']],
@@ -79,6 +82,7 @@ const TALENT_NODES = [ // [名稱, 效果key, 每級數值, 最高級]
   [['學識', 'expPct', .05, 3], ['財運', 'goldPct', .06, 3], ['尋寶', 'dropPct', .05, 3], ['冥想', 'mpRegen', 1, 3], ['核心', 'ks2', 1, 1]]
 ];
 const KEYSTONES = {
+  novice: ['奮力連擊：技能每命中一隻怪，回復 3% HP', '不屈：HP 低於 30% 時，受到傷害 -40%', '幸運星：擊倒怪物時 15% 機率重置技能冷卻'],
   knight: ['怒放：技能每命中一隻怪，回復 3% HP', '不凋之盾：HP 低於 30% 時，受到傷害 -40%', '榮耀凱旋：擊倒怪物時 15% 機率重置技能冷卻'],
   mage: ['星塵連鎖：流星花雨多打 2 個目標', '月華護身：HP 低於 30% 時，受到傷害 -40%', '星辰回響：擊倒怪物時 15% 機率重置技能冷卻'],
   ranger: ['月影穿透：普通攻擊的箭可以穿透 2 隻怪', '殘影閃避：HP 低於 30% 時，受到傷害 -40%', '獵人直覺：擊倒怪物時 15% 機率重置技能冷卻'],
@@ -177,7 +181,12 @@ function newSave(look, name, cls) {
     inv: { iron: 0, crystal: 0, star: 0, dew: 0, dust: 0, leaf: 0, hpPot: 5, mpPot: 3, ticket: 3 },
     outfits: [0, 1, 2, 3], pets: [], pet: null, mounts: [], mount: null, riding: false, x: 120, kills: 0 };
 }
-function newSaveFull(look, name, cls) { const s = migrate(newSave(look, name, cls)); s.equip.weapon.lv = 1; s.equip.armor = makeGear(1, 'armor', 0); return s; }
+function newSaveFull(look, name, cls) {
+  const s = migrate(newSave(look, name, cls)); s.equip = {};
+  const g = (slot, nm, icon, wk) => ({ ...makeGear(1, slot, 0), nm, icon, wk, start: 1 });
+  s.gear = [g('armor', '粗衣', 'eq_tunic'), g('pants', '粗褲', 'eq_pants'), g('weapon', '粗劍', 'eq_sword', 'sword'), g('weapon', '木棒', 'eq_stick', 'stick')];
+  return s;
+}
 function load() { try { const s = JSON.parse(localStorage.getItem(SAVE_KEY)); return s && s.v === 1 ? migrate(s) : null; } catch { return null; } }
 function migrate(s) { // 舊存檔補上新系統的欄位
   if (!s.map2) { if (s.x) s.x = remapX(s.x); s.map2 = 1; }
@@ -191,7 +200,7 @@ function migrate(s) { // 舊存檔補上新系統的欄位
   if (!s.buffs) s.buffs = {};
   if (!s.afk) s.afk = { bank: 4, day: twDay() };
   if (!s.lastSeen) s.lastSeen = Date.now();
-  if (s.look) s.look.skin = SKIN_FIXED; // 舊角色也統一成粉白皮
+  if (s.look && !s.look.gender) { const o = s.look; s.look = { gender: 'f', hair: 0, hairColor: HAIR_NAMES[o.hairColor] ? o.hairColor : HAIR_COLORS[0], eye: 0, eyeColor: EYE_NAMES[o.eye] ? o.eye : EYE_COLORS[0] }; } // 舊角色換成新的紙娃娃外觀
   if (!Array.isArray(s.quick) || s.quick.length !== QS_N) s.quick = ['hpPot', 'mpPot', 'food1', 'food2', 'food3', 'luck', null, null].slice(0, QS_N).map((k, i) => (s.quick && s.quick[i] !== undefined ? s.quick[i] : k));
   return s;
 }
@@ -284,7 +293,7 @@ const ART = /*ART*/{"hero":{"knight":{"idle":[109,204,53.8],"walk":[139,192,70.4
 const IMG = {};
 function artImg(k) {
   let im = IMG[k];
-  if (!im) { im = IMG[k] = new Image(); im.decoding = 'async'; im.onload = () => { if (!k.endsWith('_idle')) return; try { if (S && typeof refreshFace === 'function') refreshFace(); } catch {} try { if (draft && document.getElementById('create').classList.contains('show')) renderCreate(); } catch {} }; im.src = ART_DIR + k + '.webp'; }
+  if (!im) { im = IMG[k] = new Image(); im.decoding = 'async'; im.onload = () => { if (!k.endsWith('_idle') && !k.startsWith('base/')) return; try { if (S && typeof refreshFace === 'function') refreshFace(); } catch {} try { if (draft && document.getElementById('create').classList.contains('show')) renderCreate(); } catch {} }; im.src = ART_DIR + k + '.webp'; }
   return im.complete && im.naturalWidth ? im : null;
 }
 function drawArt(g, key, m, x, y, s, face, sy = 1, rot = 0) {
@@ -341,7 +350,78 @@ function drawDeco(g, look, meta) { // 臉部裝飾：依眼睛位置畫在插畫
   if (look.deco === 'star') { g.fillStyle = '#ffd34d'; g.strokeStyle = '#3a2433'; g.lineWidth = 1.2; star(g, ex - w * .55, ey + 9, 5, 2.3); }
   if (look.deco === 'glasses') { g.strokeStyle = '#4a3040'; g.lineWidth = 2.4; g.beginPath(); g.arc(ex - w * .3, ey, w * .32, 0, 7); g.moveTo(ex + w * .3 + w * .32, ey); g.arc(ex + w * .3, ey, w * .32, 0, 7); g.moveTo(ex - w * .3 + w * .32, ey); g.lineTo(ex + w * .3 - w * .32, ey); g.stroke(); }
 }
+/* ---------- 紙娃娃角色：身體（內衣／新手服）＋眼睛＋頭髮＋武器，全部 AI 素材分層 ---------- */
+const AV = /*AV*/{"body":{"f_under":[[104,212,53.0,50.0,50.0],[104,207,52.0,50.0,49.7],[104,208,53.0,50.0,50.0],[115,194,53.0,48.0,48.7],[176,129,124.0,52.0,51.1],[124,208,70.0,53.0,53.0],[140,196,88.0,50.0,50.2],[104,212,53.0,49.0,49.6]],"m_under":[[92,200,47.0,43.0,43.0],[92,198,48.0,43.0,42.7],[98,198,49.0,42.0,43.0],[100,170,55.0,42.0,42.7],[166,118,121.0,43.0,43.4],[115,194,68.0,44.0,44.9],[132,190,86.0,43.0,43.4],[93,200,48.0,43.0,43.3]],"f_cloth":[[104,214,53.0,50.0,50.2],[104,210,53.0,50.0,50.0],[106,211,53.0,50.0,50.0],[116,195,54.0,49.0,48.4],[177,131,124.0,52.0,51.9],[124,210,70.0,53.0,52.8],[140,198,88.0,50.0,50.2],[104,213,53.0,50.0,49.8]],"m_cloth":[[105,226,53.0,50.0,50.7],[112,225,56.0,51.0,50.5],[114,225,54.0,51.0,51.0],[119,200,54.0,49.0,49.0],[176,138,122.0,53.0,52.9],[124,218,69.0,57.0,53.9],[141,206,88.0,51.0,51.4],[108,220,55.0,51.0,51.7]]},"hair":{"hair_f":[[182,250,49.0,61.0,152.5,138.5],[246,225,86.0,61.5,191.5,136.5],[180,154,44.5,62.5,151.5,140.5],[223,230,87.0,85.0,193.5,162.0],[231,248,75.5,63.5,183.0,142.5],[198,168,52.0,82.5,158.0,161.5]],"hair_m":[[222,190,52.0,97.0,181.5,185.5],[228,204,54.0,97.5,186.5,201.0],[207,184,44.0,72.5,174.0,180.5],[218,184,44.0,95.0,173.0,180.0],[226,223,52.5,95.0,186.0,190.0],[219,192,49.5,79.5,181.0,188.5]]},"eye":[[66,59,45.5,86.0,179.5,186.0],[116,56,45.0,87.0,180.0,186.0],[71,42,45.0,101.0,180.5,186.0],[118,42,45.5,101.5,180.0,186.5],[137,53,41.5,89.0,180.5,186.5],[68,54,43.5,90.0,181.5,186.5]]}/*AVEND*/;
+const AV_HAIR = { f: ['長直髮', '雙馬尾', '鮑伯頭', '高馬尾', '大波浪', '蓬鬆短髮'], m: ['凌亂短髮', '刺蝟頭', '清爽旁分', '長瀏海', '小馬尾', '捲捲頭'] };
+const AV_EYE = ['圓亮眼', '溫柔眼', '冷酷眼', '慵懶眼', '貓眼', '活潑大眼'];
+const AV_H = 108; // 站立時的高度（遊戲像素）
+// 每個姿勢前手的位置（以頭半徑為單位，相對頭中心）與武器角度
+const AV_HAND = [[.62, 1.85, .45], [.72, 1.62, .6], [.55, 1.62, .35], [.95, 1.15, .25], null, [-.8, .35, -1.15], [.62, 1.7, 1.95], [.62, 1.85, .45]];
+const AV_POSE = { idle: 0, walk1: 1, walk2: 2, jump: 3, prone: 4, atk1: 5, atk2: 6, idle2: 7 };
+const AV_PAD = 90;
+const avImg = k => artImg('base/' + k);
+const AV_TINT = new Map(), AV_COMP = new Map();
+function avTint(key, hex, kind) {
+  const ck = key + '|' + hex; if (AV_TINT.has(ck)) return AV_TINT.get(ck);
+  const im = avImg(key); if (!im) return null;
+  const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight;
+  const x = c.getContext('2d'); x.drawImage(im, 0, 0);
+  const d = x.getImageData(0, 0, c.width, c.height), p = d.data, col = hexRgb(hex);
+  for (let i = 0; i < p.length; i += 4) {
+    if (!p[i + 3]) continue;
+    const r = p[i], gg = p[i + 1], b = p[i + 2], L = (r * .3 + gg * .59 + b * .11) / 255, sat = Math.max(r, gg, b) - Math.min(r, gg, b);
+    if (kind === 'hair') {
+      if (L < .32) continue;
+      const f = L / .8;
+      for (let k = 0; k < 3; k++) p[i + k] = f <= 1 ? col[k] * Math.pow(f, 1.15) : col[k] + (255 - col[k]) * Math.min(1, (f - 1) * 2.6);
+    } else {
+      if (L > .86 || L < .2 || sat > 45) continue;
+      const f = (L - .2) / .5;
+      for (let k = 0; k < 3; k++) p[i + k] = f <= 1 ? col[k] * (.35 + .65 * f) : col[k] + (255 - col[k]) * Math.min(1, (f - 1) * 1.4);
+    }
+  }
+  x.putImageData(d, 0, 0); AV_TINT.set(ck, c); return c;
+}
+function avOutfit(eq) { return eq && (eq.armor || eq.pants) ? 'cloth' : 'under'; }
+function avWeapon(eq, cls) { const w = eq && eq.weapon; if (!w) return null; return w.wk || (cls === 'mage' || cls === 'priest' ? 'stick' : 'sword'); }
+// 合成一個姿勢的角色（快取），回傳 { c, ax, ay, s }
+function avFrame(look, pose, outfit, weapon) {
+  const gd = look.gender === 'm' ? 'm' : 'f', bk = gd + '_' + outfit, ck = [bk, pose, look.hair, look.hairColor, look.eye, look.eyeColor, weapon].join('|');
+  if (AV_COMP.has(ck)) return AV_COMP.get(ck);
+  const body = avImg(bk + '_' + pose), hi = clamp(look.hair | 0, 0, 5), ei = clamp(look.eye | 0, 0, 5);
+  const hf = avTint('hair_' + gd + '_' + hi, look.hairColor, 'hair'), hb = avTint('hair_' + gd + '_' + hi + 'b', look.hairColor, 'hair'), ey = avTint('eye_' + ei, look.eyeColor, 'eye');
+  const wim = weapon && pose !== 4 ? avImg('w_' + weapon) : null;
+  if (!body || !hf || !hb || !ey || (weapon && pose !== 4 && !wim)) return null;
+  const [w, h, cx, cy, r] = AV.body[bk][pose], c = document.createElement('canvas'); c.width = w + AV_PAD * 2; c.height = h + AV_PAD * 2;
+  const x = c.getContext('2d'), P0 = AV_PAD;
+  const hm = AV.hair['hair_' + gd][hi], k = 2.06 * r / (hm[4] - hm[2]), tx = P0 + cx - 1.06 * r - hm[2] * k, ty = P0 + cy + r - hm[5] * k;
+  const em = AV.eye[ei], ek = 2.06 * r / em[4], ex = P0 + cx - 1.06 * r + em[2] * ek, eyy = P0 + cy + r - em[5] * ek + em[3] * ek;
+  const hand = AV_HAND[pose], drawW = () => { if (!wim || !hand) return; const L = r * 1.9, ww = wim.naturalWidth * L / wim.naturalHeight; x.save(); x.translate(P0 + cx + hand[0] * r, P0 + cy + hand[1] * r); x.rotate(hand[2]); x.drawImage(wim, -ww / 2, -L * .86, ww, L); x.restore(); };
+  if (pose === 5) drawW();
+  x.drawImage(hb, tx, ty, hb.width * k, hb.height * k);
+  x.drawImage(body, P0, P0, w, h);
+  x.drawImage(hf, tx, ty, hf.width * k, hf.height * k);
+  x.drawImage(ey, ex, eyy, ey.width * ek, ey.height * ek);
+  if (pose !== 5) drawW();
+  const fr = { c, ax: P0 + cx, ay: P0 + h, s: AV_H / AV.body[bk][0][1], head: [P0 + cx, P0 + cy, r] };
+  AV_COMP.set(ck, fr); return fr;
+}
+function avPose(opt) {
+  if (opt.prone) return 4;
+  if (opt.atk > 0) return opt.atk > .55 ? 5 : 6;
+  if (opt.air) return 3;
+  if (opt.walk) return Math.floor(opt.walk * 7) % 2 ? 1 : 2;
+  return Math.floor(T * 1.1) % 2 ? 7 : 0;
+}
+function drawAvatar(g, x, y, look, opt = {}) {
+  const fr = avFrame(look, opt.pose != null ? opt.pose : avPose(opt), opt.outfit || 'under', opt.weapon || null);
+  if (!fr) return false;
+  const s = fr.s * (opt.scale || 1), face = opt.face || 1;
+  g.save(); g.translate(x, y + 2); g.scale(face * s, s); g.drawImage(fr.c, -fr.ax, -fr.ay); g.restore(); return true;
+}
+function avPreload(look) { for (let p = 0; p < 8; p++) for (const o of ['under', 'cloth']) avImg((look.gender === 'm' ? 'm' : 'f') + '_' + o + '_' + p); }
 function drawHero(g, x, y, look, cls, opt = {}) {
+  if (look && look.gender) { if (drawAvatar(g, x, y, look, { ...opt, outfit: opt.outfit || (S && look === S.look ? avOutfit(S.equip) : 'under'), weapon: opt.weapon !== undefined ? opt.weapon : (S && look === S.look ? avWeapon(S.equip, S.cls) : null) })) return; return; }
   if (look && look.art === 'doll' && DOLL[cls]) {
     const fr = dollFrame(cls, look, opt.atk > 0 ? 'attack' : 'idle');
     if (fr) {
@@ -485,48 +565,51 @@ function toTitle() {
   $('#btnNew').hidden = !S;
   show('title');
 }
-$('#btnStart').onclick = () => { if (S) startPlay(); else openClassPick(); };
-$('#btnNew').onclick = () => { if (confirm('重新創角會清除目前角色的進度，確定嗎？')) { localStorage.removeItem(SAVE_KEY); S = null; openClassPick(); } };
+$('#btnStart').onclick = () => { if (S) startPlay(); else openCreate(false); };
+$('#btnNew').onclick = () => { if (confirm('重新創角會清除目前角色的進度，確定嗎？')) { localStorage.removeItem(SAVE_KEY); S = null; openCreate(false); } };
 
 /* ---------- 捏臉 ---------- */
 let draft = null, editing = false;
 const pv = $('#pv'), pg = pv.getContext('2d');
-function randomLook() { return { hair: pick(Object.keys(HAIRS)), hairColor: pick(HAIR_COLORS), eyeShape: 'round', eye: pick(EYE_COLORS), skin: SKIN_FIXED, outfit: OUTFITS[rint(0, OUTFIT_FREE - 1)], deco: 'none' }; }
+function randomLook(gender) { const gd = gender || draft && draft.gender || 'f'; return { gender: gd, hair: rint(0, 5), hairColor: pick(HAIR_COLORS), eye: rint(0, 5), eyeColor: pick(EYE_COLORS) }; }
 function opts(el, entries, key, swatch) {
   el.innerHTML = '';
   entries.forEach(([val, label, locked]) => {
     const b = document.createElement('button'); b.type = 'button';
-    if (swatch) { b.style.background = val; b.title = locked ? (label || '') + '（抽卡解鎖）' : (label || ''); b.setAttribute('aria-label', b.title); if (locked) b.classList.add('locked'); }
+    if (swatch) { b.style.background = val; b.title = label || ''; b.setAttribute('aria-label', b.title); }
     else b.innerHTML = label;
     if (draft[key] === val) b.classList.add('on');
     b.onclick = () => { if (locked) return; draft[key] = val; renderCreate(); };
     el.appendChild(b);
   });
 }
+let pvPose = 0, pvTimer = 0;
+const PV_POSES = [['idle', '站立'], ['walk', '走路'], ['jump', '跳躍'], ['prone', '趴下'], ['atk', '攻擊']];
+function drawPreview() {
+  if (!draft) return; pg.clearRect(0, 0, 320, 360);
+  const t = performance.now() / 1000, mode = PV_POSES[pvPose][0];
+  const pose = mode === 'walk' ? (Math.floor(t * 6) % 2 ? 1 : 2) : mode === 'jump' ? 3 : mode === 'prone' ? 4 : mode === 'atk' ? (t % 1 < .5 ? 5 : 6) : (Math.floor(t * 1.1) % 2 ? 7 : 0);
+  drawAvatar(pg, 160, pose === 4 ? 310 : 340, draft, { pose, scale: 2.05, face: 1, outfit: editing && S ? avOutfit(S.equip) : 'under', weapon: editing && S ? avWeapon(S.equip, S.cls) : null });
+}
 function renderCreate() {
-  opts($('#optCls'), Object.entries(CLASSES).map(([k, c]) => [k, `<b>${c.name}</b><small>${c.desc}</small>`]), 'cls');
-  if (draft.art !== 'illust') draft.art = 'doll';
-  opts($('#optArt'), [['doll', '✂️ 自訂捏臉'], ['illust', '🎨 職業經典造型']], 'art');
-  if (editing) $('#optCls').querySelectorAll('button').forEach(b => { b.disabled = !b.classList.contains('on'); });
-  opts($('#optHair'), Object.entries(HAIRS), 'hair');
+  if (!editing) opts($('#optGender'), [['f', '👧 女生'], ['m', '👦 男生']], 'gender');
+  $('#genderRow').hidden = editing;
+  const hl = AV_HAIR[draft.gender] || AV_HAIR.f;
+  opts($('#optHair'), hl.map((n, i) => [i, n]), 'hair');
   if (!HAIR_NAMES[draft.hairColor]) draft.hairColor = HAIR_COLORS[0];
-  if (!EYE_NAMES[draft.eye]) draft.eye = EYE_COLORS[0];
-  if (!SKIN_NAMES[draft.skin]) draft.skin = SKINS[2];
+  if (!EYE_NAMES[draft.eyeColor]) draft.eyeColor = EYE_COLORS[0];
   opts($('#optHairColor'), HAIR_COLORS.map(c => [c, HAIR_NAMES[c]]), 'hairColor', true);
-  opts($('#optEye'), EYE_COLORS.map(c => [c, EYE_NAMES[c]]), 'eye', true);
-  draft.skin = SKIN_FIXED;
-  const owned = editing && S ? S.outfits : [0, 1, 2, 3];
-  if (!OUTFITS.includes(draft.outfit)) draft.outfit = OUTFITS[0];
-  opts($('#optOutfit'), OUTFITS.map((c, i) => [c, OUTFIT_NAMES[i], !owned.includes(i)]), 'outfit', true);
+  opts($('#optEyeShape'), AV_EYE.map((n, i) => [i, n]), 'eye');
+  opts($('#optEye'), EYE_COLORS.map(c => [c, EYE_NAMES[c]]), 'eyeColor', true);
   const nm = (id, t) => { const e = $('#' + id); if (e) e.textContent = t || ''; };
-  nm('nHairColor', HAIR_NAMES[draft.hairColor]); nm('nEye', EYE_NAMES[draft.eye]); nm('nOutfit', OUTFIT_NAMES[OUTFITS.indexOf(draft.outfit)]); nm('nHair', HAIRS[draft.hair]);
-  pg.clearRect(0, 0, 320, 360);
-  const ill = useArt(draft, draft.cls);
-  document.querySelectorAll('.doll-only').forEach(el => el.hidden = !!ill);
-  drawHero(pg, 160, 335, draft, draft.cls, { scale: 3.4, artScale: 2.6, fit: 310, face: 1 });
+  nm('nHair', hl[draft.hair]); nm('nHairColor', HAIR_NAMES[draft.hairColor]); nm('nEyeShape', AV_EYE[draft.eye]); nm('nEye', EYE_NAMES[draft.eyeColor]);
+  $('#pvPoses').innerHTML = PV_POSES.map(([k, n], i) => `<button type="button" class="${i === pvPose ? 'on' : ''}" data-pp="${i}">${n}</button>`).join('');
+  $('#pvPoses').querySelectorAll('[data-pp]').forEach(b => b.onclick = () => { pvPose = +b.dataset.pp; renderCreate(); });
+  avPreload(draft); drawPreview();
 }
 /* ---------- 職業選擇（先選職業，再捏臉） ---------- */
 const CLASS_INFO = {
+  novice: { en: 'BEGINNER', role: '還沒轉職', lore: '剛來到艾瑟蘭大陸的冒險者。', play: '', stars: { hp: 3, atk: 2, range: 1, ctrl: 1 }, tip: '' },
   knight: { en: 'ROSE KNIGHT', role: '前線坦克・近戰', lore: '守護櫻華王都的薔薇騎士團成員。以厚重的銀甲與長劍站在隊伍最前方，越是危急越能綻放力量。', play: '血量最高、最耐打，適合第一次玩的新手。貼身砍怪，技能可以一次掃到一整排。', stars: { hp: 5, atk: 3, range: 1, ctrl: 3 }, tip: '新手推薦' },
   mage: { en: 'STAR MAGE', role: '遠程・範圍魔法', lore: '在星詠塔修行的魔導士，能把夜空的星辰化為流星降下。身體雖然嬌弱，火力卻是全職業最華麗的。', play: '站在遠處放魔法，技能「流星花雨」能同時打中一群怪，清怪速度最快。', stars: { hp: 2, atk: 5, range: 4, ctrl: 4 }, tip: '清怪最快' },
   ranger: { en: 'MOON RANGER', role: '遠程・高爆擊', lore: '在月影森林長大的獵人，能聽見風與樹葉的聲音。月光下射出的箭從不落空。', play: '射程最遠、爆擊率最高，邊走邊射。技能「月影箭」可以直線穿透一排怪物。', stars: { hp: 3, atk: 4, range: 5, ctrl: 2 }, tip: '爆擊最高' },
@@ -535,7 +618,7 @@ const CLASS_INFO = {
 let pickCls = 'knight';
 function renderClassPick() {
   const c = CLASSES[pickCls], ci = CLASS_INFO[pickCls], m = ART.hero && ART.hero[pickCls];
-  $('#cpList').innerHTML = Object.entries(CLASSES).map(([k, v]) => `<button type="button" class="cp-tab${k === pickCls ? ' on' : ''}" data-c="${k}"><img src="${ART_DIR}${k}_idle.webp" alt=""><span><b>${v.name}</b><small>${CLASS_INFO[k].role}</small></span></button>`).join('');
+  $('#cpList').innerHTML = Object.entries(CLASSES).filter(([k]) => k !== 'novice').map(([k, v]) => `<button type="button" class="cp-tab${k === pickCls ? ' on' : ''}" data-c="${k}"><img src="${ART_DIR}${k}_idle.webp" alt=""><span><b>${v.name}</b><small>${CLASS_INFO[k].role}</small></span></button>`).join('');
   $('#cpList').querySelectorAll('[data-c]').forEach(b => b.onclick = () => { pickCls = b.dataset.c; renderClassPick(); });
   const bar = (n, t) => `<div class="cp-stat"><span>${t}</span><i>${'<em></em>'.repeat(n)}${'<em class="off"></em>'.repeat(5 - n)}</i></div>`;
   $('#cpDetail').innerHTML = `
@@ -549,28 +632,28 @@ function renderClassPick() {
     </div>`;
 }
 function openClassPick() { pickCls = 'knight'; renderClassPick(); show('classpick'); }
-$('#cpGo').onclick = () => openCreate(false, pickCls);
-$('#cpBack').onclick = () => toTitle();
-$('#btnRepick').onclick = () => { pickCls = draft.cls; renderClassPick(); show('classpick'); };
-function openCreate(edit, cls) {
+$('#cpGo').onclick = () => { if (!S || S.cls !== 'novice') return show('play'); S.cls = pickCls; const st = stats(); S.hp = st.maxHp; S.mp = st.maxMp; persist(); show('play'); updateHud(); toast(`🎉 轉職成功！你現在是「${CLASSES[pickCls].name}」`); };
+$('#cpBack').onclick = () => show(S ? 'play' : 'title');
+function canAdvance() { return S && S.cls === 'novice' && S.lv >= 10; }
+function openAdvance() { if (!canAdvance()) { toast(S && S.cls === 'novice' ? '要到 Lv.10 才能轉職喔' : '你已經轉職了'); return; } openClassPick(); }
+function openCreate(edit) {
   editing = edit;
-  draft = edit ? { ...S.look, cls: S.cls, art: S.look.art || 'illust' } : { ...randomLook(), cls: cls || 'knight', art: 'doll' };
-  $('#clsRow').hidden = !edit; $('#clsChosen').hidden = edit; $('#createStep').hidden = edit;
-  if (!edit) $('#clsChosenName').textContent = CLASSES[draft.cls].name;
+  draft = edit ? { ...S.look } : randomLook('f');
   $('#inName').value = edit ? S.name : ''; $('#inName').disabled = edit;
   $('#createTitle').textContent = edit ? '美容院：重新打扮' : '創造你的角色';
   $('#btnCreate').textContent = edit ? '儲存造型' : '完成，進入王都 →';
-  $('#btnCancelCreate').hidden = !edit;
-  renderCreate(); show('create');
+  $('#btnCancelCreate').hidden = !edit; $('#createNote').hidden = edit;
+  pvPose = 0; renderCreate(); show('create');
+  clearInterval(pvTimer); pvTimer = setInterval(() => { if ($('#create').classList.contains('show')) drawPreview(); else clearInterval(pvTimer); }, 80);
 }
-$('#btnRandom').onclick = () => { const cls = draft.cls; draft = { ...randomLook(), cls }; if (editing && S) draft.outfit = OUTFITS[pick(S.outfits)]; renderCreate(); };
+$('#btnRandom').onclick = () => { draft = { ...randomLook(draft.gender) }; renderCreate(); };
 $('#btnCancelCreate').onclick = () => show('play');
 $('#btnCreate').onclick = () => {
-  const { cls, ...look } = draft; look.skin = SKIN_FIXED;
+  const look = { gender: draft.gender, hair: draft.hair, hairColor: draft.hairColor, eye: draft.eye, eyeColor: draft.eyeColor };
   if (editing) { S.look = look; persist(); show('play'); toast('造型已更新 ✿'); refreshFace(); return; }
   const name = $('#inName').value.trim();
   if (!name) { $('#inName').focus(); $('#inName').placeholder = '請先取個名字喔！'; return; }
-  S = newSaveFull(look, name, cls); persist(); startPlay(true);
+  S = newSaveFull(look, name, 'novice'); persist(); startPlay(true);
 };
 
 /* ---------- 遊戲狀態 ---------- */
@@ -588,7 +671,7 @@ function startPlay(first) {
   drops = []; projs = []; fx = []; texts = [];
   petals = Array.from({ length: 26 }, () => ({ x: rnd(0, W), y: rnd(-H, H), s: rnd(.6, 1.3), v: rnd(20, 50), r: rnd(0, 6) }));
   refreshFace(); updateHud(); show('play');
-  if (first) setTimeout(() => toast('歡迎來到櫻華王都！往右走到傳送門，按 E 進入花露草原打怪吧 →'), 400); else checkOffline();
+  if (first) setTimeout(() => toast('歡迎來到櫻華王都！先按 I 打開背包，把粗衣、粗褲和武器裝上吧 ✿'), 400); else checkOffline();
 }
 function spawnMob(type, x, y) {
   const d = MONSTERS[type];
@@ -701,6 +784,7 @@ function gainExp(n) {
     S.exp -= expNeed(S.lv); S.lv++; S.inv.ticket++; setTimeout(() => toast('🌳 獲得 1 點天賦點數，按「🌳」分配'), 2700);
     const st = stats(); S.hp = st.maxHp; S.mp = st.maxMp;
     fx.push({ kind: 'lvup', x: P.x, y: P.y, t: 0 }); toast(`✨ 升級！Lv.${S.lv}（獲得召喚券 x1）`); persist();
+    if (canAdvance()) setTimeout(() => { toast('🌟 Lv.10 了！可以轉職囉'); openAdvance(); }, 1200);
   }
   updateHud();
 }
@@ -768,6 +852,7 @@ function update(dt) {
   const speed = 230 * (S.riding && S.mount ? MOUNTS[S.mount].spd : 1);
   let mv = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
   if (P.inv > .7) mv = 0;
+  P.prone = !!(keys.down && P.onG && !keys.jump && P.atkT <= 0 && !fishing); if (P.prone) mv = 0;
   if (mv) { P.vx = mv * speed; P.face = mv; P.walk += dt; } else { P.vx *= P.onG ? .7 : .98; if (Math.abs(P.vx) < 5) P.vx = 0; }
   if ((keys.jump || keys.jumpOnce) && P.onG) { if (keys.down && P.y < GROUND - 2) { P.dropT = .25; } else P.vy = -660; P.onG = false; }
   if (keys.dropOnce) { P.dropT = .25; P.onG = false; }
@@ -927,7 +1012,7 @@ function draw() {
   const flick = P.inv > 0 && Math.floor(T * 20) % 2;
   if (!flick) {
     if (S.riding && S.mount) { drawMount(g, P.x, P.y, P.face, P.vx ? T : 0); drawHero(g, P.x + P.face * 2, P.y - 44, S.look, S.cls, { face: P.face, atk: P.atkT, blink: P.blinkT < 0 }); }
-    else drawHero(g, P.x, P.y, S.look, S.cls, { face: P.face, walk: P.vx && P.onG ? P.walk : 0, atk: P.atkT, blink: P.blinkT < 0 });
+    else drawHero(g, P.x, P.y, S.look, S.cls, { face: P.face, walk: P.vx && P.onG ? P.walk : 0, atk: P.atkT, air: !P.onG, prone: P.prone, blink: P.blinkT < 0 });
   }
   if (fishing) { const bx = fishing.spot.x + (P.face > 0 ? -10 : 10), by = GROUND + 4 + Math.sin(T * 6) * (fishing.t > fishing.wait - .6 ? 4 : 1.5); g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1; g.beginPath(); g.moveTo(P.x + P.face * 26, P.y - 54); g.quadraticCurveTo((P.x + bx) / 2, P.y - 80, bx, by); g.stroke(); g.fillStyle = '#ff6b6b'; g.beginPath(); g.arc(bx, by, 4, 0, 7); g.fill(); g.strokeStyle = '#8a5a3c'; g.lineWidth = 2.5; g.beginPath(); g.moveTo(P.x + P.face * 6, P.y - 22); g.lineTo(P.x + P.face * 26, P.y - 54); g.stroke(); }
   g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; const nw = g.measureText(S.name).width + 14; g.fillStyle = 'rgba(255,255,255,.95)'; g.beginPath(); g.roundRect(P.x - nw / 2, P.y + 6, nw, 18, 6); g.fill(); g.strokeStyle = 'rgba(30,20,30,.55)'; g.lineWidth = 1.5; g.stroke(); g.fillStyle = '#111'; g.fillText(S.name, P.x, P.y + 19);
@@ -978,6 +1063,7 @@ function drawFx(f) {
 const fg = $('#face').getContext('2d');
 function refreshFace() {
   fg.clearRect(0, 0, 56, 56);
+  if (S.look && S.look.gender) { const fr = avFrame(S.look, 0, avOutfit(S.equip), null); if (fr) { const [hx, hy, r] = fr.head, sz = r * 2.5; fg.drawImage(fr.c, hx - sz / 2, hy - sz * .5, sz, sz, 0, 0, 56, 56); } else setTimeout(refreshFace, 300); return; }
   if (useDoll(S.look, S.cls)) { const fr = dollFrame(S.cls, S.look, 'idle'); if (fr) { const m = fr.meta, hs = m[1] * .5, sx = clamp(m[2] - hs / 2 + 4, 0, m[0] - hs); fg.drawImage(fr.c, sx, 2, hs, hs, 0, 0, 56, 56); return; } }
   const fa = useArt(S.look, S.cls) || useDoll(S.look, S.cls) ? S.cls : null;
   if (fa && ART.hero[fa]) { const m = ART.hero[fa].idle, im = artImg(fa + '_idle'); if (im) { const hs = m[1] * .5, sx = clamp(m[2] - hs / 2 + 4, 0, m[0] - hs); fg.drawImage(im, sx, 2, hs, hs, 0, 0, 56, 56); return; } }
@@ -1026,7 +1112,7 @@ $('#qsEdit').onclick = () => { qsEdit = !qsEdit; renderQuick(); if (qsEdit) toas
 /* ---------- 系統訊息 ---------- */
 const LOG = [];
 function logMsg(s) { LOG.push(s); while (LOG.length > 3) LOG.shift(); const el = $('#chatlog'); if (el) el.innerHTML = LOG.map(t => `<p><b>[系統]</b> ${esc(t)}</p>`).join(''); }
-logMsg('←→ 移動・Space 跳躍・J 攻擊・K 技能・E 互動・Q 自動打怪');
+logMsg('←→ 移動・Space 跳躍・↓ 趴下・J 攻擊・K 技能・E 互動・Q 自動打怪');
 logMsg('滑鼠點擊 NPC 可以對話；快捷欄按 1～8 使用道具，右鍵可更換');
 
 /* ---------- NPC 對話（滑鼠點擊） ---------- */
@@ -1086,7 +1172,7 @@ const ITEM_DESC = { hpPot: '回復 50% HP', mpPot: '回復 60% MP', luck: '強�
 const BAG_COLS = 6, BAG_ROWS = 5;
 let bagTab = 'use';
 function bagEntries(tab) {
-  if (tab === 'equip') return S.gear.slice().sort((a, b) => b.r - a.r || b.lv - a.lv).map(it => ({ kind: 'gear', id: it.id, icon: 's_' + it.slot, name: gearName(it, S.cls) + (it.enh ? ' +' + it.enh : ''), col: RARITY[it.r].c, desc: `${RARITY[it.r].n}・Lv.${it.lv}・${statLine(gearStats(it))}`, it }));
+  if (tab === 'equip') return S.gear.slice().sort((a, b) => b.r - a.r || b.lv - a.lv).map(it => ({ kind: 'gear', id: it.id, icon: it.icon || 's_' + it.slot, name: gearName(it, S.cls) + (it.enh ? ' +' + it.enh : ''), col: RARITY[it.r].c, desc: `${RARITY[it.r].n}・Lv.${it.lv}・${statLine(gearStats(it))}`, it }));
   if (tab === 'use') return BAG_USE.filter(k => S.inv[k] > 0).map(k => ({ kind: 'item', id: k, icon: k, name: ITEMS[k].n, n: S.inv[k], desc: ITEM_DESC[k] || '' }));
   if (tab === 'etc') return BAG_ETC.filter(k => S.inv[k] > 0).map(k => ({ kind: 'item', id: k, icon: k, name: ITEMS[k].n, n: S.inv[k], desc: `素材・可以拿去鍛造、煉金或料理，商店收購金幣 ${ITEMS[k].sell || 0}` }));
   return [...S.pets.map(p => ({ kind: 'pet', id: p, icon: 'pet_' + p, name: PETS[p].n, desc: S.pet === p ? '出戰中（會幫你撿東西）' : '寵物：出戰後會幫你撿東西', on: S.pet === p })),
@@ -1191,6 +1277,7 @@ function openGacha(res) {
 }
 function openMenu() {
   openPanel('☰ 選單', `<div class="list menu-list">
+    ${S.cls === 'novice' ? `<button class="btn${S.lv >= 10 ? ' pri' : ''}" data-m="adv">🌟 轉職（${S.lv >= 10 ? '可以轉職了！' : 'Lv.10 開放'}）</button>` : ''}
     <button class="btn" data-m="bag">🎒 背包・寵物・坐騎</button>
     <button class="btn" data-m="gear">🛡️ 裝備・強化</button>
     <button class="btn" data-m="tal">🌳 天賦樹（可用 ${talentPoints()} 點）</button>
@@ -1201,12 +1288,13 @@ function openMenu() {
     <button class="btn" data-m="road">🗺️ 開發進度</button>
     <a class="btn" href="play.html">← 存檔並回到花花遊戲區</a>
   </div><p class="note">v0.2 單人試玩版：進度存在這台裝置的瀏覽器。之後會改成雲端存檔，換裝置也能繼續玩。</p>`, b => {
-    b.querySelector('[data-m=bag]').onclick = openBag;
+    const adv = b.querySelector('[data-m=adv]'); if (adv) adv.onclick = () => { closePanel(); openAdvance(); };
+    b.querySelector('[data-m=bag]').onclick = () => openBag();
     b.querySelector('[data-m=gear]').onclick = () => openGear();
     b.querySelector('[data-m=tal]').onclick = openTalents;
     b.querySelector('[data-m=life]').onclick = () => openLife();
     b.querySelector('[data-m=town]').onclick = () => { P.x = 120; P.y = GROUND; auto = false; $('#qAuto').classList.remove('on'); closePanel(); };
-    b.querySelector('[data-m=help]').onclick = () => openPanel('❓ 操作說明', `<div class="list"><div class="item"><div><b>電腦</b><p>←→／A D 移動・Space／↑ 跳躍・↓＋跳躍 跳下平台・J 攻擊・K 技能・E 互動（NPC／傳送門／挖礦／採藥／釣魚）・Q 自動打怪・1 紅藥水・2 藍藥水・I 背包・G 裝備・T 天賦・L 生活技能</p></div></div><div class="item"><div><b>手機</b><p>左下 ◀ ▶ 移動，右下「攻擊／技能／跳／互動」，右上快捷鍵可喝藥、開背包和自動打怪。建議橫向遊玩。</p></div></div><div class="item"><div><b>自動打怪</b><p>開啟後角色會自己找最近的怪物、移動、攻擊、放技能，血量低於 40% 會自動喝紅藥水。</p></div></div></div>`);
+    b.querySelector('[data-m=help]').onclick = () => openPanel('❓ 操作說明', `<div class="list"><div class="item"><div><b>電腦</b><p>←→／A D 移動・Space／↑ 跳躍・↓ 趴下・↓＋跳躍 跳下平台・J 攻擊・K 技能・E 互動（NPC／傳送門／挖礦／採藥／釣魚）・Q 自動打怪・1 紅藥水・2 藍藥水・I 背包・G 裝備・T 天賦・L 生活技能</p></div></div><div class="item"><div><b>手機</b><p>左下 ◀ ▶ 移動，右下「攻擊／技能／跳／互動」，右上快捷鍵可喝藥、開背包和自動打怪。建議橫向遊玩。</p></div></div><div class="item"><div><b>自動打怪</b><p>開啟後角色會自己找最近的怪物、移動、攻擊、放技能，血量低於 40% 會自動喝紅藥水。</p></div></div></div>`);
     b.querySelector('[data-m=road]').onclick = () => openPanel('🗺️ 開發進度', `<div class="list">
       <div class="item"><div><b>✅ v0.1</b><p>捏臉創角、4 大職業、橫向地圖、打怪、自動打怪、挖礦、鍛造、商店、抽卡、寵物、坐騎、存檔</p></div></div>
       <div class="item"><div><b>✅ v0.2（現在）</b><p>6 部位裝備與 4 種稀有度、強化 +15、裝備打造、天賦樹與核心天賦、採藥・釣魚・煉金・料理、料理增益、離線掛機收益、地圖傳送門與噴泉傳送陣</p></div></div>
@@ -1310,7 +1398,7 @@ function openAfk(rew, zone) {
 }
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 function statLine(g) { return Object.entries(g).map(([k, v]) => k === 'atk' ? `攻擊 +${v}` : k === 'def' ? `防禦 +${v}` : k === 'hp' ? `HP +${v}` : `爆擊 +${(v * 100).toFixed(1)}%`).join('・'); }
-function gearCard(it, btns) { return `<div class="item"><div><b style="color:${RARITY[it.r].c}">${ic('s_' + it.slot)} ${gearName(it, S.cls)}${it.enh ? ' +' + it.enh : ''}</b><p>${RARITY[it.r].n}・Lv.${it.lv}・${statLine(gearStats(it))}</p></div><div class="row" style="margin:0;flex-wrap:nowrap">${btns}</div></div>`; }
+function gearCard(it, btns) { return `<div class="item"><div><b style="color:${RARITY[it.r].c}">${ic(it.icon || 's_' + it.slot)} ${gearName(it, S.cls)}${it.enh ? ' +' + it.enh : ''}</b><p>${RARITY[it.r].n}・Lv.${it.lv}・${statLine(gearStats(it))}</p></div><div class="row" style="margin:0;flex-wrap:nowrap">${btns}</div></div>`; }
 function openGear(tab) {
   tab = tab || 'eq'; const st = stats();
   const tabs = `<div class="row" style="justify-content:flex-start;margin:0 0 12px">${[['eq', '🛡️ 裝備中'], ['bag', `🎒 裝備背包（${S.gear.length}/${GEAR_CAP}）`]].map(([k, n]) => `<button class="btn sm ${tab === k ? 'pri' : ''}" data-tab="${k}">${n}</button>`).join('')}</div>`;
