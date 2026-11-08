@@ -60,21 +60,15 @@
 
   <!-- 捏臉創角 -->
   <section id="create" class="screen create">
-    <div class="create-wrap">
+    <div class="create-wrap"><div id="optArt" hidden></div><div id="optHair" hidden></div><div id="optHairColor" hidden></div><div id="optEye" hidden></div><div id="optOutfit" hidden></div><button id="btnRandom" hidden></button>
       <div class="create-preview">
         <canvas id="pv" width="320" height="360"></canvas>
-        <div class="pv-poses" id="pvPoses"></div>
-        <button id="btnRandom" class="btn sm">🎲 隨機外觀</button>
       </div>
       <div class="create-form">
-        <h2 id="createTitle">創造你的角色</h2>
+        <p class="cp-step dark" id="createStep">STEP 2 / 2</p><h2 id="createTitle">創造你的角色</h2>
         <label class="field">角色名稱<input id="inName" maxlength="8" placeholder="最多 8 個字"></label>
-        <div class="field" id="genderRow"><span class="fl">性別</span><div id="optGender" class="opts"></div></div>
-        <div class="field"><span class="fl">髮型<em id="nHair"></em></span><div id="optHair" class="opts"></div></div>
-        <div class="field"><span class="fl">髮色<em id="nHairColor"></em></span><div id="optHairColor" class="opts sw"></div></div>
-        <div class="field"><span class="fl">眼型<em id="nEyeShape"></em></span><div id="optEyeShape" class="opts"></div></div>
-        <div class="field"><span class="fl">瞳色<em id="nEye"></em></span><div id="optEye" class="opts sw"></div></div>
-        <p class="note" id="createNote">剛開始只穿內衣褲。進入遊戲後打開背包（I），就有新手的粗衣、粗褲、粗劍和木棒可以裝備。職業要到 Lv.10 才能轉職。</p>
+        <div class="field" id="clsChosen"><span class="fl">職業</span><div class="cls-chosen"><b id="clsChosenName"></b><button type="button" class="btn sm" id="btnRepick">重新選擇職業</button></div></div>
+        <div class="field" id="clsRow" hidden>職業<div id="optCls" class="opts cls"></div></div>
         <div class="row end"><button id="btnCancelCreate" class="btn" hidden>取消</button><button id="btnCreate" class="btn pri">完成，進入王都 →</button></div>
       </div>
     </div>
@@ -104,8 +98,6 @@
       <div class="qs-grid" id="qsGrid"></div>
     </div>
 
-    <div class="emo-pick" id="emoPick" hidden></div>
-
     <!-- 下方狀態列 -->
     <div class="statusbar">
       <div class="sb-lv"><small>LV.</small><b id="hLv">1</b></div>
@@ -117,7 +109,6 @@
       </div>
       <div class="sb-gold"><img class="gi" src="img/hr/ui/i_gold.webp" alt=""><b id="hGold">0</b></div>
       <div class="sb-menu">
-        <button class="qb" id="qEmo" title="表情 (F1～F8)"><span class="emo-ic">😊</span><small>表情</small></button>
         <button class="qb" id="qShop" title="商城 (B)"><img src="img/hr/ui/i_shop.webp" alt=""><small>商城</small></button>
         <button class="qb" id="qBag" title="背包 (I)"><img src="img/hr/ui/i_bag.webp" alt=""><small>背包</small></button>
         <button class="qb" id="qGear" title="裝備 (G)"><img src="img/hr/ui/i_gear.webp" alt=""><small>裝備</small></button>
