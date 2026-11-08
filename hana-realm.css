@@ -279,3 +279,103 @@ button{font:inherit;cursor:pointer}
 .gacha-show{position:relative}.gacha-show .gstar{position:absolute;right:8px;top:8px;width:34px;height:34px;object-fit:contain}
 .gacha-show .e .gi{width:56px;height:56px}
 @media (max-height:520px){.prompt{top:auto !important;bottom:22px !important;font-size:12px}}
+
+/* ===== v0.3 楓之谷式介面：小地圖・狀態列・快捷欄・NPC 對話（文字一律深色） ===== */
+.play{--ink:#141018;--frame:#fff8ee;--edge:#d9b26a}
+.minimap{position:absolute;left:10px;top:10px;z-index:3;width:244px;border-radius:10px;background:var(--frame);border:2px solid var(--edge);box-shadow:0 4px 12px rgba(30,10,30,.35);overflow:hidden}
+.mm-h{display:flex;align-items:center;justify-content:space-between;padding:3px 6px 3px 10px;background:linear-gradient(#fff,#ffeccf);border-bottom:1px solid var(--edge)}
+.mm-h b{font-size:13px;color:var(--ink)}
+.mm-h button{width:22px;height:20px;border-radius:5px;border:1px solid var(--edge);background:#fff;color:var(--ink);font-size:13px;line-height:1;padding:0}
+#mm{display:block;margin:4px;width:232px;height:104px;border-radius:6px;border:1px solid rgba(20,16,24,.35)}
+.minimap.mini #mm{display:none}
+.hud-tr{position:absolute;right:10px;top:10px;z-index:3}
+.hud-tr .ic{background:var(--frame);border:2px solid var(--edge);color:var(--ink);box-shadow:0 3px 8px rgba(30,10,30,.3)}
+
+.statusbar{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;align-items:center;gap:12px;height:56px;padding:0 10px;background:linear-gradient(#fffaf2,#f6e7cf);border-top:2px solid var(--edge);box-shadow:0 -4px 14px rgba(30,10,30,.25);color:var(--ink)}
+.sb-lv{display:flex;align-items:baseline;gap:2px;padding:4px 10px;border-radius:8px;background:#fff;border:2px solid var(--edge);flex:none}
+.sb-lv small{font-size:11px;font-weight:900;color:var(--ink)}.sb-lv b{font-size:20px;font-weight:900;color:#c4462c}
+.sb-me{display:flex;align-items:center;gap:6px;flex:none;min-width:120px}
+.sb-me #face{width:40px;height:40px;border-radius:50%;background:#fff;border:2px solid var(--edge)}
+.sb-me b{display:block;font-size:14px;color:var(--ink);line-height:1.2}.sb-me span{display:block;font-size:11.5px;color:#3a3040;font-weight:700}
+.sb-bars{flex:1;display:flex;gap:8px;min-width:0}
+.sbar{flex:1;display:flex;align-items:center;gap:4px;min-width:0}
+.sbar em{font-style:normal;font-size:12px;font-weight:900;color:var(--ink);flex:none}
+.sbar .bar{flex:1;height:18px;margin:0;border-radius:5px;background:#3a3040;border:1px solid #1a1420;overflow:hidden;position:relative}
+.sbar .bar i{border-radius:0}
+.sbar.hp .bar i{background:linear-gradient(#ff7a8a,#e02f45)}
+.sbar.mp .bar i{background:linear-gradient(#7fb4ff,#2f62e0)}
+.sbar.exp .bar i{background:linear-gradient(#fff08a,#e8b21e)}
+.sbar .bar span{position:relative;display:block;text-align:center;line-height:18px;font-size:11.5px;font-weight:900;color:#111;text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff}
+.sb-gold{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:8px;background:#fff;border:1px solid var(--edge);flex:none}
+.sb-gold b{font-size:14px;color:var(--ink)}
+.sb-menu{display:flex;gap:5px;flex:none}
+.sb-menu .qb{width:44px;height:44px;border-radius:8px}
+.sb-menu .qb img{width:62%;height:62%;margin-top:-8px}
+.sb-menu .qb small{color:var(--ink);text-shadow:0 0 3px #fff,0 0 3px #fff;font-size:10px}
+
+.quickslot{position:absolute;right:10px;bottom:64px;z-index:4;padding:4px 6px 6px;border-radius:10px;background:rgba(255,248,238,.94);border:2px solid var(--edge);box-shadow:0 4px 12px rgba(30,10,30,.3)}
+.qs-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:12px;font-weight:900;color:var(--ink)}
+.qs-h button{font-size:11px;font-weight:800;padding:1px 8px;border-radius:6px;border:1px solid var(--edge);background:#fff;color:var(--ink)}
+.quickslot.editing .qs-h button{background:#ffe08a}
+.qs-grid{display:grid;grid-template-columns:repeat(4,46px);gap:4px}
+.qs{position:relative;width:46px;height:46px;padding:0;border-radius:7px;border:1px solid #8a7a6a;background:linear-gradient(#ffffff,#efe3d0);display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.qs:hover{border-color:#e0a020;box-shadow:0 0 0 2px #ffe08a}
+.qs img{width:34px;height:34px;object-fit:contain}
+.qs i{position:absolute;left:3px;top:1px;font-style:normal;font-size:10px;font-weight:900;color:#111}
+.qs b{position:absolute;right:3px;bottom:1px;font-size:11px;font-weight:900;color:#111;text-shadow:0 0 2px #fff,0 0 2px #fff}
+.qs span{font-size:18px;color:#8a7a6a}
+.qs.zero img{opacity:.35;filter:grayscale(1)}
+.quickslot.editing .qs{animation:qsPulse 1s ease-in-out infinite}
+@keyframes qsPulse{50%{box-shadow:0 0 0 3px #ffd76a}}
+
+.chatlog{position:absolute;left:10px;bottom:64px;z-index:3;max-width:min(520px,calc(100% - 260px));padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.82);border:1px solid rgba(20,16,24,.25);pointer-events:none}
+.chatlog p{margin:0;font-size:12px;line-height:1.55;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chatlog b{color:#b0306a}
+
+.toast{background:rgba(255,250,240,.97);color:#111;border:2px solid var(--edge);top:20px}
+.prompt{background:#fff;color:#111;border:2px solid var(--edge);bottom:auto;top:130px}
+
+/* 面板內文字加深 */
+.note,.item p,.tal small,.tal-col h4 small{color:#3a3040}
+.cell,.cell b,.item b{color:#141018}
+.panel-card h3{color:#141018}
+
+/* NPC 對話框 */
+.panel-card.npc-mode{width:min(600px,calc(100% - 24px))}
+.npc-talk{display:flex;gap:16px;align-items:flex-start}
+.npc-pic{flex:none;width:130px;height:170px;border-radius:12px;background:radial-gradient(circle at 50% 40%,#fff,#ffe9f2);border:2px solid var(--edge);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.npc-pic img{max-width:120px;max-height:160px;object-fit:contain}
+.npc-body{flex:1;min-width:0}
+.npc-line{margin:0 0 14px;font-size:15px;line-height:1.85;color:#111;background:#fff;border:1px solid #e6d3b0;border-radius:10px;padding:12px 14px}
+.npc-opts{display:flex;flex-direction:column;gap:6px}
+.npc-opt{text-align:left;padding:8px 12px;border-radius:8px;border:1px solid #e0c48a;background:#fffaf0;color:#111;font-weight:800;font-size:14px}
+.npc-opt:hover{background:#fff1c4;border-color:#e0a020}
+.npc-opt.end{color:#555;font-weight:700}
+.qs-picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.qs-pick{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px;border-radius:10px;border:1px solid #e0c48a;background:#fff;color:#111}
+.qs-pick img{width:42px;height:42px;object-fit:contain}.qs-pick b{font-size:13px}.qs-pick small{font-size:11.5px;color:#3a3040}
+.qs-pick.on,.qs-pick:hover{background:#fff1c4;border-color:#e0a020}
+
+@media (max-width:900px){.sb-gold{display:none}.sb-me{min-width:0}.sb-me div{display:none}.sbar em{font-size:11px}}
+@media (max-width:700px){.chatlog{display:none}.sbar.exp{display:none}.sb-menu .qb{width:38px;height:38px}}
+@media (hover:none),(pointer:coarse){
+  .statusbar{top:0;bottom:auto;left:270px;right:56px;height:44px;border-top:0;border:2px solid var(--edge);border-radius:0 0 12px 12px;gap:8px}
+  .sb-me,.sb-gold,.chatlog{display:none}
+  .sb-menu .qb{width:34px;height:34px}.sb-menu .qb small{display:none}.sb-menu .qb img{margin:0;width:80%;height:80%}
+  .quickslot{bottom:auto;top:52px;right:10px;padding:3px}
+  .qs-h{display:none}.qs-grid{grid-template-columns:repeat(4,38px)}.qs{width:38px;height:38px}.qs img{width:28px;height:28px}
+  .quickslot .qs:nth-child(n+5){display:none}
+  .minimap{width:190px}#mm{width:178px;height:80px}
+  .prompt{top:150px}
+  .npc-pic{width:90px;height:120px}.npc-pic img{max-width:84px;max-height:112px}
+}
+@media (max-height:520px){.minimap.mini,.minimap{transform:scale(.85);transform-origin:0 0}}
+.bgm-btn{left:auto!important;bottom:auto!important;right:58px!important;top:10px!important;width:38px!important;height:38px!important}
+.chatlog{background:rgba(255,255,255,.72)}
+@media (max-height:520px){.prompt{top:110px !important;bottom:auto !important}}
+@media (hover:none),(pointer:coarse){
+  .statusbar{left:186px;right:100px;padding:0 6px}
+  .sbar .bar{height:16px}.sbar .bar span{line-height:16px;font-size:10.5px}
+  .toast{top:54px;max-width:calc(100% - 400px);white-space:normal;text-align:center}
+  .bgm-btn{right:54px!important}
+}

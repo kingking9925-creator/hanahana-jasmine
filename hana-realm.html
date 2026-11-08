@@ -84,34 +84,42 @@
   <!-- 遊戲畫面 -->
   <section id="play" class="screen play">
     <canvas id="cv" width="960" height="540"></canvas>
-    <div class="hud-top">
-      <div class="me">
-        <canvas id="face" width="56" height="56"></canvas>
-        <div class="me-info">
-          <div class="me-name"><b id="hName">—</b><span id="hLv">Lv.1</span><span id="hCls"></span></div>
-          <div class="bar hp"><i id="bHp"></i><span id="tHp"></span></div>
-          <div class="bar mp"><i id="bMp"></i><span id="tMp"></span></div>
-        </div>
-      </div>
-      <div class="hud-right">
-        <span class="gold"><img class="gi" src="img/hr/ui/i_gold.webp" alt=""> <b id="hGold">0</b></span>
-        <span class="zone" id="hZone">櫻華王都</span>
-        <button class="ic" id="btnMenu" title="選單">☰</button>
-      </div>
+    <!-- 小地圖 -->
+    <div class="minimap" id="minimap">
+      <div class="mm-h"><b id="hZone">櫻華王都</b><button type="button" id="mmToggle" title="收合小地圖">－</button></div>
+      <canvas id="mm" width="232" height="104"></canvas>
     </div>
-    <div class="bar exp"><i id="bExp"></i><span id="tExp"></span></div>
+    <div class="hud-tr">
+      <button class="ic" id="btnMenu" title="選單">☰</button>
+    </div>
     <div id="toast" class="toast"></div>
     <div class="rotate-hint">📱 手機橫放玩起來更舒服喔</div>
     <div id="prompt" class="prompt"></div>
 
-    <div class="hud-bottom">
-      <div class="quick">
-        <button class="qb" id="qHp" title="紅藥水 (1)"><img src="img/hr/ui/hpPot.webp" alt=""><b id="nHp">0</b></button>
-        <button class="qb" id="qMp" title="藍藥水 (2)"><img src="img/hr/ui/mpPot.webp" alt=""><b id="nMp">0</b></button>
-        <button class="qb" id="qBag" title="背包 (I)"><img src="img/hr/ui/i_bag.webp" alt=""></button>
-        <button class="qb" id="qGear" title="裝備 (G)"><img src="img/hr/ui/i_gear.webp" alt=""></button>
-        <button class="qb" id="qTal" title="天賦 (T)"><img src="img/hr/ui/i_talent.webp" alt=""><i class="dot" id="talDot" hidden></i></button>
-        <button class="qb" id="qLife" title="生活技能 (L)"><img src="img/hr/ui/i_life.webp" alt=""></button>
+    <!-- 系統訊息 -->
+    <div class="chatlog" id="chatlog"></div>
+
+    <!-- 快捷欄：可放紅藥水、藍藥水、料理 -->
+    <div class="quickslot" id="quickslot">
+      <div class="qs-h"><span>快捷欄</span><button type="button" id="qsEdit" title="設定快捷欄">設定</button></div>
+      <div class="qs-grid" id="qsGrid"></div>
+    </div>
+
+    <!-- 下方狀態列 -->
+    <div class="statusbar">
+      <div class="sb-lv"><small>LV.</small><b id="hLv">1</b></div>
+      <div class="sb-me"><canvas id="face" width="56" height="56"></canvas><div><b id="hName">—</b><span id="hCls"></span></div></div>
+      <div class="sb-bars">
+        <div class="sbar hp"><em>HP</em><div class="bar"><i id="bHp"></i><span id="tHp"></span></div></div>
+        <div class="sbar mp"><em>MP</em><div class="bar"><i id="bMp"></i><span id="tMp"></span></div></div>
+        <div class="sbar exp"><em>EXP</em><div class="bar"><i id="bExp"></i><span id="tExp"></span></div></div>
+      </div>
+      <div class="sb-gold"><img class="gi" src="img/hr/ui/i_gold.webp" alt=""><b id="hGold">0</b></div>
+      <div class="sb-menu">
+        <button class="qb" id="qBag" title="背包 (I)"><img src="img/hr/ui/i_bag.webp" alt=""><small>背包</small></button>
+        <button class="qb" id="qGear" title="裝備 (G)"><img src="img/hr/ui/i_gear.webp" alt=""><small>裝備</small></button>
+        <button class="qb" id="qTal" title="天賦 (T)"><img src="img/hr/ui/i_talent.webp" alt=""><small>天賦</small><i class="dot" id="talDot" hidden></i></button>
+        <button class="qb" id="qLife" title="生活技能 (L)"><img src="img/hr/ui/i_life.webp" alt=""><small>生活</small></button>
         <button class="qb" id="qAuto" title="自動打怪 (Q)"><img src="img/hr/ui/i_auto.webp" alt=""><small>自動</small></button>
       </div>
     </div>
@@ -127,11 +135,10 @@
         <button data-k="jump" class="a-jump"><img src="img/hr/ui/b_jump.webp" alt="跳"></button>
       </div>
     </div>
-    <p class="keys-help">←→ 移動　Space 跳躍　J 攻擊　K 技能　E 互動（傳送門・挖礦・採藥・釣魚）　Q 自動打怪　1/2 喝藥　I 背包　G 裝備　T 天賦　L 生活技能</p>
 
     <!-- 面板 -->
     <div id="panel" class="panel" hidden>
-      <div class="panel-card">
+      <div class="panel-card" id="panelCard">
         <button class="x" id="panelX">×</button>
         <h3 id="panelT"></h3>
         <div id="panelB"></div>

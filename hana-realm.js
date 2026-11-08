@@ -42,6 +42,8 @@ const ITEMS = {
   luck: { n: '幸運藥劑', e: '🍀' }, food1: { n: '烤鯽魚', e: '🍢' }, food2: { n: '櫻花鱒魚湯', e: '🍲' }, food3: { n: '月光鯉御膳', e: '🍱' }
 };
 /* ---------- 裝備 ---------- */
+const QS_N = 8; // 快捷欄格數（鍵盤 1～8）
+const QS_ITEMS = ['hpPot', 'mpPot', 'food1', 'food2', 'food3']; // 可放進快捷欄的消耗品
 const SLOTS = { weapon: '武器', hat: '帽子', armor: '衣服', shoes: '鞋子', ring: '戒指', neck: '項鍊' };
 const ic = k => `<img class="gi" src="${ART_DIR}ui/${k}.webp" alt="">`;
 const SLOT_E = { weapon: '⚔️', hat: '🎩', armor: '👘', shoes: '👢', ring: '💍', neck: '📿' };
@@ -188,6 +190,7 @@ function migrate(s) { // 舊存檔補上新系統的欄位
   if (!s.buffs) s.buffs = {};
   if (!s.afk) s.afk = { bank: 4, day: twDay() };
   if (!s.lastSeen) s.lastSeen = Date.now();
+  if (!Array.isArray(s.quick) || s.quick.length !== QS_N) s.quick = ['hpPot', 'mpPot', 'food1', 'food2', 'food3', 'luck', null, null].slice(0, QS_N).map((k, i) => (s.quick && s.quick[i] !== undefined ? s.quick[i] : k));
   return s;
 }
 function twDay() { return new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10); }
@@ -602,7 +605,7 @@ addEventListener('keydown', e => {
   const k = KEYMAP[e.key];
   if (k) { keys[k] = true; e.preventDefault(); if (k === 'act') interact(); }
   if (e.key === 'q' || e.key === 'Q') toggleAuto();
-  if (e.key === '1') usePot('hpPot'); if (e.key === '2') usePot('mpPot');
+  if (/^[1-8]$/.test(e.key)) useQuick(+e.key - 1);
   if (e.key === 'i' || e.key === 'I') openBag();
   if (e.key === 't' || e.key === 'T') openTalents();
   if (e.key === 'g' || e.key === 'G') openGear();
@@ -615,7 +618,6 @@ document.querySelectorAll('.touch [data-k]').forEach(b => {
   const off = e => { e.preventDefault(); keys[k] = false; b.classList.remove('on'); };
   b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointercancel', off); b.addEventListener('pointerleave', off);
 });
-$('#qHp').onclick = () => usePot('hpPot'); $('#qMp').onclick = () => usePot('mpPot');
 $('#qBag').onclick = openBag; $('#qGear').onclick = () => openGear(); $('#qTal').onclick = openTalents; $('#qLife').onclick = () => openLife(); $('#qAuto').onclick = toggleAuto; $('#btnMenu').onclick = openMenu;
 function toggleAuto() { auto = !auto; $('#qAuto').classList.toggle('on', auto); toast(auto ? '⚔️ 自動打怪：開啟（會自動找怪、放技能、喝藥）' : '自動打怪：關閉'); }
 
@@ -655,7 +657,7 @@ function interact() {
   if (fishing) return;
   const pt = nearPortal(); if (pt) { usePortal(pt); return; }
   if (nearHub()) { openHub(); return; }
-  const n = nearNpc(); if (n) { openNpc(n.id); return; }
+  const n = nearNpc(); if (n) { npcTalk(n); return; }
   const o = nearOre(); if (o) { mine(o); return; }
   const h = nearHerb(); if (h) { gather(h); return; }
   const f = nearFish(); if (f) { startFishing(f); return; }
@@ -817,7 +819,7 @@ function update(dt) {
   { const zz = zoneAt(P.x); cam = clamp(P.x - W / 2, zz.from, Math.max(zz.from, zz.to - W)); } fadeT = Math.max(0, fadeT - dt * 2.2);
   const pt = nearPortal(), hubN = !pt && nearHub(), n = !pt && !hubN && nearNpc(), o = !pt && !hubN && nearOre(), pr = $('#prompt');
   const hb = !pt && !hubN && !n && !o && nearHerb(), fs = !pt && !hubN && !n && !o && !hb && nearFish();
-  const msg = fishing ? '🎣 釣魚中…（移動會讓魚跑掉）' : pt ? `🌀 傳送門 → ${ZONES[pt.to].name}　（按 E／互動 進入）` : hubN ? `⛲ ${HUB.name}：快速前往各地圖　（按 E／互動）` : n ? `${n.e} ${n.name}　（按 E／互動）` : o ? `⛏️ ${ORES[o.type].n}　（按 E／互動 挖礦）` : hb ? `${ITEMS[hb.type].e} ${ITEMS[hb.type].n}　（按 E／互動 採集）` : fs ? `🎣 ${fs.name}　（按 E／互動 釣魚）` : '';
+  const msg = fishing ? '🎣 釣魚中…（移動會讓魚跑掉）' : pt ? `🌀 傳送門 → ${ZONES[pt.to].name}　（按 E／互動 進入）` : hubN ? `⛲ ${HUB.name}：快速前往各地圖　（按 E／互動）` : n ? `${n.e} ${n.name}　（按 E 或滑鼠點擊 NPC 對話）` : o ? `⛏️ ${ORES[o.type].n}　（按 E／互動 挖礦）` : hb ? `${ITEMS[hb.type].e} ${ITEMS[hb.type].n}　（按 E／互動 採集）` : fs ? `🎣 ${fs.name}　（按 E／互動 釣魚）` : '';
   pr.textContent = msg; pr.classList.toggle('show', !!msg);
   $('#hZone').textContent = zoneAt(P.x).name;
   saveTimer += dt; if (saveTimer > 5) { saveTimer = 0; persist(); }
@@ -844,7 +846,7 @@ function drawPortal(g, x, label) {
   if (artImg('ui/o_portal')) {
     g.save(); g.globalAlpha = .55 + Math.sin(T * 3) * .15; const gl = g.createRadialGradient(x, GROUND - 60, 5, x, GROUND - 60, 90); gl.addColorStop(0, 'rgba(220,170,255,.8)'); gl.addColorStop(1, 'rgba(220,170,255,0)'); g.fillStyle = gl; g.fillRect(x - 90, GROUND - 150, 180, 160); g.restore();
     drawImg(g, 'ui/o_portal', x, GROUND + 4, 128);
-    g.fillStyle = 'rgba(255,246,236,.95)'; g.beginPath(); g.roundRect(x - 56, GROUND - 158, 112, 24, 9); g.fill(); g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; g.fillText('🌀 ' + label, x, GROUND - 141); return;
+    g.fillStyle = 'rgba(255,246,236,.95)'; g.beginPath(); g.roundRect(x - 56, GROUND - 158, 112, 24, 9); g.fill(); g.fillStyle = '#1a1420'; g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; g.fillText('🌀 ' + label, x, GROUND - 141); return;
   }
   const y = GROUND - 52;
   g.save(); g.translate(x, y);
@@ -856,14 +858,14 @@ function drawPortal(g, x, label) {
   for (let i = 0; i < 6; i++) { const a = T * 1.6 + i * 1.05; g.beginPath(); g.arc(Math.cos(a) * 30, Math.sin(a * 1.3) * 44, 2, 0, 7); g.fill(); }
   g.restore();
   g.fillStyle = 'rgba(255,246,236,.95)'; g.beginPath(); g.roundRect(x - 56, GROUND - 132, 112, 24, 9); g.fill();
-  g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; g.fillText('🌀 ' + label, x, GROUND - 115);
+  g.fillStyle = '#1a1420'; g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; g.fillText('🌀 ' + label, x, GROUND - 115);
 }
 function tree(g, x, y, s, col) { g.fillStyle = '#8a5a5a'; g.fillRect(x - 4 * s, y - 40 * s, 8 * s, 40 * s); g.fillStyle = col; [[0, -58, 26], [-20, -46, 20], [20, -46, 20], [-10, -70, 18], [12, -68, 18]].forEach(([a, b, r]) => { g.beginPath(); g.arc(x + a * s, y + b * s, r * s, 0, 7); g.fill(); }); }
 function house(g, x, y, col, roof, sign) {
   g.fillStyle = col; g.fillRect(x - 70, y - 110, 140, 110); g.fillStyle = roof; g.beginPath(); g.moveTo(x - 86, y - 108); g.lineTo(x, y - 170); g.lineTo(x + 86, y - 108); g.fill();
   g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(x - 18, y - 56, 36, 56, [18, 18, 0, 0]); g.fill();
   g.fillStyle = '#ffe9a8'; g.fillRect(x - 54, y - 88, 24, 22); g.fillRect(x + 30, y - 88, 24, 22);
-  g.fillStyle = '#fff'; g.beginPath(); g.roundRect(x - 34, y - 135, 68, 22, 8); g.fill(); g.fillStyle = '#9c4871'; g.font = 'bold 13px sans-serif'; g.textAlign = 'center'; g.fillText(sign, x, y - 119);
+  g.fillStyle = '#fff'; g.beginPath(); g.roundRect(x - 34, y - 135, 68, 22, 8); g.fill(); g.fillStyle = '#1a1420'; g.font = 'bold 13px sans-serif'; g.textAlign = 'center'; g.fillText(sign, x, y - 119);
 }
 function drawBg(im, zn) {
   const gl = ART.bg[ZONES.indexOf(zn)], h = (GROUND - 6) / gl, w = im.naturalWidth * h / im.naturalHeight, off = (cam - zn.from) * .35;
@@ -892,11 +894,11 @@ function draw() {
   for (const zz of ZONES) { if (zz.to < cam || zz.from > cam + W) continue; if (bgi) { g.fillStyle = 'rgba(40,20,40,.10)'; g.fillRect(zz.from, GROUND, zz.to - zz.from, 4); continue; } g.fillStyle = zz === ZONES[0] ? '#f3d9c4' : zz === ZONES[1] ? '#9fd89a' : zz === ZONES[2] ? '#5f8a6e' : '#6b6290'; g.fillRect(zz.from, GROUND, zz.to - zz.from, H - GROUND); g.fillStyle = zz === ZONES[0] ? '#e8c3a6' : zz === ZONES[1] ? '#7fc47b' : zz === ZONES[2] ? '#4a735a' : '#4f4775'; g.fillRect(zz.from, GROUND, zz.to - zz.from, 10); }
   for (const [k, x, h] of BUILDINGS) if (x > cam - 220 && x < cam + W + 220) drawImg(g, 'ui/' + k, x, GROUND + 6, h);
   for (const [k, x, h] of PROPS) if (x > cam - 120 && x < cam + W + 120) drawImg(g, 'ui/' + k, x, GROUND + 4, h);
-  if (cam < 1900) [[470, '鍛造屋'], [830, '花之商店'], [1190, '星願召喚殿'], [1530, '美容院']].forEach(([x, t]) => { g.font = 'bold 13px sans-serif'; g.textAlign = 'center'; const tw = g.measureText(t).width + 24; g.fillStyle = 'rgba(255,248,240,.95)'; g.beginPath(); g.roundRect(x - tw / 2, GROUND - 300, tw, 26, 10); g.fill(); g.strokeStyle = '#f6d27a'; g.lineWidth = 2; g.stroke(); g.fillStyle = '#9c4871'; g.fillText(t, x, GROUND - 282); });
+  if (cam < 1900) [[470, '鍛造屋'], [830, '花之商店'], [1190, '星願召喚殿'], [1530, '美容院']].forEach(([x, t]) => { g.font = 'bold 13px sans-serif'; g.textAlign = 'center'; const tw = g.measureText(t).width + 24; g.fillStyle = 'rgba(255,248,240,.95)'; g.beginPath(); g.roundRect(x - tw / 2, GROUND - 300, tw, 26, 10); g.fill(); g.strokeStyle = '#f6d27a'; g.lineWidth = 2; g.stroke(); g.fillStyle = '#1a1420'; g.fillText(t, x, GROUND - 282); });
   g.fillStyle = '#fff'; g.font = 'bold 13px sans-serif'; g.textAlign = 'center';
   for (const pt of PORTALS) { if (pt.x < cam - 80 || pt.x > cam + W + 80) continue; drawPortal(g, pt.x, ZONES[pt.to].name); }
-  if (cam < 400 && drawImg(g, 'ui/o_fountain', HUB.x, GROUND + 6, 120)) { g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(HUB.x - 50, GROUND - 146, 100, 22, 8); g.fill(); g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; g.fillText('⛲ 傳送陣', HUB.x, GROUND - 130); }
-  else if (cam < 300) { const a = .35 + Math.sin(T * 3) * .15; g.strokeStyle = `rgba(180,140,255,${a + .3})`; g.lineWidth = 3; g.beginPath(); g.ellipse(HUB.x, GROUND - 2, 58, 12, 0, 0, 7); g.stroke(); g.fillStyle = `rgba(200,170,255,${a})`; g.fill(); g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(HUB.x - 50, GROUND - 100, 100, 22, 8); g.fill(); g.fillStyle = '#7a4fc4'; g.font = 'bold 12px sans-serif'; g.fillText('⛲ 傳送陣', HUB.x, GROUND - 84); }
+  if (cam < 400 && drawImg(g, 'ui/o_fountain', HUB.x, GROUND + 6, 120)) { g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(HUB.x - 50, GROUND - 146, 100, 22, 8); g.fill(); g.fillStyle = '#1a1420'; g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; g.fillText('⛲ 傳送陣', HUB.x, GROUND - 130); }
+  else if (cam < 300) { const a = .35 + Math.sin(T * 3) * .15; g.strokeStyle = `rgba(180,140,255,${a + .3})`; g.lineWidth = 3; g.beginPath(); g.ellipse(HUB.x, GROUND - 2, 58, 12, 0, 0, 7); g.stroke(); g.fillStyle = `rgba(200,170,255,${a})`; g.fill(); g.fillStyle = '#fff6ec'; g.beginPath(); g.roundRect(HUB.x - 50, GROUND - 100, 100, 22, 8); g.fill(); g.fillStyle = '#1a1420'; g.font = 'bold 12px sans-serif'; g.fillText('⛲ 傳送陣', HUB.x, GROUND - 84); }
   for (const p of PLATS) { if (p.x > cam + W + 40 || p.x + p.w < cam - 40) continue; const zi = ZONES.indexOf(zoneAt(p.x)), pk = zi <= 1 ? 'p_grass' : zi === 2 ? 'p_forest' : 'p_cave', pim = artImg('ui/' + pk); if (pim) { const w = p.w * 1.12, h = pim.naturalHeight * w / pim.naturalWidth, top = { p_grass: .33, p_forest: .4, p_cave: .35 }[pk]; g.drawImage(pim, p.x + p.w / 2 - w / 2, p.y - h * top + 2, w, h); continue; } g.fillStyle = p.x < 2350 ? '#c79a6b' : '#5c4a6e'; g.beginPath(); g.roundRect(p.x, p.y, p.w, 18, 9); g.fill(); g.fillStyle = p.x < 2350 ? '#9fd89a' : '#7a9a88'; g.beginPath(); g.roundRect(p.x, p.y - 2, p.w, 9, 6); g.fill(); }
   for (const f of FISH_SPOTS) { if (f.x < cam - 120 || f.x > cam + W + 120) continue; g.fillStyle = '#8fd0ff'; g.beginPath(); g.ellipse(f.x, GROUND + 6, 70, 14, 0, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.6)'; g.beginPath(); g.ellipse(f.x - 20 + Math.sin(T * 2) * 6, GROUND + 4, 14, 3, 0, 0, 7); g.fill(); g.fillStyle = '#5fae6a'; [[-62, -4], [58, -2]].forEach(([a, bb]) => { g.beginPath(); g.ellipse(f.x + a, GROUND + bb, 6, 12, 0, 0, 7); g.fill(); }); }
   for (const h of herbs) { if (h.dead || h.x < cam - 40 || h.x > cam + W + 40) continue; const sw = Math.sin(T * 2 + h.x) * 2;
@@ -911,7 +913,8 @@ function draw() {
     g.fillStyle = d.gem; [[-8, -18], [6, -24], [10, -10]].forEach(([a, b]) => { g.beginPath(); g.moveTo(o.x + a, o.y + b - 6); g.lineTo(o.x + a + 4, o.y + b); g.lineTo(o.x + a, o.y + b + 6); g.lineTo(o.x + a - 4, o.y + b); g.fill(); });
     if (o.hp < d.hp) { g.fillStyle = '#0006'; g.fillRect(o.x - 18, o.y - 46, 36, 5); g.fillStyle = '#ffe08a'; g.fillRect(o.x - 18, o.y - 46, 36 * o.hp / d.hp, 5); }
   }
-  for (const n of NPCS) { if (n.x < cam - 50 || n.x > cam + W + 50) continue; if (!(ART.npc && ART.npc[n.id] && drawArt(g, 'npc_' + n.id, ART.npc[n.id], n.x, GROUND + 3, .5, P.x < n.x ? -1 : 1, 1 + Math.sin(T * 2.6 + n.x) * .012))) drawChibi(g, n.x, GROUND, { hair: 'bob', hairColor: n.hair, eyeShape: 'gentle', eye: '#7a4b2e', skin: '#ffe2d0', outfit: n.col, deco: 'blush' }, n.id === 'forge' ? 'knight' : n.id === 'gacha' ? 'mage' : 'priest', { face: -1, blink: Math.sin(T * 2 + n.x) > .97 }); g.fillStyle = '#fff'; g.font = 'bold 11px sans-serif'; g.textAlign = 'center'; g.fillStyle = 'rgba(48,38,60,.75)'; const tw = g.measureText(n.name).width + 12; g.beginPath(); g.roundRect(n.x - tw / 2, GROUND + 6, tw, 17, 8); g.fill(); g.fillStyle = '#ffe08a'; g.fillText(n.name, n.x, GROUND + 19); }
+  for (const n of NPCS) { if (n.x < cam - 50 || n.x > cam + W + 50) continue; if (!(ART.npc && ART.npc[n.id] && drawArt(g, 'npc_' + n.id, ART.npc[n.id], n.x, GROUND + 3, .5, P.x < n.x ? -1 : 1, 1 + Math.sin(T * 2.6 + n.x) * .012))) drawChibi(g, n.x, GROUND, { hair: 'bob', hairColor: n.hair, eyeShape: 'gentle', eye: '#7a4b2e', skin: '#ffe2d0', outfit: n.col, deco: 'blush' }, n.id === 'forge' ? 'knight' : n.id === 'gacha' ? 'mage' : 'priest', { face: -1, blink: Math.sin(T * 2 + n.x) > .97 }); g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; const tw = g.measureText(n.name).width + 14, hv = hoverNpc === n; g.fillStyle = hv ? '#fff3b0' : 'rgba(255,255,255,.95)'; g.beginPath(); g.roundRect(n.x - tw / 2, GROUND + 6, tw, 19, 6); g.fill(); g.strokeStyle = hv ? '#e0a020' : 'rgba(30,20,30,.55)'; g.lineWidth = 1.5; g.stroke(); g.fillStyle = '#111'; g.fillText(n.name, n.x, GROUND + 20);
+    if (hv) { g.font = 'bold 11px sans-serif'; const hw = g.measureText('點擊對話').width + 12; g.fillStyle = 'rgba(255,255,255,.95)'; g.beginPath(); g.roundRect(n.x - hw / 2, GROUND - 128 + Math.sin(T * 5) * 3, hw, 18, 9); g.fill(); g.strokeStyle = '#e0a020'; g.stroke(); g.fillStyle = '#111'; g.fillText('點擊對話', n.x, GROUND - 115 + Math.sin(T * 5) * 3); } }
   for (const d of drops) { const yy = d.y - 8 + Math.sin(d.t * 5) * 2; const ik = d.kind === 'gold' ? 'i_gold' : d.kind === 'gear' ? 's_' + d.gear.slot : d.kind; if (d.kind === 'gear') { g.save(); g.shadowColor = RARITY[d.gear.r].c; g.shadowBlur = 14; } const ok = drawImg(g, 'ui/' + ik, d.x, yy + 12, d.kind === 'gold' ? 20 : 26); if (d.kind === 'gear') g.restore(); if (ok) continue; if (d.kind === 'gold') { g.fillStyle = '#ffcf4a'; g.beginPath(); g.arc(d.x, yy, 7, 0, 7); g.fill(); g.fillStyle = '#fff2a8'; g.beginPath(); g.arc(d.x - 2, yy - 2, 2.5, 0, 7); g.fill(); } else if (d.kind === 'gear') { g.save(); g.shadowColor = RARITY[d.gear.r].c; g.shadowBlur = 12; g.font = '20px sans-serif'; g.textAlign = 'center'; g.fillText(SLOT_E[d.gear.slot], d.x, yy + 6); g.restore(); } else { g.font = '18px sans-serif'; g.textAlign = 'center'; g.fillText(ITEMS[d.kind].e, d.x, yy + 6); } }
   for (const m of mobs) { if (m.dead || m.x < cam - 80 || m.x > cam + W + 80) continue; drawMob(m); }
   if (S.pet) { const px = P.x - P.face * 36; drawPet(g, S.pet, (S._petX = S._petX == null ? px : S._petX + (px - S._petX) * .08), P.y, T); }
@@ -921,7 +924,7 @@ function draw() {
     else drawHero(g, P.x, P.y, S.look, S.cls, { face: P.face, walk: P.vx && P.onG ? P.walk : 0, atk: P.atkT, blink: P.blinkT < 0 });
   }
   if (fishing) { const bx = fishing.spot.x + (P.face > 0 ? -10 : 10), by = GROUND + 4 + Math.sin(T * 6) * (fishing.t > fishing.wait - .6 ? 4 : 1.5); g.strokeStyle = 'rgba(255,255,255,.8)'; g.lineWidth = 1; g.beginPath(); g.moveTo(P.x + P.face * 26, P.y - 54); g.quadraticCurveTo((P.x + bx) / 2, P.y - 80, bx, by); g.stroke(); g.fillStyle = '#ff6b6b'; g.beginPath(); g.arc(bx, by, 4, 0, 7); g.fill(); g.strokeStyle = '#8a5a3c'; g.lineWidth = 2.5; g.beginPath(); g.moveTo(P.x + P.face * 6, P.y - 22); g.lineTo(P.x + P.face * 26, P.y - 54); g.stroke(); }
-  g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; const nw = g.measureText(S.name).width + 14; g.fillStyle = 'rgba(48,38,60,.8)'; g.beginPath(); g.roundRect(P.x - nw / 2, P.y + 6, nw, 18, 9); g.fill(); g.fillStyle = '#fff'; g.fillText(S.name, P.x, P.y + 19);
+  g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; const nw = g.measureText(S.name).width + 14; g.fillStyle = 'rgba(255,255,255,.95)'; g.beginPath(); g.roundRect(P.x - nw / 2, P.y + 6, nw, 18, 6); g.fill(); g.strokeStyle = 'rgba(30,20,30,.55)'; g.lineWidth = 1.5; g.stroke(); g.fillStyle = '#111'; g.fillText(S.name, P.x, P.y + 19);
   for (const p of projs) drawProj(p);
   for (const f of fx) drawFx(f);
   for (const t of texts) { g.globalAlpha = 1 - Math.max(0, t.t - .6) * 2; g.font = `900 ${t.big ? 26 : 20}px sans-serif`; g.textAlign = 'center'; g.lineWidth = 4; g.strokeStyle = 'rgba(60,20,40,.75)'; g.strokeText(t.s, t.x, t.y); g.fillStyle = t.col; g.fillText(t.s, t.x, t.y); if (t.icon) { const tw = g.measureText(t.s).width; drawImg(g, 'ui/' + t.icon, t.x - tw / 2 - 14, t.y + 6, 24); } g.globalAlpha = 1; }
@@ -976,18 +979,97 @@ function refreshFace() {
 }
 function updateHud() {
   if (!S) return; const st = stats();
-  $('#hName').textContent = S.name; $('#hLv').textContent = 'Lv.' + S.lv; $('#hCls').textContent = CLASSES[S.cls].name;
-  $('#bHp').style.width = (100 * S.hp / st.maxHp) + '%'; $('#tHp').textContent = `HP ${Math.ceil(S.hp)}/${st.maxHp}`;
-  $('#bMp').style.width = (100 * S.mp / st.maxMp) + '%'; $('#tMp').textContent = `MP ${Math.ceil(S.mp)}/${st.maxMp}`;
-  $('#bExp').style.width = (100 * S.exp / expNeed(S.lv)) + '%'; $('#tExp').textContent = `EXP ${S.exp}/${expNeed(S.lv)}（${(100 * S.exp / expNeed(S.lv)).toFixed(1)}%）`;
+  $('#hName').textContent = S.name; $('#hLv').textContent = S.lv; $('#hCls').textContent = CLASSES[S.cls].name;
+  $('#bHp').style.width = (100 * S.hp / st.maxHp) + '%'; $('#tHp').textContent = `${Math.ceil(S.hp)} / ${st.maxHp}`;
+  $('#bMp').style.width = (100 * S.mp / st.maxMp) + '%'; $('#tMp').textContent = `${Math.ceil(S.mp)} / ${st.maxMp}`;
+  $('#bExp').style.width = (100 * S.exp / expNeed(S.lv)) + '%'; $('#tExp').textContent = `${S.exp} / ${expNeed(S.lv)}（${(100 * S.exp / expNeed(S.lv)).toFixed(2)}%）`;
   $('#talDot').hidden = talentPoints() <= 0;
-  $('#hGold').textContent = S.gold.toLocaleString(); $('#nHp').textContent = S.inv.hpPot; $('#nMp').textContent = S.inv.mpPot;
+  $('#hGold').textContent = S.gold.toLocaleString(); renderQuick();
 }
 let toastT;
-function toast(s) { const t = $('#toast'); t.textContent = s; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2600); }
+function toast(s) { logMsg(s); const t = $('#toast'); t.textContent = s; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2600); }
+
+
+/* ---------- 快捷欄 ---------- */
+let qsEdit = false;
+function renderQuick() {
+  const el = $('#qsGrid'); if (!el || !S || !S.quick) return;
+  const html = S.quick.map((k, i) => `<button type="button" class="qs${k ? '' : ' empty'}${k && !S.inv[k] ? ' zero' : ''}" data-q="${i}" title="${k ? ITEMS[k].n + '（按 ' + (i + 1) + '）・右鍵更換' : '點一下放入道具'}"><i>${i + 1}</i>${k ? `<img src="${ART_DIR}ui/${k}.webp" alt=""><b>${S.inv[k] || 0}</b>` : '<span>＋</span>'}</button>`).join('');
+  if (el._h !== html) { el._h = html; el.innerHTML = html; }
+  $('#quickslot').classList.toggle('editing', qsEdit);
+}
+function useQuick(i) {
+  const k = S.quick[i]; if (!k) { openQuickPicker(i); return; }
+  if (k === 'hpPot' || k === 'mpPot') usePot(k);
+  else if (!S.inv[k]) toast(`沒有${ITEMS[k].n}了`);
+  else useFood(k);
+  renderQuick();
+}
+function openQuickPicker(i) {
+  qsEdit = false;
+  const list = QS_ITEMS.map(k => `<button type="button" class="qs-pick${S.quick[i] === k ? ' on' : ''}" data-k="${k}"><img src="${ART_DIR}ui/${k}.webp" alt=""><b>${ITEMS[k].n}</b><small>持有 ${S.inv[k] || 0}</small></button>`).join('');
+  openPanel(`⌨️ 快捷欄第 ${i + 1} 格（按鍵 ${i + 1}）`, `<p class="note">選一個道具放進這一格，之後按鍵盤 <b>${i + 1}</b> 或點這一格就能直接使用。</p><div class="qs-picks">${list}</div><div class="row"><button type="button" class="btn sm" data-clear>清空這一格</button></div>`, b => {
+    b.querySelectorAll('[data-k]').forEach(x => x.onclick = () => { S.quick[i] = x.dataset.k; closePanel(); renderQuick(); toast(`已把${ITEMS[x.dataset.k].n}放到快捷欄 ${i + 1}`); });
+    b.querySelector('[data-clear]').onclick = () => { S.quick[i] = null; closePanel(); renderQuick(); };
+  });
+}
+$('#qsGrid').addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (!b) return; const i = +b.dataset.q; if (qsEdit) openQuickPicker(i); else useQuick(i); });
+$('#qsGrid').addEventListener('contextmenu', e => { const b = e.target.closest('[data-q]'); if (!b) return; e.preventDefault(); openQuickPicker(+b.dataset.q); });
+$('#qsEdit').onclick = () => { qsEdit = !qsEdit; renderQuick(); if (qsEdit) toast('點選要設定的快捷欄格子'); };
+
+/* ---------- 系統訊息 ---------- */
+const LOG = [];
+function logMsg(s) { LOG.push(s); while (LOG.length > 3) LOG.shift(); const el = $('#chatlog'); if (el) el.innerHTML = LOG.map(t => `<p><b>[系統]</b> ${esc(t)}</p>`).join(''); }
+logMsg('←→ 移動・Space 跳躍・J 攻擊・K 技能・E 互動・Q 自動打怪');
+logMsg('滑鼠點擊 NPC 可以對話；快捷欄按 1～8 使用道具，右鍵可更換');
+
+/* ---------- NPC 對話（滑鼠點擊） ---------- */
+const NPC_TALK = {
+  forge: { line: '叮叮噹噹～想讓裝備變得更強嗎？把礦石交給我，我幫你鍛造、強化！', opts: [['⚒️ 鍛造・強化裝備', () => openForgeV2()]] },
+  shop: { line: '歡迎光臨花之商店！紅藥水、藍藥水都有喔，出門冒險前記得補貨～', opts: [['🛍️ 開啟商店', () => openShop()]] },
+  gacha: { line: '星星正在呼喚你……要用召喚券許個願嗎？說不定會遇見可愛的寵物喔。', opts: [['✨ 星願召喚', () => openGacha()]] },
+  salon: { line: '今天想換什麼造型呢？髮型、髮色、服裝，小葵都可以幫你換喔！', opts: [['💇 變更造型', () => openCreate(true)]] }
+};
+function npcTalk(n) {
+  const t = NPC_TALK[n.id]; if (!t) { openNpc(n.id); return; }
+  openPanel(n.name, `<div class="npc-talk"><div class="npc-pic"><img src="${ART_DIR}npc_${n.id}.webp" alt=""></div><div class="npc-body"><p class="npc-line">${t.line}</p><div class="npc-opts">${t.opts.map((o, i) => `<button type="button" class="npc-opt" data-o="${i}">${o[0]}</button>`).join('')}<button type="button" class="npc-opt end" data-end>結束對話</button></div></div></div>`, b => {
+    b.querySelectorAll('[data-o]').forEach(x => x.onclick = () => { closePanel(); t.opts[+x.dataset.o][1](); });
+    b.querySelector('[data-end]').onclick = closePanel;
+  });
+  $('#panelCard').classList.add('npc-mode');
+}
+let hoverNpc = null;
+function npcAtEvent(e) {
+  const r = cv.getBoundingClientRect(); if (!r.width || !P) return null;
+  const x = (e.clientX - r.left) * W / r.width + cam, y = (e.clientY - r.top) * H / r.height;
+  return NPCS.find(n => Math.abs(n.x - x) < 42 && y > GROUND - 120 && y < GROUND + 28) || null;
+}
+cv.addEventListener('pointermove', e => { if (!running) return; hoverNpc = npcAtEvent(e); cv.style.cursor = hoverNpc ? 'pointer' : ''; });
+cv.addEventListener('pointerleave', () => { hoverNpc = null; cv.style.cursor = ''; });
+cv.addEventListener('click', e => { if (!running || !$('#panel').hidden) return; const n = npcAtEvent(e); if (n) { hoverNpc = null; cv.style.cursor = ''; npcTalk(n); } });
+
+/* ---------- 小地圖 ---------- */
+const mmc = $('#mm'), mg = mmc.getContext('2d');
+$('#mmToggle').onclick = () => { const c = $('#minimap').classList.toggle('mini'); $('#mmToggle').textContent = c ? '＋' : '－'; };
+function drawMinimap() {
+  if ($('#minimap').classList.contains('mini')) return;
+  const zz = zoneAt(P.x), mw = mmc.width, mh = mmc.height, span = zz.to - zz.from;
+  const X = x => (x - zz.from) / span * mw, Y = y => 6 + (y - 150) / (GROUND + 14 - 150) * (mh - 14);
+  const gr = mg.createLinearGradient(0, 0, 0, mh); gr.addColorStop(0, zz.sky[0]); gr.addColorStop(1, zz.sky[1]);
+  mg.fillStyle = gr; mg.fillRect(0, 0, mw, mh);
+  mg.fillStyle = 'rgba(255,255,255,.35)'; mg.fillRect(X(cam), 0, W / span * mw, mh);
+  mg.fillStyle = '#6f9a55'; mg.fillRect(0, Y(GROUND), mw, mh - Y(GROUND)); mg.fillStyle = '#9fd27a'; mg.fillRect(0, Y(GROUND), mw, 2);
+  for (const p of PLATS) if (p.x + p.w > zz.from && p.x < zz.to) { mg.fillStyle = '#7a5a3a'; mg.fillRect(X(p.x), Y(p.y), p.w / span * mw, 3); mg.fillStyle = '#9fd27a'; mg.fillRect(X(p.x), Y(p.y), p.w / span * mw, 1.5); }
+  const dot = (x, y, c, r = 2.5) => { mg.fillStyle = c; mg.beginPath(); mg.arc(X(x), Y(y), r, 0, 7); mg.fill(); mg.strokeStyle = '#1a1420'; mg.lineWidth = 1; mg.stroke(); };
+  for (const pt of PORTALS) if (pt.x >= zz.from && pt.x < zz.to) dot(pt.x, GROUND - 10, '#c07bff', 3.5);
+  if (HUB.x >= zz.from && HUB.x < zz.to) dot(HUB.x, GROUND - 10, '#7fd0ff', 3.5);
+  for (const n of NPCS) if (n.x >= zz.from && n.x < zz.to) dot(n.x, GROUND - 10, '#4fd16b');
+  for (const m of mobs) if (!m.dead && m.x >= zz.from && m.x < zz.to) dot(m.x, m.y - 6, '#ff4d5e', 2);
+  dot(P.x, P.y - 10, '#ffe14d', 3.5);
+}
 
 /* ---------- 面板 ---------- */
-function openPanel(title, html, bind) { $('#panelT').textContent = title; $('#panelB').innerHTML = html; $('#panel').hidden = false; Object.keys(keys).forEach(k => keys[k] = false); if (bind) bind($('#panelB')); }
+function openPanel(title, html, bind) { $('#panelCard').classList.remove('npc-mode'); $('#panelT').textContent = title; $('#panelB').innerHTML = html; $('#panel').hidden = false; Object.keys(keys).forEach(k => keys[k] = false); if (bind) bind($('#panelB')); }
 function closePanel() { $('#panel').hidden = true; persist(); updateHud(); }
 $('#panelX').onclick = closePanel; $('#panel').addEventListener('click', e => { if (e.target.id === 'panel') closePanel(); });
 function openBag() {
@@ -1273,7 +1355,7 @@ function openForgeV2(tab) {
 
 /* ---------- 主迴圈 ---------- */
 function resize() {
-  const vw = innerWidth, vh = innerHeight, touch = matchMedia('(pointer:coarse)').matches;
+  const touch = matchMedia('(pointer:coarse)').matches, vw = innerWidth, vh = innerHeight - (touch ? 0 : 58); // 電腦版：畫面放在下方狀態列上面
   // 手機橫向：填滿畫面（只裁切天空）；其他：完整顯示
   const sc = touch && vw > vh ? Math.max(vw / W, vh / H) : Math.min(vw / W, vh / H);
   const cw = Math.round(W * sc), ch = Math.round(H * sc);
@@ -1283,7 +1365,7 @@ function resize() {
 addEventListener('resize', resize);
 function loop(ts) {
   const dt = Math.min(.05, (ts - last) / 1000 || 0); last = ts;
-  if (running && $('#panel').hidden && S && P) { update(dt); draw(); }
+  if (running && $('#panel').hidden && S && P) { update(dt); draw(); drawMinimap(); }
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
