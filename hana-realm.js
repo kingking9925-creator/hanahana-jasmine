@@ -843,6 +843,9 @@ function zoneMix(x) { // 平滑過渡天空色
   const t = clamp((x - (z.to - 250)) / 250, 0, 1);
   return { top: lerpColor(z.sky[0], nz.sky[0], t), bot: lerpColor(z.sky[1], nz.sky[1], t), hill: lerpColor(z.hill, nz.hill, t), dark: lerpColor(z === ZONES[2] || z === ZONES[3] ? '#ffffff' : '#000000', nz === ZONES[2] || nz === ZONES[3] ? '#ffffff' : '#000000', t) };
 }
+// 底色深（月影森林、水晶礦洞）用白字黑邊，底色淺用黑字白邊
+const TXT_L = { fg: '#111', st: 'rgba(255,255,255,.95)' }, TXT_D = { fg: '#fff', st: 'rgba(0,0,0,.85)' };
+function TXT() { const z = P ? zoneAt(P.x) : ZONES[0]; return z === ZONES[2] || z === ZONES[3] ? TXT_D : TXT_L; }
 function drawImg(g, key, x, y, h, flip) { const im = artImg(key); if (!im) return false; const w = im.naturalWidth * h / im.naturalHeight; g.save(); g.translate(x, y); if (flip) g.scale(-1, 1); g.drawImage(im, -w / 2, -h, w, h); g.restore(); return true; }
 function drawPortal(g, x, label) {
   if (artImg('ui/o_portal')) {
@@ -929,7 +932,7 @@ function draw() {
   g.font = 'bold 12px sans-serif'; g.textAlign = 'center'; const nw = g.measureText(S.name).width + 14; g.fillStyle = 'rgba(255,255,255,.95)'; g.beginPath(); g.roundRect(P.x - nw / 2, P.y + 6, nw, 18, 6); g.fill(); g.strokeStyle = 'rgba(30,20,30,.55)'; g.lineWidth = 1.5; g.stroke(); g.fillStyle = '#111'; g.fillText(S.name, P.x, P.y + 19);
   for (const p of projs) drawProj(p);
   for (const f of fx) drawFx(f);
-  for (const t of texts) { g.globalAlpha = 1 - Math.max(0, t.t - .6) * 2; g.font = `900 ${t.big ? 26 : 20}px sans-serif`; g.textAlign = 'center'; g.lineWidth = 4; g.strokeStyle = 'rgba(255,255,255,.95)'; g.strokeText(t.s, t.x, t.y); g.fillStyle = '#111'; g.fillText(t.s, t.x, t.y); if (t.icon) { const tw = g.measureText(t.s).width; drawImg(g, 'ui/' + t.icon, t.x - tw / 2 - 14, t.y + 6, 24); } g.globalAlpha = 1; }
+  for (const t of texts) { g.globalAlpha = 1 - Math.max(0, t.t - .6) * 2; g.font = `900 ${t.big ? 26 : 20}px sans-serif`; g.textAlign = 'center'; g.lineWidth = 4; g.strokeStyle = TXT().st; g.strokeText(t.s, t.x, t.y); g.fillStyle = TXT().fg; g.fillText(t.s, t.x, t.y); if (t.icon) { const tw = g.measureText(t.s).width; drawImg(g, 'ui/' + t.icon, t.x - tw / 2 - 14, t.y + 6, 24); } g.globalAlpha = 1; }
   g.restore();
   g.fillStyle = 'rgba(255,190,215,.85)';
   if (zn !== ZONES[3]) for (const p of petals) { g.save(); g.translate(p.x, p.y); g.rotate(T * p.s + p.r); g.beginPath(); g.ellipse(0, 0, 5 * p.s, 3 * p.s, 0, 0, 7); g.fill(); g.restore(); }
@@ -949,7 +952,7 @@ function drawMob(m) {
   }
   g.filter = 'none'; g.restore();
   if (m.hp < d.hp) { const bw = Math.max(36, d.w); g.fillStyle = '#0007'; g.fillRect(x - bw / 2, y - d.h - 16, bw, 5); g.fillStyle = '#ff5c8a'; g.fillRect(x - bw / 2, y - d.h - 16, bw * Math.max(0, m.hp) / d.hp, 5); }
-  if (m.aggro > 0 || Math.abs(m.x - P.x) < 160) { g.font = '11px sans-serif'; g.textAlign = 'center'; g.fillStyle = '#111'; g.strokeStyle = 'rgba(255,255,255,.95)'; g.lineWidth = 3; const s = `Lv.${d.lv} ${d.name}`; g.strokeText(s, x, y + 16); g.fillText(s, x, y + 16); }
+  if (m.aggro > 0 || Math.abs(m.x - P.x) < 160) { g.font = '11px sans-serif'; g.textAlign = 'center'; g.fillStyle = TXT().fg; g.strokeStyle = TXT().st; g.lineWidth = 3; const s = `Lv.${d.lv} ${d.name}`; g.strokeText(s, x, y + 16); g.fillText(s, x, y + 16); }
 }
 function eyes(x, y, f) { g.fillStyle = '#2a1f2a'; g.beginPath(); g.ellipse(x - 5, y, 2.4, 3.4, 0, 0, 7); g.ellipse(x + 5, y, 2.4, 3.4, 0, 0, 7); g.fill(); g.fillStyle = '#fff'; g.beginPath(); g.arc(x - 5.6, y - 1.2, .9, 0, 7); g.arc(x + 4.4, y - 1.2, .9, 0, 7); g.fill(); }
 function drawProj(p) {
@@ -967,7 +970,7 @@ function drawFx(f) {
   if (f.kind === 'rose') { g.save(); g.translate(f.x, f.y); g.globalAlpha = 1 - t * 1.8; for (let i = 0; i < 8; i++) { const a = i * .8 + t * 6; g.fillStyle = i % 2 ? '#ff6b9a' : '#ffc1d8'; g.beginPath(); g.ellipse(Math.cos(a) * 60 * t * 2 * f.f, Math.sin(a) * 26, 9, 5, a, 0, 7); g.fill(); } g.restore(); g.globalAlpha = 1; }
   if (f.kind === 'meteor') { const k = Math.min(1, t / .25); g.globalAlpha = 1 - Math.max(0, t - .3) * 3; g.fillStyle = '#ffe58a'; star(g, f.x - 80 * (1 - k), f.y - 160 * (1 - k), 12, 5); if (k >= 1) { g.fillStyle = 'rgba(255,200,240,.6)'; g.beginPath(); g.arc(f.x, f.y, 30 * (t - .2) * 4, 0, 7); g.fill(); } g.globalAlpha = 1; }
   if (f.kind === 'bloom') { g.globalAlpha = 1 - t * 1.8; for (let i = 0; i < 10; i++) { const a = i * .628; g.fillStyle = i % 2 ? '#7ee08f' : '#ffc1d8'; g.beginPath(); g.arc(f.x + Math.cos(a) * 110 * t * 1.8, f.y - 30 + Math.sin(a) * 40 * t * 1.8, 6, 0, 7); g.fill(); } g.globalAlpha = 1; }
-  if (f.kind === 'lvup') { g.globalAlpha = 1 - Math.max(0, t - 1) * 1.6; g.strokeStyle = '#ffe58a'; g.lineWidth = 3; for (let i = 0; i < 3; i++) { g.beginPath(); g.ellipse(P.x, P.y - 4, 30 + i * 10 + t * 20, 8 + i * 3, 0, 0, 7); g.stroke(); } g.font = '900 28px sans-serif'; g.textAlign = 'center'; g.lineWidth = 5; g.strokeStyle = '#fff'; g.strokeText('LEVEL UP!', P.x, P.y - 110 - t * 20); g.fillStyle = '#111'; g.fillText('LEVEL UP!', P.x, P.y - 110 - t * 20); g.globalAlpha = 1; }
+  if (f.kind === 'lvup') { g.globalAlpha = 1 - Math.max(0, t - 1) * 1.6; g.strokeStyle = '#ffe58a'; g.lineWidth = 3; for (let i = 0; i < 3; i++) { g.beginPath(); g.ellipse(P.x, P.y - 4, 30 + i * 10 + t * 20, 8 + i * 3, 0, 0, 7); g.stroke(); } g.font = '900 28px sans-serif'; g.textAlign = 'center'; g.lineWidth = 5; g.strokeStyle = TXT().st; g.strokeText('LEVEL UP!', P.x, P.y - 110 - t * 20); g.fillStyle = TXT().fg; g.fillText('LEVEL UP!', P.x, P.y - 110 - t * 20); g.globalAlpha = 1; }
 }
 
 /* ---------- HUD ---------- */

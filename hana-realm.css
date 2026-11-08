@@ -398,3 +398,7 @@ button{font:inherit;cursor:pointer}
 .tl-main::after{-webkit-text-fill-color:#111 !important}
 .tl-wrap{filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 10px rgba(255,255,255,.95)) drop-shadow(0 0 22px rgba(255,240,248,.9)) !important}
 .tl-sub{text-shadow:0 0 4px #fff,0 0 12px #fff !important}
+
+/* 底色是黑（深色）就用白字：HP／MP／EXP 條、深色按鈕與提示 */
+#app .sbar .bar span{color:#fff !important;text-shadow:0 0 2px #000,0 1px 2px #000,0 0 3px #000 !important}
+#app .dark-bg,#app .dark-bg *{color:#fff !important}
