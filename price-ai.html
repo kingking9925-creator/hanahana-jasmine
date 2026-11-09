@@ -280,102 +280,116 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .cta-band .btn:hover{background:var(--coral);border-color:var(--coral);color:#fff}
 </style>
 <style>
-/* Sakura pink theme */
-:root{--bg:#fff5f8;--bg2:#ffe4ec;--ink:#4a2033;--muted:#8a6475;--gold:#e26d93;--coral:#ff7aa2;--leaf:#c2577e;--pink:#ffc6d6;--card:#fffafc;--line:rgba(74,32,51,.12)}
-body{background:var(--bg)}
-nav{background:rgba(255,245,248,.78)}
-.nav-cta{background:linear-gradient(90deg,#ff8fb1,#f06292)!important;color:#fff!important}
-.nav-links a:hover{background:#f06292;color:#fff}
-.nav-links a.on:not(.nav-cta){color:#e0558a}
-.hero::before{background:radial-gradient(circle,rgba(255,143,177,.32),rgba(255,198,214,.25) 45%,transparent 70%)!important}
-.hero::after{background:radial-gradient(circle,rgba(240,98,146,.18),transparent 70%)!important}
-.btn-dark{background:linear-gradient(90deg,#f06292,#ff8fb1);color:#fff}
-.btn-ghost{border-color:#f3a6be}
-.svc div:hover{background:#5e2a42}
-.services{background:linear-gradient(160deg,#4a2033,#7a3352)}
-.svc,.svc div{background-color:transparent}
-.svc{background:rgba(255,220,232,.18)}
-.svc div{background:rgba(74,32,51,.0)}
-.marquee{background:linear-gradient(90deg,#f06292,#ff8fb1);color:#fff}
-.marquee .track b{color:#fff}
-.portrait{background:linear-gradient(160deg,#ffd6e2,#ffb3c9 55%,#f06292)!important}
-.chip{background:#f06292}
-.badge i{background:#ff7aa2;box-shadow:0 0 0 4px rgba(255,122,162,.22)}
-.cta-band div{background:linear-gradient(135deg,#4a2033,#8a3a5c)}
-.page-hero h1 em{color:#f06292}
-footer{border-color:rgba(74,32,51,.12)}
-::selection{background:#ffc6d6}
+.fr-hero{padding-top:130px;padding-bottom:40px}
+.fr-hero .back{display:inline-block;margin-bottom:28px;font-size:14px;color:var(--muted)}
+.prof{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;background:#1c1916;color:#f7f2ea;border-radius:32px;padding:40px;position:relative;overflow:hidden}
+.prof::after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,74,.35),transparent 70%);right:-120px;top:-160px}
+.prof .av{width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid rgba(255,255,255,.15)}
+.prof .ey{font-size:12px;letter-spacing:3px;color:#f2c14e;font-weight:700;text-transform:uppercase}
+.prof h1{font-family:var(--serif);font-size:44px;margin:4px 0 6px;line-height:1.2}
+.prof h1 small{font-family:var(--sans);font-size:15px;font-weight:500;color:#b9b0a5;margin-left:10px}
+.prof p{color:#ddd5ca;margin:0 0 18px;max-width:560px}
+.stats{display:flex;gap:28px;margin-bottom:22px}
+.stats b{display:block;font-family:var(--display);font-size:30px;line-height:1}
+.stats span{font-size:12px;color:#b9b0a5}
+.prof .acts{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+.fbtn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-size:14px;font-weight:600;background:#4089ff;color:#fff;transition:.25s}
+.fbtn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(64,137,255,.35)}
+.fbtn.ghost{background:transparent;border:1px solid rgba(255,255,255,.3)}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:70px 0 26px;flex-wrap:wrap}
+.sec-h .eyebrow{margin:0}
+.sec-h h2{font-family:var(--serif);font-size:34px;margin:4px 0 0}
+.sec-h p{margin:0;color:var(--muted);font-size:14px}
+.stories{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:1100px){.stories{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.stories{grid-template-columns:repeat(2,1fr);gap:12px}.st .bd{padding:14px}.st p{display:none}.st h3{font-size:15px}}
+.st{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:.35s}
+.st:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(28,25,22,.12)}
+.st .cv{position:relative;aspect-ratio:4/5;background:#1c1916;overflow:hidden}
+.st .cv img{width:100%;height:100%;object-fit:cover;display:block;transition:.6s}
+.st:hover .cv img{transform:scale(1.05)}
+.st .badge{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;background:var(--coral);color:#fff}
+.st .badge.b18{background:#1c1916}.st .badge.bl{background:#a05cc8}.st .badge.hot{background:#f2a33a}
+.st .plays{position:absolute;bottom:12px;right:12px;padding:4px 10px;border-radius:999px;font-size:12px;background:rgba(0,0,0,.6);color:#fff;backdrop-filter:blur(6px)}
+.st .bd{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.st h3{font-size:17px;margin:0;line-height:1.4}
+.st .tg{display:flex;gap:6px;flex-wrap:wrap}
+.st .tg span{font-size:11px;padding:2px 9px;border-radius:999px;background:var(--bg2);color:var(--muted)}
+.st p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.75;flex:1}
+.st .play{align-self:flex-start;margin-top:4px;display:inline-flex;gap:6px;align-items:center;padding:9px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:13px;font-weight:600;transition:.25s}
+.st .play:hover{background:#4089ff}
+.about-fr{margin:80px 0 100px;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;background:linear-gradient(135deg,#0f1a33,#1d2f5c);color:#eef3ff;border-radius:32px;padding:48px}
+.about-fr .ey{font-size:12px;letter-spacing:3px;color:#8fb7ff;font-weight:700}
+.about-fr h2{font-family:var(--serif);font-size:34px;margin:6px 0 14px;line-height:1.3}
+.about-fr p{color:#c8d4ee;margin:0 0 22px}
+.feat{display:grid;gap:14px}
+.feat div{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px 20px}
+.feat b{display:block;font-size:15px;margin-bottom:2px}
+.feat span{font-size:13px;color:#b8c6e6}
+@media(max-width:760px){.prof{grid-template-columns:1fr;text-align:center;padding:32px 22px}.prof .av{margin:0 auto}.prof p{margin:0 auto 18px}.stats,.prof .acts{justify-content:center}.prof h1{font-size:36px}.prof h1 small{display:block;margin:4px 0 0}.about-fr{grid-template-columns:1fr;padding:32px 22px}}
 </style>
 <style>
-/* Pricing page */
-.pricing{padding-top:130px;padding-bottom:80px}
-.pr-hero{margin:18px 0 26px}
-.pr-hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(40px,6vw,68px);line-height:1.15;margin:8px 0 12px}
-.pr-hero p{color:var(--muted);max-width:640px;margin:0}
-.pchips{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0 12px;margin-bottom:12px}
-.pchips::-webkit-scrollbar{display:none}
-.pchips a{flex:none;padding:8px 16px;border-radius:999px;font-size:14px;background:#fff;border:1px solid rgba(240,98,146,.22);color:var(--ink);transition:.2s}
-.pchips a:hover{background:#f06292;color:#fff;border-color:#f06292}
-.pcat{scroll-margin-top:160px;margin:22px 0;padding:28px 30px;background:#fff;border:1px solid rgba(240,98,146,.16);border-radius:28px;box-shadow:0 18px 40px -28px rgba(138,58,92,.35)}
-.pcat-h{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-.pcat-h h2{font-family:var(--serif);font-size:26px;margin:0}
-.pcat-h p{margin:0;color:var(--muted);font-size:14px}
-.pcat-ex{margin-left:auto;font-size:13px;font-weight:600;color:#e0558a;border-bottom:1px solid rgba(224,85,138,.4)}
-.plist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;column-gap:36px}
-.plist li{display:grid;grid-template-columns:1fr auto;grid-template-areas:"n p" "t p";align-items:center;column-gap:16px;padding:12px 0;border-bottom:1px dashed rgba(29,26,23,.12)}
-.pi-n{grid-area:n;font-size:15px}
-.pi-t{grid-area:t;font-size:12px;color:var(--muted)}
-.pi-p{grid-area:p;font-family:var(--display);font-size:17px;color:#e0558a;white-space:nowrap;text-align:right}
-.pnote{margin:16px 0 0;padding:14px 18px 14px 34px;background:#fff5f8;border-radius:16px;color:var(--muted);font-size:13px;line-height:1.8}
-.pterms{margin:40px 0 0;padding:34px;border-radius:28px;background:linear-gradient(135deg,#4a2033,#8a3a5c);color:#fff3f7}
-.pterms h2{font-family:var(--serif);font-size:26px;margin:0 0 12px}
-.pterms ul{margin:0 0 22px;padding-left:20px;line-height:1.9;color:#ffe3ec}
-.pterms .btn{background:#fff;color:#8a3a5c;border-color:#fff}
-.pterms .btn:hover{background:#f06292;color:#fff;border-color:#f06292}
-@media(max-width:860px){.pricing{padding-top:150px}.pchips{position:relative;z-index:1;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;background:linear-gradient(#fff5f8 70%,transparent)}.plist{grid-template-columns:1fr}.pcat{padding:22px 18px;border-radius:22px}.pcat-h h2{font-size:22px}.pi-p{font-size:15px}}
+/* FRONTIA blue theme */
+:root{--bg:#eef4ff;--bg2:#dde8fd;--ink:#0f1f45;--muted:#52617f;--gold:#3b7bf0;--coral:#2f7bff;--card:#f7faff;--line:rgba(15,31,69,.12)}
+nav{background:rgba(238,244,255,.78)}
+.nav-links a.on:not(.nav-cta){color:#2f7bff}
+.nav-cta{background:#2f7bff!important;color:#fff!important}
+.nav-links a:hover{background:#2f7bff;color:#fff}
+.prof{background:linear-gradient(135deg,#0d1b3e,#1a3a8a)}
+.prof::after{background:radial-gradient(circle,rgba(120,180,255,.45),transparent 70%)}
+.prof .ey{color:#8fc1ff}
+.prof h1 small,.stats span{color:#a9bde6}
+.prof p{color:#d3e0fa}
+.eyebrow{color:#2f7bff}
+.sec-h h2 em,.page-hero h1 em{color:#2f7bff}
+.st{background:#fff;border-color:rgba(47,123,255,.18)}
+.st:hover{box-shadow:0 24px 48px rgba(47,123,255,.18)}
+.st .cv{background:#0d1b3e}
+.st .tg span{background:#e3edff;color:#3a5a9a}
+.st .play{background:#0f1f45}
+.st .play:hover{background:#2f7bff}
+.st .badge{background:#2f7bff}
+.about-fr{background:linear-gradient(135deg,#0b1736,#1e4bb8)}
+footer{border-color:rgba(15,31,69,.12)}
 </style>
 <style>
-/* Pricing tabs */
-.pricing{padding-top:120px}
-.pchips a.on{background:#f06292;color:#fff;border-color:#f06292}
-.pcat{display:none}
-.pcat.show{display:block;opacity:1!important;transform:none!important}
-.ppanel-info{display:block}
-.ppanel-info .c-sec:first-child{margin-top:28px}
-.pcat.show{margin-top:14px}
-.ppanel-info .reveal{opacity:1!important;transform:none!important}
-.info-cta{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 10px}
-.c-sec{margin:64px 0}
-.c-h{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:28px;flex-wrap:wrap}
-.c-h .n{font-family:var(--display);font-style:italic;color:#f06292;font-size:20px}
-.c-h h2{font-family:var(--serif);font-size:26px;margin:0}
-.c-h small{color:var(--muted);font-size:14px}
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.svc-c{background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 16%,#fff);border-radius:22px;padding:24px;transition:.3s}
-.svc-c:hover{transform:translateY(-5px);border-color:#f8a5c0;box-shadow:0 18px 34px -20px rgba(240,98,146,.6)}
-.svc-c .em{font-size:24px}
-.svc-c h3{font-size:17px;margin:10px 0 6px}
-.svc-c p{font-size:13.5px;color:var(--muted);margin:0 0 14px;line-height:1.75}
-.svc-c .pr{font-size:13px;font-weight:700;color:#e0558a;background:#ffeaf1;padding:5px 12px;border-radius:999px;display:inline-block}
-.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:st}
-.step{position:relative;background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 14%,#fff);border-radius:20px;padding:22px 18px}
-.step::before{counter-increment:st;content:counter(st);position:absolute;top:-13px;left:18px;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#ff8fb1,#f06292);color:#fff;font-weight:800;font-size:14px;display:grid;place-items:center;box-shadow:0 6px 14px -6px rgba(240,98,146,.9)}
-.step b{display:block;font-size:15px;margin:10px 0 6px}
-.step p{font-size:13px;color:var(--muted);margin:0;line-height:1.7}
-.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.rule{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1.5px solid color-mix(in srgb,#f06292 14%,#fff);border-radius:18px;padding:18px 20px}
-.rule .k{font-size:20px;flex:none}
-.rule b{display:block;font-size:14.5px;margin-bottom:3px}
-.rule span{font-size:13.5px;color:var(--muted);line-height:1.7}
-.nope{background:linear-gradient(135deg,#4a2033,#7a3352);color:#ffeaf1;border-radius:28px;padding:32px 34px}
-.nope h3{font-family:var(--serif);font-size:21px;margin:0 0 6px;color:#fff}
-.nope .sub{font-size:13.5px;color:#e4bccd;margin:0 0 18px}
-.nope ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px}
-.nope li{font-size:14px;display:flex;gap:10px;align-items:flex-start;line-height:1.7}
-.nope li::before{content:"✕";color:#ff9fbd;font-weight:800;flex:none}
-@media(max-width:900px){.svc-grid{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr);gap:22px 14px}.rules,.nope ul,.start,.wish ol{grid-template-columns:1fr}}
-@media(max-width:560px){.svc-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr;gap:26px}.nope{padding:26px 22px}}
-@media(max-width:860px){.pricing{padding-top:130px}}
+/* Frontia stage decor */
+.prof,.about-fr{position:relative;overflow:hidden}
+.prof>img,.prof>div,.about-fr>div{position:relative;z-index:1}
+.stage{position:absolute;right:2%;top:50%;transform:translateY(-50%);width:min(430px,42%);pointer-events:none;z-index:0;-webkit-mask-image:radial-gradient(ellipse 62% 66% at 50% 50%,#000 45%,transparent 100%);mask-image:radial-gradient(ellipse 62% 66% at 50% 50%,#000 45%,transparent 100%)}
+.stage .beam{animation:beam 5s ease-in-out infinite;transform-origin:200px 0}
+.stage .beam2{animation:beam 5s ease-in-out infinite reverse;transform-origin:200px 0}
+.stage .bub1{animation:pop 6s ease-in-out infinite}
+.stage .bub2{animation:pop 6s ease-in-out infinite 2s}
+.stage .bub3{animation:pop 6s ease-in-out infinite 4s}
+.stage .tw{animation:twk 3s ease-in-out infinite}.stage .tw2{animation:twk 3s ease-in-out infinite 1.5s}
+@keyframes beam{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes pop{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(-8px)}}
+@keyframes twk{0%,100%{opacity:.25}50%{opacity:1}}
+.paths{position:absolute;left:0;right:0;bottom:0;height:100%;pointer-events:none;z-index:0;opacity:.5}
+.paths .ln{stroke-dasharray:6 8;animation:dash 3s linear infinite}
+.paths .nd{animation:twk 2.6s ease-in-out infinite}
+@keyframes dash{to{stroke-dashoffset:-56}}
+@media(max-width:760px){.stage{position:relative;right:auto;top:auto;transform:none;width:80%;margin:-6px auto 0;display:block}.prof{display:flex!important;flex-direction:column}.paths{opacity:.3}}
+/* Frontia logo hero */
+.prof>.fr-logo{position:absolute;z-index:0}
+.fr-logo{position:absolute;right:3%;top:50%;transform:translateY(-50%);width:min(420px,40%);aspect-ratio:420/320;pointer-events:none;z-index:0;display:grid;place-items:center}
+.fr-logo .fl-glow{position:absolute;inset:8% 6%;border-radius:50%;background:radial-gradient(circle,rgba(110,170,255,.55),rgba(59,134,255,.18) 45%,transparent 70%);animation:flglow 5s ease-in-out infinite}
+.fr-logo .fl-ring{position:absolute;width:78%;aspect-ratio:1;border-radius:50%;border:1.5px dashed rgba(170,205,255,.45);animation:flspin 28s linear infinite}
+.fr-logo .fl-card{position:relative;width:76%;padding:7% 8%;border-radius:28px;background:rgba(255,255,255,.94);box-shadow:0 22px 50px -18px rgba(0,10,40,.6),0 0 0 6px rgba(255,255,255,.12);overflow:hidden;animation:flfloat 6s ease-in-out infinite}
+.fr-logo .fl-card::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);transform:skewX(-18deg);animation:flshine 4.5s ease-in-out infinite}
+.fr-logo .fl-card img{display:block;width:100%;height:auto}
+.fr-logo .fl-card img.ico{width:46%;margin:0 auto}
+.fr-logo .fl-orb{position:absolute;width:13%;top:50%;left:50%;margin:-6.5% 0 0 -6.5%;border-radius:22%;box-shadow:0 8px 20px rgba(0,10,40,.45);animation:florbit 14s linear infinite}
+.fr-logo .fl-tw{position:absolute;inset:0;width:100%;height:100%}
+.fr-logo .tw{animation:twk 3s ease-in-out infinite}.fr-logo .tw2{animation:twk 3s ease-in-out infinite 1.5s}
+@keyframes flfloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(1.5deg)}}
+@keyframes flglow{0%,100%{opacity:.65;transform:scale(.94)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes flspin{to{transform:rotate(360deg)}}
+@keyframes flshine{0%,55%{left:-60%}100%{left:130%}}
+@keyframes florbit{from{transform:rotate(0) translateX(clamp(120px,15vw,170px)) rotate(0)}to{transform:rotate(360deg) translateX(clamp(120px,15vw,170px)) rotate(-360deg)}}
+@media(max-width:760px){.prof>.fr-logo{position:relative}.fr-logo{position:relative;right:auto;top:auto;transform:none;width:86%;margin:-6px auto 4px}@keyframes florbit{from{transform:rotate(0) translateX(38vw) rotate(0)}to{transform:rotate(360deg) translateX(38vw) rotate(-360deg)}}}
+@media(prefers-reduced-motion:reduce){.fr-logo *{animation:none!important}}
 </style>
 <style>
 /* GEO FAQ */
@@ -414,7 +428,7 @@ footer{border-color:rgba(74,32,51,.12)}
 @media(max-width:600px){.fab-stack{right:14px;gap:10px}.fab-stack .dc-fab svg,.fab-stack .wx-fab svg{width:27px;height:27px}}
 </style>
 <!-- SEO/GEO -->
-<meta name="keywords" content="AI互動模板客製,FLAI模板代做,Frontia模板,Ashbone角色客製,AI角色設定,AI模板推薦">
+<meta name="keywords" content="AI互動模板客製,FLAI模板客製,Frontia模板,Ashbone角色客製,月月">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="author" content="Jasmine Liu（花花 Jasmine）">
 <link rel="canonical" href="https://fafa-jasmineliu.vercel.app/price-ai.html">
@@ -429,12 +443,102 @@ footer{border-color:rgba(74,32,51,.12)}
 <meta name="twitter:title" content="AI 互動模板客製推薦｜FLAI・Frontia・Ashbone 模板代做價格｜花花 Jasmine">
 <meta name="twitter:description" content="AI 互動模板客製推薦：FLAI 12.5 萬+ 讚賞作者月月接 Flai、Frontia、ASHBONE 模板與角色客製化，皆含圖片製作。">
 <meta name="twitter:image" content="https://fafa-jasmineliu.vercel.app/hanahana.jpg">
+
+<style>/* nav fit (行銷知識庫) */@media(max-width:480px){.nav-links>a,.nav-links .nav-dd-btn{padding:8px 6px!important;font-size:12.5px!important}}@media(max-width:380px){.nav-links>a,.nav-links .nav-dd-btn{padding:8px 4px!important;font-size:12px!important}}</style>
+<style>/* 花花遊戲區頁面 */
+.gz-page{padding:150px 0 80px;position:relative}
+.gz-hero{text-align:center;max-width:820px}
+.gz-ey{display:inline-flex;gap:8px;align-items:center;padding:7px 16px;border-radius:999px;background:#fff;border:1px solid #ecd3e6;font-size:13px;letter-spacing:.12em;color:#9c4871;font-weight:700}
+.gz-hero h1{font-family:var(--serif);font-size:clamp(40px,7vw,72px);line-height:1.25;margin:22px 0 18px;color:#3b2333}
+.gz-hero h1 em{font-style:normal;background:linear-gradient(110deg,#ff7aa2,#c27cff,#7aa8ff,#ff7aa2);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gzFlow 6s linear infinite}
+.gz-sub{color:var(--muted);font-size:16px;line-height:1.9;margin:0 auto 30px}
+.gz-member{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;max-width:620px;margin:0 auto;padding:16px 18px 16px 24px;border-radius:24px;background:linear-gradient(120deg,#fff5fa,#f4efff);border:1px solid #ecd3e6;box-shadow:0 12px 30px rgba(156,72,113,.08);text-align:left}
+.gz-member-t{display:flex;flex-direction:column;gap:3px}.gz-member-t b{color:#9c4871;font-size:16px}.gz-member-t span{font-size:13px;color:#8a7280}
+.gz-member .member-nav{margin:0!important;padding:0!important;border:0!important;gap:8px}
+.gz-member .member-nav button{font-size:14px!important;padding:10px 18px!important;font-weight:700}
+.gz-member .member-nav button:first-child{background:linear-gradient(110deg,#ff7aa2,#c27cff)!important;color:#fff!important;border:0!important;box-shadow:0 6px 16px rgba(194,124,255,.3)}
+.gz-member .member-nav button:last-child{border:1px solid #dcc3e6!important;background:#fff!important}
+.gz-sec{margin-top:90px}
+.gz-h{text-align:center;margin-bottom:34px}.gz-k{font-size:13px;letter-spacing:.2em;color:#b06aa0;font-weight:700}.gz-h h2{font-family:var(--serif);font-size:clamp(28px,4vw,40px);margin:8px 0 0;color:#3b2333}
+.gz-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.gz-card{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;padding:30px 28px 26px;border-radius:28px;background:#fff;border:1px solid #efe3ea;box-shadow:0 10px 30px rgba(60,30,50,.06);transition:transform .35s cubic-bezier(.3,1.5,.5,1),box-shadow .35s;color:inherit;text-decoration:none}
+.gz-card::before{content:"";position:absolute;inset:0 0 auto;height:6px;background:linear-gradient(90deg,var(--c1),var(--c2))}
+.gz-card::after{content:"";position:absolute;width:220px;height:220px;right:-80px;top:-90px;border-radius:50%;background:radial-gradient(circle,var(--c2),transparent 70%);opacity:.18;transition:transform .5s}
+.gz-card:hover{transform:translateY(-6px);box-shadow:0 22px 46px rgba(60,30,50,.12)}.gz-card:hover::after{transform:scale(1.4)}
+.gz-tag{align-self:flex-start;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;color:#fff;background:linear-gradient(110deg,var(--c1),var(--c2))}
+.gz-card h3{font-family:var(--display);font-size:30px;letter-spacing:.06em;margin:4px 0 0;color:#2f2230}
+.gz-card p{font-size:14.5px;line-height:1.85;color:var(--muted);margin:0}
+.gz-stat{display:grid;grid-template-columns:auto 1fr auto 1fr;align-items:baseline;gap:4px 8px;margin-top:6px;padding-top:14px;border-top:1px dashed #eadbe4}
+.gz-stat b{font-family:var(--display);font-size:24px;color:#3b2333}.gz-stat span{font-size:12.5px;color:var(--muted)}
+.gz-go{margin-top:auto;font-weight:700;font-size:14px;color:#9c4871;transition:letter-spacing .3s}.gz-card:hover .gz-go{letter-spacing:.08em}
+.gz-cta{margin-top:70px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:26px 30px;border-radius:26px;background:#2f2230;color:#fff}
+.gz-cta div{display:flex;flex-direction:column;gap:4px}.gz-cta b{font-size:18px}.gz-cta span{font-size:14px;opacity:.75}
+.gz-cta a{padding:12px 22px;border-radius:999px;background:linear-gradient(110deg,#ff7aa2,#c27cff);color:#fff;font-weight:700;white-space:nowrap}
+@media(max-width:760px){.gz-page{padding-top:170px}.gz-grid{grid-template-columns:1fr}.gz-member{justify-content:center;text-align:center;padding:18px}.gz-member-t{align-items:center}.gz-cta{text-align:center;justify-content:center}.gz-cta div{align-items:center}}
+@media(prefers-reduced-motion:reduce){.gz-hero h1 em{animation:none}}
+.gz-hp{margin:8px 0 0;color:var(--muted);font-size:14px}
+.gz-k.gold{color:#b7791f}
+.gz-mem .gz-card.mem{background:linear-gradient(160deg,#fffdf6,#fff)}
+.gz-mem .gz-tag{background:linear-gradient(110deg,#ffd76a,#ffb347);color:#5a3a00}
+.gz-soon-pill{align-self:flex-start;font-size:12px;font-weight:700;color:#8a7280;padding:4px 10px;border-radius:999px;border:1px dashed #d9c6d2}
+.gz-chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 0 24px}
+.gz-chips span{display:flex;flex-direction:column;align-items:center;min-width:120px;padding:12px 16px;border-radius:18px;background:#fff;border:1px solid #ecdcea;font-size:12.5px;color:var(--muted)}
+.gz-chips b{font-family:var(--display);font-size:24px;color:#3b2333}
+.gz-jump{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.gz-jump a{padding:12px 22px;border-radius:999px;font-weight:700;font-size:15px;background:#fff;border:1px solid #dcc3e6;color:#9c4871;transition:transform .25s}
+.gz-jump a.pri{border:0;color:#fff;background:linear-gradient(110deg,#ff7aa2,#c27cff);box-shadow:0 8px 20px rgba(194,124,255,.3)}
+.gz-jump a:hover{transform:translateY(-2px)}
+.gz-sec{scroll-margin-top:120px}
+.gz-card.gz-tpl{padding:0}
+.gz-tpl .gz-cv{position:relative;aspect-ratio:16/8;overflow:hidden;background:linear-gradient(120deg,var(--c1),var(--c2))}
+.gz-tpl .gz-cv img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.gz-tpl:hover .gz-cv img{transform:scale(1.06)}
+.gz-tpl .gz-cv .gz-tag{position:absolute;left:16px;top:16px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.gz-tpl .gz-bd{display:flex;flex-direction:column;gap:10px;padding:22px 26px 24px;flex:1}
+.gz-tpl::after{display:none}
+.gz-pick{font-size:13.5px!important;font-weight:700;color:#9c4871!important}
+.gz-trial{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.gz-tcol{display:flex;flex-direction:column;gap:14px;padding:22px;border-radius:28px;background:rgba(255,255,255,.6);border:1px solid #eadfea}
+.gz-tcol-h{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.gz-tcol-h .ic{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:24px;background:#fff;box-shadow:0 6px 16px rgba(60,30,50,.08)}
+.gz-tcol-h b{display:block;font-size:18px;color:#3b2333}.gz-tcol-h small{font-size:13px;color:var(--muted)}
+.gz-slot{display:flex;gap:16px;align-items:center;padding:14px;border-radius:20px;background:#fff;border:1px solid #efe3ea}
+.gz-shot{position:relative;flex:none;width:96px;height:96px;border-radius:16px;overflow:hidden;display:grid;place-items:center;font-size:36px;background:linear-gradient(130deg,var(--c1),var(--c2));opacity:.85}
+.gz-shot i{position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);background-size:250% 100%;animation:gzShine 3s ease-in-out infinite}
+.gz-sbd{display:flex;flex-direction:column;gap:5px;min-width:0}
+.gz-sbd b{font-size:16px;color:#3b2333}.gz-sbd p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+.gz-sbd button{align-self:flex-start;margin-top:4px;font:inherit;font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;border:1px dashed #d9c6d2;background:#faf6f9;color:#a08a98;cursor:not-allowed}
+.gz-try{align-self:flex-start;margin-top:4px;font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;color:#fff;background:linear-gradient(110deg,#ff7aa2,#c27cff)}
+.gz-notify{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding:20px 24px;border-radius:24px;background:linear-gradient(120deg,#fff5fa,#f4efff);border:1px solid #ecd3e6}
+.gz-notify b{display:block;font-size:16px;color:#9c4871}.gz-notify span{font-size:13.5px;color:#8a7280}
+.gz-notify-a{display:flex;gap:8px;flex-wrap:wrap}
+.gz-notify-a a,.gz-notify-a button{font:inherit;font-size:14px;font-weight:700;padding:10px 18px;border-radius:999px;cursor:pointer;border:1px solid #dcc3e6;background:#fff;color:#9c4871}
+.gz-notify-a a.line{border:0;background:#06c755;color:#fff}
+@media(max-width:760px){.gz-trial{grid-template-columns:1fr}.gz-tcol{padding:16px}.gz-shot{width:78px;height:78px;font-size:30px}.gz-notify{justify-content:center;text-align:center}.gz-chips span{min-width:96px;padding:10px 12px}.gz-chips b{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.gz-shot i{animation:none}}
+</style>
+<script src="members.js" defer></script>
+<link rel="stylesheet" href="game-zone.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Service", "name": "AI 互動模板客製", "serviceType": "AI 互動模板客製", "description": "AI 互動模板客製推薦：FLAI 12.5 萬+ 讚賞作者月月接 Flai、Frontia、ASHBONE 模板與角色客製化，皆含圖片製作。", "url": "https://fafa-jasmineliu.vercel.app/price-ai.html", "areaServed": {"@type": "Country", "name": "Taiwan"}, "provider": {"@type": "ProfessionalService", "name": "花花 Jasmine 設計行銷工作室", "url": "https://fafa-jasmineliu.vercel.app/"}, "hasOfferCatalog": {"@type": "OfferCatalog", "name": "AI 互動模板客製價格表", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Flai 單倍模板"}, "priceCurrency": "TWD", "description": "NT$50", "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "TWD", "minPrice": 50}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Flai 雙倍模板"}, "priceCurrency": "TWD", "description": "NT$100", "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "TWD", "minPrice": 100}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Flai 四倍模板"}, "priceCurrency": "TWD", "description": "NT$400", "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "TWD", "minPrice": 400}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Flai 八倍模板"}, "priceCurrency": "TWD", "description": "NT$1,000", "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "TWD", "minPrice": 1000}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Frontia 單一模板"}, "priceCurrency": "TWD", "description": "NT$1,500", "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "TWD", "minPrice": 1500}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "ASHBONE 單一模板"}, "priceCurrency": "TWD", "description": "NT$50", "priceSpecification": {"@type": "PriceSpecification", "priceCurrency": "TWD", "minPrice": 50}}]}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AI 互動模板客製找誰？", "acceptedAnswer": {"@type": "Answer", "text": "可以找花花 Jasmine（月月），FLAI 模板累積 12.5 萬+ 讚賞、Ashbone 角色 500 萬+ 對話、Frontia 作品 81 萬+ 遊玩。"}}, {"@type": "Question", "name": "可以做哪些平台？", "acceptedAnswer": {"@type": "Answer", "text": "Flai（單倍、雙倍、四倍、八倍模板）、Frontia 與 ASHBONE 單一模板，皆含圖片製作。"}}, {"@type": "Question", "name": "要提供什麼資料？", "acceptedAnswer": {"@type": "Answer", "text": "請提供世界觀、角色設定、玩法方向與參考作品，確認後報價。"}}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "花花 Jasmine", "item": "https://fafa-jasmineliu.vercel.app/"}, {"@type": "ListItem", "position": 2, "name": "找我合作", "item": "https://fafa-jasmineliu.vercel.app/contact.html"}, {"@type": "ListItem", "position": 3, "name": "AI 互動模板客製", "item": "https://fafa-jasmineliu.vercel.app/price-ai.html"}]}</script>
-<style>.seo-faq{margin-top:28px;padding:22px 24px;border:1px solid var(--line,rgba(0,0,0,.12));border-radius:18px;background:var(--card,#fffaf2)}.seo-faq h2{font-size:20px;margin-bottom:10px}.seo-faq details{border-top:1px solid var(--line,rgba(0,0,0,.12));padding:12px 0}.seo-faq details:first-of-type{border-top:0}.seo-faq summary{cursor:pointer;font-weight:700}.seo-faq p{margin-top:6px;color:var(--muted,#6f665c);font-size:15px}</style>
-<style>/* nav fit (行銷知識庫) */@media(max-width:480px){.nav-links>a,.nav-links .nav-dd-btn{padding:8px 6px!important;font-size:12.5px!important}}@media(max-width:380px){.nav-links>a,.nav-links .nav-dd-btn{padding:8px 4px!important;font-size:12px!important}}</style>
-<link rel="stylesheet" href="game-zone.css">
+<style>/* AI模板客製方案 */
+.cz-sec{max-width:760px}
+.cz-box{background:#fff;border:1px solid #ecdcea;border-radius:24px;padding:8px 26px 22px;box-shadow:0 14px 34px rgba(156,72,113,.08)}
+.cz-list{list-style:none;margin:0;padding:0}
+.cz-list li{display:grid;grid-template-columns:1fr auto 7em;gap:14px;align-items:center;padding:16px 0;border-bottom:1px dashed #ecdcea}
+.cz-n{font-weight:700;font-size:16px;color:#3b2333}
+.cz-t{font-size:13px;color:#8a7280}
+.cz-p{text-align:right;font-size:19px;color:#c2457a;font-variant-numeric:tabular-nums}
+.cz-note{margin:16px 0 0;padding-left:18px;font-size:14px;line-height:1.9;color:#6b4f63}
+.cz-faq{margin-top:34px}
+.cz-faq h2{font-size:22px;color:#3b2333;margin:0 0 12px}
+.cz-faq details{background:#fff;border:1px solid #ecdcea;border-radius:16px;padding:14px 18px;margin-bottom:10px}
+.cz-faq summary{cursor:pointer;font-weight:700;color:#3b2333}
+.cz-faq p{margin:10px 0 0;line-height:1.85;color:#6b4f63;font-size:14.5px}
+.nav-links a.nav-cta{background:linear-gradient(110deg,#ff7aa2,#c27cff);color:#fff!important;font-weight:700}
+@media(max-width:560px){.cz-box{padding:4px 16px 18px}.cz-list li{grid-template-columns:1fr auto;gap:2px 10px}.cz-t{grid-column:1}.cz-p{grid-row:1/3;grid-column:2}}
+</style>
 </head>
 <body>
 
@@ -453,26 +557,55 @@ footer{border-color:rgba(74,32,51,.12)}
   </defs>
 </svg>
 
-<div class="gz-top"><div class="gz-btns"><a href="game.html" class="game-btn" aria-label="花花遊戲區"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M7.5 7h9A4.5 4.5 0 0 1 21 11.5v3.2a2.8 2.8 0 0 1-5 1.7L14.7 15H9.3L8 16.4a2.8 2.8 0 0 1-5-1.7v-3.2A4.5 4.5 0 0 1 7.5 7Z"/><path fill="#c27cff" d="M7 9.6h1.2v1.6h1.6v1.2H8.2V14H7v-1.6H5.4v-1.2H7z"/><circle cx="16" cy="10.6" r="1" fill="#ff7aa2"/><circle cx="17.8" cy="12.6" r="1" fill="#7aa8ff"/></svg><span class="gz-txt">花花<br class="gz-br">遊戲區</span><span class="gz-spark a" aria-hidden="true">✦</span><span class="gz-spark b" aria-hidden="true">✦</span></a><a href="ai-templates.html" class="game-btn ai-btn" aria-label="AI模板專區"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="4" fill="#fff"/><circle cx="9.5" cy="12" r="1.6" fill="#3aa8c9"/><circle cx="14.5" cy="12" r="1.6" fill="#3aa8c9"/><path d="M12 3v3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="2.8" r="1.3" fill="#ffe08a"/></svg><span class="gz-txt">AI模板<br class="gz-br">專區</span><span class="gz-spark a" aria-hidden="true">✦</span><span class="gz-spark b" aria-hidden="true">✦</span></a></div><nav>
-  <a href="index.html" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
+<div class="gz-top gz-game"><div class="gz-btns"><a href="index.html" class="game-btn mk-btn" aria-label="回到花花行銷區"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="13" width="4" height="7" rx="1.2" fill="#fff"/><rect x="10" y="9" width="4" height="11" rx="1.2" fill="#fff"/><rect x="17" y="5" width="4" height="15" rx="1.2" fill="#fff"/><path d="M3 9.5 9 5l4 2.5L20 2.5" fill="none" stroke="#ffe08a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="gz-txt">花花<br class="gz-br">行銷區</span><span class="gz-spark a" aria-hidden="true">✦</span><span class="gz-spark b" aria-hidden="true">✦</span></a><a href="ai-templates.html" class="game-btn ai-btn" aria-label="AI模板專區"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="4" fill="#fff"/><circle cx="9.5" cy="12" r="1.6" fill="#3aa8c9"/><circle cx="14.5" cy="12" r="1.6" fill="#3aa8c9"/><path d="M12 3v3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="2.8" r="1.3" fill="#ffe08a"/></svg><span class="gz-txt">AI模板<br class="gz-br">專區</span><span class="gz-spark a" aria-hidden="true">✦</span><span class="gz-spark b" aria-hidden="true">✦</span></a></div><nav>
+  <a href="ai-templates.html" class="logo"><svg><use href="#jasmine"/></svg>花花 Jasmine</a>
   <div class="nav-links">
-    <a href="about.html">關於我</a><a href="knowledge.html">行銷知識庫</a><div class="nav-dd"><a class="nav-dd-btn" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">作品</a><div class="nav-dd-menu"><a href="works.html#web">網頁設計</a><a href="geo.html">GEO</a><a href="design.html">設計</a><a href="yt.html">YOUTUBE</a><a href="tiktok.html">TIKTOK</a></div></div><a href="contact.html" class="nav-cta on" aria-current="page">找我合作</a>
+    <a href="frontia.html">FRONTIA</a><a href="flai.html">FLAI</a><a href="ashbone.html">ASHBONE</a><a href="quarterfull.html">QUARTERFULL</a><a href="price-ai.html" class="nav-cta on" aria-current="page">AI模板客製方案</a>
   </div>
 </nav></div>
-<main class="pricing wrap">
-  <div class="pchips" role="navigation" aria-label="服務分類"><a href="price-ai.html" class="on" aria-current="page">AI 互動模板</a><a href="price-video.html">影片剪輯</a><a href="price-card.html">名片設計</a><a href="price-menu.html">菜單／價格表</a><a href="price-ecom.html">電商圖設計</a><a href="price-namecard.html">冠名卡設計</a><a href="price-web.html">網頁設計</a><a href="price-geo.html">GEO／SEO 搜尋優化</a><a href="price-line.html">LINE 官方帳號建置</a><a href="price-admin.html">行政申請協助</a><a href="price-game.html">遊戲代打／掛機</a></div>
-  <section class="pcat show" id="p-ai">
-    <div class="pcat-h"><h2>AI 互動模板</h2><p>Flai・Frontia・ASHBONE 模板客製化，皆含圖片製作。</p></div>
-    <ul class="plist"><li><span class="pi-n">Flai 單倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$50</b></li><li><span class="pi-n">Flai 雙倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$100</b></li><li><span class="pi-n">Flai 四倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$400</b></li><li><span class="pi-n">Flai 八倍模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$1,000</b></li><li><span class="pi-n">Frontia 單一模板</span><span class="pi-t">一個月內</span><b class="pi-p">NT$1,500</b></li><li><span class="pi-n">ASHBONE 單一模板</span><span class="pi-t">兩週內</span><b class="pi-p">NT$50</b></li></ul>
-    <ul class="pnote"><li>Flai：含圖片，可協助上架或打包傳送文件。</li><li>Frontia：含多張圖片，可協助帳號代操、模板上架及公開連結設定。</li><li>未指定的部分由花花自行設計安排。</li><li>收到成品後兩週內可免費修改 2 次；超過次數或逾期，每次 NT$50。</li></ul>
+<main class="gz-page">
+  <section class="wrap gz-hero reveal">
+    <h1>AI模板<br><em>客製方案</em></h1>
+    <p class="gz-sub">Flai・Frontia・ASHBONE 模板客製化，皆含圖片製作。<br>告訴我世界觀和玩法，我幫你做成可以直接上架的模板。</p>
   </section>
-  <section class="seo-faq" aria-label="常見問題"><h2>AI 互動模板客製 常見問題</h2><details><summary>AI 互動模板客製找誰？</summary><p>可以找花花 Jasmine（月月），FLAI 模板累積 12.5 萬+ 讚賞、Ashbone 角色 500 萬+ 對話、Frontia 作品 81 萬+ 遊玩。</p></details><details><summary>可以做哪些平台？</summary><p>Flai（單倍、雙倍、四倍、八倍模板）、Frontia 與 ASHBONE 單一模板，皆含圖片製作。</p></details><details><summary>要提供什麼資料？</summary><p>請提供世界觀、角色設定、玩法方向與參考作品，確認後報價。</p></details></section>
-  <div class="info-cta" style="margin-top:22px"><a href="https://line.me/R/ti/p/@446prsjv" target="_blank" rel="noopener" class="btn btn-dark">加 LINE 詢問報價 <span class="arr">→</span></a><a href="contact.html" class="btn btn-ghost">看委託流程與須知</a></div>
+
+  <section class="wrap gz-sec cz-sec">
+    <div class="cz-box reveal">
+      <ul class="cz-list">
+        <li><span class="cz-n">Flai 單倍模板</span><span class="cz-t">兩週內</span><b class="cz-p">NT$50</b></li>
+        <li><span class="cz-n">Flai 雙倍模板</span><span class="cz-t">兩週內</span><b class="cz-p">NT$100</b></li>
+        <li><span class="cz-n">Flai 四倍模板</span><span class="cz-t">兩週內</span><b class="cz-p">NT$400</b></li>
+        <li><span class="cz-n">Flai 八倍模板</span><span class="cz-t">兩週內</span><b class="cz-p">NT$1,000</b></li>
+        <li><span class="cz-n">Frontia 單一模板</span><span class="cz-t">一個月內</span><b class="cz-p">NT$1,500</b></li>
+        <li><span class="cz-n">ASHBONE 單一模板</span><span class="cz-t">兩週內</span><b class="cz-p">NT$50</b></li>
+      </ul>
+      <ul class="cz-note">
+        <li>Flai：含圖片，可協助上架或打包傳送文件。</li>
+        <li>Frontia：含多張圖片，可協助帳號代操、模板上架及公開連結設定。</li>
+        <li>未指定的部分由花花自行設計安排。</li>
+        <li>收到成品後兩週內可免費修改 2 次；超過次數或逾期，每次 NT$50。</li>
+      </ul>
+    </div>
+
+    <div class="cz-faq reveal">
+      <h2>常見問題</h2>
+      <details><summary>AI 互動模板客製找誰？</summary><p>可以找花花 Jasmine（月月），FLAI 模板累積 12.5 萬+ 讚賞、Ashbone 角色 500 萬+ 對話、Frontia 作品 81 萬+ 遊玩。</p></details>
+      <details><summary>可以做哪些平台？</summary><p>Flai（單倍、雙倍、四倍、八倍模板）、Frontia 與 ASHBONE 單一模板，皆含圖片製作。</p></details>
+      <details><summary>要提供什麼資料？</summary><p>請提供世界觀、角色設定、玩法方向與參考作品，確認後報價。</p></details>
+      <details><summary>怎麼付款、什麼時候開始做？</summary><p>可用銀行轉帳或 LINE Pay，確認需求後一次付清全額，收到款項後才開始製作，開工後恕不退款。</p></details>
+    </div>
+  </section>
+
+  <section class="wrap gz-cta reveal">
+    <div><b>想做一個自己的模板？</b><span>加 LINE 說說你的世界觀、角色和預算，我回覆能不能接和報價。</span></div>
+    <a href="https://line.me/R/ti/p/@446prsjv" target="_blank" rel="noopener">加 LINE 詢問報價 →</a>
+  </section>
 </main>
+<script>document.querySelectorAll('[data-mz-open]').forEach(function(b){b.addEventListener('click',function(){if(window.jasmineMembers)window.jasmineMembers.open(b.getAttribute('data-mz-open'))})});</script>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div><p class="footer-email" style="width:100%;text-align:center;margin:20px 0 0;font-size:14px"><a href="mailto:kingking82532@gmail.com" style="color:inherit;text-decoration:underline;text-underline-offset:4px">聯絡信箱：kingking82532@gmail.com</a></p></footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();
-(function(){var els=document.querySelectorAll('.reveal');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.05});els.forEach(function(e){io.observe(e)})})();</script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));</script>
 <script>
 (function(){var ds=document.querySelectorAll('.nav-dd');ds.forEach(function(d){var b=d.querySelector('.nav-dd-btn');
 function set(o){d.classList.toggle('open',o);b.setAttribute('aria-expanded',o)}
