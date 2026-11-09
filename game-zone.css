@@ -52,3 +52,14 @@
 @media(max-width:860px){.gz-game .member-nav{margin-left:4px;padding-left:5px;gap:2px}.gz-game .member-nav button{font-size:11.5px!important;padding:6px 8px!important}.gz-game .nav-dd-btn{font-size:11.5px!important;padding:7px 6px!important}}
 @media(max-width:380px){.gz-game .member-nav button{font-size:10.5px!important;padding:5px 6px!important}.gz-game .nav-dd-btn{font-size:10.5px!important;padding:6px 4px!important}}
 @media(max-width:860px){.gz-game .member-nav{border-left:0!important;margin-left:0!important;padding-left:0!important;gap:6px}}
+/* 遊戲區按鈕下面加 AI模板專區按鈕 */
+.gz-top>.gz-btns{flex:none;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:13px}
+.gz-btns .game-btn{margin:0}
+.ai-btn{background:linear-gradient(110deg,#3aa8c9,#7a8cff,#5cc8a8,#3aa8c9);background-size:300% 100%;box-shadow:0 6px 18px rgba(90,140,255,.35),inset 0 1px 0 rgba(255,255,255,.45)}
+.ai-btn::before{border-color:rgba(90,160,255,.6)}
+.ai-btn:hover,.ai-btn:focus-visible{box-shadow:0 10px 26px rgba(90,140,255,.5),inset 0 1px 0 rgba(255,255,255,.5)}
+.ai-btn.on{box-shadow:0 0 0 3px #fff,0 0 0 5px #3aa8c9,0 8px 22px rgba(90,140,255,.45)}
+@media(max-width:860px){.gz-top>.gz-btns{margin-top:0;gap:6px}
+.gz-top>.gz-btns>.game-btn{flex-direction:column;justify-content:center;gap:2px;width:62px;min-height:62px;padding:8px 4px;border-radius:20px;font-size:11px;letter-spacing:0;line-height:1.2;text-align:center}
+.gz-top>.gz-btns>.game-btn svg{width:24px;height:24px}.gz-top>.gz-btns>.game-btn .gz-br{display:inline}}
+@media(max-width:380px){.gz-top>.gz-btns>.game-btn{width:56px;min-height:56px;font-size:10.5px}}
