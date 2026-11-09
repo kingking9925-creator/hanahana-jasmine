@@ -72,6 +72,34 @@
   window.addEventListener('storage', function (e) { if (e.key === KEY) apply(pref()); });
 })();
 
+/* ---------- 白天／黑夜切換按鈕（每頁最上面的選單列） ---------- */
+(function () {
+  'use strict';
+  var SUN = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="#ffb347"/><g stroke="#ffb347" stroke-width="2" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g></svg>';
+  var MOON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="#c9b3ff"/><circle cx="17" cy="5" r="1" fill="#ffe08a"/><circle cx="20" cy="9" r=".7" fill="#ffe08a"/></svg>';
+  var css = document.createElement('style');
+  css.textContent = '.theme-btn{display:inline-grid;place-items:center;flex:none;width:34px;height:34px;margin-left:6px;padding:0;border-radius:50%;border:1px solid rgba(194,124,255,.35);background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(156,72,113,.15);cursor:pointer;transition:transform .2s;vertical-align:middle}' +
+    '.theme-btn:hover{transform:rotate(-15deg) scale(1.08)}.theme-btn svg{width:19px;height:19px}' +
+    '.theme-btn.float{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:9991;margin:0}.theme-btn.float:hover{transform:translateX(-50%) scale(1.08)}' +
+    'html[data-theme=dark] .theme-btn{background:rgba(40,32,52,.92);border-color:rgba(255,255,255,.18);box-shadow:0 2px 10px rgba(0,0,0,.4)}' +
+    '@media(max-width:600px){.theme-btn{width:30px;height:30px;margin-left:4px}.theme-btn svg{width:17px;height:17px}}';
+  (document.head || document.documentElement).appendChild(css);
+  function mount() {
+    if (document.querySelector('.theme-btn') || !window.jasmineTheme) return;
+    if (document.getElementById('cv')) return; // 遊戲畫面本身有自己的介面，不放
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'theme-btn'; b.setAttribute('data-theme-keep', '');
+    function paint() { var d = window.jasmineTheme.isDark(); b.innerHTML = d ? SUN : MOON; b.title = d ? '切換成白天模式' : '切換成黑夜模式'; b.setAttribute('aria-label', b.title); }
+    b.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); window.jasmineTheme.set(window.jasmineTheme.isDark() ? 'light' : 'dark'); paint(); });
+    document.addEventListener('jasmine-theme', paint);
+    window.addEventListener('storage', paint);
+    paint();
+    var nav = document.querySelector('.nav-links');
+    if (nav) nav.appendChild(b); else { b.classList.add('float'); document.body.appendChild(b); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();
+})();
+
 /* ---------- 花花游標（電腦版）＋ 治癒輕音樂 BGM ---------- */
 (function () {
   'use strict';
