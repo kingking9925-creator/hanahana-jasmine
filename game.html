@@ -520,6 +520,7 @@ footer{border-color:rgba(15,31,69,.12)}
 <script src="members.js" defer></script>
 <link rel="stylesheet" href="game-zone.css">
 <style>.nav-links a.nav-cta,.nav-links a.nav-cta:hover{background:linear-gradient(110deg,#ff7aa2,#c27cff)!important;color:#fff!important;font-weight:700;box-shadow:0 8px 20px rgba(194,124,255,.3)}</style>
+<style>.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.az-hero{display:block;width:min(1200px,calc(100vw - 32px));max-width:none;height:auto;margin:60px 0 28px 50%;transform:translateX(-50%);border-radius:24px;box-shadow:0 18px 44px rgba(156,72,113,.18)}</style>
 </head>
 <body>
 
@@ -546,9 +547,8 @@ footer{border-color:rgba(15,31,69,.12)}
 </nav></div>
 <main class="gz-page">
   <section class="wrap gz-hero reveal">
-    <div class="gz-ey"><span>🎮</span> Game Zone · 花花遊戲區</div>
-    <h1>歡迎來到<br><em>花花遊戲區</em></h1>
-    <p class="gz-sub">我是月月，這裡放的是我親手做的遊戲。<br>試玩版免費玩，完整版在 👑 會員專區。</p>
+    <h1 class="sr-only">歡迎來到花花遊戲區</h1>
+    <img class="az-hero" src="img/game-zone-hero.webp" width="1600" height="700" alt="歡迎來到花花遊戲區">
     <div class="gz-jump"><a href="#trial" class="pri">搶先試玩新作 ↓</a></div>
   </section>
 
