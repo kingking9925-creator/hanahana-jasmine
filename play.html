@@ -531,6 +531,7 @@ footer{border-color:rgba(15,31,69,.12)}
 @media(max-width:860px){.lb-grid{grid-template-columns:1fr}.lb-card.soon{flex-direction:row}.lb-card.soon .lb-art{width:110px;height:auto;flex:none}.lb-card.soon .lb-hero{bottom:auto;top:50%;transform:translate(-50%,-50%)}}
 @media(prefers-reduced-motion:reduce){.lb-hero{animation:none}}
 </style>
+<style>.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}</style>
 </head>
 <body>
 
@@ -558,8 +559,7 @@ footer{border-color:rgba(15,31,69,.12)}
 <main class="gz-page gz-soon">
   <section class="wrap gz-hero reveal mz-gate mz-state-loading">
     <div class="pl-cover" aria-hidden="true"><img src="img/hr-cover.jpg" alt="" width="1200" height="800"><span class="pl-cap">NOW PLAYING ・ 花之境界 Online</span></div>
-    <span class="mz-badge">👑 會員專區</span>
-    <h1><em style="background-image:linear-gradient(110deg,#ff7aa2,#c27cff,#ff7aa2)">花花遊戲區</em></h1>
+    <h1 class="sr-only">花花遊戲區</h1>
     <p class="mz-load">正在確認會員狀態…</p>
     <div class="mz-lock">
       <div class="mz-lockicon" aria-hidden="true">🔒</div>
@@ -568,7 +568,6 @@ footer{border-color:rgba(15,31,69,.12)}
       <a class="mz-free" href="ai-templates.html">先去免費玩 AI 互動模板 →</a>
     </div>
     <div class="mz-open">
-      <p class="gz-sub" style="margin-top:14px">歡迎回來！選一款遊戲開始玩吧 ✿</p>
       <div class="lb-grid">
         <a class="lb-card hot" href="hana-realm.html">
           <div class="lb-art lb-cover"><img src="img/hr-cover.jpg" alt="花之境界 Online 主視覺" loading="lazy" width="1200" height="800"><span class="lb-logo">花之境界<small>ONLINE</small></span><span class="lb-badge">v0.3 試玩中</span></div>
