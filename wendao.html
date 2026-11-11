@@ -36,6 +36,7 @@ button:disabled{cursor:not-allowed;opacity:.45}
 
 /* 開局 */
 .start{max-width:560px;margin:6vh auto 0;display:grid;gap:20px}
+.cover{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:4px;display:block}
 .start h1{font-size:clamp(40px,8vw,64px);letter-spacing:.08em}
 .start p{margin:0;color:var(--ink-2);max-width:32em}
 .field{display:grid;gap:6px}
@@ -79,9 +80,11 @@ input[type=text]{flex:1;min-width:0;font:inherit;font-size:20px;padding:8px 12px
 @media (max-width:520px){.acts{grid-template-columns:minmax(0,1fr)}}
 .act{background:var(--paper-2);border:1px solid var(--line);border-radius:6px;padding:12px 14px;text-align:left;display:grid;gap:2px}
 .act:hover:not(:disabled){border-color:var(--jade)}
+.act{grid-template-columns:52px minmax(0,1fr);align-items:center;column-gap:10px}
+.act img{width:52px;height:52px;grid-row:span 2}
 .act b{font-size:18px}
 .act small{font-size:13px;color:var(--ink-2)}
-.break{margin-top:10px;width:100%;background:var(--cinnabar);color:var(--on-seal);border:none;border-radius:6px;padding:14px;font-size:19px;font-weight:700;font-family:var(--f-title)}
+.break{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;width:100%;background:var(--cinnabar);color:var(--on-seal);border:none;border-radius:6px;padding:14px;font-size:19px;font-weight:700;font-family:var(--f-title)}
 .neck{margin:10px 0 0;color:var(--cinnabar);font-size:15px}
 
 .event{border:1px solid var(--jade);background:var(--jade-soft);border-radius:2px;padding:16px 18px;display:grid;gap:10px}
@@ -92,7 +95,8 @@ input[type=text]{flex:1;min-width:0;font:inherit;font-size:20px;padding:8px 12px
 .choices button:first-child{background:var(--jade);color:var(--paper)}
 
 .shop{display:grid;gap:8px}
-.item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.item img{width:44px;height:44px}
+.item{display:grid;grid-template-columns:44px minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
 .item div{min-width:0}
 .item b{font-size:17px}
 .item small{display:block;color:var(--ink-2);font-size:13px}
@@ -128,7 +132,7 @@ input[type=text]{flex:1;min-width:0;font:inherit;font-size:20px;padding:8px 12px
 <script src="members.js" defer></script>
 </head>
 <body data-theme-keep>
-<div class="wrap" id="app"><div class="gate gate-wait"><h1>問道長生</h1><p>正在確認會員狀態…</p></div></div>
+<div class="wrap" id="app"><div class="gate gate-wait"><img class="cover" src="img/wendao/cover.jpg" alt="" width="1200" height="800"><h1>問道長生</h1><p>正在確認會員狀態…</p></div></div>
 <script>
 const $=s=>document.querySelector(s);
 const rnd=(a,b)=>a+Math.random()*(b-a);
@@ -327,6 +331,7 @@ function render(){
   const app=$('#app');
   if(!S){
     app.innerHTML=`<div class="start">
+      <img class="cover" src="img/wendao/cover.jpg" alt="修士盤坐於雲海懸崖之上" width="1200" height="800">
       <h1>問道長生</h1>
       <p>凡人壽不過百。測一測靈根，從煉氣一層開始，打坐、歷練、閉關、衝關，在壽元耗盡之前渡過天劫，飛昇仙界。</p>
       <div class="field"><label for="nm">道號</label>
@@ -365,16 +370,16 @@ function render(){
     ${ev?`<div class="event"><h3>${ev.title}</h3><p>${ev.text}</p><div class="choices">${ev.choices.map((c,i)=>`<button data-c="${i}">${c}</button>`).join('')}</div></div>`:''}
     ${S.over?'':`<div><div class="sec-title">行事</div>
       <div class="acts">
-        <button class="act" id="a1" ${busy?'disabled':''}><b>打坐</b><small>一季・穩定增長、療傷</small></button>
-        <button class="act" id="a2" ${busy?'disabled':''}><b>外出歷練</b><small>兩月・奇遇與兇險並存</small></button>
-        <button class="act" id="a3" ${busy?'disabled':''}><b>閉關</b><small>三年・收穫大，心境低易入魔</small></button>
+        <button class="act" id="a1" ${busy?'disabled':''}><img src="img/wendao/sit.webp" alt=""><b>打坐</b><small>一季・穩定增長、療傷</small></button>
+        <button class="act" id="a2" ${busy?'disabled':''}><img src="img/wendao/explore.webp" alt=""><b>外出歷練</b><small>兩月・奇遇與兇險並存</small></button>
+        <button class="act" id="a3" ${busy?'disabled':''}><img src="img/wendao/retreat.webp" alt=""><b>閉關</b><small>三年・收穫大，心境低易入魔</small></button>
       </div>
-      ${atNeck()?`<button class="break" id="bk" ${busy?'disabled':''}>${S.realm===5?'迎接飛昇天劫':'衝擊'+R().next+'期'}（成功率 ${Math.round(chance()*100)}%）</button>
+      ${atNeck()?`<button class="break" id="bk" ${busy?'disabled':''}><img src="img/wendao/break.webp" alt="" width="44" height="44">${S.realm===5?'迎接飛昇天劫':'衝擊'+R().next+'期'}（成功率 ${Math.round(chance()*100)}%）</button>
         <p class="neck">已至${stageName()}瓶頸。${S.brk?`持有${R().pill} ${S.brk} 枚，將自動服用。`:`坊市的${R().pill}可提高成功率，心境越高也越穩。`}</p>`:''}
     </div>
     <div><div class="sec-title">坊市</div><div class="shop">
       ${SHOP.map(it=>{const name=it.n||R().pill,own=it.k==='brk'?S.brk:S.inv[it.k],cost=it.c*p;
-        return `<div class="item"><div><b>${name}<span class="own">持有 ${own}</span></b><small>${it.d}</small></div>
+        return `<div class="item"><img src="img/wendao/${it.k}.webp" alt=""><div><b>${name}<span class="own">持有 ${own}</span></b><small>${it.d}</small></div>
           <button class="mini buy num" data-buy="${it.k}" ${S.stones<cost?'disabled':''}>${fmt(cost)} 靈石</button>
           ${it.k==='brk'?'<span></span>':`<button class="mini" data-use="${it.k}" ${own&&!busy?'':'disabled'}>服用</button>`}</div>`}).join('')}
     </div></div>`}
@@ -401,7 +406,7 @@ function render(){
 /* ---------- 會員檢查 ---------- */
 (function(){
   const app=$('#app');let opened=false;
-  function locked(){if(opened)return;app.innerHTML=`<div class="gate"><h1>問道長生</h1><p>這是會員專屬遊戲，登入會員就能開始修仙。還不是會員？免費註冊一下吧。</p>
+  function locked(){if(opened)return;app.innerHTML=`<div class="gate"><img class="cover" src="img/wendao/cover.jpg" alt="" width="1200" height="800"><h1>問道長生</h1><p>這是會員專屬遊戲，登入會員就能開始修仙。還不是會員？免費註冊一下吧。</p>
     <div class="row"><button class="primary" data-mz-open="login">登入</button><button class="ghost" data-mz-open="register">註冊會員</button></div>
     <a class="back" href="play.html">← 回到花花遊戲區</a></div>`;
     app.querySelectorAll('[data-mz-open]').forEach(b=>b.onclick=()=>window.jasmineMembers&&window.jasmineMembers.open(b.dataset.mzOpen));}

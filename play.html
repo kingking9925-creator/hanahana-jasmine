@@ -529,7 +529,8 @@ footer{border-color:rgba(15,31,69,.12)}
 @media(prefers-reduced-motion:reduce){.pl-cover img{animation:none}}
 .lb-wd{background:linear-gradient(165deg,#1f3a30,#2c6a55 55%,#c9ddd1)}
 .wd-seal{position:absolute;right:22px;bottom:20px;width:54px;height:54px;display:grid;place-items:center;background:#b0382a;color:#f6efe6;font-family:"Noto Serif TC",serif;font-weight:900;font-size:30px;border-radius:5px;transform:rotate(-6deg)}
-.lb-wd .lb-logo{text-shadow:0 2px 0 #12382c}
+.lb-wd .lb-logo{text-shadow:0 2px 0 #12382c,0 0 14px rgba(20,60,45,.8)}
+.lb-wd .wd-seal{z-index:2}
 .lb-play.off{background:#f3edf2;color:#a08a98;box-shadow:none;font-weight:700}
 @media(max-width:860px){.lb-grid{grid-template-columns:1fr}.lb-card.soon{flex-direction:row}.lb-card.soon .lb-art{width:110px;height:auto;flex:none}.lb-card.soon .lb-hero{bottom:auto;top:50%;transform:translate(-50%,-50%)}}
 @media(prefers-reduced-motion:reduce){.lb-hero{animation:none}}
@@ -584,7 +585,7 @@ footer{border-color:rgba(15,31,69,.12)}
         </a>
         <a class="lb-guide" href="hana-realm-guide.html">📖 遊戲介紹與攻略 →</a>
         <a class="lb-card hot" href="wendao.html">
-          <div class="lb-art lb-wd"><span class="wd-seal">問</span><span class="lb-logo">問道長生<small>文字修仙</small></span><span class="lb-badge">NEW 新上架</span></div>
+          <div class="lb-art lb-cover lb-wd"><img src="img/wendao/cover.jpg" alt="問道長生主視覺" loading="lazy" width="1200" height="800" style="object-position:50% 40%"><span class="wd-seal">問</span><span class="lb-logo">問道長生<small>文字修仙</small></span><span class="lb-badge">NEW 新上架</span></div>
           <div class="lb-bd">
             <h3>問道長生</h3>
             <p class="lb-en">TEXT CULTIVATION</p>
