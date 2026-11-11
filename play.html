@@ -527,6 +527,9 @@ footer{border-color:rgba(15,31,69,.12)}
 .pl-cap{position:absolute;z-index:1;left:0;right:0;bottom:16px;text-align:center;font-family:"Noto Serif TC",serif;font-weight:900;letter-spacing:.18em;font-size:clamp(13px,1.8vw,17px);color:#fff6fb;text-shadow:0 2px 0 #7a3478,0 0 12px rgba(255,200,230,.9)}
 @keyframes plZoom{to{transform:scale(1.07)}}
 @media(prefers-reduced-motion:reduce){.pl-cover img{animation:none}}
+.lb-wd{background:linear-gradient(165deg,#1f3a30,#2c6a55 55%,#c9ddd1)}
+.wd-seal{position:absolute;right:22px;bottom:20px;width:54px;height:54px;display:grid;place-items:center;background:#b0382a;color:#f6efe6;font-family:"Noto Serif TC",serif;font-weight:900;font-size:30px;border-radius:5px;transform:rotate(-6deg)}
+.lb-wd .lb-logo{text-shadow:0 2px 0 #12382c}
 .lb-play.off{background:#f3edf2;color:#a08a98;box-shadow:none;font-weight:700}
 @media(max-width:860px){.lb-grid{grid-template-columns:1fr}.lb-card.soon{flex-direction:row}.lb-card.soon .lb-art{width:110px;height:auto;flex:none}.lb-card.soon .lb-hero{bottom:auto;top:50%;transform:translate(-50%,-50%)}}
 @media(prefers-reduced-motion:reduce){.lb-hero{animation:none}}
@@ -580,7 +583,16 @@ footer{border-color:rgba(15,31,69,.12)}
           </div>
         </a>
         <a class="lb-guide" href="hana-realm-guide.html">📖 遊戲介紹與攻略 →</a>
-        <div class="lb-card soon"><div class="lb-art dim"><span class="lb-hero">🎮</span></div><div class="lb-bd"><h3>新遊戲 #02</h3><p>下一款遊戲的點子正在醞釀中，敬請期待。</p><span class="lb-play off">敬請期待</span></div></div>
+        <a class="lb-card hot" href="wendao.html">
+          <div class="lb-art lb-wd"><span class="wd-seal">問</span><span class="lb-logo">問道長生<small>文字修仙</small></span><span class="lb-badge">NEW 新上架</span></div>
+          <div class="lb-bd">
+            <h3>問道長生</h3>
+            <p class="lb-en">TEXT CULTIVATION</p>
+            <p>文字修仙小遊戲。測靈根、打坐歷練、閉關衝關，在壽元耗盡前從煉氣一路修到渡劫飛昇。</p>
+            <div class="lb-tags"><span>測靈根</span><span>七大境界</span><span>奇遇抉擇</span><span>坊市丹藥</span><span>輪迴轉世</span></div>
+            <span class="lb-play">▶ 開始修仙</span>
+          </div>
+        </a>
         <div class="lb-card soon"><div class="lb-art dim"><span class="lb-hero">🕹️</span></div><div class="lb-bd"><h3>新遊戲 #03</h3><p>更多小遊戲陸續推出。</p><span class="lb-play off">敬請期待</span></div></div>
       </div>
       <a class="gz-back" href="game.html" style="margin-top:28px">← 回到遊戲區首頁</a>

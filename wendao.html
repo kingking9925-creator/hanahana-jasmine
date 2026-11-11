@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<script src="theme.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>問道長生｜花花遊戲區</title>
+<meta name="robots" content="noindex,follow">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Serif+TC:wght@600;900&display=swap">
+<style>
+/* 版面：玉簡式雙欄——左側修士狀態與行動，右側編年紀事；手機單欄 */
+:root{
+  --paper:#e8eee8; --paper-2:#dce5de; --ink:#1c2a24; --ink-2:#4c5e56; --line:#b5c6bc;
+  --jade:#2c6a55; --jade-soft:#c9ddd1; --gold:#94681a; --cinnabar:#b0382a; --on-seal:#f6efe6;
+  --f-title:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --f-body:"LXGW WenKai TC","Kaiti TC","DFKai-SB","Noto Serif TC",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#111a17; --paper-2:#17231e; --ink:#e1eae4; --ink-2:#9bafa5; --line:#2b3c35;
+  --jade:#6dbd9c; --jade-soft:#1d382e; --gold:#d4aa58; --cinnabar:#e2715d; --on-seal:#1a1210; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#111a17; --paper-2:#17231e; --ink:#e1eae4; --ink-2:#9bafa5; --line:#2b3c35;
+  --jade:#6dbd9c; --jade-soft:#1d382e; --gold:#d4aa58; --cinnabar:#e2715d; --on-seal:#1a1210; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-title);font-weight:900;margin:0;text-wrap:balance}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--jade);outline-offset:2px}
+button:disabled{cursor:not-allowed;opacity:.45}
+
+/* 開局 */
+.start{max-width:560px;margin:6vh auto 0;display:grid;gap:20px}
+.start h1{font-size:clamp(40px,8vw,64px);letter-spacing:.08em}
+.start p{margin:0;color:var(--ink-2);max-width:32em}
+.field{display:grid;gap:6px}
+.field label{font-size:13px;color:var(--ink-2);letter-spacing:.1em}
+.field-row{display:flex;gap:8px}
+input[type=text]{flex:1;min-width:0;font:inherit;font-size:20px;padding:8px 12px;background:var(--paper-2);color:var(--ink);border:1px solid var(--line);border-radius:4px}
+.ghost{background:none;border:1px solid var(--line);border-radius:4px;padding:8px 12px;color:var(--ink-2)}
+.primary{background:var(--jade);color:var(--paper);border:none;border-radius:6px;padding:12px 22px;font-size:18px;font-weight:700;justify-self:start}
+.reveal{border-left:3px solid var(--jade);padding:4px 0 4px 16px;display:grid;gap:4px}
+.reveal b{font-family:var(--f-title);font-size:26px;color:var(--jade)}
+.past{font-size:14px;color:var(--ink-2)}
+
+/* 遊戲 */
+.game{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:32px;align-items:start}
+@media (max-width:820px){.game{grid-template-columns:minmax(0,1fr)}}
+.col{display:grid;gap:24px;min-width:0}
+.hero{display:flex;gap:16px;align-items:center}
+.seal{flex:none;width:58px;height:58px;display:grid;place-items:center;background:var(--cinnabar);color:var(--on-seal);
+  font-family:var(--f-title);font-weight:900;font-size:30px;border-radius:5px;transform:rotate(-4deg)}
+.hero h1{font-size:30px;line-height:1.2}
+.hero .sub{color:var(--ink-2);font-size:15px}
+.hero .sub b{color:var(--jade);font-weight:700}
+
+.stats{display:grid;gap:14px}
+.bar-row{display:grid;gap:4px}
+.bar-head{display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2)}
+.bar-head span:last-child{color:var(--ink)}
+.bar{height:8px;background:var(--jade-soft);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--jade);border-radius:4px;transition:width .4s}
+.bar.hp i{background:var(--cinnabar)}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fact{display:grid}
+.fact small{font-size:12px;color:var(--ink-2);letter-spacing:.12em}
+.fact span{font-size:20px;font-family:var(--f-title);font-weight:600}
+.fact .gold{color:var(--gold)}
+.warn{color:var(--cinnabar)!important}
+
+.sec-title{font-size:14px;letter-spacing:.3em;color:var(--ink-2);font-family:var(--f-title);font-weight:600;margin-bottom:10px}
+.acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:520px){.acts{grid-template-columns:minmax(0,1fr)}}
+.act{background:var(--paper-2);border:1px solid var(--line);border-radius:6px;padding:12px 14px;text-align:left;display:grid;gap:2px}
+.act:hover:not(:disabled){border-color:var(--jade)}
+.act b{font-size:18px}
+.act small{font-size:13px;color:var(--ink-2)}
+.break{margin-top:10px;width:100%;background:var(--cinnabar);color:var(--on-seal);border:none;border-radius:6px;padding:14px;font-size:19px;font-weight:700;font-family:var(--f-title)}
+.neck{margin:10px 0 0;color:var(--cinnabar);font-size:15px}
+
+.event{border:1px solid var(--jade);background:var(--jade-soft);border-radius:2px;padding:16px 18px;display:grid;gap:10px}
+.event h3{font-size:20px}
+.event p{margin:0;max-width:34em}
+.choices{display:flex;gap:10px;flex-wrap:wrap}
+.choices button{background:var(--paper);border:1px solid var(--jade);border-radius:6px;padding:8px 16px}
+.choices button:first-child{background:var(--jade);color:var(--paper)}
+
+.shop{display:grid;gap:8px}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.item div{min-width:0}
+.item b{font-size:17px}
+.item small{display:block;color:var(--ink-2);font-size:13px}
+.item .own{font-size:13px;color:var(--ink-2);margin-left:6px;font-weight:400}
+.mini{background:none;border:1px solid var(--line);border-radius:4px;padding:4px 10px;font-size:14px;white-space:nowrap}
+.mini.buy{border-color:var(--gold);color:var(--gold)}
+
+.chron{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid;gap:12px;min-width:0}
+@media (max-width:820px){.chron{position:static}}
+.log{max-height:70vh;overflow-y:auto;display:grid;gap:12px;padding-right:4px}
+@media (max-width:820px){.log{max-height:50vh}}
+.entry{display:grid;gap:2px;font-size:15px;max-width:34em}
+.entry time{font-size:12px;color:var(--ink-2);letter-spacing:.08em}
+.entry.good p{color:var(--jade)}
+.entry.bad p{color:var(--cinnabar)}
+.entry.big p{font-family:var(--f-title);font-weight:900;font-size:18px;color:var(--ink)}
+.entry p{margin:0}
+.foot{display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}
+
+.over{border-top:3px solid var(--cinnabar);padding-top:16px;display:grid;gap:10px}
+.over.win{border-color:var(--gold)}
+.over h2{font-size:32px}
+.over p{margin:0;max-width:34em}
+.records{font-size:14px;color:var(--ink-2);display:grid;gap:4px;margin:0;padding:0;list-style:none}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+
+.gate{max-width:520px;margin:12vh auto 0;display:grid;gap:16px}
+.gate h1{font-size:clamp(36px,7vw,56px);letter-spacing:.08em}
+.gate p{margin:0;color:var(--ink-2)}
+.gate .row{display:flex;gap:10px;flex-wrap:wrap}
+.back{color:var(--ink-2);font-size:14px}
+</style>
+<script src="members.js" defer></script>
+</head>
+<body data-theme-keep>
+<div class="wrap" id="app"><div class="gate gate-wait"><h1>問道長生</h1><p>正在確認會員狀態…</p></div></div>
+<script>
+const $=s=>document.querySelector(s);
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const ri=(a,b)=>Math.floor(rnd(a,b+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const fmt=n=>Math.floor(n).toLocaleString('zh-TW');
+const CN='零一二三四五六七八九';
+const STEM='甲乙丙丁戊己庚辛壬癸', BRANCH='子丑寅卯辰巳午未申酉戌亥', SEASON='春夏秋冬';
+
+const REALMS=[
+ {n:'煉氣',stages:9,base:30,gain:6,life:90,hp:100,pill:'築基丹',chance:.35,p:1,next:'築基',msg:'丹田靈氣由霧化液，凝成一池真元。你築基成功了！'},
+ {n:'築基',stages:4,base:300,gain:30,life:180,hp:300,pill:'凝金丹',chance:.28,p:4,next:'金丹',msg:'真元不斷壓縮，終於凝成一枚滾圓金丹。金丹大道，自此可期。'},
+ {n:'金丹',stages:4,base:2000,gain:140,life:400,hp:900,pill:'化嬰丹',chance:.22,p:15,next:'元嬰',msg:'金丹裂開，一個寸許小人盤坐其中，睜開雙眼。元嬰已成！'},
+ {n:'元嬰',stages:4,base:12000,gain:600,life:800,hp:2500,pill:'通神丹',chance:.18,p:60,next:'化神',msg:'元嬰與天地氣機相合，神識一念遍及千里。你踏入化神之境。'},
+ {n:'化神',stages:4,base:60000,gain:2400,life:1500,hp:7000,pill:'渡厄丹',chance:.15,p:240,next:'渡劫',msg:'你觸到了天道的邊緣，頭頂開始聚起劫雲。渡劫期，到了。'},
+ {n:'渡劫',stages:4,base:300000,gain:9000,life:3000,hp:20000,pill:'避雷符',chance:.12,p:1000,next:'飛昇',msg:''}
+];
+const ROOTS=[
+ {n:'天靈根',m:2.0,w:5,d:'單一屬性，純粹無雜。百年難遇，修煉一日千里。'},
+ {n:'雙靈根',m:1.4,w:20,d:'兩系靈根，資質上乘，宗門爭相收錄。'},
+ {n:'三靈根',m:1.0,w:45,d:'三系並存，資質平平，勤能補拙。'},
+ {n:'偽靈根',m:0.6,w:30,d:'五行駁雜，靈氣難聚。仙路漫漫，唯有苦修。'}
+];
+const ELEM='金木水火土';
+const SUR='韓林葉蕭陸沈顧秦白蘇厲墨', GIV=['立','凡','長生','青玄','無涯','清霜','夜','驚鴻','問道','不語','知秋','玄機'];
+const HERBS=['凝露草','赤陽花','紫靈芝','千年雪蓮','龍血藤','玄冰果'];
+const BEASTS=[['赤目野狼','鐵背蒼熊','花斑毒蟒'],['三尾妖狐','金睛雕','黑風豹'],['碧鱗蛟','火雲獅','噬魂蝠王'],['九首蛇妖','吞天蟾','雷翼鵬'],['上古兇獸殘魂','魔淵血蛟'],['域外天魔','混沌兇獸']];
+const ARTS=['《青元劍訣》','《長春功》','《太虛煉氣篇》','《九轉玄功》','《大衍訣》','《紫霄雷法》'];
+
+/* ---------- 存檔 ---------- */
+let S=null, REC=[];
+function load(){try{S=JSON.parse(localStorage.getItem('xx_state'))||null;REC=JSON.parse(localStorage.getItem('xx_rec'))||[]}catch(e){S=null;REC=[]}}
+function save(){try{localStorage.setItem('xx_state',JSON.stringify(S));localStorage.setItem('xx_rec',JSON.stringify(REC))}catch(e){}}
+
+/* ---------- 推導數值 ---------- */
+const R=()=>REALMS[S.realm];
+const need=()=>R().base*(1+.35*S.stage);
+const maxHp=()=>R().hp*(1+.15*S.stage);
+const isLast=()=>S.stage===R().stages-1;
+const atNeck=()=>isLast()&&S.exp>=need();
+const lifeY=()=>R().life;
+const ageY=()=>Math.floor(S.age/12);
+const mult=()=>S.root.m*S.tech*(S.mind<30?.8:1)*(1+Math.min(.3,.03*S.lives));
+function stageName(){return S.realm===0?'煉氣'+CN[S.stage+1]+'層':R().n+['初期','中期','後期','圓滿'][S.stage]}
+function when(){const y=(S.y0+Math.floor(S.t/12))%60;return STEM[y%10]+BRANCH[y%12]+'年 '+SEASON[Math.floor(S.t%12/3)]}
+function chance(){return clamp(R().chance+(S.mind-50)/250+(S.brk>0?.25:0),.03,.95)}
+
+/* ---------- 基本操作 ---------- */
+function log(text,kind=''){S.log.unshift({t:when(),text,kind});S.log.length=Math.min(S.log.length,120)}
+function addExp(x){
+  S.exp+=x;
+  while(S.exp>=need()&&!isLast()){S.exp-=need();S.stage++;S.hp=Math.min(maxHp(),S.hp+maxHp()*.2);log(`水到渠成，你晉入${stageName()}。`,'good')}
+  if(isLast())S.exp=Math.min(S.exp,need());
+}
+function heal(x){S.hp=Math.min(maxHp(),S.hp+x)}
+function mind(x){S.mind=clamp(S.mind+x,0,100)}
+function hurt(x,msg){S.hp-=x;log(msg,'bad');if(S.hp<=0){S.hp=0;die('身死道消','你傷勢過重，一身修為散入天地。')}}
+function pass(m){
+  S.t+=m;S.age+=m;
+  if(!S.over&&ageY()>=lifeY())die('壽元耗盡',`${R().n}修士壽元 ${lifeY()} 載，你終究沒能再進一步，坐化於洞府之中。`);
+}
+function die(title,text){
+  if(S.over)return;
+  S.over={title,text,win:false};S.event=null;
+  log(text,'bad');record(title);
+}
+function record(end){REC.unshift({name:S.name,root:S.rootLabel,realm:stageName(),age:ageY(),end});REC.length=Math.min(REC.length,12)}
+function done(){save();render()}
+
+/* ---------- 行動 ---------- */
+function cultivate(){
+  if(atNeck()){heal(maxHp()*.25);mind(2);log('修為已至瓶頸，再怎麼吐納也難寸進。倒是傷勢好了不少。')}
+  else{const g=R().gain*3*mult()*rnd(.85,1.15);addExp(g);heal(maxHp()*.15);mind(1);log(`你盤膝吐納一季，修為 +${fmt(g)}。`)}
+  pass(3);done();
+}
+function retreat(){
+  const risk=.05+(S.mind<40?.1:0);
+  let g=R().gain*36*mult()*1.1*rnd(.9,1.1);
+  pass(36);if(S.over)return done();
+  if(Math.random()<risk){
+    g*=.3;addExp(g);mind(-15);
+    hurt(maxHp()*.5,`閉關第二年，心魔趁虛而入，你走火入魔，氣血大損。三年只得修為 +${fmt(g)}。`);
+  }else{
+    addExp(g);S.hp=maxHp();mind(3);log(`閉關三載，出關時山外草木已枯榮三回。修為 +${fmt(g)}。`,'good');
+  }
+  done();
+}
+function explore(){
+  pass(2);if(S.over)return done();
+  const pool=[['herb',3],['monster',3],['cave',1.5],['beggar',1.5],['insight',.8],['robber',1.2],['calm',2],['elder',.6]];
+  let r=Math.random()*pool.reduce((a,b)=>a+b[1],0),type='calm';
+  for(const [k,w] of pool){if((r-=w)<0){type=k;break}}
+  const p=R().p,g=R().gain*mult();
+  if(type==='herb'){const h=pick(HERBS),s=ri(6,16)*p;S.stones+=s;log(`你在崖縫裡採到一株${h}，賣給藥鋪得靈石 ${fmt(s)}。`,'good')}
+  else if(type==='insight'){const x=g*30;addExp(x);mind(5);log(`觀瀑布三日，你忽有所悟。修為 +${fmt(x)}。`,'good')}
+  else if(type==='calm'){addExp(g*2);mind(4);log('一路山青水秀，並無奇遇，心境倒是平和了些。')}
+  else if(type==='elder'){
+    mind(5);
+    if(Math.random()<.5){S.brk++;log(`溪邊垂釣的白髮老者與你閒談半日，臨別拋來一隻玉瓶，裡面是一枚${R().pill}。`,'good')}
+    else{S.inv.heal+=2;log('溪邊垂釣的白髮老者與你閒談半日，臨別送你兩枚回春丹。','good')}
+  }
+  else if(type==='monster'){const tier=BEASTS[S.realm];S.event={type,name:pick(tier),diff:rnd(.6,1.5)}}
+  else S.event={type};
+  done();
+}
+function fight(diff,name){
+  const p=R().p,g=R().gain*mult();
+  if(Math.random()<clamp(.85-(diff-.6)*.55,.15,.9)){
+    const s=Math.floor(ri(10,30)*p*diff),x=g*6*diff;S.stones+=s;addExp(x);
+    log(`一番苦戰，你斬殺${name}，得靈石 ${fmt(s)}，修為 +${fmt(x)}。`,'good');
+  }else{const d=maxHp()*rnd(.25,.45)*diff;hurt(d,`你不敵${name}，負傷逃離。氣血 -${fmt(d)}。`)}
+}
+const EV={
+  monster:{show:d=>({title:'遭遇妖獸',text:`林間腥風驟起，一頭${d.name}攔住去路。看那氣息，${d.diff<.85?'牠比你弱上一截':d.diff<1.15?'與你旗鼓相當':'遠比你凶悍'}。`,choices:['迎戰','遁走']}),
+    go:(d,c)=>{if(c===0)fight(d.diff,d.name);else if(Math.random()<.7)log('你施展身法，有驚無險地脫身。');else hurt(maxHp()*.15,`遁走時被${d.name}追上，背上挨了一爪。`)}},
+  cave:{show:()=>({title:'前人洞府',text:'山壁藤蔓後隱約透出禁制的微光，像是某位前輩留下的洞府。',choices:['入內探查','不冒此險']}),
+    go:(d,c)=>{
+      if(c===1)return log('你按下好奇心，轉身離去。');
+      const r=Math.random();
+      if(r<.4){const a=pick(ARTS);S.tech+=.15;log(`石台上留有一枚玉簡，你習得${a}，修煉效率提升 15%。`,'big')}
+      else if(r<.7){const s=ri(30,60)*R().p;S.stones+=s;log(`洞府主人早已坐化，留下靈石 ${fmt(s)}。`,'good')}
+      else hurt(maxHp()*.35,'你觸動了殘存的禁制，被劍氣所傷。');
+    }},
+  beggar:{show:()=>{const c=5*R().p;return{title:'負傷散修',text:`一名受傷的散修倚在樹下，向你討 ${fmt(c)} 塊靈石換療傷丹藥。`,choices:[`給他 ${fmt(c)} 靈石`,'視而不見']}},
+    go:(d,c)=>{
+      const cost=5*R().p;
+      if(c===1){mind(-3);return log('你從他身邊走過，心裡有些不是滋味。')}
+      if(S.stones<cost){mind(3);return log('你囊中羞澀，只能留下幾株草藥給他。')}
+      S.stones-=cost;mind(8);
+      if(Math.random()<.35){S.inv.calm++;log('散修千恩萬謝，回贈你一枚清心丹。','good')}
+      else log('散修千恩萬謝。助人之後，你道心更加通透。','good');
+    }},
+  robber:{show:()=>({title:'劫修攔路',text:'三名劫修從亂石後現身：「留下靈石，饒你不死。」',choices:['交出三成靈石','拼死一戰']}),
+    go:(d,c)=>{if(c===0){const l=Math.floor(S.stones*.3);S.stones-=l;mind(-4);log(`你交出靈石 ${fmt(l)}，劫修揚長而去。`)}else fight(1.15,'劫修')}}
+};
+function choose(i){const d=S.event;S.event=null;EV[d.type].go(d,i);done()}
+function breakthrough(){
+  const ch=chance(),used=S.brk>0;if(used)S.brk--;
+  pass(1);if(S.over)return done();
+  if(used)log(`你服下${R().pill}，藥力化開。`);
+  if(Math.random()<ch){
+    if(S.realm===REALMS.length-1){
+      S.over={title:'羽化飛昇',text:`九道天雷劈落，你以肉身硬接，雷光散盡時，天門洞開。你在 ${ageY()} 歲那年飛昇仙界。`,win:true};
+      S.event=null;log(S.over.text,'big');record('飛昇');return done();
+    }
+    const msg=R().msg;S.realm++;S.stage=0;S.exp=0;S.hp=maxHp();mind(5);S.brk=0;
+    log(`${msg}壽元增至 ${lifeY()} 載。`,'big');
+  }else{
+    S.exp=need()*.5;mind(-12);
+    hurt(maxHp()*(S.realm===5?.7:.45),S.realm===5?'天雷將你劈得皮開肉綻，渡劫失敗。':'衝關失敗，真元逆衝經脈，修為倒退了一截。');
+  }
+  done();
+}
+const SHOP=[
+  {k:'qi',n:'聚氣丹',c:10,d:'服下立得約兩年修為'},
+  {k:'heal',n:'回春丹',c:6,d:'回復六成氣血'},
+  {k:'calm',n:'清心丹',c:8,d:'心境 +12'},
+  {k:'brk',n:null,c:40,d:'下次突破成功率 +25%，自動服用'}
+];
+function buy(k){
+  const it=SHOP.find(x=>x.k===k),cost=it.c*R().p;
+  if(S.stones<cost)return;
+  S.stones-=cost;if(k==='brk')S.brk++;else S.inv[k]++;done();
+}
+function use(k){
+  if(!S.inv[k])return;S.inv[k]--;
+  if(k==='qi'){const x=R().gain*mult()*24;addExp(x);log(`聚氣丹入腹，靈氣奔湧。修為 +${fmt(x)}。`,'good')}
+  if(k==='heal'){heal(maxHp()*.6);log('回春丹化開，傷勢好了大半。','good')}
+  if(k==='calm'){mind(12);log('清心丹入口微涼，雜念漸消。','good')}
+  done();
+}
+
+/* ---------- 開局 ---------- */
+let draft={name:pick(SUR)+pick(GIV),root:null};
+function rollRoot(){
+  let r=Math.random()*100,root=ROOTS[2];
+  for(const x of ROOTS){if((r-=x.w)<0){root=x;break}}
+  let es=ELEM.split('').sort(()=>Math.random()-.5);
+  const n={天靈根:1,雙靈根:2,三靈根:3,偽靈根:5}[root.n];
+  draft.root=root;draft.label=root.n==='偽靈根'?'偽靈根（五行雜駁）':`${es.slice(0,n).join('')}${root.n}`;
+}
+function begin(){
+  const name=($('#nm').value||'').trim()||draft.name;
+  S={name,root:draft.root,rootLabel:draft.label,realm:0,stage:0,exp:0,hp:100,mind:50,stones:10,
+     t:0,age:16*12,y0:ri(0,59),tech:1,inv:{qi:0,heal:1,calm:0},brk:0,lives:REC.length,log:[],event:null,over:null};
+  log(`${name}，年十六，身具${draft.label}，自此踏入仙途。`,'big');
+  if(S.lives)log(`隱約記起前世 ${S.lives} 段修行，悟性略增。`,'good');
+  done();
+}
+function reincarnate(){S=null;draft={name:pick(SUR)+pick(GIV),root:null};done()}
+
+/* ---------- 繪製 ---------- */
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function render(){
+  const app=$('#app');
+  if(!S){
+    app.innerHTML=`<div class="start">
+      <h1>問道長生</h1>
+      <p>凡人壽不過百。測一測靈根，從煉氣一層開始，打坐、歷練、閉關、衝關，在壽元耗盡之前渡過天劫，飛昇仙界。</p>
+      <div class="field"><label for="nm">道號</label>
+        <div class="field-row"><input type="text" id="nm" maxlength="8" value="${esc(draft.name)}"><button class="ghost" id="rn">換一個</button></div></div>
+      ${draft.root?`<div class="reveal"><span>測靈石亮起，你的資質是</span><b>${draft.label}</b><span>${draft.root.d} 修煉速度 ×${draft.root.m}</span></div>
+        <button class="primary" id="go">踏入仙途</button>`:`<button class="primary" id="roll">測靈根</button>`}
+      <a class="back" href="play.html">← 回到花花遊戲區</a>
+      ${REC.length?`<div class="past"><div class="sec-title">輪迴錄</div><ul class="records">${REC.map(r=>`<li>${esc(r.name)}・${r.root}・${r.realm}・${r.age} 歲・${r.end}</li>`).join('')}</ul></div>`:''}
+    </div>`;
+    $('#rn').onclick=()=>{draft.name=pick(SUR)+pick(GIV);$('#nm').value=draft.name};
+    $('#nm').oninput=e=>draft.name=e.target.value;
+    if($('#roll'))$('#roll').onclick=()=>{rollRoot();render()};
+    if($('#go'))$('#go').onclick=begin;
+    return;
+  }
+  const lifeLeft=lifeY()-ageY(), busy=!!S.event||!!S.over, p=R().p;
+  const expPct=clamp(S.exp/need()*100,0,100), hpPct=clamp(S.hp/maxHp()*100,0,100);
+  const ev=S.event?EV[S.event.type].show(S.event):null;
+  app.innerHTML=`<div class="game">
+   <div class="col">
+    <div class="hero"><div class="seal">${R().n[0]}</div>
+      <div><h1>${esc(S.name)}</h1><div class="sub"><b>${stageName()}</b>・${S.rootLabel}${S.tech>1?`・功法加成 ${Math.round((S.tech-1)*100)}%`:''}</div></div></div>
+    <div class="stats">
+      <div class="bar-row"><div class="bar-head"><span>修為</span><span class="num">${fmt(S.exp)} / ${fmt(need())}</span></div><div class="bar"><i style="width:${expPct}%"></i></div></div>
+      <div class="bar-row"><div class="bar-head"><span>氣血</span><span class="num">${fmt(S.hp)} / ${fmt(maxHp())}</span></div><div class="bar hp"><i style="width:${hpPct}%"></i></div></div>
+      <div class="facts">
+        <div class="fact"><small>年歲</small><span class="num">${ageY()} 歲</span></div>
+        <div class="fact"><small>剩餘壽元</small><span class="num ${lifeLeft<=5?'warn':''}">${lifeLeft} 載</span></div>
+        <div class="fact"><small>心境</small><span class="num ${S.mind<30?'warn':''}">${S.mind}</span></div>
+        <div class="fact"><small>靈石</small><span class="num gold">${fmt(S.stones)}</span></div>
+      </div>
+    </div>
+    ${S.over?`<div class="over ${S.over.win?'win':''}"><h2>${S.over.title}</h2><p>${S.over.text}</p>
+        <p class="past">${esc(S.name)}，${S.rootLabel}，止步於${stageName()}，享年 ${ageY()} 歲。</p>
+        <button class="primary" id="re">轉世重修</button></div>`:''}
+    ${ev?`<div class="event"><h3>${ev.title}</h3><p>${ev.text}</p><div class="choices">${ev.choices.map((c,i)=>`<button data-c="${i}">${c}</button>`).join('')}</div></div>`:''}
+    ${S.over?'':`<div><div class="sec-title">行事</div>
+      <div class="acts">
+        <button class="act" id="a1" ${busy?'disabled':''}><b>打坐</b><small>一季・穩定增長、療傷</small></button>
+        <button class="act" id="a2" ${busy?'disabled':''}><b>外出歷練</b><small>兩月・奇遇與兇險並存</small></button>
+        <button class="act" id="a3" ${busy?'disabled':''}><b>閉關</b><small>三年・收穫大，心境低易入魔</small></button>
+      </div>
+      ${atNeck()?`<button class="break" id="bk" ${busy?'disabled':''}>${S.realm===5?'迎接飛昇天劫':'衝擊'+R().next+'期'}（成功率 ${Math.round(chance()*100)}%）</button>
+        <p class="neck">已至${stageName()}瓶頸。${S.brk?`持有${R().pill} ${S.brk} 枚，將自動服用。`:`坊市的${R().pill}可提高成功率，心境越高也越穩。`}</p>`:''}
+    </div>
+    <div><div class="sec-title">坊市</div><div class="shop">
+      ${SHOP.map(it=>{const name=it.n||R().pill,own=it.k==='brk'?S.brk:S.inv[it.k],cost=it.c*p;
+        return `<div class="item"><div><b>${name}<span class="own">持有 ${own}</span></b><small>${it.d}</small></div>
+          <button class="mini buy num" data-buy="${it.k}" ${S.stones<cost?'disabled':''}>${fmt(cost)} 靈石</button>
+          ${it.k==='brk'?'<span></span>':`<button class="mini" data-use="${it.k}" ${own&&!busy?'':'disabled'}>服用</button>`}</div>`}).join('')}
+    </div></div>`}
+   </div>
+   <aside class="chron">
+     <div class="sec-title">修行紀事・${when()}</div>
+     <div class="log">${S.log.map(e=>`<div class="entry ${e.kind}"><time>${e.t}</time><p>${e.text}</p></div>`).join('')}</div>
+     <div class="foot"><a class="mini back" href="play.html">← 花花遊戲區</a><button class="mini" id="quit">${S.over?'回到開局':'放棄此世'}</button></div>
+   </aside>
+  </div>`;
+  const on=(id,f)=>{const el=$('#'+id);if(el)el.onclick=f};
+  on('a1',cultivate);on('a2',explore);on('a3',retreat);on('bk',breakthrough);on('re',reincarnate);
+  on('quit',()=>{
+    const b=$('#quit');
+    if(S.over)return reincarnate();
+    if(b.dataset.sure){record('自行兵解');S=null;draft={name:pick(SUR)+pick(GIV),root:null};done()}
+    else{b.dataset.sure=1;b.textContent='再按一次確認兵解轉世'}
+  });
+  app.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>choose(+b.dataset.c));
+  app.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>buy(b.dataset.buy));
+  app.querySelectorAll('[data-use]').forEach(b=>b.onclick=()=>use(b.dataset.use));
+}
+
+/* ---------- 會員檢查 ---------- */
+(function(){
+  const app=$('#app');let opened=false;
+  function locked(){if(opened)return;app.innerHTML=`<div class="gate"><h1>問道長生</h1><p>這是會員專屬遊戲，登入會員就能開始修仙。還不是會員？免費註冊一下吧。</p>
+    <div class="row"><button class="primary" data-mz-open="login">登入</button><button class="ghost" data-mz-open="register">註冊會員</button></div>
+    <a class="back" href="play.html">← 回到花花遊戲區</a></div>`;
+    app.querySelectorAll('[data-mz-open]').forEach(b=>b.onclick=()=>window.jasmineMembers&&window.jasmineMembers.open(b.dataset.mzOpen));}
+  function apply(m){if(m&&m.user){if(!opened){opened=true;load();render()}}else{opened=false;locked()}}
+  if(window.jasmineMember&&window.jasmineMember.ready)apply(window.jasmineMember);
+  document.addEventListener('jasmine-member',e=>apply(e.detail));
+  setTimeout(()=>{if(!opened&&app.querySelector('.gate-wait'))locked()},6000);
+})();
+</script>
+</body>
+</html>
