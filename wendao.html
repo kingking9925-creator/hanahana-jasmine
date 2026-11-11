@@ -36,7 +36,14 @@ button:disabled{cursor:not-allowed;opacity:.45}
 
 /* 開局 */
 .start{max-width:560px;margin:6vh auto 0;display:grid;gap:20px}
-.cover{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:4px;display:block}
+.cover{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;object-position:22% 50%;border-radius:4px;display:block}
+.poster{position:relative;border-radius:4px;overflow:hidden;background:#1d2a24}
+.poster .cover{border-radius:0;min-height:280px}
+.poster-txt{position:absolute;inset:auto 0 0 0;padding:72px 24px 22px;display:grid;gap:8px;
+  background:linear-gradient(180deg,rgba(14,28,22,0) 0%,rgba(14,28,22,.62) 38%,rgba(14,28,22,.9) 100%)}
+.poster-txt h1{color:#f7f3ea;font-size:clamp(40px,8vw,64px);letter-spacing:.1em;line-height:1.15;text-shadow:0 2px 12px rgba(0,0,0,.55)}
+.poster-txt p{color:#eef3ee!important;font-size:16px;max-width:30em;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+@media (max-width:520px){.poster .cover{aspect-ratio:1/1}.poster-txt{padding:60px 18px 18px}}
 .start h1{font-size:clamp(40px,8vw,64px);letter-spacing:.08em}
 .start p{margin:0;color:var(--ink-2);max-width:32em}
 .field{display:grid;gap:6px}
@@ -132,7 +139,7 @@ input[type=text]{flex:1;min-width:0;font:inherit;font-size:20px;padding:8px 12px
 <script src="members.js" defer></script>
 </head>
 <body data-theme-keep>
-<div class="wrap" id="app"><div class="gate gate-wait"><img class="cover" src="img/wendao/cover.jpg" alt="" width="1200" height="800"><h1>問道長生</h1><p>正在確認會員狀態…</p></div></div>
+<div class="wrap" id="app"><div class="gate gate-wait"><div class="poster"><img class="cover" src="img/wendao/cover.jpg" alt="" width="1200" height="800"><div class="poster-txt"><h1>問道長生</h1><p>正在確認會員狀態…</p></div></div></div></div>
 <script>
 const $=s=>document.querySelector(s);
 const rnd=(a,b)=>a+Math.random()*(b-a);
@@ -331,9 +338,7 @@ function render(){
   const app=$('#app');
   if(!S){
     app.innerHTML=`<div class="start">
-      <img class="cover" src="img/wendao/cover.jpg" alt="修士盤坐於雲海懸崖之上" width="1200" height="800">
-      <h1>問道長生</h1>
-      <p>凡人壽不過百。測一測靈根，從煉氣一層開始，打坐、歷練、閉關、衝關，在壽元耗盡之前渡過天劫，飛昇仙界。</p>
+      <div class="poster"><img class="cover" src="img/wendao/cover.jpg" alt="修士盤坐於雲海懸崖之上" width="1200" height="800"><div class="poster-txt"><h1>問道長生</h1><p>凡人壽不過百。測一測靈根，從煉氣一層開始，打坐、歷練、閉關、衝關，在壽元耗盡之前渡過天劫，飛昇仙界。</p></div></div>
       <div class="field"><label for="nm">道號</label>
         <div class="field-row"><input type="text" id="nm" maxlength="8" value="${esc(draft.name)}"><button class="ghost" id="rn">換一個</button></div></div>
       ${draft.root?`<div class="reveal"><span>測靈石亮起，你的資質是</span><b>${draft.label}</b><span>${draft.root.d} 修煉速度 ×${draft.root.m}</span></div>
@@ -406,7 +411,7 @@ function render(){
 /* ---------- 會員檢查 ---------- */
 (function(){
   const app=$('#app');let opened=false;
-  function locked(){if(opened)return;app.innerHTML=`<div class="gate"><img class="cover" src="img/wendao/cover.jpg" alt="" width="1200" height="800"><h1>問道長生</h1><p>這是會員專屬遊戲，登入會員就能開始修仙。還不是會員？免費註冊一下吧。</p>
+  function locked(){if(opened)return;app.innerHTML=`<div class="gate"><div class="poster"><img class="cover" src="img/wendao/cover.jpg" alt="" width="1200" height="800"><div class="poster-txt"><h1>問道長生</h1><p>這是會員專屬遊戲，登入會員就能開始修仙。還不是會員？免費註冊一下吧。</p></div></div>
     <div class="row"><button class="primary" data-mz-open="login">登入</button><button class="ghost" data-mz-open="register">註冊會員</button></div>
     <a class="back" href="play.html">← 回到花花遊戲區</a></div>`;
     app.querySelectorAll('[data-mz-open]').forEach(b=>b.onclick=()=>window.jasmineMembers&&window.jasmineMembers.open(b.dataset.mzOpen));}
