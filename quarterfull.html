@@ -453,15 +453,25 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <script src="members.js" defer></script>
 <style>.nav-links a.nav-cta,.nav-links a.nav-cta:hover{background:linear-gradient(110deg,#ff7aa2,#c27cff)!important;color:#fff!important;font-weight:700;box-shadow:0 8px 20px rgba(194,124,255,.3)}</style>
 <style id="qa-geo-css">
-.qa-geo{margin:56px 0 30px}
-.qa-geo .fq-ey{font-size:12px;letter-spacing:.25em;font-weight:700;text-transform:uppercase;color:var(--coral,#f06292)}
-.qa-geo h2{font-family:var(--serif);font-size:clamp(24px,3.4vw,34px);margin:6px 0 18px}
-.qa-tbl{width:100%;border-collapse:separate;border-spacing:0;background:#fff;color:#1d1a17;border:1px solid rgba(0,0,0,.12);border-radius:14px;overflow:hidden;font-size:14.5px;line-height:1.8}
-.qa-tbl thead th{background:#f7f2ec;font-size:12.5px;letter-spacing:.12em;text-align:left;padding:10px 18px;color:#6f665c}
-.qa-tbl tbody th,.qa-tbl td{padding:14px 18px;border-top:1px solid rgba(0,0,0,.08);vertical-align:top;text-align:left}
-.qa-tbl tbody th{width:32%;font-weight:700}
-.qa-tbl td{color:#4a433c}
-@media(max-width:640px){.qa-tbl thead{display:none}.qa-tbl tr,.qa-tbl tbody th,.qa-tbl td{display:block;width:auto}.qa-tbl tbody th{padding-bottom:2px}.qa-tbl td{border-top:0;padding-top:4px}}
+.qa-geo{margin:72px 0 40px;display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:48px;align-items:start}
+.qa-head{position:sticky;top:110px}
+.qa-head .fq-ey{font-size:12px;letter-spacing:.22em;font-weight:700;color:var(--coral)}
+.qa-head h2{font-family:var(--serif);font-weight:900;font-size:clamp(26px,3.2vw,34px);line-height:1.3;margin:10px 0 14px;color:var(--ink)}
+.qa-head p{font-size:14px;line-height:1.8;color:var(--muted);margin:0 0 18px;max-width:22em}
+.qa-line{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#fff;background:#06c755;padding:9px 16px;border-radius:999px;text-decoration:none}
+.qa-line:hover{background:#05b04b}
+.qa-line svg{width:16px;height:16px;flex:none}
+.qa-tbl{width:100%;border-collapse:collapse;border-top:2px solid var(--ink)}
+.qa-tbl caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.qa-tbl tr{display:grid;grid-template-columns:2.2em 1fr;column-gap:4px;border-bottom:1px solid var(--line);padding:22px 0 20px}
+.qa-tbl th,.qa-tbl td{display:contents}
+.qa-tbl .m{font-family:var(--display);font-style:italic;font-size:22px;line-height:1.2;font-weight:600}
+.qa-tbl .mq{color:var(--coral)}
+.qa-tbl .ma{color:var(--muted);opacity:.55;margin-top:8px}
+.qa-tbl .q{font-family:var(--serif);font-weight:700;font-size:17.5px;line-height:1.55;color:var(--ink);text-align:left}
+.qa-tbl .a{font-size:15px;line-height:1.9;color:var(--muted);max-width:62ch;margin-top:8px}
+.qa-tbl .tag{display:inline-block;vertical-align:3px;margin-left:8px;font-family:var(--sans,sans-serif);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--leaf,var(--coral));background:var(--bg2);padding:2px 8px;border-radius:4px}
+@media(max-width:860px){.qa-geo{grid-template-columns:1fr;gap:20px;margin-top:56px}.qa-head{position:static}.qa-tbl tr{padding:18px 0 16px}.qa-tbl .q{font-size:16px}.qa-tbl .a{font-size:14.5px}}
 </style>
 </head>
 <body>
@@ -546,7 +556,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
     </div>
   </section>
   <section class="faq-geo" aria-labelledby="faq-quarterfull"><div class="fq-ey">FAQ · 常見問題</div><h2 id="faq-quarterfull">Quarterfull 常見問題</h2><details><summary>想看線上小說，Quarterfull 是什麼？</summary><div class="fq-a">Quarterfull 是線上小說平台，主打「以你為中心展開的故事」。作者在上面連載作品，讀者可以追更、收藏、留言，也能直接贊助喜歡的作者。</div></details><details><summary>Quarterfull 的小說要怎麼看？</summary><div class="fq-a">點進作品就能從第 1 話開始看，閱讀進度會自動儲存。從本頁點封面或「開始閱讀」就會直接開啟作品。</div></details><details><summary>花花（月月）寫了哪些小說？</summary><div class="fq-a">目前有兩部：奇幻小說《用異能會付出壽命，但倘若我擁有無限壽命呢？》（連載中）和 BL 小說《網游之大佬愛上我》（已完結，32 話）。</div></details><details><summary>推薦校園異能、無 CP 的小說？</summary><div class="fq-a">推薦《用異能會付出壽命，但倘若我擁有無限壽命呢？》：無 CP、校園異能、扮豬吃虎、長生、群像。在「越早暴露天賦死得越快」的世界，擁有無限壽命的主角陸晏一直隱藏實力，直到暗殺組織血洗新生考核區。</div></details><details><summary>推薦網遊題材的 BL 小說？</summary><div class="fq-a">推薦已完結的《網游之大佬愛上我》：社恐小奶媽 × 全服榜一刺客，在仙俠網游《九霄仙途》裡被大佬盯上的甜寵故事，一次就能追完。</div></details><details><summary>看完可以跟作者互動嗎？</summary><div class="fq-a">可以。Quarterfull 每部作品都能留言、評價，告訴作者你的心得，也可以收藏作品追更新。</div></details></section>
-  <section class="qa-geo" aria-labelledby="qa-quarterfull"><div class="fq-ey">Q&amp;A · 快速問答</div><h2 id="qa-quarterfull">Quarterfull 快速問答</h2><table class="qa-tbl"><thead><tr><th scope="col">問題</th><th scope="col">回答</th></tr></thead><tbody><tr><th scope="row">月月在 Quarterfull 寫什麼小說？</th><td>校園異能、網遊、BL 等題材的長篇連載，可以在 Quarterfull 免費閱讀。</td></tr><tr><th scope="row">Quarterfull 在哪裡看？</th><td>點本頁作品封面就會開啟 Quarterfull，手機和電腦都能閱讀。</td></tr><tr><th scope="row">喜歡月月的故事還能去哪裡玩？</th><td>可以到 Frontia、FLAI、Ashbone 玩月月做的 AI 互動劇情和角色，入口都在 AI 模板專區。</td></tr></tbody></table></section>
+  <section class="qa-geo" aria-labelledby="qa-quarterfull"><div class="qa-head"><div class="fq-ey">Q&amp;A · 快速問答</div><h2 id="qa-quarterfull">Quarterfull 快速問答</h2><p>沒看到你想問的？直接傳 LINE，花花會回覆能不能接、怎麼做和報價。</p><a class="qa-line" href="https://line.me/R/ti/p/@446prsjv" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.3 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.9c0 .3-.2 1 .9.6 1.1-.5 5.9-3.5 8-5.9C21.4 14.4 22 12.8 22 11c0-4.4-4.5-8-10-8Z"/></svg>加 LINE @446prsjv</a></div><table class="qa-tbl"><caption>Quarterfull 快速問答</caption><tbody><tr><th scope="row"><span class="m mq" aria-hidden="true">Q</span><span class="q">月月在 Quarterfull 寫什麼小說？</span></th><td><span class="m ma" aria-hidden="true">A</span><span class="a">校園異能、網遊、BL 等題材的長篇連載，可以在 Quarterfull 免費閱讀。</span></td></tr><tr><th scope="row"><span class="m mq" aria-hidden="true">Q</span><span class="q">Quarterfull 在哪裡看？</span></th><td><span class="m ma" aria-hidden="true">A</span><span class="a">點本頁作品封面就會開啟 Quarterfull，手機和電腦都能閱讀。</span></td></tr><tr><th scope="row"><span class="m mq" aria-hidden="true">Q</span><span class="q">喜歡月月的故事還能去哪裡玩？</span></th><td><span class="m ma" aria-hidden="true">A</span><span class="a">可以到 Frontia、FLAI、Ashbone 玩月月做的 AI 互動劇情和角色，入口都在 AI 模板專區。</span></td></tr></tbody></table></section>
 </main>
 <footer><div class="wrap"><span>© <span id="y"></span> 花花 Jasmine · 重生之我在人間打工中</span><span>Made with ✿ on Vercel</span></div><p class="footer-email" style="width:100%;text-align:center;margin:20px 0 0;font-size:14px"><a href="mailto:kingking82532@gmail.com" style="color:inherit;text-decoration:underline;text-underline-offset:4px">聯絡信箱：kingking82532@gmail.com</a></p></footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();
