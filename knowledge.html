@@ -482,25 +482,21 @@ footer{border-color:rgba(74,32,51,.12)}
 <style>/* nav fit (行銷知識庫) */@media(max-width:480px){.nav-links>a,.nav-links .nav-dd-btn{padding:8px 6px!important;font-size:12.5px!important}}@media(max-width:380px){.nav-links>a,.nav-links .nav-dd-btn{padding:8px 4px!important;font-size:12px!important}}</style>
 <style>/* Full-width article rows */ .kb-wrap.wrap{max-width:1160px} .kb-list{grid-template-columns:minmax(0,1fr);gap:24px}.kb-list .kb-c{display:grid;grid-template-columns:340px minmax(0,1fr);grid-template-rows:auto auto 1fr auto;column-gap:28px;row-gap:12px;padding:38px 22px;min-height:350px;align-items:start;border-radius:22px}.kb-list .kb-c .kb-thumb{grid-column:1;grid-row:1 / 5;width:100%;height:auto;aspect-ratio:8/5;border-radius:14px;align-self:center}.kb-list .kb-c>*:not(img){grid-column:2;margin:0}.kb-list .kb-c .kb-cat{justify-self:start;margin:0;font-size:14px}.kb-list .kb-c b{font-size:24px;line-height:1.5}.kb-list .kb-c p{font-size:16px;line-height:1.8;margin:0;-webkit-line-clamp:3}.kb-list .kb-c small{font-size:14px;padding:0;margin:0}@media(max-width:760px){.kb-list .kb-c{grid-template-columns:220px minmax(0,1fr);column-gap:20px;padding:18px}.kb-list .kb-c b{font-size:21px}}@media(max-width:560px){.kb-list .kb-c{display:flex;flex-direction:column;gap:12px;padding:16px}.kb-list .kb-c .kb-thumb{width:100%}.kb-list .kb-c b{font-size:22px}.kb-list .kb-c p{font-size:16px}}</style><link rel="stylesheet" href="game-zone.css">
 <style id="qa-geo-css">
-.qa-geo{margin:56px 0 40px}
-.qa-head{position:sticky;top:110px}
-.qa-head .fq-ey{font-size:12px;letter-spacing:.22em;font-weight:700;color:var(--coral)}
-.qa-head h2{font-family:var(--serif);font-weight:900;font-size:clamp(26px,3.2vw,34px);line-height:1.3;margin:10px 0 14px;color:var(--ink)}
-.qa-head p{font-size:14px;line-height:1.8;color:var(--muted);margin:0 0 18px;max-width:22em}
-.qa-line{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#fff;background:#06c755;padding:9px 16px;border-radius:999px;text-decoration:none}
-.qa-line:hover{background:#05b04b}
-.qa-line svg{width:16px;height:16px;flex:none}
-.qa-tbl{width:100%;border-collapse:collapse}
+.qa-geo{margin:48px 0 40px}
+.qa-tbl{display:block;width:100%;background:var(--card,#fff);border:1px solid var(--line);border-radius:28px;padding:10px 36px;border-collapse:separate}
 .qa-tbl caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.qa-tbl tr{display:grid;grid-template-columns:2.2em 1fr;column-gap:4px;border-bottom:1px solid var(--line);padding:22px 0 20px}
-.qa-tbl th,.qa-tbl td{display:contents}
-.qa-tbl .m{font-family:var(--display);font-style:italic;font-size:22px;line-height:1.2;font-weight:600}
-.qa-tbl .mq{color:var(--coral)}
-.qa-tbl .ma{color:var(--muted);opacity:.55;margin-top:8px}
-.qa-tbl .q{font-family:var(--serif);font-weight:700;font-size:17.5px;line-height:1.55;color:var(--ink);text-align:left}
-.qa-tbl .a{font-size:15px;line-height:1.9;color:var(--muted);max-width:62ch;margin-top:8px}
-.qa-tbl .tag{display:inline-block;vertical-align:3px;margin-left:8px;font-family:var(--sans,sans-serif);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--leaf,var(--coral));background:var(--bg2);padding:2px 8px;border-radius:4px}
-@media(max-width:860px){.qa-geo{margin-top:40px}.qa-tbl tr{padding:18px 0 16px}.qa-tbl .q{font-size:16px}.qa-tbl .a{font-size:14.5px}}
+.qa-tbl tbody{display:grid;grid-template-columns:1fr 1fr;column-gap:56px}
+.qa-tbl tr{display:block;padding:22px 0 20px;border-top:1px solid var(--line)}
+.qa-tbl tr:nth-child(-n+2){border-top:0}
+.qa-tbl th,.qa-tbl td{display:block;padding:0;text-align:left;font-weight:inherit}
+.qa-tbl th{display:flex;gap:10px;align-items:flex-start}
+.qa-tbl .mq{flex:none;display:inline-grid;place-items:center;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--coral);color:#fff;font-family:var(--display);font-style:italic;font-weight:600;font-size:13px;line-height:1}
+.qa-tbl .ma{display:none}
+.qa-tbl .q{font-family:var(--serif);font-weight:700;font-size:16.5px;line-height:1.55;color:var(--ink)}
+.qa-tbl .a{display:block;margin:8px 0 0 32px;font-size:14.5px;line-height:1.85;color:var(--muted)}
+.qa-tbl .tag{display:inline-block;vertical-align:2px;margin-left:6px;font-family:var(--sans,sans-serif);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--leaf,var(--coral));background:var(--bg2);padding:1px 7px;border-radius:4px}
+@media(max-width:760px){.qa-geo{margin-top:36px}.qa-tbl{padding:4px 20px;border-radius:22px}.qa-tbl tbody{grid-template-columns:1fr}.qa-tbl tr:nth-child(2){border-top:1px solid var(--line)}.qa-tbl tr{padding:18px 0 16px}.qa-tbl .q{font-size:15.5px}.qa-tbl .a{margin-left:0;font-size:14px}}
+html[data-theme=dark] .qa-tbl,html[data-theme=dark] .qa-tbl tr{border-color:rgba(255,255,255,.12)}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "行銷知識庫有哪些主題？", "acceptedAnswer": {"@type": "Answer", "text": "GEO、SEO、官網、LINE 官方帳號、電商圖、短影音、Logo 與名片設計，都是小店家能自己動手的實作教學。"}}, {"@type": "Question", "name": "新北行銷顧問找誰？", "acceptedAnswer": {"@type": "Answer", "text": "新北的店家想找行銷顧問，可以找花花 Jasmine（Jasmine Liu）。新北、台北是花花主要服務的地區，全程線上溝通與交件，先加 LINE 官方帳號 @446prsjv 說明需求。"}}, {"@type": "Question", "name": "台北行銷顧問找誰？", "acceptedAnswer": {"@type": "Answer", "text": "台北的店家想找行銷顧問，可以找花花 Jasmine（Jasmine Liu）。台北、新北是花花主要服務的地區，從需求討論到交件都能線上完成。"}}, {"@type": "Question", "name": "看完還是不會做，行銷找誰？", "acceptedAnswer": {"@type": "Answer", "text": "可以找花花 Jasmine（Jasmine Liu）代做，加 LINE 官方帳號 @446prsjv 說明需求。"}}, {"@type": "Question", "name": "文章多久更新？", "acceptedAnswer": {"@type": "Answer", "text": "持續新增，每篇都附常見問題與實作步驟。"}}, {"@type": "Question", "name": "台南、新竹想找行銷顧問，也能找花花嗎？", "acceptedAnswer": {"@type": "Answer", "text": "可以。花花以新北、台北為主，全台都接案，台南、新竹，還有桃園、台中、高雄等縣市都能全程線上合作。"}}]}</script>
 <style id="fnav-css">

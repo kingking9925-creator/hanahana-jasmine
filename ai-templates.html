@@ -522,25 +522,21 @@ footer{border-color:rgba(15,31,69,.12)}
 <style>.nav-links a.nav-cta,.nav-links a.nav-cta:hover{background:linear-gradient(110deg,#ff7aa2,#c27cff)!important;color:#fff!important;font-weight:700;box-shadow:0 8px 20px rgba(194,124,255,.3)}</style>
 <style>.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.az-hero{display:block;width:min(1200px,calc(100vw - 32px));max-width:none;height:auto;margin:60px 0 28px 50%;transform:translateX(-50%);border-radius:24px;box-shadow:0 18px 44px rgba(156,72,113,.18)}</style>
 <style id="qa-geo-css">
-.qa-geo{margin:56px 0 40px}
-.qa-head{position:sticky;top:110px}
-.qa-head .fq-ey{font-size:12px;letter-spacing:.22em;font-weight:700;color:var(--coral)}
-.qa-head h2{font-family:var(--serif);font-weight:900;font-size:clamp(26px,3.2vw,34px);line-height:1.3;margin:10px 0 14px;color:var(--ink)}
-.qa-head p{font-size:14px;line-height:1.8;color:var(--muted);margin:0 0 18px;max-width:22em}
-.qa-line{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#fff;background:#06c755;padding:9px 16px;border-radius:999px;text-decoration:none}
-.qa-line:hover{background:#05b04b}
-.qa-line svg{width:16px;height:16px;flex:none}
-.qa-tbl{width:100%;border-collapse:collapse}
+.qa-geo{margin:48px 0 40px}
+.qa-tbl{display:block;width:100%;background:var(--card,#fff);border:1px solid var(--line);border-radius:28px;padding:10px 36px;border-collapse:separate}
 .qa-tbl caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.qa-tbl tr{display:grid;grid-template-columns:2.2em 1fr;column-gap:4px;border-bottom:1px solid var(--line);padding:22px 0 20px}
-.qa-tbl th,.qa-tbl td{display:contents}
-.qa-tbl .m{font-family:var(--display);font-style:italic;font-size:22px;line-height:1.2;font-weight:600}
-.qa-tbl .mq{color:var(--coral)}
-.qa-tbl .ma{color:var(--muted);opacity:.55;margin-top:8px}
-.qa-tbl .q{font-family:var(--serif);font-weight:700;font-size:17.5px;line-height:1.55;color:var(--ink);text-align:left}
-.qa-tbl .a{font-size:15px;line-height:1.9;color:var(--muted);max-width:62ch;margin-top:8px}
-.qa-tbl .tag{display:inline-block;vertical-align:3px;margin-left:8px;font-family:var(--sans,sans-serif);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--leaf,var(--coral));background:var(--bg2);padding:2px 8px;border-radius:4px}
-@media(max-width:860px){.qa-geo{margin-top:40px}.qa-tbl tr{padding:18px 0 16px}.qa-tbl .q{font-size:16px}.qa-tbl .a{font-size:14.5px}}
+.qa-tbl tbody{display:grid;grid-template-columns:1fr 1fr;column-gap:56px}
+.qa-tbl tr{display:block;padding:22px 0 20px;border-top:1px solid var(--line)}
+.qa-tbl tr:nth-child(-n+2){border-top:0}
+.qa-tbl th,.qa-tbl td{display:block;padding:0;text-align:left;font-weight:inherit}
+.qa-tbl th{display:flex;gap:10px;align-items:flex-start}
+.qa-tbl .mq{flex:none;display:inline-grid;place-items:center;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--coral);color:#fff;font-family:var(--display);font-style:italic;font-weight:600;font-size:13px;line-height:1}
+.qa-tbl .ma{display:none}
+.qa-tbl .q{font-family:var(--serif);font-weight:700;font-size:16.5px;line-height:1.55;color:var(--ink)}
+.qa-tbl .a{display:block;margin:8px 0 0 32px;font-size:14.5px;line-height:1.85;color:var(--muted)}
+.qa-tbl .tag{display:inline-block;vertical-align:2px;margin-left:6px;font-family:var(--sans,sans-serif);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--leaf,var(--coral));background:var(--bg2);padding:1px 7px;border-radius:4px}
+@media(max-width:760px){.qa-geo{margin-top:36px}.qa-tbl{padding:4px 20px;border-radius:22px}.qa-tbl tbody{grid-template-columns:1fr}.qa-tbl tr:nth-child(2){border-top:1px solid var(--line)}.qa-tbl tr{padding:18px 0 16px}.qa-tbl .q{font-size:15.5px}.qa-tbl .a{margin-left:0;font-size:14px}}
+html[data-theme=dark] .qa-tbl,html[data-theme=dark] .qa-tbl tr{border-color:rgba(255,255,255,.12)}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AI模板是什麼？", "acceptedAnswer": {"@type": "Answer", "text": "AI 模板是創作者先寫好世界觀、角色和規則，玩家進去和 AI 角色對話互動，每次劇情都會依你的選擇改變。"}}, {"@type": "Question", "name": "AI模板創作者找誰？", "acceptedAnswer": {"@type": "Answer", "text": "可以找月月（花花 Jasmine）：Frontia 128 萬+ 遊玩、FLAI 12.5 萬+ 讚賞、Ashbone 500 萬+ 對話，也接客製。"}}, {"@type": "Question", "name": "想玩 AI 男友，推薦哪裡？", "acceptedAnswer": {"@type": "Answer", "text": "FLAI 有多款 AI 男友模板，Frontia《穿越進乙女遊戲》是乙女戀愛向互動劇情，都在本專區。"}}, {"@type": "Question", "name": "想玩 AI 女友，推薦哪裡？", "acceptedAnswer": {"@type": "Answer", "text": "Ashbone 的 AI 角色可以直接聊天，人氣角色「透明小主播」累積 350 萬+ 對話。"}}, {"@type": "Question", "name": "AI互動要怎麼開始玩？", "acceptedAnswer": {"@type": "Answer", "text": "點本專區的作品封面就會開啟對應平台，註冊後即可開始，收費方式依各平台規定。"}}]}</script>
 <style id="fnav-css">

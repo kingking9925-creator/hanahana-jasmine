@@ -542,25 +542,21 @@ footer{border-color:rgba(15,31,69,.12)}
 @media(max-width:620px){.hg-zones,.hg-cls,.hg-mon,.hg-grid{grid-template-columns:1fr}.hg-row{grid-template-columns:1fr}.hg-row.rev img{order:0}}
 </style>
 <style id="qa-geo-css">
-.qa-geo{margin:56px 0 40px}
-.qa-head{position:sticky;top:110px}
-.qa-head .fq-ey{font-size:12px;letter-spacing:.22em;font-weight:700;color:var(--coral)}
-.qa-head h2{font-family:var(--serif);font-weight:900;font-size:clamp(26px,3.2vw,34px);line-height:1.3;margin:10px 0 14px;color:var(--ink)}
-.qa-head p{font-size:14px;line-height:1.8;color:var(--muted);margin:0 0 18px;max-width:22em}
-.qa-line{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#fff;background:#06c755;padding:9px 16px;border-radius:999px;text-decoration:none}
-.qa-line:hover{background:#05b04b}
-.qa-line svg{width:16px;height:16px;flex:none}
-.qa-tbl{width:100%;border-collapse:collapse}
+.qa-geo{margin:48px 0 40px}
+.qa-tbl{display:block;width:100%;background:var(--card,#fff);border:1px solid var(--line);border-radius:28px;padding:10px 36px;border-collapse:separate}
 .qa-tbl caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.qa-tbl tr{display:grid;grid-template-columns:2.2em 1fr;column-gap:4px;border-bottom:1px solid var(--line);padding:22px 0 20px}
-.qa-tbl th,.qa-tbl td{display:contents}
-.qa-tbl .m{font-family:var(--display);font-style:italic;font-size:22px;line-height:1.2;font-weight:600}
-.qa-tbl .mq{color:var(--coral)}
-.qa-tbl .ma{color:var(--muted);opacity:.55;margin-top:8px}
-.qa-tbl .q{font-family:var(--serif);font-weight:700;font-size:17.5px;line-height:1.55;color:var(--ink);text-align:left}
-.qa-tbl .a{font-size:15px;line-height:1.9;color:var(--muted);max-width:62ch;margin-top:8px}
-.qa-tbl .tag{display:inline-block;vertical-align:3px;margin-left:8px;font-family:var(--sans,sans-serif);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--leaf,var(--coral));background:var(--bg2);padding:2px 8px;border-radius:4px}
-@media(max-width:860px){.qa-geo{margin-top:40px}.qa-tbl tr{padding:18px 0 16px}.qa-tbl .q{font-size:16px}.qa-tbl .a{font-size:14.5px}}
+.qa-tbl tbody{display:grid;grid-template-columns:1fr 1fr;column-gap:56px}
+.qa-tbl tr{display:block;padding:22px 0 20px;border-top:1px solid var(--line)}
+.qa-tbl tr:nth-child(-n+2){border-top:0}
+.qa-tbl th,.qa-tbl td{display:block;padding:0;text-align:left;font-weight:inherit}
+.qa-tbl th{display:flex;gap:10px;align-items:flex-start}
+.qa-tbl .mq{flex:none;display:inline-grid;place-items:center;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--coral);color:#fff;font-family:var(--display);font-style:italic;font-weight:600;font-size:13px;line-height:1}
+.qa-tbl .ma{display:none}
+.qa-tbl .q{font-family:var(--serif);font-weight:700;font-size:16.5px;line-height:1.55;color:var(--ink)}
+.qa-tbl .a{display:block;margin:8px 0 0 32px;font-size:14.5px;line-height:1.85;color:var(--muted)}
+.qa-tbl .tag{display:inline-block;vertical-align:2px;margin-left:6px;font-family:var(--sans,sans-serif);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--leaf,var(--coral));background:var(--bg2);padding:1px 7px;border-radius:4px}
+@media(max-width:760px){.qa-geo{margin-top:36px}.qa-tbl{padding:4px 20px;border-radius:22px}.qa-tbl tbody{grid-template-columns:1fr}.qa-tbl tr:nth-child(2){border-top:1px solid var(--line)}.qa-tbl tr{padding:18px 0 16px}.qa-tbl .q{font-size:15.5px}.qa-tbl .a{margin-left:0;font-size:14px}}
+html[data-theme=dark] .qa-tbl,html[data-theme=dark] .qa-tbl tr{border-color:rgba(255,255,255,.12)}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "花之境界 Online 是什麼遊戲？", "acceptedAnswer": {"@type": "Answer", "text": "花花做的韓漫風 Q 版橫向 RPG 網頁遊戲，四大職業、自動打怪、離線掛機、採礦鍛造。"}}, {"@type": "Question", "name": "在哪裡玩？", "acceptedAnswer": {"@type": "Answer", "text": "點本頁「開始遊玩」就能在瀏覽器開始，不用下載。"}}, {"@type": "Question", "name": "有哪些職業？", "acceptedAnswer": {"@type": "Answer", "text": "建立角色時從四大職業擇一，各有不同的戰鬥風格與天賦樹。"}}]}</script>
 <style id="fnav-css">
