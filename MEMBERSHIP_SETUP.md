@@ -9,7 +9,7 @@ api/membership.js 是 Vercel Node.js Function，支援 status、register、login
 1. 建立或選擇站主擁有的 Supabase 專案，啟用 Email/password 登入與 Email 驗證。
 2. 在 Supabase Authentication 設定正確的正式 Site URL，測試驗證信的寄送與登入。
 3. 在對應 Vercel 專案設定 SUPABASE_URL 與 SUPABASE_ANON_KEY，使用公開 anon/publishable 金鑰；不要使用 service_role 金鑰。
-4. PUBLIC_SITE_URL 設為 https://fafa-jasmineliu.vercel.app（換網域時同步調整）。
+4. PUBLIC_SITE_URL 設為 https://fafajasmine.com（換網域時同步調整）。
 5. 正式開放前補齊會員服務條款、隱私告知及必要的防濫用設定，完成真實測試帳號流程後才設定 MEMBERS_ENABLED=true 並重新部署。
 6. 登入後 30 天內自動續期（access token 過期時用 refresh token 換新，兩者都放在 HttpOnly Cookie）；按登出才會清除。帳號復原目前由客服協助，尚未實作站內忘記密碼流程。
 
@@ -79,8 +79,8 @@ api/membership.js 是 Vercel Node.js Function，支援 status、register、login
    - Subject：`【花花 Jasmine】請驗證你的會員信箱`
    - Body：貼上 `supabase/email-confirm-signup.html` 的內容（保留 `{{ .ConfirmationURL }}`）→ Save。
 2. Supabase → Authentication → URL Configuration：
-   - Site URL：`https://fafa-jasmineliu.vercel.app`
-   - Redirect URLs 新增：`https://fafa-jasmineliu.vercel.app/member.html*`
+   - Site URL：`https://fafajasmine.com`
+   - Redirect URLs 新增：`https://fafajasmine.com/member.html*`
 3. 會員點驗證信的按鈕後，會回到 `member.html`，顯示「信箱驗證成功」並自動打開登入視窗。連結過期會顯示中文提示。
 4. Supabase 內建寄信服務每小時只能寄少量信件（只適合測試）。正式開放前建議在 Authentication → Emails → SMTP Settings 接自己的寄信服務（例如 Resend、Brevo），寄件者名稱可設「花花 Jasmine」。
 
