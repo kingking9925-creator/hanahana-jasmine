@@ -8,7 +8,7 @@
 //   ADMIN_EMAILS = 站長 Email（可用逗號分隔多個），可使用 admin-points.html 管理點數
 const crypto = require('crypto');
 const { getUser } = require('./_auth');
-const SITE = process.env.PUBLIC_SITE_URL || 'https://fafa-jasmineliu.vercel.app';
+const SITE = process.env.PUBLIC_SITE_URL || 'https://fafajasmine.com';
 const PACKAGES = [50, 150, 300, 600, 1500];      // NT$ = 點數
 const STAGE = { id: '3002607', key: 'pwFHCqoQZGmho4w6', iv: 'EkRm7iFT261dpevs' }; // 綠界公開測試商店
 

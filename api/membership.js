@@ -4,7 +4,7 @@
 //   個人資料／頭像需要 SUPABASE_SERVICE_ROLE_KEY（只放 Vercel）
 const { setSession, clearSession, getUser } = require('./_auth');
 const FAVS = ['frontia','flai','ashbone','quarterfull','hana-realm'];
-const SITE = process.env.PUBLIC_SITE_URL || 'https://fafa-jasmineliu.vercel.app';
+const SITE = process.env.PUBLIC_SITE_URL || 'https://fafajasmine.com';
 const GENDERS = ['', '女', '男', '其他', '不透露'];
 const PRESET_AVATARS = ['🌸','🐰','🐱','🐶','🦊','🐻','🐼','🦄','🐥','🍓','🌙','⭐'];
 
